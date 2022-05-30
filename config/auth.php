@@ -40,6 +40,34 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+
+        'vendor' => [
+            'driver' => 'session',
+            'provider' => 'vendors',
+        ],
+
+        'vendor_employee' => [
+            'driver' => 'session',
+            'provider' => 'vendor_employees',
+        ],
+
+        'api' => [
+            'driver' => 'passport',
+            'provider' => 'users',
+        ],
+        'customer' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+        'delivery_men' => [
+            'driver' => 'session',
+            'provider' => 'delivery_men',
+        ],
     ],
 
     /*
@@ -71,6 +99,24 @@ return [
         // ],
     ],
 
+
+    'providers' => [
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
+
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+
+        'vendors' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Vendor::class,
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords
@@ -89,6 +135,18 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'admins' => [
+            'provider' => 'admins',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'vendors' => [
+            'provider' => 'vendors',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

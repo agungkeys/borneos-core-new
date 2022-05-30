@@ -11,13 +11,22 @@ use Illuminate\Support\Facades\Route;
 class RouteServiceProvider extends ServiceProvider
 {
     /**
+     * This namespace is applied to your controller routes.
+     *
+     * In addition, it is set as the URL generator's root namespace.
+     *
+     * @var string
+     */
+    protected $namespace = 'App\Http\Controllers';
+
+    /**
      * The path to the "home" route for your application.
      *
      * This is used by Laravel authentication to redirect users after login.
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/landing';
 
     /**
      * The controller namespace for the application.
@@ -46,6 +55,21 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
+
+            Route::prefix('admin')
+                ->middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/admin.php'));
+
+            Route::prefix('vendor')
+                ->middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/vendor.php'));
+
+            Route::prefix('api/v1')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api/v1/api.php'));
         });
     }
 
