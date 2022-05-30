@@ -1,4 +1,4 @@
-@extends('layouts.auth')
+@extends('layouts.app-admin')
 
 @section('content')
 <div class="app-container app-theme-white body-tabs-shadow">
