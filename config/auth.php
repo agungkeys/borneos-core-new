@@ -51,11 +51,6 @@ return [
             'provider' => 'vendors',
         ],
 
-        'vendor_employee' => [
-            'driver' => 'session',
-            'provider' => 'vendor_employees',
-        ],
-
         'api' => [
             'driver' => 'passport',
             'provider' => 'users',
@@ -63,10 +58,6 @@ return [
         'customer' => [
             'driver' => 'session',
             'provider' => 'users',
-        ],
-        'delivery_men' => [
-            'driver' => 'session',
-            'provider' => 'delivery_men',
         ],
     ],
 
