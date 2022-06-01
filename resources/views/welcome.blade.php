@@ -45,6 +45,11 @@
                     </svg>
                 </div>
 
+                <div class="flex">
+                  <h1><a href="{{ route('admin.dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in Admin Borneos</a></h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <h1><a href="{{ route('vendor.dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in Merchant Borneos</a></h1>
+                </div>
+
                 <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                     <div class="grid grid-cols-1 md:grid-cols-2">
                         <div class="p-6">

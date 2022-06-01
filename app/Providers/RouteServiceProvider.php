@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'App\Http\Controllers';
+
 
     /**
      * The path to the "home" route for your application.
@@ -42,6 +42,8 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
+    protected $namespace = 'App\Http\Controllers';
+
     public function boot()
     {
         $this->configureRateLimiting();
@@ -72,6 +74,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/api/v1/api.php'));
         });
     }
+
 
     /**
      * Configure the rate limiters for the application.

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+
   public function dashboard(Request $request)
   {
-    return view('admin.dashboard');
+    return view('vendor.dashboard');
   }
 }
