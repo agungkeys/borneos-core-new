@@ -7,22 +7,22 @@
             </li>
             <li class="app-sidebar__heading">Orders</li>
             <li>
-              <a class="new pl-3" href="#">New</a>
+              <a class="new" href="#"><i class="metismenu-icon pe-7s-angle-right"></i>New</a>
             </li>
             <li>
-              <a class="processing pl-3" href="#">Processing</a>
+              <a class="processing" href="#"><i class="metismenu-icon pe-7s-angle-right"></i>Processing</a>
             </li>
             <li>
-              <a class="otw pl-3" href="#">Food OTW</a>
+              <a class="otw" href="#"><i class="metismenu-icon pe-7s-angle-right"></i>Food OTW</a>
             </li>
             <li>
-              <a class="delivered pl-3" href="#">Delivered</a>
+              <a class="delivered" href="#"><i class="metismenu-icon pe-7s-angle-right"></i>Delivered</a>
             </li>
             <li>
-              <a class="canceled pl-3" href="#">Canceled</a>
+              <a class="canceled" href="#"><i class="metismenu-icon pe-7s-angle-right"></i>Canceled</a>
             </li>
             <li>
-              <a class="all pl-3" href="#">All</a>
+              <a class="all" href="#"><i class="metismenu-icon pe-7s-angle-right"></i>All</a>
             </li>
             <li class="app-sidebar__heading">Master Data</li>
             <li>
@@ -55,16 +55,16 @@
             </li>
             <li class="app-sidebar__heading">Business</li>
             <li>
-              <a class="tac" href="#"><i class="metismenu-icon pe-7s-copy-file"></i>Terms & Condition</a>
+              <a class="tac" href="#"><i class="metismenu-icon pe-7s-flag"></i>Terms & Condition</a>
             </li>
             <li>
-              <a class="privacy-policy" href="#"><i class="metismenu-icon pe-7s-copy-file"></i>Privacy Policy</a>
+              <a class="privacy-policy" href="#"><i class="metismenu-icon pe-7s-attention"></i>Privacy Policy</a>
             </li>
             <li>
-              <a class="faq" href="#"><i class="metismenu-icon pe-7s-copy-file"></i>FAQ</a>
+              <a class="faq" href="#"><i class="metismenu-icon pe-7s-help1"></i>FAQ</a>
             </li>
             <li>
-              <a class="about-us" href="#"><i class="metismenu-icon pe-7s-copy-file"></i>About Us</a>
+              <a class="about-us" href="#"><i class="metismenu-icon pe-7s-info"></i>About Us</a>
             </li>
         </ul>
     </div>
