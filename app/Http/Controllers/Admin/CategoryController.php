@@ -156,4 +156,14 @@ class CategoryController extends Controller
 
         return redirect()->route('admin.master-category');
     }
+    public function master_category_delete($id)
+    {
+        $category = Category::find($id);
+        if ($category->image) {
+            $key = json_decode($category->additional_image);
+            Cloudinary::destroy($key->public_id);
+        };
+        $category->delete();
+        return redirect()->route('admin.master-category');
+    }
 }

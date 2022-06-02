@@ -21,6 +21,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::post('/master-category/add', 'CategoryController@master_category_store')->name('master-category.store');
     Route::get('/master-category/{id}', 'CategoryController@master_category_edit')->name('master-category.edit');
     Route::put('/master-category/{id}', 'CategoryController@master_category_update')->name('master-category.update');
+    Route::delete('/master-category/{id}', 'CategoryController@master_category_delete')->name('master-category.delete');
 
 
     Route::get('settings', 'SystemController@settings')->name('settings');
