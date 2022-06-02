@@ -3,26 +3,26 @@
         <ul class="vertical-nav-menu">
             <li class="app-sidebar__heading">Menu</li>
             <li>
-              <a href="#" class="mm-active"><i class="metismenu-icon pe-7s-rocket"></i>Dashboards</a>
+              <a href="/admin" class="mm-active"><i class="metismenu-icon pe-7s-rocket"></i>Dashboards</a>
             </li>
             <li class="app-sidebar__heading">Orders</li>
             <li>
-              <a class="new" href="#"><i class="metismenu-icon pe-7s-angle-right"></i>New</a>
+              <a class="new" href="#"><i class="metismenu-icon pe-7s-download"></i>New</a>
             </li>
             <li>
-              <a class="processing" href="#"><i class="metismenu-icon pe-7s-angle-right"></i>Processing</a>
+              <a class="processing" href="#"><i class="metismenu-icon pe-7s-hourglass"></i>Processing</a>
             </li>
             <li>
-              <a class="otw" href="#"><i class="metismenu-icon pe-7s-angle-right"></i>Food OTW</a>
+              <a class="otw" href="#"><i class="metismenu-icon pe-7s-bicycle"></i>Product OTW</a>
             </li>
             <li>
-              <a class="delivered" href="#"><i class="metismenu-icon pe-7s-angle-right"></i>Delivered</a>
+              <a class="delivered" href="#"><i class="metismenu-icon pe-7s-cup"></i>Delivered</a>
             </li>
             <li>
-              <a class="canceled" href="#"><i class="metismenu-icon pe-7s-angle-right"></i>Canceled</a>
+              <a class="canceled" href="#"><i class="metismenu-icon pe-7s-close"></i>Canceled</a>
             </li>
             <li>
-              <a class="all" href="#"><i class="metismenu-icon pe-7s-angle-right"></i>All</a>
+              <a class="all" href="#"><i class="metismenu-icon pe-7s-news-paper"></i>All</a>
             </li>
             <li class="app-sidebar__heading">Master Data</li>
             <li>
@@ -41,7 +41,7 @@
             </li>
 
             <li>
-              <a class="merchant" href="#"><i class="metismenu-icon pe-7s-culture"></i>Merchant</a>
+              <a class="merchant" href="#"><i class="metismenu-icon pe-7s-home"></i>Merchant</a>
             </li>
             <li>
               <a class="product" href="#"><i class="metismenu-icon pe-7s-box2"></i>Product</a>
