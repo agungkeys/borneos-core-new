@@ -9,8 +9,6 @@
 
   <title>Borneos Admin Management - Dari Borneos Untuk UKM Indonesia</title>
 
-  <!-- Scripts -->
-
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -25,7 +23,10 @@
       <div class="app-container app-theme-white body-tabs-shadow fixed-header fixed-sidebar">
         <div class="app-header header-shadow">
           <div class="app-header__logo">
-            <div class="logo-src"></div>
+            <div class="w-100">
+              <img style="max-height: 3em" src="/images/logo.svg" />
+              <span style="font-weight: bold; color: #3f6ad8;">Admin</span>
+            </div>
             <div class="header__pane ml-auto">
               <div><button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button></div>
             </div>
@@ -35,14 +36,14 @@
           </div>
           <div class="app-header__menu"><span><button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav"><span class="btn-icon-wrapper"><i class="fa fa-ellipsis-v fa-w-6"></i></span></button></span></div>
           <div class="app-header__content">
-            <div class="app-header-left"></div>
+
 
             <div class="app-header-right">
               <div class="header-btn-lg pr-0">
                 <div class="widget-content p-0">
                   <div class="widget-content-wrapper">
                     <div class="widget-content-left">
-                      <div class="btn-group"><a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn"><img width="42" class="rounded-circle" src="assets/images/avatars/1.jpg" alt=""><i class="fa fa-angle-down ml-2 opacity-8"></i></a>
+                      <div class="btn-group"><a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn"><img width="42" class="rounded-circle" src="/images/avatars/1.jpg" alt=""><i class="fa fa-angle-down ml-2 opacity-8"></i></a>
                         <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu-lg dropdown-menu dropdown-menu-right">
                           <div class="dropdown-menu-header">
                             <div class="dropdown-menu-header-inner bg-info">
@@ -50,10 +51,10 @@
                               <div class="menu-header-content text-left">
                                 <div class="widget-content p-0">
                                   <div class="widget-content-wrapper">
-                                    <div class="widget-content-left mr-3"><img width="42" class="rounded-circle" src="assets/images/avatars/1.jpg" alt=""></div>
+                                    <div class="widget-content-left mr-3"><img width="42" class="rounded-circle" src="/images/avatars/1.jpg" alt=""></div>
                                     <div class="widget-content-left">
-                                      <div class="widget-heading">Agung Kurniawan</div>
-                                      <div class="widget-subheading opacity-8">A short profile description</div>
+                                      <div class="widget-heading">{{Auth::guard('admin')->user()->f_name}} {{Auth::guard('admin')->user()->l_name}}</div>
+                                      <div class="widget-subheading opacity-8">{{Auth::guard('admin')->user()->email}}</div>
                                     </div>
                                     <div class="widget-content-right mr-2"><a href="{{ route('admin.auth.logout') }}" class="btn-pill btn-shadow btn-shine btn btn-focus">Logout</a></div>
                                   </div>
@@ -65,8 +66,8 @@
                       </div>
                     </div>
                     <div class="widget-content-left  ml-3 header-user-info">
-                      <div class="widget-heading"> Alina Mclourd </div>
-                      <div class="widget-subheading"> VP People Manager </div>
+                      <div class="widget-heading">{{Auth::guard('admin')->user()->f_name}} {{Auth::guard('admin')->user()->l_name}}</div>
+                      <div class="widget-subheading">{{Auth::guard('admin')->user()->email}}</div>
                     </div>
                     <!-- <div class="widget-content-right header-user-info ml-3"><button type="button" class="btn-shadow p-1 btn btn-primary btn-sm show-toastr-example"><i class="fa text-white fa-calendar pr-1 pl-1"></i></button></div> -->
                   </div>
@@ -93,14 +94,13 @@
             @include('layouts.app-admin-sidebar')
             <!-- SIDEBAR MENU END -->
           </div>
-          <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
           <div class="app-main__outer">
             @yield('content')
           </div>
         </div>
       </div>
 
-      {{-- <div class="app-drawer-wrapper">
+      <div class="app-drawer-wrapper">
         <div class="drawer-nav-btn"><button type="button" class="hamburger hamburger--elastic is-active"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button></div>
         <div class="drawer-content-wrapper">
           <div class="scrollbar-container">
@@ -282,7 +282,7 @@
                           <div class="custom-checkbox custom-control"><input type="checkbox" id="exampleCustomCheckbox2444" class="custom-control-input"><label class="custom-control-label" for="exampleCustomCheckbox2444">&nbsp;</label></div>
                         </div>
                         <div class="widget-content-left mr-3">
-                          <div class="widget-content-left"><img width="42" class="rounded" src="assets/images/avatars/1.jpg" alt="" /></div>
+                          <div class="widget-content-left"><img width="42" class="rounded" src="/images/avatars/1.jpg" alt="" /></div>
                         </div>
                         <div class="widget-content-left">
                           <div class="widget-heading">Go grocery shopping</div>
@@ -344,28 +344,28 @@
                       <div class="vertical-timeline-element-content bounce-in">
                         <h4 class="timeline-title">Something not important <div class="avatar-wrapper mt-2 avatar-wrapper-overlap">
                             <div class="avatar-icon-wrapper avatar-icon-sm">
-                              <div class="avatar-icon"><img src="assets/images/avatars/1.jpg" alt=""></div>
+                              <div class="avatar-icon"><img src="/images/avatars/1.jpg" alt=""></div>
                             </div>
                             <div class="avatar-icon-wrapper avatar-icon-sm">
-                              <div class="avatar-icon"><img src="assets/images/avatars/2.jpg" alt=""></div>
+                              <div class="avatar-icon"><img src="/images/avatars/2.jpg" alt=""></div>
                             </div>
                             <div class="avatar-icon-wrapper avatar-icon-sm">
-                              <div class="avatar-icon"><img src="assets/images/avatars/3.jpg" alt=""></div>
+                              <div class="avatar-icon"><img src="/images/avatars/3.jpg" alt=""></div>
                             </div>
                             <div class="avatar-icon-wrapper avatar-icon-sm">
-                              <div class="avatar-icon"><img src="assets/images/avatars/4.jpg" alt=""></div>
+                              <div class="avatar-icon"><img src="/images/avatars/4.jpg" alt=""></div>
                             </div>
                             <div class="avatar-icon-wrapper avatar-icon-sm">
-                              <div class="avatar-icon"><img src="assets/images/avatars/5.jpg" alt=""></div>
+                              <div class="avatar-icon"><img src="/images/avatars/5.jpg" alt=""></div>
                             </div>
                             <div class="avatar-icon-wrapper avatar-icon-sm">
-                              <div class="avatar-icon"><img src="assets/images/avatars/6.jpg" alt=""></div>
+                              <div class="avatar-icon"><img src="/images/avatars/6.jpg" alt=""></div>
                             </div>
                             <div class="avatar-icon-wrapper avatar-icon-sm">
-                              <div class="avatar-icon"><img src="assets/images/avatars/7.jpg" alt=""></div>
+                              <div class="avatar-icon"><img src="/images/avatars/7.jpg" alt=""></div>
                             </div>
                             <div class="avatar-icon-wrapper avatar-icon-sm">
-                              <div class="avatar-icon"><img src="assets/images/avatars/8.jpg" alt=""></div>
+                              <div class="avatar-icon"><img src="/images/avatars/8.jpg" alt=""></div>
                             </div>
                             <div class="avatar-icon-wrapper avatar-icon-sm avatar-icon-add">
                               <div class="avatar-icon"><i>+</i></div>
@@ -398,6 +398,7 @@
       <div class="app-drawer-overlay d-none animated fadeIn"></div> --}}
     </body>
     <script src="{{ asset('js/main.js') }}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   </div>
 </body>
 </html>

@@ -6,16 +6,12 @@
       <div class="page-title-wrapper">
          <div class="page-title-heading">
             <div class="page-title-icon">
-               <i class="pe-7s-medal icon-gradient bg-tempting-azure"></i>
+               <i class="pe-7s-server icon-gradient bg-tempting-azure"></i>
             </div>
-            <div>
-               Master Category
-               <div class="page-title-subheading">
-                   Choose between regular React Bootstrap tables or advanced dynamic ones.</div>
-            </div>
+            <div>Master Category<div class="page-title-subheading">List Master Category</div></div>
          </div>
          <div class="page-title-actions">
-             <a href="{{ route('admin.master-category.add') }}" class="btn-shadow btn btn-info"> Tambah</a>
+             <a href="{{ route('admin.master-category.add') }}" class="btn-shadow btn btn-info btn-lg">Add Category</a>
          </div>
       </div>
    </div>

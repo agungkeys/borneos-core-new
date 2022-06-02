@@ -8,8 +8,7 @@
         <div class="page-title-wrapper">
           <div class="page-title-heading">
             <div class="page-title-icon"><i class="pe-7s-umbrella icon-gradient bg-sunny-morning"></i></div>
-            <div>Dashboard<div class="page-title-subheading">Dashboard Admin Borneos</div>
-            </div>
+            <div>Dashboard<div class="page-title-subheading">Dashboard Admin Borneos</div></div>
           </div>
           <div class="page-title-actions">
             <button type="button" data-toggle="tooltip" title="" data-placement="bottom" class="btn-shadow mr-3 btn btn-dark" data-original-title="Example Tooltip"><i class="fa fa-star"></i></button>
