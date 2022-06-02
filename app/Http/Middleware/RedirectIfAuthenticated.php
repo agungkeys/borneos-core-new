@@ -17,30 +17,27 @@ class RedirectIfAuthenticated
      * @param  string|null  ...$guards
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, ...$guards)
+    // public function handle(Request $request, Closure $next, ...$guards)
+    public function handle(Request $request, Closure $next, $guard = null)
     {
-        $guards = empty($guards) ? [null] : $guards;
-
-        foreach ($guards as $guard) {
-            switch ($guard) {
-              case 'admin':
-                if (Auth::guard($guard)->check()) {
-                  return redirect()->route('admin.dashboard');
-                }
-                break;
-              case 'vendor':
-                if (Auth::guard($guard)->check()) {
-                  return redirect()->route('vendor.dashboard');
-                }
-                break;
-              default:
-                if (Auth::guard($guard)->check()) {
-                  // return response()->json([],404);
-                  return redirect(RouteServiceProvider::HOME);
-                }
-                break;
-            }
-        }
+          switch ($guard) {
+            case 'vendor':
+              if (Auth::guard($guard)->check()) {
+                return redirect()->route('vendor.dashboard');
+              }
+              break;
+            case 'admin':
+              if (Auth::guard($guard)->check()) {
+                return redirect()->route('admin.dashboard');
+              }
+              break;
+            default:
+              if (Auth::guard($guard)->check()) {
+                // return response()->json([],404);
+                return redirect(RouteServiceProvider::HOME);
+              }
+              break;
+          }
         return $next($request);
     }
 }

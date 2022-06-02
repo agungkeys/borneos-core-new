@@ -10,10 +10,11 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class DashboardController extends Controller
+class IndexController extends Controller
 {
   public function dashboard(Request $request)
   {
-    return view('admin.dashboard');
+    // return view('vendor.dashboard');
+    return dd('running dashboard vendor');
   }
 }

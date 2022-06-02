@@ -16,10 +16,15 @@ class VendorMiddleware
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
-    {  
-        if (Auth::guard('vendor')->check()) {
+    {
+      if (Auth::guard('vendor')->check()) {
+          if(!auth('vendor')->user()->status)
+          {
+              auth()->guard('vendor')->logout();
+              return redirect()->route('vendor.auth.login');
+          }
           return $next($request);
-        }
-        return redirect()->route('vendor.auth.login');
+      }
+      return redirect()->route('vendor.auth.login');
     }
 }

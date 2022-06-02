@@ -1,4 +1,4 @@
-@extends('layouts.app-admin')
+@extends('layouts.app-admin-auth')
 
 @section('content')
 <div class="app-container app-theme-white body-tabs-shadow">
@@ -53,7 +53,7 @@
             <!-- <h6 class="mt-3">Tidak memiliki akun? <a href="#" class="text-primary">Daftar Sekarang</a></h6> -->
             <div class="divider row"></div>
             <div>
-              <form class="" method="POST" action="{{ route('login') }}">
+              <form class="" method="POST" action="{{route('admin.auth.login')}}">
                 @csrf
                 <div class="form-row">
                   <div class="col-md-6">

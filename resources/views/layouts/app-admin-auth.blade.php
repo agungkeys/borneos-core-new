@@ -7,7 +7,7 @@
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>Borneos Merchant Management - Dari Borneos Untuk UKM Indonesia</title>
+  <title>Borneos Admin Management - Dari Borneos Untuk UKM Indonesia</title>
 
   <!-- Scripts -->
 
