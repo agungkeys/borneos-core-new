@@ -15,7 +15,7 @@
             </div>
          </div>
          <div class="page-title-actions">
-             <a href="#" class="btn-shadow btn btn-info"> Tambah</a>
+             <a href="{{ route('admin.master-category.add') }}" class="btn-shadow btn btn-info"> Tambah</a>
          </div>
       </div>
    </div>
