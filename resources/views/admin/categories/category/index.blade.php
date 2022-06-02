@@ -41,7 +41,7 @@
                         <td>{{ $master_category->name }}</td>
                         <td>{{ $master_category->slug }}</td>
                         <td>
-                            <a href="#" class="btn btn-warning btn-sm"> Edit</a>
+                            <a href="{{ route('admin.master-category.edit',$master_category->id) }}" class="btn btn-warning btn-sm"> Edit</a>
                             <a href="#" class="btn btn-danger btn-sm"> Delete</a>
                         </td>
                     </tr>
