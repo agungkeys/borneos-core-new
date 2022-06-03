@@ -23,6 +23,12 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::put('/master-category/{id}', 'CategoryController@master_category_update')->name('master-category.update');
     Route::delete('/master-category/{id}', 'CategoryController@master_category_delete')->name('master-category.delete');
 
+    Route::get('/master-sub-category', 'CategoryController@master_sub_category_index')->name('master-sub-category');
+    Route::get('/master-sub-category/add', 'CategoryController@master_sub_category_add')->name('master-sub-category.add');
+
+
+
+
 
     Route::get('settings', 'SystemController@settings')->name('settings');
     Route::post('settings', 'SystemController@settings_update');
