@@ -17,6 +17,9 @@ class CreateMerchantsTable extends Migration
             $table->id();
             $table->integer('category_id')->unsigned()->nullable();
             $table->text('category_ids')->nullable();
+            $table->text('categories_id')->nullable();
+            $table->text('categories_ids')->nullable();
+            $table->string('merchant_type')->nullable();
             $table->string('name');
             $table->string('slug',255);
             $table->string('phone',20)->unique();
