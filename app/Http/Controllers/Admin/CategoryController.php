@@ -166,4 +166,10 @@ class CategoryController extends Controller
         $category->delete();
         return redirect()->route('admin.master-category');
     }
+
+    public function master_sub_category_index()
+    {
+        $master_sub_categories = Category::where(['position' => 1])->get();
+        return view('admin.categories.sub-category.index', compact('master_sub_categories'));
+    }
 }
