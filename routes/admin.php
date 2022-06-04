@@ -25,6 +25,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
     Route::get('/master-sub-category', 'CategoryController@master_sub_category_index')->name('master-sub-category');
     Route::get('/master-sub-category/add', 'CategoryController@master_sub_category_add')->name('master-sub-category.add');
+    Route::post('/master-sub-category/add', 'CategoryController@master_sub_category_store')->name('master-sub-category.store');
 
 
 
