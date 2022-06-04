@@ -41,8 +41,8 @@
                         <td>{{ $master_sub_sub_category->name }}</td>
                         <td>{{ $master_sub_sub_category->slug }}</td>
                         <td>
-                           <form action="{{ route('admin.master-sub-category.delete',$master_sub_sub_category->id) }}" method="post">
-                              <a href="{{ route('admin.master-sub-category.edit',$master_sub_sub_category->id) }}" class="btn btn-warning btn-sm"> Edit</a>
+                           <form action="{{ route('admin.master-sub-sub-category.delete',$master_sub_sub_category->id) }}" method="post">
+                              <a href="{{ route('admin.master-sub-sub-category.edit',$master_sub_sub_category->id) }}" class="btn btn-warning btn-sm"> Edit</a>
                               @method('delete')
                               @csrf
                               <button type="submit" onclick="return confirm('Are you sure ?')" class="btn btn-danger btn-sm"> Delete</button>
