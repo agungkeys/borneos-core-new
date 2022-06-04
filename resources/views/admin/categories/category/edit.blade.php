@@ -46,9 +46,9 @@
                <div class="form-group text-center" style="margin-bottom:0%;">
                   <img style="width: 25%;border: 0px solid; border-radius: 10px;" id="viewer" src="{{ URL::to($master_category->image) }}" alt=""/>
                </div>
-               <div class="text-center mt-2">
-                  <button type="submit" style="border-radius: 25px;" class="btn btn-warning col-3"> Update</button>
-                  <a href="{{ route('admin.master-category') }}" style="border-radius: 25px" class="btn btn-danger col-3"> Back</a>
+               <div class="text-right mt-2">
+                   <a href="{{ route('admin.master-category') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
+                   <button type="submit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Update</button>
                </div>
             </form>
       </div>

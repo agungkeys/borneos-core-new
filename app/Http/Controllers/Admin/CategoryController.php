@@ -472,4 +472,14 @@ class CategoryController extends Controller
         ]);
         return redirect()->route('admin.master-sub-sub-category');
     }
+    public function master_sub_sub_category_delete($id)
+    {
+        $category = Category::find($id);
+        if ($category->image) {
+            $key = json_decode($category->additional_image);
+            Cloudinary::destroy($key->public_id);
+        };
+        $category->delete();
+        return redirect()->route('admin.master-sub-sub-category');
+    }
 }

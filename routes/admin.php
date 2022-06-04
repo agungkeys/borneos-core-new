@@ -35,6 +35,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::post('/master-sub-sub-category', 'CategoryController@master_sub_sub_category_store')->name('master-sub-sub-category.store');
     Route::get('/master-sub-sub-category/{id}', 'CategoryController@master_sub_sub_category_edit')->name('master-sub-sub-category.edit');
     Route::put('/master-sub-sub-category/{id}', 'CategoryController@master_sub_sub_category_update')->name('master-sub-sub-category.update');
+    Route::delete('/master-sub-sub-category/{id}', 'CategoryController@master_sub_sub_category_delete')->name('master-sub-sub-category.delete');
 
 
 
