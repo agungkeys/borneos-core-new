@@ -386,4 +386,11 @@ class CategoryController extends Controller
         ]);
         return redirect()->route('admin.master-sub-sub-category');
     }
+    public function master_sub_sub_category_edit($id)
+    {
+        return view('admin.categories.sub-sub-category.edit', [
+            'sub_sub_category' => Category::find($id),
+            'sub_categories'   => Category::where(['position' => 1])->get()
+        ]);
+    }
 }
