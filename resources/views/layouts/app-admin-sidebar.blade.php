@@ -32,10 +32,10 @@
                     <a class="master-category" href="{{ route('admin.master-category') }}"><i class="metismenu-icon pe-7s-server"></i>Category</a>
                   </li>
                   <li>
-                    <a class="master-sub-category" href="#"><i class="metismenu-icon pe-7s-server"></i>Sub Category</a>
+                    <a class="master-sub-category" href="{{ route('admin.master-sub-category') }}"><i class="metismenu-icon pe-7s-server"></i>Sub Category</a>
                   </li>
                   <li>
-                    <a class="master-sub-sub-category" href="#"><i class="metismenu-icon pe-7s-server"></i>Sub Sub Category</a>
+                    <a class="master-sub-sub-category" href="{{ route('admin.master-sub-sub-category') }}"><i class="metismenu-icon pe-7s-server"></i>Sub Sub Category</a>
                   </li>
               </ul>
             </li>

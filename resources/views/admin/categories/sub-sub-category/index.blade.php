@@ -8,10 +8,10 @@
             <div class="page-title-icon">
                <i class="pe-7s-server icon-gradient bg-tempting-azure"></i>
             </div>
-            <div>Master Category<div class="page-title-subheading">List Master Category</div></div>
+            <div>Master Sub Sub Category<div class="page-title-subheading">List Master Sub Sub Category</div></div>
          </div>
          <div class="page-title-actions">
-             <a href="{{ route('admin.master-category.add') }}" class="btn-shadow btn btn-info btn-lg">Add Category</a>
+             <a href="{{ route('admin.master-sub-sub-category.add') }}" class="btn-shadow btn btn-info btn-lg">Add Category</a>
          </div>
       </div>
    </div>
@@ -28,17 +28,21 @@
                </tr>
             </thead>
             <tbody>
-                @foreach ($master_categories as $master_category)
+                @foreach ($master_sub_sub_categories as $master_sub_sub_category)
                     <tr>
                         <td>{{ $loop->iteration }}.</td>
                         <td>
-                            <img src="{{ URL::to($master_category->image) }}" alt="" width="32" height="32">
+                           @if($master_sub_sub_category->image)
+                              <img src="{{ URL::to($master_sub_sub_category->image) }}" alt="" width="32" height="32">
+                           @else
+                              <img src="{{ asset('images/default-image.jpg') }}" alt="" width="32" height="32">
+                           @endif
                         </td>
-                        <td>{{ $master_category->name }}</td>
-                        <td>{{ $master_category->slug }}</td>
+                        <td>{{ $master_sub_sub_category->name }}</td>
+                        <td>{{ $master_sub_sub_category->slug }}</td>
                         <td>
-                           <form action="{{ route('admin.master-category.delete',$master_category->id) }}" method="post">
-                              <a href="{{ route('admin.master-category.edit',$master_category->id) }}" class="btn btn-warning btn-sm"> Edit</a>
+                           <form action="{{ route('admin.master-sub-category.delete',$master_sub_sub_category->id) }}" method="post">
+                              <a href="{{ route('admin.master-sub-category.edit',$master_sub_sub_category->id) }}" class="btn btn-warning btn-sm"> Edit</a>
                               @method('delete')
                               @csrf
                               <button type="submit" onclick="return confirm('Are you sure ?')" class="btn btn-danger btn-sm"> Delete</button>
