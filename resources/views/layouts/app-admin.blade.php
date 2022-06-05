@@ -14,6 +14,7 @@
   <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
   <!-- Select2 -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
 
   <!-- Styles -->
   <link href="{{ asset('css/main.css') }}" rel="stylesheet">
@@ -136,7 +137,9 @@
             <!-- SIDEBAR MENU END -->
           </div>
           <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+
           <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
           <div class="app-main__outer">
             @yield('content')
           </div>
@@ -145,6 +148,12 @@
       <div class="app-drawer-overlay d-none animated fadeIn"></div>
     </body>
     <script src="{{ asset('js/main.js') }}" defer></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
   </div>
+  <script>
+        $(document).ready( function () {
+            $('#bannerTable').DataTable();
+        } );
+  </script>
 </body>
 </html>

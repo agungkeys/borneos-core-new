@@ -48,7 +48,7 @@
             </li>
             <li class="app-sidebar__heading">Marketing</li>
             <li>
-              <a class="bannners" href="#"><i class="metismenu-icon pe-7s-photo-gallery"></i>Banners</a>
+              <a class="bannners {{ Route::is('banner') ? 'mm-active' : '' }}" href="{{ route('admin.banner.index') }}"><i class="metismenu-icon pe-7s-photo-gallery"></i>Banners</a>
             </li>
             <li>
               <a class="coupons" href="#"><i class="metismenu-icon pe-7s-ticket"></i>Coupons</a>
