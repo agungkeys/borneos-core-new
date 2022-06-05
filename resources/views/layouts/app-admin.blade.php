@@ -22,6 +22,8 @@
 </head>
 <body>
   <div id="app">
+      @include('sweetalert::alert')
+
     <body>
       <div class="app-container app-theme-white body-tabs-shadow fixed-header fixed-sidebar">
         <div class="app-header header-shadow">
