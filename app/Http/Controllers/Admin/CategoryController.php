@@ -67,7 +67,7 @@ class CategoryController extends Controller
             'priority'  => 0,
             'status'    => 1
         ]);
-        return redirect()->route('admin.master-category');
+        return redirect()->route('admin.master-category')->with('success', 'Data Created Successfully');
     }
 
     public function master_category_edit($id)
@@ -154,7 +154,7 @@ class CategoryController extends Controller
             'additional_image'  => $additional_image
         ]);
 
-        return redirect()->route('admin.master-category');
+        return redirect()->route('admin.master-category')->with('success', 'Data Updated Successfully');
     }
     public function master_category_delete($id)
     {
@@ -164,7 +164,7 @@ class CategoryController extends Controller
             Cloudinary::destroy($key->public_id);
         };
         $category->delete();
-        return redirect()->route('admin.master-category');
+        return response()->json(['status' => 200]);
     }
 
     public function master_sub_category_index()
@@ -226,7 +226,7 @@ class CategoryController extends Controller
             'priority'  => 0,
             'status'    => 1
         ]);
-        return redirect()->route('admin.master-sub-category');
+        return redirect()->route('admin.master-sub-category')->with('success', 'Data Created Successfully');
     }
     public function master_sub_category_edit($id)
     {
@@ -312,7 +312,7 @@ class CategoryController extends Controller
             'additional_image' => $additional_image,
             'parent_id' => request('category')
         ]);
-        return redirect()->route('admin.master-sub-category');
+        return redirect()->route('admin.master-sub-category')->with('success', 'Data Updated');
     }
     public function master_sub_category_delete($id)
     {
@@ -322,7 +322,7 @@ class CategoryController extends Controller
             Cloudinary::destroy($key->public_id);
         };
         $category->delete();
-        return redirect()->route('admin.master-sub-category');
+        return response()->json(['status' => 200]);
     }
     public function master_sub_sub_category_index()
     {
@@ -384,7 +384,7 @@ class CategoryController extends Controller
             'priority'  => 0,
             'status'    => 1
         ]);
-        return redirect()->route('admin.master-sub-sub-category');
+        return redirect()->route('admin.master-sub-sub-category')->with('success', 'Data Created Successfully');
     }
     public function master_sub_sub_category_edit($id)
     {
@@ -470,7 +470,7 @@ class CategoryController extends Controller
             'additional_image' => $additional_image,
             'parent_id' => request('sub-category')
         ]);
-        return redirect()->route('admin.master-sub-sub-category');
+        return redirect()->route('admin.master-sub-sub-category')->with('success', 'Data Updated Successfully');
     }
     public function master_sub_sub_category_delete($id)
     {
@@ -480,6 +480,6 @@ class CategoryController extends Controller
             Cloudinary::destroy($key->public_id);
         };
         $category->delete();
-        return redirect()->route('admin.master-sub-sub-category');
+        return response()->json(['status' => 200]);
     }
 }
