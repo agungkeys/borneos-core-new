@@ -20,5 +20,4 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/data', [BannerController::class, 'data']);
 Route::get('/landing', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

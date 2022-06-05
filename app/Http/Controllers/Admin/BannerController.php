@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use Yajra\Datatables\Datatables;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class BannerController extends Controller
 {
@@ -23,23 +25,6 @@ class BannerController extends Controller
             'banners' => $banners
         ]);
     }
-
-    // public function data(){
-    //     $banners = Banner::all();
-
-    //     return Datatables::of($banners)
-    //             ->addIndexColumn()
-    //             ->editColumn('action', function($banner){
-    //                 return '<form action="'.route('banners.destroy', $banner->id).'" method="POST">
-    //                     <a href="'.route('banners.edit', [$banner->id]).'" class="btn btn-primary" title="Edit"><i class="fas fa-pen"></i></a>
-    //                     '.csrf_field().'
-    //                     '.method_field("DELETE").'
-    //                     <button title="Delete" type="submit" class="btn btn-link" onclick="return confirm(\'Are you sure?\')"> <i class="fas fa-trash"></i> </button>
-    //                 </form>
-    //                 ';
-    //         })->make(true);
-    //     // return response()->json($banners, 200);
-    // }
 
     /**
      * Show the form for creating a new resource.

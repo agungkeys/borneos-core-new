@@ -151,30 +151,9 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
   </div>
   <script>
-    //   $(document).ready( function () {
-    //         let id = 1
-    //         $('#bannerTable').DataTable({
-    //             processing: true,
-    //             serverSide: true,
-    //             paging: true,
-    //             ajax: '{{ url('data') }}',
-    //             columns: [
-    //                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-    //                 { data: 'title', name: 'title' },
-    //                 { data: 'type', name: 'type' },
-    //                 { data: 'image', name: 'image' },
-    //                 { data: 'url', name: 'url' },
-    //                 { data: 'status', name: 'status' },
-    //                 { data: 'data', name: 'data' },
-    //                 { data: 'admin_id', name: 'admin_id' },
-    //                 { data: 'zone_id', name: 'zone_id' },
-    //                 { data: 'action', name: 'action', orderable: false, searchable: false}
-    //             ]
-    //         });
-    //     });
-    $(document).ready( function () {
-        $('#bannerTable').DataTable();
-    } );
+        $(document).ready( function () {
+            $('#bannerTable').DataTable();
+        } );
   </script>
 </body>
 </html>
