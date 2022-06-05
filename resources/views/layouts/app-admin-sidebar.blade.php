@@ -41,7 +41,7 @@
             </li>
 
             <li>
-              <a class="merchant" href="#"><i class="metismenu-icon pe-7s-home"></i>Merchant</a>
+              <a class="merchant" href="{{ route('admin.master-merchant') }}"><i class="metismenu-icon pe-7s-home"></i>Merchant</a>
             </li>
             <li>
               <a class="product" href="#"><i class="metismenu-icon pe-7s-box2"></i>Product</a>
