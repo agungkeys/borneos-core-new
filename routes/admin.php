@@ -34,7 +34,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/master-sub-sub-category/add', 'CategoryController@master_sub_sub_category_add')->name('master-sub-sub-category.add');
     Route::post('/master-sub-sub-category', 'CategoryController@master_sub_sub_category_store')->name('master-sub-sub-category.store');
 
-
+    Route::get('/master-merchant', 'MerchantController@master_merchant_index')->name('master-merchant');
+    Route::get('/master-merchant/add', 'MerchantController@master_merchant_add')->name('master-merchant.add');
 
 
 
