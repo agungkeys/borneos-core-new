@@ -17,48 +17,52 @@
          </div>
       </div>
    </div>
-   <div class="main-card mb-3 card">
-      <div class="card-body">
-            <form action="{{ route('admin.master-sub-category.store') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
-               @csrf
-               <div class="form-group">
-                   <label for="sub_category">Category</label>
-                   <select class="form-control js-select2-custom" name="category" id="category" required>
-                        <option disabled selected value="">Choose One!</option>
-                        @foreach ($master_categories as $master_category)
-                            <option value="{{ $master_category->parent_id }}">{{ $master_category->name }}</option>
-                        @endforeach
-                   </select>
-               </div>
-               <div class="form-group">
-                  <label for="sub-category-name">Category Name</label>
-                  <input type="text" id="sub-category-name" name="sub-category-name" class="form-control form-control-sm">
-                  @error('sub-category-name')
-                      <span class="text-danger mt-2">{{ $message }}</span>
-                  @enderror
-               </div>
-                <div class="form-group">
-                  <label for="sub-category-slug">Category Slug</label>
-                  <input type="text" id="sub-category-slug" name="sub-category-slug" class="form-control form-control-sm">
-                  @error('sub-category-slug')
-                     <span class="text-danger mt-2">{{ $message }}</span>
-                  @enderror
-               </div>
-                <div class="form-group">
-                  <label for="image">Image</label><br>
-                  <input type="file" accept="image/*" id="image" name="image">
-                  @error('image')
-                      <br><span class="text-danger mt-2">{{ $message }}</span>
-                  @enderror
-               </div>
-               <div class="form-group text-center" style="margin-bottom:0%;">
-                  <img style="width: 25%;border: 0px solid; border-radius: 10px;" id="viewer" alt=""/>
-               </div>
-               <div class="text-right mt-2">
-                  <a href="{{ route('admin.master-category') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
-                  <button type="submit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Save</button>
-               </div>
-            </form>
+   <div class="row">
+      <div class="col-md-6">
+         <div class="main-card mb-3 card">
+            <div class="card-body">
+                  <form action="{{ route('admin.master-sub-category.store') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+                     @csrf
+                     <div class="form-group">
+                        <label for="sub_category">Category</label>
+                        <select class="form-control js-select2-custom" name="category" id="category" required>
+                              <option disabled selected value="">Choose One!</option>
+                              @foreach ($master_categories as $master_category)
+                                 <option value="{{ $master_category->parent_id }}">{{ $master_category->name }}</option>
+                              @endforeach
+                        </select>
+                     </div>
+                     <div class="form-group">
+                        <label for="sub-category-name">Category Name</label>
+                        <input type="text" id="sub-category-name" name="sub-category-name" class="form-control form-control-sm">
+                        @error('sub-category-name')
+                           <span class="text-danger mt-2">{{ $message }}</span>
+                        @enderror
+                     </div>
+                     <div class="form-group">
+                        <label for="sub-category-slug">Category Slug</label>
+                        <input type="text" id="sub-category-slug" name="sub-category-slug" class="form-control form-control-sm">
+                        @error('sub-category-slug')
+                           <span class="text-danger mt-2">{{ $message }}</span>
+                        @enderror
+                     </div>
+                     <div class="form-group">
+                        <label for="image">Image</label><br>
+                        <input type="file" accept="image/*" id="image" name="image">
+                        @error('image')
+                           <br><span class="text-danger mt-2">{{ $message }}</span>
+                        @enderror
+                     </div>
+                     <div class="form-group text-center" style="margin-bottom:0%;">
+                        <img style="width: 25%;border: 0px solid; border-radius: 10px;" id="viewer" alt=""/>
+                     </div>
+                     <div class="text-right mt-2">
+                        <a href="{{ route('admin.master-category') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
+                        <button type="submit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Save</button>
+                     </div>
+                  </form>
+            </div>
+         </div>
       </div>
    </div>
      <script>

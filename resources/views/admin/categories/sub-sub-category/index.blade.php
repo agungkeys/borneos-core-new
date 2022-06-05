@@ -41,12 +41,8 @@
                         <td>{{ $master_sub_sub_category->name }}</td>
                         <td>{{ $master_sub_sub_category->slug }}</td>
                         <td>
-                           <form action="{{ route('admin.master-sub-sub-category.delete',$master_sub_sub_category->id) }}" method="post">
-                              <a href="{{ route('admin.master-sub-sub-category.edit',$master_sub_sub_category->id) }}" class="btn btn-warning btn-sm"> Edit</a>
-                              @method('delete')
-                              @csrf
-                              <button type="submit" onclick="return confirm('Are you sure ?')" class="btn btn-danger btn-sm"> Delete</button>
-                           </form>
+                           <a href="{{ route('admin.master-sub-sub-category.edit',$master_sub_sub_category->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+                           <button type="button" onclick="delete_sub_sub_category({{$master_sub_sub_category->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                         </td>
                     </tr>
                 @endforeach
@@ -54,5 +50,40 @@
          </table>
       </div>
    </div>
+    @include('sweetalert::alert')
+   <script type="text/javascript">
+     
+      function delete_sub_sub_category(id)
+      {
+         Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+               let _token =  $('meta[name="csrf-token"]').attr('content');
+               $.ajax({
+                  type: "DELETE",
+                  url: "/admin/master-sub-sub-category/"+id,
+                  data: {_token:_token,id:id},
+                  success:function(response){
+                     if(response.status == 200){
+                        Swal.fire(
+                           'Deleted!',
+                           'Your file has been deleted.',
+                           'success'
+                        )
+                        window.location = "/admin/master-sub-sub-category";
+                     }
+                  }
+               });
+            }
+            })
+      }
+   </script>
  </div>
 @endsection
