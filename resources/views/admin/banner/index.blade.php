@@ -35,37 +35,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @php
-                                $no = 1
-                            @endphp
-                            @foreach ($banners as $banner)
-                                <tr>
-                                    <td>{{ $no++ }}</td>
-                                    <td>{{ $banner->title }}</td>
-                                    <td>{{ $banner->type }}</td>
-                                    <td>
-                                        <img src="{{ $banner->image }}" alt="{{ $banner->title }}" width="100">
-                                    </td>
-                                    <td>{{ $banner->url }}</td>
-                                    <td>
-                                        <input id="chkToggle1" type="checkbox" data-toggle="toggle" {{ $banner->status == 1 ? 'checked' : '' }} >
-                                    </td>
-                                    <td>{{ $banner->data }}</td>
-                                    <td>{{ $banner->admin_id }}</td>
-                                    <td>{{ $banner->zone_id }}</td>
-                                    <td class="d-flex w-100">
-                                        <form action="{{ route('admin.banner.destroy', $banner->id) }}" method="POST">
 
-                                            <a title="Edit" class="btn btn-success" href="{{ route('admin.banner.edit', $banner->id) }}" tooltip="Edit"> <i class="fas fa-pen"></i></a>
-
-                                            @csrf
-                                            @method('DELETE')
-
-                                            <button title="Delete" type="submit" class="btn btn-danger" onclick="confirm('Are you sure???')"> <i class="fas fa-trash"></i> </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach --}}
 
                         </tbody>
                     </table>
