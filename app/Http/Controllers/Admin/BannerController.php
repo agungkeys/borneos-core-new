@@ -26,6 +26,27 @@ class BannerController extends Controller
         ]);
     }
 
+    public function getDataBanner(){
+        $banners = Banner::all();
+
+        return Datatables::of($banners)
+        ->addIndexColumn()
+        ->editColumn('action', function($banner){
+                return '<form action="'.route('admin.banner.destroy', $banner->id).'" method="POST">
+                    <a href="'.route('admin.banner.edit', [$banner->id]).'" class="btn btn-primary" title="Edit"><i class="fas fa-pen"></i></a>
+                    '.csrf_field().'
+                    '.method_field("DELETE").'
+                    <button title="Delete" type="submit" class="btn btn-link" onclick="return confirm(\'Are you sure?\')"> <i class="fas fa-trash"></i> </button>
+                </form>
+                ';
+        })
+        ->addColumn('status', function($banner){
+            return "<input id='chkToggle1' type='checkbox' data-toggle='toggle' ".( $banner->status == 1 ? 'checked' : '' )." />";
+        })
+        ->escapeColumns([])
+        ->make(true);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -46,6 +67,60 @@ class BannerController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'title' => 'required',
+            'type' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:8192',
+            'url' => 'nullable',
+            'data' => 'nullable',
+            'admin_id' => 'nullable',
+            'zone_id' => 'nullable'
+        ]);
+
+        if ($request->file('image')) {
+            $path_name = $request->file('image')->getRealPath();
+            $image = Cloudinary::upload($path_name, ["folder" => "images/banners", "overwrite" => TRUE, "resource_type" => "image"]);
+            $image_url = $image->getSecurePath();
+            $ext = substr($image_url, -3);
+            $ext_jpeg = substr($image_url, -4);
+
+            if ($ext == "jpg") {
+                $image_url_webp = substr($image_url, 0, -3) . "webp";
+            } else if ($ext == "png") {
+                $image_url_webp = substr($image_url, 0, -3) . "webp";
+            } elseif ($ext == "svg") {
+                $image_url_webp = substr($image_url, 0, -3) . "webp";
+            } elseif ($ext_jpeg == "jpeg") {
+                $image_url_webp = substr($image_url, 0, -4) . "webp";
+            };
+
+            $detail_image = [
+                'public_id' =>  $image->getPublicId(),
+                'file_type' =>  $image->getFileType(),
+                'size'      =>  $image->getReadableSize(),
+                'width'     =>  $image->getWidth(),
+                'height'    =>  $image->getHeight(),
+                'extension' =>  $image->getExtension(),
+                'webp'      =>  $image_url_webp
+            ];
+            $additional_image = json_encode($detail_image);
+        } else {
+            $image_url = '';
+        };
+
+        $banner = new Banner();
+        $banner->title = $request->title;
+        $banner->type = $request->type;
+        $banner->image = $image_url;
+        $banner->url = $request->url;
+        $banner->status = 1;
+        $banner->data = $request->data;
+        $banner->admin_id = $request->admin_id;
+        $banner->zone_id = $request->zone_id;
+
+        $banner->save();
+        Alert::success('Success', 'Data saved succesfully!');
+        return redirect()->route('admin.banner.index');
 
     }
 

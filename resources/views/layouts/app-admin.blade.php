@@ -22,6 +22,8 @@
 </head>
 <body>
   <div id="app">
+      @include('sweetalert::alert')
+
     <body>
       <div class="app-container app-theme-white body-tabs-shadow fixed-header fixed-sidebar">
         <div class="app-header header-shadow">
@@ -136,7 +138,10 @@
             @include('layouts.app-admin-sidebar')
             <!-- SIDEBAR MENU END -->
           </div>
-          <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
           <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
           <div class="app-main__outer">
@@ -151,9 +156,28 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
   </div>
   <script>
-        $(document).ready( function () {
-            $('#bannerTable').DataTable();
-        } );
+      $(document).ready( function () {
+            $('#bannerTable').DataTable({
+                processing: true,
+                serverSide: true,
+                paging: true,
+                ajax: "{{ url('get-data-banner') }}",
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'title', name: 'title' },
+                    { data: 'type', name: 'type' },
+                    { data: 'image', name: 'image', render:function(data){
+                        return "<img src='"+data+"' alt='"+data+"' width='100'>"
+                    }},
+                    { data: 'url', name: 'url' },
+                    { data: 'status', name: 'status' },
+                    { data: 'data', name: 'data' },
+                    { data: 'admin_id', name: 'admin_id' },
+                    { data: 'zone_id', name: 'zone_id' },
+                    { data: 'action', name: 'action', orderable: false, searchable: false}
+                ]
+            });
+        });
   </script>
 </body>
 </html>
