@@ -26,6 +26,27 @@ class BannerController extends Controller
         ]);
     }
 
+    public function getDataBanner(){
+        $banners = Banner::all();
+
+        return Datatables::of($banners)
+        ->addIndexColumn()
+        ->editColumn('action', function($banner){
+                return '<form action="'.route('admin.banner.destroy', $banner->id).'" method="POST">
+                    <a href="'.route('admin.banner.edit', [$banner->id]).'" class="btn btn-primary" title="Edit"><i class="fas fa-pen"></i></a>
+                    '.csrf_field().'
+                    '.method_field("DELETE").'
+                    <button title="Delete" type="submit" class="btn btn-link" onclick="return confirm(\'Are you sure?\')"> <i class="fas fa-trash"></i> </button>
+                </form>
+                ';
+        })
+        ->addColumn('status', function($banner){
+            return "<input id='chkToggle1' type='checkbox' data-toggle='toggle' ".( $banner->status == 1 ? 'checked' : '' )." />";
+        })
+        ->escapeColumns([])
+        ->make(true);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -92,7 +113,7 @@ class BannerController extends Controller
         $banner->type = $request->type;
         $banner->image = $image_url;
         $banner->url = $request->url;
-        $banner->status = $request->status;
+        $banner->status = 1;
         $banner->data = $request->data;
         $banner->admin_id = $request->admin_id;
         $banner->zone_id = $request->zone_id;

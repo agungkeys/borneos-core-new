@@ -35,7 +35,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php
+                            {{-- @php
                                 $no = 1
                             @endphp
                             @foreach ($banners as $banner)
@@ -47,7 +47,9 @@
                                         <img src="{{ $banner->image }}" alt="{{ $banner->title }}" width="100">
                                     </td>
                                     <td>{{ $banner->url }}</td>
-                                    <td>{{ $banner->status }}</td>
+                                    <td>
+                                        <input id="chkToggle1" type="checkbox" data-toggle="toggle" {{ $banner->status == 1 ? 'checked' : '' }} >
+                                    </td>
                                     <td>{{ $banner->data }}</td>
                                     <td>{{ $banner->admin_id }}</td>
                                     <td>{{ $banner->zone_id }}</td>
@@ -63,7 +65,7 @@
                                         </form>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @endforeach --}}
 
                         </tbody>
                     </table>
