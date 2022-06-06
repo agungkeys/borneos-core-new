@@ -39,6 +39,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::delete('/master-sub-sub-category/{id}', 'CategoryController@master_sub_sub_category_delete')->name('master-sub-sub-category.delete');
 
     Route::get('/master-product', 'ProductController@master_product_index')->name('master-product');
+    Route::get('/master-product/datasource', 'ProductController@master_product_datasource')->name('master-product-get');
     Route::get('/master-product/status/{id}/{status}', 'ProductController@master_product_status')->name('product.status');
 
 
