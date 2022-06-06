@@ -14,7 +14,7 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-7">
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
                         <form action="{{ route('admin.banner.store') }}" method="POST" enctype="multipart/form-data">
@@ -60,13 +60,6 @@
                                 <button type="submit" class="btn btn-primary mx-2"> <i class="pe-7s-diskette"></i> Submit</button>
                             </div>
                         </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-5">
-                <div class="card">
-                    <div class="card-body">
-
                     </div>
                 </div>
             </div>

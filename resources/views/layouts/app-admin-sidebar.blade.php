@@ -44,7 +44,7 @@
               <a class="merchant" href="#"><i class="metismenu-icon pe-7s-home"></i>Merchant</a>
             </li>
             <li>
-              <a class="product" href="#"><i class="metismenu-icon pe-7s-box2"></i>Product</a>
+              <a class="product" href="{{ route('admin.master-product') }}"><i class="metismenu-icon pe-7s-box2"></i>Product</a>
             </li>
             <li class="app-sidebar__heading">Marketing</li>
             <li>
