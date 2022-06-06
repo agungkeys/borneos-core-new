@@ -25,14 +25,14 @@
                   @method('PUT')
                   @csrf
                   <div class="form-group">
-                     <label for="name">Name</label>
+                     <label for="name">Category Name</label>
                      <input type="text" id="name" name="name" value="{{ $master_category->name }}" class="form-control">
                      @error('name')
                            <span class="text-danger mt-2">{{ $message }}</span>
                      @enderror
                   </div>
                      <div class="form-group">
-                     <label for="slug">Slug</label>
+                     <label for="slug">Category Slug</label>
                      <input type="text" id="slug" name="slug" value="{{ $master_category->slug }}" class="form-control">
                      @error('slug')
                         <span class="text-danger mt-2">{{ $message }}</span>

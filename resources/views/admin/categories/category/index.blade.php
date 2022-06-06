@@ -22,8 +22,8 @@
                <tr>
                   <th>No.</th>
                   <th>Image</th>
-                  <th>Name</th>
-                  <th>Slug</th>
+                  <th>Category Name</th>
+                  <th>Category Slug</th>
                   <th>Action</th>
                </tr>
             </thead>

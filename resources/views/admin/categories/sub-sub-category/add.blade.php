@@ -25,7 +25,7 @@
                         @csrf
                         <div class="form-group">
                            <label for="sub-category">Sub Category</label>
-                           <select class="form-control js-select2-custom" name="sub-category" id="sub-category" required>
+                           <select class="multiselect-dropdown form-control" name="sub-category" id="sub-category" required>
                                  <option disabled selected value="">Choose One!</option>
                                  @foreach ($master_sub_categories as $master_sub_category)
                                     <option value="{{ $master_sub_category->id }}">{{ $master_sub_category->name }}</option>
@@ -33,15 +33,15 @@
                            </select>
                         </div>
                         <div class="form-group">
-                           <label for="sub-sub-category-name">Category Name</label>
-                           <input type="text" id="sub-sub-category-name" name="sub-sub-category-name" class="form-control form-control-sm">
+                           <label for="sub-sub-category-name">Sub-Sub Category Name</label>
+                           <input type="text" id="sub-sub-category-name" name="sub-sub-category-name" class="form-control form-control">
                            @error('sub-sub-category-name')
                               <span class="text-danger mt-2">{{ $message }}</span>
                            @enderror
                         </div>
                         <div class="form-group">
-                           <label for="sub-sub-category-slug">Category Slug</label>
-                           <input type="text" id="sub-sub-category-slug" name="sub-sub-category-slug" class="form-control form-control-sm">
+                           <label for="sub-sub-category-slug">Sub-Sub Category Slug</label>
+                           <input type="text" id="sub-sub-category-slug" name="sub-sub-category-slug" class="form-control form-control">
                            @error('sub-sub-category-slug')
                               <span class="text-danger mt-2">{{ $message }}</span>
                            @enderror
