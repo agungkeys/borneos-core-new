@@ -24,8 +24,8 @@
                   <form action="{{ route('admin.master-sub-category.store') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
                      @csrf
                      <div class="form-group">
-                        <label for="sub_category">Category</label>
-                        <select class="multiselect-dropdown form-control" name="category" id="category" required>
+                        <label for="category">Category</label>
+                        <select class="multiselect-dropdown form-control select2" name="category" id="category" onchange="myFunction()">
                               <option disabled selected value="">Choose One!</option>
                               @foreach ($master_categories as $master_category)
                                  <option value="{{ $master_category->parent_id }}">{{ $master_category->name }}</option>
@@ -66,7 +66,13 @@
       </div>
    </div>
      <script>
-        $('.js-select2-custom').select2();
+          $.ajax({
+                type: "GET",
+                url: 'test.php',
+                success: function(data){
+                    console.log(data);
+                }
+            });
    
         function readURL(input) {
             if (input.files && input.files[0]) {
