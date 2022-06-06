@@ -14,10 +14,10 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-7">
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="" method="POST">
+                        <form action="{{ route('admin.banner.update', $banner->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="form-group">
@@ -28,10 +28,19 @@
                                 <label for="type">Type</label>
                                 <input type="text" class="form-control" name="type" id="type" value=" {{ $banner->type }} ">
                             </div>
-                            <div class="form-group">
-                                <label for="image">Image</label>
-                                <input type="text" class="form-control" name="image" id="image" value=" {{ $banner->image }} ">
+
+                            <label for="image">Image</label>
+                            <div class="input-group mb-3">
+
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroupFileAddon01">Upload Image</span>
+                                </div>
+                                <div class="custom-file">
+                                    <input type="file" accept="image/*" onchange="preview()" class="custom-file-input" id="image" name="image" aria-describedby="inputGroupFileAddon01">
+                                    <label class="custom-file-label" for="inputGroupFile01">Choose File</label>
+                                </div>
                             </div>
+
                             <div class="form-group">
                                 <label for="url">URL</label>
                                 <input type="text" class="form-control" name="url" id="url" value=" {{ $banner->url }} ">
