@@ -8,7 +8,7 @@
             <div class="page-title-icon">
                <i class="pe-7s-server icon-gradient bg-tempting-azure"></i>
             </div>
-            <div>Master Sub Sub Category<div class="page-title-subheading">List Master Sub Sub Category</div></div>
+            <div>Master Sub Sub Category <span class="badge badge-pill badge-primary">{{ number_format($master_sub_sub_categories->total(), 0, "", ".") }}</span><div class="page-title-subheading">List Master Sub Sub Category</div></div>
          </div>
          <div class="page-title-actions">
              <a href="{{ route('admin.master-sub-sub-category.add') }}" class="btn-shadow btn btn-info btn-lg">Add Category</a>
@@ -17,42 +17,78 @@
    </div>
    <div class="main-card mb-3 card">
       <div class="card-body">
-         <table style="width: 100%;" id="example" class="table table-hover table-striped table-bordered">
+        <div class="row mb-3">
+          <div class="col-12 col-md-5">
+            <div class="d-flex">
+              <form class="form-inline" method="GET">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <i class="fa fa-search fa-w-16"></i>
+                    </div>
+                  </div>
+                  <input id="filter" name="filter" value="{{$filter}}" autocomplete="off" placeholder="Search Sub Sub Category" type="text" class="form-control" style="color: gray;">
+                  <div class="input-group-prepend">
+                    <button type="submit" class="btn btn-primary btn-md">Search</buttton>
+                  </div>
+                </div>
+              </form>
+              <form class="form-inline" method="GET">
+                <button class="btn btn-light btn-lg ml-2">Clear</button>
+              </form>
+            </div>
+          </div>
+        </div>
+         <table style="width: 100%;" class="table table-hover table-striped table-bordered">
             <thead>
                <tr>
-                  <th>No.</th>
+                  <th>@sortablelink('id', 'No')</th>
                   <th>Image</th>
-                  <th>Sub-Sub Category Name</th>
-                  <th>Sub-Sub Category Slug</th>
+                  <th>@sortablelink('category.name', 'Sub Sub Category Name')</th>
+                  <th>@sortablelink('category.slug', 'Sub Sub Category Slug')</th>
                   <th>Action</th>
                </tr>
             </thead>
             <tbody>
-                @foreach ($master_sub_sub_categories as $master_sub_sub_category)
+              @if ($master_sub_sub_categories->count() == 0)
+              <tr>
+                <td colspan="8">No sub sub category to display.</td>
+              </tr>
+              @endif
+                @foreach ($master_sub_sub_categories as $index => $category)
                     <tr>
-                        <td>{{ $loop->iteration }}.</td>
+                        <td>{{ $master_sub_sub_categories->firstItem() + $index  }}</td>
+                        @if($category->image)
                         <td>
-                           @if($master_sub_sub_category->image)
-                              <img src="{{ URL::to($master_sub_sub_category->image) }}" alt="" width="32" height="32">
-                           @else
-                              <img src="{{ asset('images/default-image.jpg') }}" alt="" width="32" height="32">
-                           @endif
+                            <img src="{{ URL::to($category->image) }}" alt="" width="32" height="32">
                         </td>
-                        <td>{{ $master_sub_sub_category->name }}</td>
-                        <td>{{ $master_sub_sub_category->slug }}</td>
+                        @else
                         <td>
-                           <a href="{{ route('admin.master-sub-sub-category.edit',$master_sub_sub_category->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
-                           <button type="button" onclick="delete_sub_sub_category({{$master_sub_sub_category->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
+                            <img src="{{ asset('images/default-image.jpg') }}" alt="" width="32" height="32">
+                        </td>
+                        @endif
+                        <td>{{ $category->name ? $category->name : '-' }}</td>
+                        <td>{{ $category->slug  }}</td>
+                        <td>
+                           <a href="{{ route('admin.master-sub-sub-category.edit',$category->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+                           <button type="button" onclick="delete_sub_sub_category({{$category->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
          </table>
+          <div class="row">
+            <div class="col-12 col-md-6 flex-1">
+              {!! $master_sub_sub_categories->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter])->onEachSide(2)->links() !!}
+            </div>
+            <div class="col-12 col-md-6 w-100 d-flex justify-content-end align-middle">
+              <p>Displaying {{$master_sub_sub_categories->count()}} of {{ number_format($master_sub_sub_categories->total(), 0, "", ".") }} sub sub category</p>
+            </div>
+          </div>
       </div>
    </div>
-    @include('sweetalert::alert')
+   @include('sweetalert::alert')
    <script type="text/javascript">
-     
       function delete_sub_sub_category(id)
       {
          Swal.fire({
