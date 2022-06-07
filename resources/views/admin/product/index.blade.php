@@ -11,7 +11,7 @@
             <div>Master Product<div class="page-title-subheading">List Master Product</div></div>
          </div>
          <div class="page-title-actions">
-             <a href="#" class="btn-shadow btn btn-info btn-lg">Add Product</a>
+             <a href="{{ route('admin.master-product.add') }}" class="btn-shadow btn btn-info btn-lg">Add Product</a>
          </div>
       </div>
    </div>
