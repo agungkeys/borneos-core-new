@@ -9,10 +9,19 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class CategoryController extends Controller
 {
-    public function master_category_index()
+    public function master_category_index(Request $request)
     {
-        $master_categories = Category::where(['position' => 0])->get();
-        return view('admin.categories.category.index', compact('master_categories'));
+        $filter = $request->query('filter');
+        if (!empty($filter)) {
+            $master_categories = Category::sortable()
+                ->where(['position' => 0])
+                ->where('categories.name', 'like', '%' . $filter . '%')
+                ->orWhere('categories.slug', 'like', '%' . $filter . '%')
+                ->paginate(10);
+        } else {
+            $master_categories = Category::sortable()->where(['position' => 0])->paginate(10);
+        }
+        return view('admin.categories.category.index', compact('master_categories', 'filter'));
     }
     public function master_category_add()
     {
@@ -167,10 +176,19 @@ class CategoryController extends Controller
         return response()->json(['status' => 200]);
     }
 
-    public function master_sub_category_index()
+    public function master_sub_category_index(Request $request)
     {
-        $master_sub_categories = Category::where(['position' => 1])->get();
-        return view('admin.categories.sub-category.index', compact('master_sub_categories'));
+        $filter = $request->query('filter');
+        if (!empty($filter)) {
+            $master_sub_categories = Category::sortable()
+                ->where(['position' => 1])
+                ->where('categories.name', 'like', '%' . $filter . '%')
+                ->orWhere('categories.slug', 'like', '%' . $filter . '%')
+                ->paginate(10);
+        } else {
+            $master_sub_categories = Category::sortable()->where(['position' => 1])->paginate(10);
+        }
+        return view('admin.categories.sub-category.index', compact('master_sub_categories', 'filter'));
     }
     public function master_sub_category_add()
     {
@@ -324,10 +342,19 @@ class CategoryController extends Controller
         $category->delete();
         return response()->json(['status' => 200]);
     }
-    public function master_sub_sub_category_index()
+    public function master_sub_sub_category_index(Request $request)
     {
-        $master_sub_sub_categories = Category::where(['position' => 2])->get();
-        return view('admin.categories.sub-sub-category.index', compact('master_sub_sub_categories'));
+        $filter = $request->query('filter');
+        if (!empty($filter)) {
+            $master_sub_sub_categories = Category::sortable()
+                ->where(['position' => 2])
+                ->where('categories.name', 'like', '%' . $filter . '%')
+                ->orWhere('categories.slug', 'like', '%' . $filter . '%')
+                ->paginate(10);
+        } else {
+            $master_sub_sub_categories = Category::sortable()->where(['position' => 2])->paginate(10);
+        }
+        return view('admin.categories.sub-sub-category.index', compact('master_sub_sub_categories', 'filter'));
     }
     public function master_sub_sub_category_add()
     {

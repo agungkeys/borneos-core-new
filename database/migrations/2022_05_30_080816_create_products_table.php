@@ -29,8 +29,8 @@ class CreateProductsTable extends Migration
             $table->decimal('price')->default(0);
             $table->decimal('tax')->default(0);
             $table->string('tax_type', 20)->default('percent');
-            $table->decimal('discount')->default(0);
-            $table->string('discount_type', 20)->default('percent');
+            $table->decimal('discount')->default(0)->nullable();
+            $table->string('discount_type', 20)->default('percent')->nullable();
             $table->time('available_time_starts')->nullable();
             $table->time('available_time_ends')->nullable();
             $table->boolean('set_menu')->default(0);

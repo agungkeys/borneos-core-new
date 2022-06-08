@@ -41,6 +41,14 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/master-product', 'ProductController@master_product_index')->name('master-product');
     Route::get('/master-product/datasource', 'ProductController@master_product_datasource')->name('master-product-get');
     Route::get('/master-product/status/{id}/{status}', 'ProductController@master_product_status')->name('product.status');
+    Route::get('/master-product/add', 'ProductController@master_product_add')->name('master-product.add');
+    Route::get('/get-merchants/{id}', 'ProductController@get_merchants');
+    Route::get('/get-sub-category/{id}', 'ProductController@get_sub_category');
+    Route::get('/get-sub-sub-category/{id}', 'ProductController@get_sub_sub_category');
+    Route::post('/master-product', 'ProductController@master_product_store')->name('master-product.store');
+    Route::get('/master-product/{id}', 'ProductController@master_product_edit')->name('master-product.edit');
+    Route::put('/master-product/{id}', 'ProductController@master_product_update')->name('master-product.update');
+
 
 
 
@@ -53,7 +61,5 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
     Route::resource('banner', 'BannerController');
     Route::get('/master-banner/status/{id}/{status}', 'BannerController@master_banner_status')->name('banner.status');
-
   });
 });
-
