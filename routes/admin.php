@@ -45,6 +45,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/get-merchants/{id}', 'ProductController@get_merchants');
     Route::get('/get-sub-sub-category/{id}', 'ProductController@get_sub_sub_category');
     Route::post('/master-product', 'ProductController@master_product_store')->name('master-product.store');
+    Route::get('/master-product/{id}', 'ProductController@master_product_edit')->name('master-product.edit');
+    Route::put('/master-product/{id}', 'ProductController@master_product_update')->name('master-product.update');
+
 
 
 
@@ -56,7 +59,5 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/get-restaurant-data', 'SystemController@restaurant_data')->name('get-restaurant-data');
 
     Route::resource('banner', 'BannerController');
-
   });
 });
-
