@@ -179,7 +179,7 @@ class BannerController extends Controller
             ];
             $additional_image = json_encode($detail_image);
         } else {
-            $image_url = '';
+            $image_url = $banner->image;
         };
 
         $banner->title = $request->title;
