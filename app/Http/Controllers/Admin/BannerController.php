@@ -94,7 +94,6 @@ class BannerController extends Controller
                 'extension' =>  $image->getExtension(),
                 'webp'      =>  $image_url_webp
             ];
-            $additional_image = json_encode($detail_image);
         } else {
             $image_url = '';
         };
