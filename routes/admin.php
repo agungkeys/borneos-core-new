@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BannerController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
@@ -49,5 +50,10 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::post('settings', 'SystemController@settings_update');
     Route::post('settings-password', 'SystemController@settings_password_update')->name('settings-password');
     Route::get('/get-restaurant-data', 'SystemController@restaurant_data')->name('get-restaurant-data');
+
+    Route::resource('banner', 'BannerController');
+    Route::get('/master-banner/status/{id}/{status}', 'BannerController@master_banner_status')->name('banner.status');
+
   });
 });
+
