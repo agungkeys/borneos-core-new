@@ -14,16 +14,22 @@ class ProductController extends Controller
 {
     public function master_product_index(Request $request)
     {
+        $merchants = Merchant::all();
         $filter = $request->query('filter');
+        $merchant = $request->query('merchant') ? $request->query('merchant') : '';
+        // dd($merchant);
         if (!empty($filter)) {
             $products = Product::sortable()
                 ->where('products.name', 'like', '%' . $filter . '%')
                 ->orWhere('products.price', 'like', '%' . $filter . '%')
+                ->orWhere('products.merchant_id', '=', $merchant)
                 ->paginate(10);
-        } else {
+        } elseif(!empty($merchant)){
+          $products = Product::sortable()->where('products.merchant_id', '=', $merchant)->paginate(10);
+        }else {
             $products = Product::sortable()->paginate(10);
         }
-        return view('admin.product.index', compact('products', 'filter'));
+        return view('admin.product.index', compact('products', 'filter', 'merchants'));
     }
 
     public function master_product_status(Request $request)

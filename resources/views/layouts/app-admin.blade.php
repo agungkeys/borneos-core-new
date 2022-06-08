@@ -17,7 +17,7 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
 
   <!-- Styles -->
-  <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+  <link href="{{env('PUBLIC')}}{{asset('css/main.css')}}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
@@ -29,7 +29,7 @@
         <div class="app-header header-shadow">
           <div class="app-header__logo">
             <div class="w-100">
-              <img style="max-height: 3em" src="/images/logo.svg" />
+              <img style="max-height: 3em" src="{{env('PUBLIC')}}/images/logo.svg" />
               <span style="font-weight: bold; color: #3f6ad8;">Admin</span>
             </div>
             <div class="header__pane ml-auto">
@@ -51,17 +51,17 @@
               <!-- START FOR RIGHT MENU MOBILE -->
               <div class="btn-group">
                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                  <img width="42" class="rounded-circle" src="/images/avatars/1.jpg" alt="">
+                  <img width="42" class="rounded-circle" src="{{env('PUBLIC')}}/images/avatars/1.jpg" alt="">
                   <i class="fa fa-angle-down ml-2 opacity-8"></i>
                 </a>
                 <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu-sm dropdown-menu dropdown-menu-right" style="top: '10%' !important;">
                   <div class="dropdown-menu-header">
                     <div class="dropdown-menu-header-inner bg-info">
-                      <div class="menu-header-image opacity-2" style="background-image: url('assets/images/dropdown-header/city3.jpg');"></div>
+                      <div class="menu-header-image opacity-2" style="background-image: '{{env('PUBLIC')}}'url('assets/images/dropdown-header/city3.jpg');"></div>
                       <div class="menu-header-content text-left">
                         <div class="widget-content p-0">
                           <div class="widget-content-wrapper">
-                            <div class="widget-content-left mr-3"><img width="42" class="rounded-circle" src="/images/avatars/1.jpg" alt=""></div>
+                            <div class="widget-content-left mr-3"><img width="42" class="rounded-circle" src="{{env('PUBLIC')}}/images/avatars/1.jpg" alt=""></div>
                             <div class="widget-content-left">
                               <div class="widget-heading">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->f_name : ''}} {{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->l_name : ''}}</div>
                               <div class="widget-subheading opacity-8">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->email : ''}}</div>
@@ -85,7 +85,7 @@
                     <div class="widget-content-left">
                       <div class="btn-group">
                         <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                          <img width="42" class="rounded-circle" src="/images/avatars/1.jpg" alt="">
+                          <img width="42" class="rounded-circle" src="{{env('PUBLIC')}}/images/avatars/1.jpg" alt="">
                           <i class="fa fa-angle-down ml-2 opacity-8"></i>
                         </a>
                         <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu-lg dropdown-menu dropdown-menu-right">
@@ -95,7 +95,7 @@
                               <div class="menu-header-content text-left">
                                 <div class="widget-content p-0">
                                   <div class="widget-content-wrapper">
-                                    <div class="widget-content-left mr-3"><img width="42" class="rounded-circle" src="/images/avatars/1.jpg" alt=""></div>
+                                    <div class="widget-content-left mr-3"><img width="42" class="rounded-circle" src="{{env('PUBLIC')}}/images/avatars/1.jpg" alt=""></div>
                                     <div class="widget-content-left">
                                       <div class="widget-heading">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->f_name : ''}} {{ Auth::guard('admin')->check() ? Auth::guard('admin')->user()->l_name : ''}}</div>
                                       <div class="widget-subheading opacity-8">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->email : ''}}</div>
@@ -148,8 +148,8 @@
       </div>
       <div class="app-drawer-overlay d-none animated fadeIn"></div>
     </body>
-    <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
-    <script src="{{ asset('js/main.js') }}" defer></script>
+    <script src="{{env('PUBLIC')}}{{asset('js/sweetalert2.all.min.js')}}"></script>
+    <script src="{{env('PUBLIC')}}{{asset('js/main.js')}}" defer></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
   </div>
   <script>

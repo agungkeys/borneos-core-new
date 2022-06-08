@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
   <!-- Styles -->
-  <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+  <link href="{{env('PUBLIC')}}{{ asset('css/main.css') }}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
@@ -24,7 +24,7 @@
     <body>
       @yield('content')
     </body>
-    <script src="{{ asset('js/main.js') }}" defer></script>
+    <script src="{{env('PUBLIC')}}{{ asset('js/main.js') }}" defer></script>
   </div>
 </body>
 </html>

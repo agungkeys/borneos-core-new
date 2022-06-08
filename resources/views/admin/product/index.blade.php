@@ -17,25 +17,49 @@
    </div>
    <div class="main-card mb-3 card">
       <div class="card-body">
+        <form method="GET">
         <div class="row mb-3">
-          <div class="col-12 col-md-5">
+          <div class="col-12 col-md-3">
             <div class="d-flex">
-              <form class="form-inline" method="GET">
-                <div class="input-group">
+              <div class="form-inline w-100" >
+                <div class="input-group w-100">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
                       <i class="fa fa-search fa-w-16 "></i>
                     </div>
                   </div>
                   <input id="filter" name="filter" value="{{$filter}}" placeholder="Search Product, Price" type="text" class="form-control" style="color: gray;">
-                  <div class="input-group-prepend">
+                  <!-- <div class="input-group-prepend">
                     <button type="submit" class="btn btn-primary btn-md">Search</buttton>
+                  </div> -->
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-12 col-md-3">
+            <div class="d-flex">
+              <!-- <form class="form-inline w-100" method="GET"> -->
+                <div class="input-group w-100">
+
+                  <select name="merchant" id="merchant" class="js-data-example-ajax multiselect-dropdown form-control" placeholder="Merchant">
+                    <option value="">Select Merchant</option>
+                    @foreach ($merchants as $merchant)
+                      <option value="{{ $merchant->id }}" {{ request()->merchant == $merchant->id ? 'selected' : ''}}>{{ $merchant->name }}</option>
+                    @endforeach
+                  </select>
+                  <div class="input-group-prepend">
+
                   </div>
                 </div>
-              </form>
-              <form class="form-inline" method="GET">
-                <button class="btn btn-light btn-lg ml-2">Clear</button>
-              </form>
+              <!-- </form> -->
+
+            </div>
+          </div>
+          <div class="col-12 col-md-3">
+            <div class="d-flex">
+              <a href="/admin/master-product" class="btn btn-light btn-lg mr-2">Clear</a>
+              <button type="submit" class="btn btn-primary btn-md">Search</buttton>
             </div>
           </div>
         </div>
@@ -89,7 +113,7 @@
          </table>
           <div class="row">
             <div class="col-12 col-md-6 flex-1">
-              {!! $products->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter])->onEachSide(2)->links() !!}
+              {!! $products->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter, 'merchant' => request()->merchant])->onEachSide(2)->links() !!}
             </div>
             <div class="col-12 col-md-6 w-100 d-flex justify-content-end align-middle">
               <p>Displaying {{$products->count()}} of {{ number_format($products->total(), 0, "", ".") }} product(s).</p>
