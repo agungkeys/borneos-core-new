@@ -19,7 +19,7 @@ class CategoryController extends Controller
                 ->orWhere('categories.slug', 'like', '%' . $filter . '%')
                 ->paginate(10);
         } else {
-            $master_categories = Category::where(['position' => 0])->paginate(10);
+            $master_categories = Category::sortable()->where(['position' => 0])->paginate(10);
         }
         return view('admin.categories.category.index', compact('master_categories', 'filter'));
     }
@@ -186,7 +186,7 @@ class CategoryController extends Controller
                 ->orWhere('categories.slug', 'like', '%' . $filter . '%')
                 ->paginate(10);
         } else {
-            $master_sub_categories = Category::where(['position' => 1])->paginate(10);
+            $master_sub_categories = Category::sortable()->where(['position' => 1])->paginate(10);
         }
         return view('admin.categories.sub-category.index', compact('master_sub_categories', 'filter'));
     }
@@ -352,7 +352,7 @@ class CategoryController extends Controller
                 ->orWhere('categories.slug', 'like', '%' . $filter . '%')
                 ->paginate(10);
         } else {
-            $master_sub_sub_categories = Category::where(['position' => 2])->paginate(10);
+            $master_sub_sub_categories = Category::sortable()->where(['position' => 2])->paginate(10);
         }
         return view('admin.categories.sub-sub-category.index', compact('master_sub_sub_categories', 'filter'));
     }

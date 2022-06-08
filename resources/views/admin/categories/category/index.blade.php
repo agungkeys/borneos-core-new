@@ -42,10 +42,10 @@
          <table style="width: 100%;" class="table table-hover table-striped table-bordered">
             <thead>
                <tr>
-                  <th>@sortablelink('id', 'No')</th>
+                  <th>@sortablelink('id', 'ID')</th>
                   <th>Image</th>
-                  <th>@sortablelink('category.name', 'Category Name')</th>
-                  <th>@sortablelink('category.slug', 'Category Slug')</th>
+                  <th>@sortablelink('name', 'Category Name')</th>
+                  <th>@sortablelink('slug', 'Category Slug')</th>
                   <th>Action</th>
                </tr>
             </thead>
@@ -57,7 +57,7 @@
               @endif
                 @foreach ($master_categories as $index => $category)
                     <tr>
-                        <td>{{ $master_categories->firstItem() + $index  }}</td>
+                        <td>{{ $category->id }}</td>
                         @if($category->image)
                         <td>
                             <img src="{{ URL::to($category->image) }}" alt="" width="32" height="32">

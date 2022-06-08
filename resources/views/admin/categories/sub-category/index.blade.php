@@ -52,7 +52,7 @@
    </div>
   @include('sweetalert::alert')
    <script type="text/javascript">
-     
+
       function delete_sub_category(id)
       {
          Swal.fire({
@@ -84,7 +84,7 @@
             }
             })
       }
-   </script> 
+   </script>
  </div>
 @endsection --}}
 @extends('layouts.app-admin')
@@ -133,8 +133,8 @@
                <tr>
                   <th>@sortablelink('id', 'No')</th>
                   <th>Image</th>
-                  <th>@sortablelink('category.name', 'Sub Category Name')</th>
-                  <th>@sortablelink('category.slug', 'Sub Category Slug')</th>
+                  <th>@sortablelink('name', 'Sub Category Name')</th>
+                  <th>@sortablelink('slug', 'Sub Category Slug')</th>
                   <th>Action</th>
                </tr>
             </thead>
@@ -146,7 +146,7 @@
               @endif
                 @foreach ($master_sub_categories as $index => $category)
                     <tr>
-                        <td>{{ $master_sub_categories->firstItem() + $index  }}</td>
+                        <td>{{ $category->id }}</td>
                         @if($category->image)
                         <td>
                             <img src="{{ URL::to($category->image) }}" alt="" width="32" height="32">
@@ -212,4 +212,3 @@
    </script>
  </div>
 @endsection
-

@@ -49,6 +49,11 @@ class ProductController extends Controller
             'sub_categories' => $sub_category
         ]);
     }
+    public function get_sub_category($id)
+    {
+        $sub_category = Category::where(['parent_id' => $id, 'position' => 1])->get(['id', 'name']);
+        return response()->json($sub_category);
+    }
     public function get_sub_sub_category($id)
     {
         $sub_sub_category = Category::where(['parent_id' => $id, 'position' => 2])->get(['id', 'name']);
@@ -157,15 +162,15 @@ class ProductController extends Controller
         $sub_sub_category_id = 0;
         $category_ids = json_decode($product->category_ids);
         if ($category_ids) {
-            if (count($category_ids) == 2) {
-                $sub_category_id = $category_ids[1]->id;
-            } elseif (count($category_ids) == 3) {
-                $sub_sub_category_id = $category_ids[2]->id;
-            };
+          $sub_category_id = count($category_ids) > 1 && $category_ids[1] ? $category_ids[1]->id : 0;
+          $sub_sub_category_id = count($category_ids) > 2 && $category_ids[2] ? $category_ids[2]->id : 0;
         };
+
+        // dd($sub_category_id ? $sub_category_id : 0);
 
         return view('admin.product.edit', [
             'product'             => $product,
+            'category_id'         => $category,
             'sub_category_id'     => $sub_category_id ? $sub_category_id : 0,
             'sub_sub_category_id' => $sub_sub_category_id ? $sub_sub_category_id : 0,
             'merchants'           => Merchant::all(),
@@ -179,7 +184,6 @@ class ProductController extends Controller
             'merchant_id'  => 'required',
             'product_name' => 'required',
             'price'        => 'required|numeric|min:0',
-            'discount'     => 'required|numeric|min:0',
             'description'  => 'max:1000',
             'image'        => 'image|mimes:jpeg,png,jpg,svg|max:8192'
         ]);
@@ -209,12 +213,14 @@ class ProductController extends Controller
                 'position' => 1,
             ]);
         }
+
         if ($request->sub_sub_category != null) {
             array_push($category, [
                 'id' => $request->sub_sub_category,
                 'position' => 2,
             ]);
         }
+
         $product = Product::findOrFail($id);
         if ($request->file('image')) {
             if ($product->image) {

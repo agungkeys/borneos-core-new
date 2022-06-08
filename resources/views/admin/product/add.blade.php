@@ -17,7 +17,7 @@
          </div>
       </div>
    </div>
-   
+
    <div class="main-card mb-3 card">
       <div class="card-body">
          <form action="{{ route('admin.master-product.store') }}" method="POST" enctype="multipart/form-data">
@@ -57,10 +57,10 @@
                 <div class="col-md-4">
                     <div class="form-group">
                        <label for="discount_type">Discount Type</label>
-                        <select class="multiselect-dropdown form-control" name="discount_type" id="discount_type" required>
-                            <option disabled selected value="">Choose One!</option>
+                        <select class="multiselect-dropdown form-control" name="discount_type" id="discount_type">
+                            <option selected value="">Choose One!</option>
                             <option value="percent">Percent</option>
-                            <option value="amount">Amount</option> 
+                            <option value="amount">Amount</option>
                         </select>
                         @error('discount_type')
                             <span class="text-danger mt-2">{{ $message }}</span>
@@ -82,7 +82,7 @@
                     <div class="form-group">
                         <label for="category">Category</label>
                         <input type="hidden" id="category" name="category">
-                        <input type="text" id="category_name" class="form-control" readonly>    
+                        <input type="text" id="category_name" class="form-control" readonly>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -167,9 +167,9 @@
                 $('#category').val(response.category);
                 $('#category_name').val(response.category_name);
                 $.each(response.sub_categories, function (i, item) {
-                    $('#sub_category').append($('<option>', { 
+                    $('#sub_category').append($('<option>', {
                         value: item.id,
-                        text : item.name 
+                        text : item.name
                     }));
                 });
              });
@@ -177,15 +177,15 @@
          function get_sub_category(id){
             $.get('/admin/get-sub-sub-category/'+id,function(response){
                 if(response.length == 1){
-                    $('#sub_sub_category').append($('<option>', { 
+                    $('#sub_sub_category').append($('<option>', {
                         value: item.id,
-                        text : item.name 
+                        text : item.name
                     }));
                 }else if(response.length > 1){
                     $.each(response, function (i, item) {
-                        $('#sub_sub_category').append($('<option>', { 
+                        $('#sub_sub_category').append($('<option>', {
                             value: item.id,
-                            text : item.name 
+                            text : item.name
                         }));
                     });
                 };

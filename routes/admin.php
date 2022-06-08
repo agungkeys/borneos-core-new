@@ -43,6 +43,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/master-product/status/{id}/{status}', 'ProductController@master_product_status')->name('product.status');
     Route::get('/master-product/add', 'ProductController@master_product_add')->name('master-product.add');
     Route::get('/get-merchants/{id}', 'ProductController@get_merchants');
+    Route::get('/get-sub-category/{id}', 'ProductController@get_sub_category');
     Route::get('/get-sub-sub-category/{id}', 'ProductController@get_sub_sub_category');
     Route::post('/master-product', 'ProductController@master_product_store')->name('master-product.store');
     Route::get('/master-product/{id}', 'ProductController@master_product_edit')->name('master-product.edit');

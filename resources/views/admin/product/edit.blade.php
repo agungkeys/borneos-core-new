@@ -17,7 +17,7 @@
          </div>
       </div>
    </div>
-   
+
    <div class="main-card mb-3 card">
       <div class="card-body">
          <form action="{{ route('admin.master-product.update',$product->id) }}" method="POST" enctype="multipart/form-data">
@@ -59,9 +59,10 @@
                 <div class="col-md-4">
                     <div class="form-group">
                        <label for="discount_type">Discount Type</label>
-                        <select class="multiselect-dropdown form-control" name="discount_type" id="discount_type" required>
+                        <select class="multiselect-dropdown form-control" name="discount_type" id="discount_type">
+                            <option selected value=""></option>
                             <option {{ $product->discount_type == 'percent' ? 'selected':'' }} value="percent">Percent</option>
-                            <option {{ $product->discount_type == 'amount' ? 'selected':'' }} value="amount">Amount</option> 
+                            <option {{ $product->discount_type == 'amount' ? 'selected':'' }} value="amount">Amount</option>
                         </select>
                         @error('discount_type')
                             <span class="text-danger mt-2">{{ $message }}</span>
@@ -83,12 +84,12 @@
                     <div class="form-group">
                         <label for="category">Category</label>
                         <input type="hidden" id="category" name="category">
-                        <input type="text" id="category_name" class="form-control" readonly>    
+                        <input type="text" id="category_name" class="form-control" readonly>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                       <label for="sub_category">Sub Category</label>
+                       <label for="sub_category">Sub Category {{ $sub_category_id }}</label>
                         <select class="multiselect-dropdown form-control" name="sub_category" id="sub_category" onchange="handleSubCategory(this.value)" required>
                             <option value=""></option>
                             @foreach ($sub_categories as $sub_category)
@@ -99,7 +100,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                       <label for="sub_sub_category">Sub Sub Category</label>
+                       <label for="sub_sub_category">Sub Sub Category {{$sub_sub_category_id}}</label>
                         <select class="multiselect-dropdown form-control" name="sub_sub_category" id="sub_sub_category">
                             <option value=""></option>
                             {{-- @foreach ($sub_sub_categories as $sub_sub_category)
@@ -173,35 +174,55 @@
             $("#sub_sub_category").empty();
             $.get(`/admin/get-sub-sub-category/${id}`,function(response){
                 $.each(response, function (i, item) {
-                    $('#sub_sub_category').append($("<option>", { 
+                    $('#sub_sub_category').append($("<option>", {
                         value: item.id,
                         text : item.name
                     }));
                 });
             });
         }
-        $(document).ready(function(){   
+        $(document).ready(function(){
             $.get('/admin/get-merchants/{{ $product->merchant_id }}',function(response){
                 $('#category').val(response.category);
                 $('#category_name').val(response.category_name);
             });
-            $.get('/admin/get-sub-sub-category/{{ $sub_category_id }}',function(response){
-                console.log(response);
+
+            $.get('/admin/get-sub-category/{{ $category_id }}',function(response){
+              if(response){
                 $.each(response, function (i, item) {
-                    $('#sub_sub_category').append($("<option>", { 
-                        value: item.id,
-                        text : item.name 
-                    }));
-                }); 
+                  $('#sub_category').append($("<option>", {
+                      value: item.id,
+                      text : item.name
+                  }));
+                });
+                $('#sub_category').val('{{ $sub_category_id }}');
+                $('#sub_category').trigger('change');
+              }
             });
+
+
+            $.get('/admin/get-sub-sub-category/{{ $sub_category_id }}',function(response){
+              if(response){
+                $.each(response, function (i, item) {
+                  $('#sub_sub_category').append($("<option>", {
+                      value: item.id,
+                      text : item.name
+                  }));
+                });
+                $('#sub_sub_category').val('{{ $sub_sub_category_id }}');
+                $('#sub_sub_category').trigger('change');
+              }
+            });
+            $('#sub_category').val('{{ $sub_sub_category_id }}').trigger('change');
+
             $('#sub_category').on('select2:select', function (e) {
                 var data = e.params.data;
                 $("#sub_sub_category").remove();
                 $.get(`/admin/get-sub-sub-category/${data}`,function(response){
                     $.each(response, function (i, item) {
-                        $('#sub_sub_category').append($("<option>", { 
+                        $('#sub_sub_category').append($("<option>", {
                             value: item.id,
-                            text : item.name 
+                            text : item.name
                         }));
                     });
                 });

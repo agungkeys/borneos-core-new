@@ -10,8 +10,9 @@ class Category extends Model
 {
     use HasFactory;
     use Sortable;
+    
     public $sortable = [
-        'name', 'slug'
+        'id', 'name', 'slug'
     ];
     protected $fillable = [
         'name', 'slug', 'image', 'additional_image', 'parent_id', 'position', 'priority', 'status'
