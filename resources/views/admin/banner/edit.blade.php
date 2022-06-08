@@ -14,7 +14,7 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-7">
                 <div class="card">
                     <div class="card-body">
                         <form action="{{ route('admin.banner.update', $banner->id) }}" method="POST" enctype="multipart/form-data">
@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="custom-file">
                                     <input type="file" accept="image/*" onchange="preview()" class="custom-file-input" id="image" name="image" aria-describedby="inputGroupFileAddon01">
-                                    <label class="custom-file-label" for="inputGroupFile01">Choose File</label>
+                                    <label class="custom-file-label" for="inputGroupFile01" >Choose File</label>
                                 </div>
                             </div>
 
@@ -67,6 +67,16 @@
                                 <button type="submit" class="btn btn-primary mx-2"> <i class="pe-7s-diskette"></i> Submit</button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column w-100">
+                                <p class="text-center font-weight-bold">Preview Image</p>
+                                <img src="{{ $banner->image ? $banner->image : asset('images/default-image.jpg') }}" class="w-100" alt="" id="imgpreview">
+                        </div>
                     </div>
                 </div>
             </div>
