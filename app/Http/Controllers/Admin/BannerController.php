@@ -63,9 +63,8 @@ class BannerController extends Controller
             'type' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:8192',
             'url' => 'nullable',
-            'data' => 'nullable',
-            'admin_id' => 'nullable',
-            'zone_id' => 'nullable'
+            'merchant_id' => 'nullable',
+            'admin_id' => 'nullable'
         ]);
 
         if ($request->file('image')) {
@@ -104,9 +103,8 @@ class BannerController extends Controller
         $banner->image = $image_url;
         $banner->url = $request->url;
         $banner->status = 1;
-        $banner->data = $request->data;
+        $banner->merchant_id = $request->merchant_id;
         $banner->admin_id = $request->admin_id;
-        $banner->zone_id = $request->zone_id;
 
         $banner->save();
         Alert::success('Success', 'Data saved succesfully!');
@@ -189,7 +187,6 @@ class BannerController extends Controller
         $banner->status = $request->status;
         $banner->data = $request->data;
         $banner->admin_id = $request->admin_id;
-        $banner->zone_id = $request->zone_id;
 
         $banner->save();
         Alert::success('Success', 'Data updated succesfully!');

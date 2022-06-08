@@ -43,16 +43,12 @@
                                 <input type="text" class="form-control" name="url" id="url">
                             </div>
                             <div class="form-group">
-                                <label for="data">Data</label>
-                                <input type="text" class="form-control" name="data" id="data">
+                                <label for="data">Merchant</label>
+                                <input type="text" class="form-control" name="merchant_id" id="merchant_id">
                             </div>
                             <div class="form-group">
                                 <label for="admin_id">Admin ID</label>
                                 <input type="text" class="form-control" name="admin_id" id="admin_id" >
-                            </div>
-                            <div class="form-group">
-                                <label for="zone_id">Zone ID</label>
-                                <input type="text" class="form-control" name="zone_id" id="zone_id" >
                             </div>
 
                             <div class="d-flex justify-content-end">

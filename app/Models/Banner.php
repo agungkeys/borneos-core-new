@@ -12,7 +12,7 @@ class Banner extends Model
     use Sortable;
 
     protected $fillable = [
-        'title','type', 'image', 'url', 'status', 'data', 'admin_id', 'zone_id'
+        'title','type', 'image', 'url', 'status', 'merchant_id', 'admin_id'
     ];
 
     public $sortable = [
