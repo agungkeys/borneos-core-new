@@ -60,5 +60,6 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/get-restaurant-data', 'SystemController@restaurant_data')->name('get-restaurant-data');
 
     Route::resource('banner', 'BannerController');
+    Route::get('/master-banner/status/{id}/{status}', 'BannerController@master_banner_status')->name('banner.status');
   });
 });

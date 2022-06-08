@@ -22,6 +22,8 @@
 </head>
 <body>
   <div id="app">
+      @include('sweetalert::alert')
+
     <body>
       <div class="app-container app-theme-white body-tabs-shadow fixed-header fixed-sidebar">
         <div class="app-header header-shadow">
@@ -151,9 +153,9 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
   </div>
   <script>
-        $(document).ready( function () {
-            $('#bannerTable').DataTable();
-        } );
+      function previewImageOnEdit() {
+        imgpreview.src=URL.createObjectURL(event.target.files[0])
+      }
   </script>
 </body>
 </html>
