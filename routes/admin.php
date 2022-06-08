@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
@@ -36,7 +37,11 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
     Route::get('/master-merchant', 'MerchantController@master_merchant_index')->name('master-merchant');
     Route::get('/master-merchant/add', 'MerchantController@master_merchant_add')->name('master-merchant.add');
-
+    Route::post('/master-merchant/add', 'MerchantController@master_merchant_store')->name('master-merchant.store');
+    Route::get('/get-sub-category/{id}', function ($id) {
+        $course = Category::where('position',$id)->get();
+        return response()->json($course);
+    });
 
 
     Route::get('settings', 'SystemController@settings')->name('settings');
