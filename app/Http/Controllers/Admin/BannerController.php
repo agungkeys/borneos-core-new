@@ -204,10 +204,10 @@ class BannerController extends Controller
      */
     public function destroy($id)
     {
-        //
         $banner = Banner::findOrFail($id);
 
         $banner->delete();
-        return redirect()->route('admin.banners.index');
+        Alert::success('Success', 'Data deleted succesfully!');
+        return redirect()->route('admin.banner.index');
     }
 }
