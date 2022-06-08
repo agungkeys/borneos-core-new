@@ -13,7 +13,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
   });
 
   /*authentication*/
-  Route::group(['middleware' => ['admin']], function () {
+  Route::group(['middleware' => ['auth:admin']], function () {
     //dashboard
     Route::get('/', 'DashboardController@dashboard')->name('dashboard');
     //categories

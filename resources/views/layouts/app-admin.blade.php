@@ -63,8 +63,8 @@
                           <div class="widget-content-wrapper">
                             <div class="widget-content-left mr-3"><img width="42" class="rounded-circle" src="/images/avatars/1.jpg" alt=""></div>
                             <div class="widget-content-left">
-                              <div class="widget-heading">{{Auth::guard('admin')->user()->f_name}} {{Auth::guard('admin')->user()->l_name}}</div>
-                              <div class="widget-subheading opacity-8">{{Auth::guard('admin')->user()->email}}</div>
+                              <div class="widget-heading">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->f_name : ''}} {{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->l_name : ''}}</div>
+                              <div class="widget-subheading opacity-8">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->email : ''}}</div>
                             </div>
                             <div class="widget-content-right mr-2"><a href="{{ route('admin.auth.logout') }}" class="btn-pill btn-shadow btn-shine btn btn-focus">Logout</a></div>
                           </div>
@@ -97,8 +97,8 @@
                                   <div class="widget-content-wrapper">
                                     <div class="widget-content-left mr-3"><img width="42" class="rounded-circle" src="/images/avatars/1.jpg" alt=""></div>
                                     <div class="widget-content-left">
-                                      <div class="widget-heading">{{Auth::guard('admin')->user()->f_name}} {{Auth::guard('admin')->user()->l_name}}</div>
-                                      <div class="widget-subheading opacity-8">{{Auth::guard('admin')->user()->email}}</div>
+                                      <div class="widget-heading">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->f_name : ''}} {{ Auth::guard('admin')->check() ? Auth::guard('admin')->user()->l_name : ''}}</div>
+                                      <div class="widget-subheading opacity-8">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->email : ''}}</div>
                                     </div>
                                     <div class="widget-content-right mr-2"><a href="{{ route('admin.auth.logout') }}" class="btn-pill btn-shadow btn-shine btn btn-focus">Logout</a></div>
                                   </div>
@@ -110,8 +110,8 @@
                       </div>
                     </div>
                     <div class="widget-content-left  ml-3 header-user-info">
-                      <div class="widget-heading">{{Auth::guard('admin')->user()->f_name}} {{Auth::guard('admin')->user()->l_name}}</div>
-                      <div class="widget-subheading">{{Auth::guard('admin')->user()->email}}</div>
+                      <div class="widget-heading">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->f_name : ''}} {{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->l_name : ''}}</div>
+                      <div class="widget-subheading">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->email : ''}}</div>
                     </div>
                     <!-- <div class="widget-content-right header-user-info ml-3"><button type="button" class="btn-shadow p-1 btn btn-primary btn-sm show-toastr-example"><i class="fa text-white fa-calendar pr-1 pl-1"></i></button></div> -->
                   </div>
