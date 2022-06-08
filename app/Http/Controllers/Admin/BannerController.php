@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
-use Yajra\Datatables\Datatables;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -17,34 +16,28 @@ class BannerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $banners = Banner::all();
-        return view('admin.banner.index', [
-            'banners' => $banners
-        ]);
+        $filter = $request->query('filter');
+        if (!empty($filter)){
+            $banners = Banner::sortable()
+            ->where('banners.title', 'like', '%'. $filter . '%')
+            ->orWhere('banners.url', 'like', '%' .$filter. '%')
+            ->paginate(10);
+        } else {
+            $banners = Banner::sortable()->paginate(10);
+        }
+
+        return view('admin.banner.index', compact('banners', 'filter'));
     }
 
-    public function getDataBanner(){
-        $banners = Banner::all();
+    public function master_banner_status(Request $request){
+        $banner = Banner::withoutGlobalScopes()->find($request->id);
 
-        return Datatables::of($banners)
-        ->addIndexColumn()
-        ->editColumn('action', function($banner){
-                return '<form action="'.route('admin.banner.destroy', $banner->id).'" method="POST">
-                    <a href="'.route('admin.banner.edit', [$banner->id]).'" class="btn btn-primary" title="Edit"><i class="fas fa-pen"></i></a>
-                    '.csrf_field().'
-                    '.method_field("DELETE").'
-                    <button title="Delete" type="submit" class="btn btn-link" onclick="return confirm(\'Are you sure?\')"> <i class="fas fa-trash"></i> </button>
-                </form>
-                ';
-        })
-        ->addColumn('status', function($banner){
-            return "<input id='chkToggle1' type='checkbox' data-toggle='toggle' ".( $banner->status == 1 ? 'checked' : '' )." />";
-        })
-        ->escapeColumns([])
-        ->make(true);
+        $banner->status = $request->status;
+        $banner->save();
+
+        return redirect()->route('admin.banner.index')->with('toast_success', 'Status Updated');
     }
 
     /**
@@ -54,7 +47,6 @@ class BannerController extends Controller
      */
     public function create()
     {
-        //
         return view('admin.banner.add');
     }
 
@@ -66,7 +58,6 @@ class BannerController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $request->validate([
             'title' => 'required',
             'type' => 'required',
@@ -103,7 +94,6 @@ class BannerController extends Controller
                 'extension' =>  $image->getExtension(),
                 'webp'      =>  $image_url_webp
             ];
-            $additional_image = json_encode($detail_image);
         } else {
             $image_url = '';
         };
@@ -121,7 +111,6 @@ class BannerController extends Controller
         $banner->save();
         Alert::success('Success', 'Data saved succesfully!');
         return redirect()->route('admin.banner.index');
-
     }
 
     /**
@@ -190,9 +179,8 @@ class BannerController extends Controller
             ];
             $additional_image = json_encode($detail_image);
         } else {
-            $image_url = '';
+            $image_url = $banner->image;
         };
-
 
         $banner->title = $request->title;
         $banner->type = $request->type;
