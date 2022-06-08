@@ -36,7 +36,7 @@
                                     <span class="input-group-text" id="inputGroupFileAddon01">Upload Image</span>
                                 </div>
                                 <div class="custom-file">
-                                    <input type="file" accept="image/*" onchange="preview()" class="custom-file-input" id="image" name="image" aria-describedby="inputGroupFileAddon01">
+                                    <input type="file" accept="image/*" onchange="previewImageOnEdit()" class="custom-file-input" id="image" name="image" aria-describedby="inputGroupFileAddon01">
                                     <label class="custom-file-label" for="inputGroupFile01" >Choose File</label>
                                 </div>
                             </div>
