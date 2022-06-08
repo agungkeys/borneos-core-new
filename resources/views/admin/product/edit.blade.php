@@ -89,7 +89,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                       <label for="sub_category">Sub Category {{ $sub_category_id }}</label>
+                       <label for="sub_category">Sub Category</label>
                         <select class="multiselect-dropdown form-control" name="sub_category" id="sub_category" onchange="handleSubCategory(this.value)" required>
                             <option value=""></option>
                             @foreach ($sub_categories as $sub_category)
@@ -100,7 +100,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                       <label for="sub_sub_category">Sub Sub Category {{$sub_sub_category_id}}</label>
+                       <label for="sub_sub_category">Sub Sub Category</label>
                         <select class="multiselect-dropdown form-control" name="sub_sub_category" id="sub_sub_category">
                             <option value=""></option>
                             {{-- @foreach ($sub_sub_categories as $sub_sub_category)

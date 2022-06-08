@@ -162,11 +162,9 @@ class ProductController extends Controller
         $sub_sub_category_id = 0;
         $category_ids = json_decode($product->category_ids);
         if ($category_ids) {
-          $sub_category_id = count($category_ids) > 1 && $category_ids[1] ? $category_ids[1]->id : 0;
-          $sub_sub_category_id = count($category_ids) > 2 && $category_ids[2] ? $category_ids[2]->id : 0;
+            $sub_category_id = count($category_ids) > 1 && $category_ids[1] ? $category_ids[1]->id : 0;
+            $sub_sub_category_id = count($category_ids) > 2 && $category_ids[2] ? $category_ids[2]->id : 0;
         };
-
-        // dd($sub_category_id ? $sub_category_id : 0);
 
         return view('admin.product.edit', [
             'product'             => $product,
@@ -224,34 +222,62 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         if ($request->file('image')) {
             if ($product->image) {
-                $key = json_decode($product->additional_image);
-                Cloudinary::destroy($key->public_id);
-                $path_name = $request->file('image')->getRealPath();
-                $image = Cloudinary::upload($path_name, ["folder" => "images/products", "overwrite" => TRUE, "resource_type" => "image"]);
-                $image_url = $image->getSecurePath();
-                $ext = substr($image_url, -3);
-                $ext_jpeg = substr($image_url, -4);
+                if (!$product->additional_image) {
+                    $path_name = $request->file('image')->getRealPath();
+                    $image = Cloudinary::upload($path_name, ["folder" => "images/products", "overwrite" => TRUE, "resource_type" => "image"]);
+                    $image_url = $image->getSecurePath();
+                    $ext = substr($image_url, -3);
+                    $ext_jpeg = substr($image_url, -4);
 
-                if ($ext == "jpg") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
-                } else if ($ext == "png") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
-                } elseif ($ext == "svg") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
-                } elseif ($ext_jpeg == "jpeg") {
-                    $image_url_webp = substr($image_url, 0, -4) . "webp";
-                };
+                    if ($ext == "jpg") {
+                        $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    } else if ($ext == "png") {
+                        $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    } elseif ($ext == "svg") {
+                        $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    } elseif ($ext_jpeg == "jpeg") {
+                        $image_url_webp = substr($image_url, 0, -4) . "webp";
+                    };
+                    $detail_image = [
+                        'public_id' =>  $image->getPublicId(),
+                        'file_type' =>  $image->getFileType(),
+                        'size'      =>  $image->getReadableSize(),
+                        'width'     =>  $image->getWidth(),
+                        'height'    =>  $image->getHeight(),
+                        'extension' =>  $image->getExtension(),
+                        'webp'      =>  $image_url_webp
+                    ];
+                    $additional_image = json_encode($detail_image);
+                } else {
+                    $key = json_decode($product->additional_image);
+                    Cloudinary::destroy($key->public_id);
+                    $path_name = $request->file('image')->getRealPath();
+                    $image = Cloudinary::upload($path_name, ["folder" => "images/products", "overwrite" => TRUE, "resource_type" => "image"]);
+                    $image_url = $image->getSecurePath();
+                    $ext = substr($image_url, -3);
+                    $ext_jpeg = substr($image_url, -4);
 
-                $detail_image = [
-                    'public_id' =>  $image->getPublicId(),
-                    'file_type' =>  $image->getFileType(),
-                    'size'      =>  $image->getReadableSize(),
-                    'width'     =>  $image->getWidth(),
-                    'height'    =>  $image->getHeight(),
-                    'extension' =>  $image->getExtension(),
-                    'webp'      =>  $image_url_webp
-                ];
-                $additional_image = json_encode($detail_image);
+                    if ($ext == "jpg") {
+                        $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    } else if ($ext == "png") {
+                        $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    } elseif ($ext == "svg") {
+                        $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    } elseif ($ext_jpeg == "jpeg") {
+                        $image_url_webp = substr($image_url, 0, -4) . "webp";
+                    };
+
+                    $detail_image = [
+                        'public_id' =>  $image->getPublicId(),
+                        'file_type' =>  $image->getFileType(),
+                        'size'      =>  $image->getReadableSize(),
+                        'width'     =>  $image->getWidth(),
+                        'height'    =>  $image->getHeight(),
+                        'extension' =>  $image->getExtension(),
+                        'webp'      =>  $image_url_webp
+                    ];
+                    $additional_image = json_encode($detail_image);
+                }
             } else {
                 $path_name = $request->file('image')->getRealPath();
                 $image = Cloudinary::upload($path_name, ["folder" => "images/products", "overwrite" => TRUE, "resource_type" => "image"]);
