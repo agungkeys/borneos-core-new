@@ -91,7 +91,7 @@
                                             @csrf
                                             @method('DELETE')
 
-                                            <button title="Delete" type="submit" class="btn btn-danger btn-sm" onclick="confirm('Are you sure???')"> <i style="font-size: 14px" class="pe-7s-trash"></i> </button>
+                                            <button title="Delete" type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure???')"> <i style="font-size: 14px" class="pe-7s-trash"></i> </button>
                                         </form>
                                     </td>
                                 </tr>

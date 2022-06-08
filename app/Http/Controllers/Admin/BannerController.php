@@ -204,7 +204,6 @@ class BannerController extends Controller
      */
     public function destroy($id)
     {
-        //
         $banner = Banner::findOrFail($id);
 
         $banner->delete();
