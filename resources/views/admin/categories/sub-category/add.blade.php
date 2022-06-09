@@ -25,8 +25,8 @@
                      @csrf
                      <div class="form-group">
                         <label for="category">Category</label>
-                        <select class="multiselect-dropdown form-control select2" name="category" id="category">
-                              <option disabled selected value="">Choose One!</option>
+                        <select class="multiselect-dropdown form-control select2" name="category" id="category" data-placeholder="Select Category ..." required>
+                              <option disabled selected value="">Select Category ...</option>
                               @foreach ($master_categories as $master_category)
                                  <option value="{{ $master_category->parent_id }}">{{ $master_category->name }}</option>
                               @endforeach

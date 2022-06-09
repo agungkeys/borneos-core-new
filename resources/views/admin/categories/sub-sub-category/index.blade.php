@@ -11,7 +11,7 @@
             <div>Master Sub Sub Category <span class="badge badge-pill badge-primary">{{ number_format($master_sub_sub_categories->total(), 0, "", ".") }}</span><div class="page-title-subheading">List Master Sub Sub Category</div></div>
          </div>
          <div class="page-title-actions">
-             <a href="{{ route('admin.master-sub-sub-category.add') }}" class="btn-shadow btn btn-info btn-lg">Add Category</a>
+             <a href="{{ route('admin.master-sub-sub-category.add') }}" class="btn-shadow btn btn-info btn-lg">Add Sub Sub Category</a>
          </div>
       </div>
    </div>
