@@ -39,7 +39,8 @@ class BannerController extends Controller
         $banner->status = $request->status;
         $banner->save();
 
-        return redirect()->route('admin.banner.index')->with('toast_success', 'Status Updated');
+        Alert::toast('Toast Message', 'success');
+        return redirect()->route('admin.banner.index');
     }
 
     /**

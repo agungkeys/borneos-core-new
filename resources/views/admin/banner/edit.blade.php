@@ -44,6 +44,16 @@
                                 </select>
                             </div>
 
+                            <div class="form-group">
+                                <label for="merchant_id">Merchant</label>
+                                <select name="merchant_id" id="merchant_id" class="multiselect-dropdown form-control form-control" disabled>
+                                    @foreach ($merchants as $merchant)
+                                        <option value="{{ $merchant->id }}" @if(old('merchant') == $merchant->id || $merchant->id == $banner->merchant_id) selected @endif  > {{ $merchant->name }} </option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+
                             <label for="image">Image</label>
                             <div class="input-group mb-3">
 
@@ -64,16 +74,7 @@
                                 <input type="text" class="form-control" name="url" id="url" value=" {{ $banner->url }} ">
                             </div>
 
-                            <div class="form-group">
-                                <label for="merchant_id">Merchant</label>
-                                <select name="merchant_id" id="merchant_id" class="multiselect-dropdown form-control form-control" disabled>
 
-                                    @foreach ($merchants as $merchant)
-                                        <option value="{{ $merchant->id }}" @if(old('merchant') == $merchant->id || $merchant->id == $banner->merchant_id) selected @endif  > {{ $merchant->name }} </option>
-                                    @endforeach
-
-                                </select>
-                            </div>
                             <div class="form-group">
                                 <label for="admin_id">Admin ID</label>
                                 <input type="text" class="form-control" name="admin_id" id="admin_id" value=" {{ $banner->admin_id }} ">
