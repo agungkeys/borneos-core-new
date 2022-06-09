@@ -9,6 +9,7 @@ use App\Models\Product;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProductController extends Controller
 {
@@ -37,7 +38,8 @@ class ProductController extends Controller
         $product = Product::withoutGlobalScopes()->find($request->id);
         $product->status = $request->status;
         $product->save();
-        return redirect('/admin/master-product')->with('toast_success', 'Status Updated');
+        Alert::toast('Status Updated', 'success');
+        return redirect('/admin/master-product');
     }
     public function master_product_add()
     {
@@ -156,7 +158,8 @@ class ProductController extends Controller
         $product->discount = $request->discount_type == 'amount' ? $request->discount : $request->discount;
         $product->discount_type = $request->discount_type;
         $product->save();
-        return redirect('/admin/master-product')->with('success', 'Created Successfully');
+        Alert::success('Success', 'Created Successfully');
+        return redirect('/admin/master-product');
     }
 
     public function master_product_edit($id)
@@ -328,6 +331,7 @@ class ProductController extends Controller
         $product->discount = $request->discount_type == 'amount' ? $request->discount : $request->discount;
         $product->discount_type = $request->discount_type;
         $product->save();
-        return redirect('/admin/master-product')->with('success', 'Updated Successfully');
+        Alert::success('Updated', 'Updated Successfully');
+        return redirect('/admin/master-product');
     }
 }
