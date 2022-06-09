@@ -193,7 +193,7 @@ class BannerController extends Controller
         $banner->image = $image_url;
         $banner->url = $request->url;
         $banner->merchant_id = $request->merchant_id;
-        $banner->admin_id = $request->admin_id;
+        $banner->admin_id = $banner->admin_id;
 
         $banner->save();
         Alert::success('Success', 'Data updated succesfully!');

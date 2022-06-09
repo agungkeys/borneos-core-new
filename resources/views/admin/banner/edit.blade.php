@@ -74,12 +74,6 @@
                                 <input type="text" class="form-control" name="url" id="url" value=" {{ $banner->url }} ">
                             </div>
 
-
-                            <div class="form-group">
-                                <label for="admin_id">Admin ID</label>
-                                <input type="text" class="form-control" name="admin_id" id="admin_id" value=" {{ $banner->admin_id }} ">
-                            </div>
-
                             <div class="text-right mt-2">
                                 <a href="{{ route('admin.banner.index') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
                                 <button type="submit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Update</button>
