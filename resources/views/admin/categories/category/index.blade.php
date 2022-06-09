@@ -48,7 +48,7 @@
    </div>
    @include('sweetalert::alert')
    <script type="text/javascript">
-     
+
       function delete_category(id)
       {
          Swal.fire({

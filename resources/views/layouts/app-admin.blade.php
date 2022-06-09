@@ -155,10 +155,6 @@
     <script src="{{ asset('js/main.js') }}" defer></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
   </div>
-  <script>
-      function previewImageOnEdit() {
-        imgpreview.src=URL.createObjectURL(event.target.files[0])
-      }
-  </script>
+
 </body>
 </html>

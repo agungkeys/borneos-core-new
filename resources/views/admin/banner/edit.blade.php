@@ -5,16 +5,21 @@
         <div class="app-page-title">
             <div class="page-title-wrapper">
                 <div class="page-title-heading">
-                    <div class="page-title-actions">
-                        <a href="{{ route('admin.banner.index') }}" class="btn-shadow btn btn-info btn-lg"> <i class="fa fa-chevron-left"> </i> Back </a>
+                    <div class="page-title-icon">
+                        <i class="pe-7s-medal icon-gradient bg-tempting-azure"></i>
                     </div>
-                    <h3 class="mx-3">Edit data banner</h3>
+                    <div>
+                        Edit Master Category
+                        <div class="page-title-subheading">
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-lg-7">
+            <div class="col-md-6 col-sm-12">
                 <div class="card">
                     <div class="card-body">
                         <form action="{{ route('admin.banner.update', $banner->id) }}" method="POST" enctype="multipart/form-data">
@@ -26,7 +31,17 @@
                             </div>
                             <div class="form-group">
                                 <label for="type">Type</label>
-                                <input type="text" class="form-control" name="type" id="type" value=" {{ $banner->type }} ">
+
+                                <select name="type" id="type" class="form-control" required >
+
+                                    @if ($banner->type === 'banner_merchant')
+                                        <option value="{{ $banner->type }}"> Banner Merchant </option>
+                                        <option value="banner"> Banner </option>
+                                    @else
+                                        <option value="{{ $banner->type }}"> Banner </option>
+                                        <option value="banner_merchant"> Banner Merchant </option>
+                                    @endif
+                                </select>
                             </div>
 
                             <label for="image">Image</label>
@@ -39,48 +54,62 @@
                                     <input type="file" accept="image/*" onchange="previewImageOnEdit()" class="custom-file-input" id="image" name="image" aria-describedby="inputGroupFileAddon01">
                                     <label class="custom-file-label" for="inputGroupFile01" >Choose File</label>
                                 </div>
+                                <div class="form-group text-center my-2">
+                                    <img src="{{ $banner->image }}" id="imgpreview" width="100%" alt=""/>
+                                </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="url">URL</label>
                                 <input type="text" class="form-control" name="url" id="url" value=" {{ $banner->url }} ">
                             </div>
+
                             <div class="form-group">
-                                <label for="status">Status</label>
-                                <input type="text" class="form-control" name="status" id="status" value=" {{ $banner->status }} ">
-                            </div>
-                            <div class="form-group">
-                                <label for="data">Data</label>
-                                <input type="text" class="form-control" name="data" id="data" value=" {{ $banner->data }} ">
+                                <label for="merchant_id">Merchant</label>
+                                <select name="merchant_id" id="merchant_id" class="multiselect-dropdown form-control form-control" disabled>
+
+                                    @foreach ($merchants as $merchant)
+                                        <option value="{{ $merchant->id }}" @if(old('merchant') == $merchant->id || $merchant->id == $banner->merchant_id) selected @endif  > {{ $merchant->name }} </option>
+                                    @endforeach
+
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="admin_id">Admin ID</label>
                                 <input type="text" class="form-control" name="admin_id" id="admin_id" value=" {{ $banner->admin_id }} ">
                             </div>
-                            <div class="form-group">
-                                <label for="zone_id">Zone ID</label>
-                                <input type="text" class="form-control" name="zone_id" id="zone_id" value=" {{ $banner->zone_id }} ">
-                            </div>
 
-                            <div class="d-flex justify-content-end">
-                                <button type="reset" class="btn btn-secondary">Cancel</button>
-                                <button type="submit" class="btn btn-primary mx-2"> <i class="pe-7s-diskette"></i> Submit</button>
+                            <div class="text-right mt-2">
+                                <a href="{{ route('admin.banner.index') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
+                                <button type="submit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Update</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-5">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex flex-column w-100">
-                                <p class="text-center font-weight-bold">Preview Image</p>
-                                <img src="{{ $banner->image ? $banner->image : asset('images/default-image.jpg') }}" class="w-100" alt="" id="imgpreview">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
+    <script>
+        $('#type').on('change', function(){
+            const selectedTypeBanner = $('#type').val();
+
+            if (selectedTypeBanner == 'banner_merchant'){
+                $('#merchant_id').prop('disabled', false)
+            }else{
+                $('#merchant_id').prop('disabled', true)
+            }
+        })
+
+        const selectedTypeBanner = $('#type').val();
+
+        if (selectedTypeBanner == 'banner_merchant'){
+            $('#merchant_id').prop('disabled', false)
+        }else{
+            $('#merchant_id').prop('disabled', true)
+        }
+
+        function previewImageOnEdit() {
+            imgpreview.src=URL.createObjectURL(event.target.files[0])
+        }
+    </script>
 @endsection

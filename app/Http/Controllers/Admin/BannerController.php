@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Models\Merchant;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
 
@@ -47,7 +49,10 @@ class BannerController extends Controller
      */
     public function create()
     {
-        return view('admin.banner.add');
+        $merchants = Merchant::all();
+        return view('admin.banner.add', [
+            'merchants' => $merchants
+        ]);
     }
 
     /**
@@ -104,7 +109,7 @@ class BannerController extends Controller
         $banner->url = $request->url;
         $banner->status = 1;
         $banner->merchant_id = $request->merchant_id;
-        $banner->admin_id = $request->admin_id;
+        $banner->admin_id = Auth::guard('admin')->user()->id;
 
         $banner->save();
         Alert::success('Success', 'Data saved succesfully!');
@@ -132,8 +137,10 @@ class BannerController extends Controller
     {
         //
         $banner = Banner::where('id', $id)->first();
+        $merchants = Merchant::all();
         return view('admin.banner.edit', [
-            'banner' => $banner
+            'banner' => $banner,
+            'merchants' => $merchants
         ]);
     }
 
@@ -184,8 +191,7 @@ class BannerController extends Controller
         $banner->type = $request->type;
         $banner->image = $image_url;
         $banner->url = $request->url;
-        $banner->status = $request->status;
-        $banner->data = $request->data;
+        $banner->merchant_id = $request->merchant_id;
         $banner->admin_id = $request->admin_id;
 
         $banner->save();
@@ -204,7 +210,6 @@ class BannerController extends Controller
         $banner = Banner::findOrFail($id);
 
         $banner->delete();
-        Alert::success('Success', 'Data deleted succesfully!');
-        return redirect()->route('admin.banner.index');
+        return response()->json(['status' => 200]);
     }
 }

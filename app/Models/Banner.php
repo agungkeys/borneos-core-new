@@ -18,4 +18,15 @@ class Banner extends Model
     public $sortable = [
         'id','title', 'url'
     ];
+
+    public function merchant(){
+        return $this->belongsTo(Merchant::class, 'merchant_id');
+    }
+
+    public function merchantName($id){
+        $merchants = Merchant::select('name')->where('id', $id)->get();
+        foreach($merchants as $merchant){
+            return $merchant->name;
+        }
+    }
 }
