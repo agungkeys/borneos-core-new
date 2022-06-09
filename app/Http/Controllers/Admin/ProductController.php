@@ -25,9 +25,9 @@ class ProductController extends Controller
                 ->orWhere('products.price', 'like', '%' . $filter . '%')
                 ->orWhere('products.merchant_id', '=', $merchant)
                 ->paginate(10);
-        } elseif(!empty($merchant)){
-          $products = Product::sortable()->where('products.merchant_id', '=', $merchant)->paginate(10);
-        }else {
+        } elseif (!empty($merchant)) {
+            $products = Product::sortable()->where('products.merchant_id', '=', $merchant)->paginate(10);
+        } else {
             $products = Product::sortable()->paginate(10);
         }
         return view('admin.product.index', compact('products', 'filter', 'merchants'));
@@ -144,8 +144,10 @@ class ProductController extends Controller
         $product->description = $request->description == null ? '' : $request->description;
         $product->image = $image_url;
         $product->additional_image = $additional_image;
-        $product->category_id = $request->sub_category ? ($request->sub_sub_category ?? $request->sub_category) : $request->category;
+        $product->category_id = $request->category;
         $product->category_ids = json_encode($category);
+        $product->sub_category_id = $request->sub_category ?? '';
+        $product->sub_sub_category_id = $request->sub_sub_category ?? '';
         $product->variations = '';
         $product->add_ons = '';
         $product->attributes = '';
@@ -322,7 +324,9 @@ class ProductController extends Controller
         $product->description = $request->description == null ? '' : $request->description;
         $product->image = $image_url;
         $product->additional_image = $additional_image;
-        $product->category_id = $request->sub_category ? ($request->sub_sub_category ?? $request->sub_category) : $request->category;
+        $product->category_id = $request->category;
+        $product->sub_category_id = $request->sub_category ?? '';
+        $product->sub_sub_category_id = $request->sub_sub_category ?? '';
         $product->category_ids = json_encode($category);
         $product->price = $request->price;
         $product->available_time_starts = $request->available_time_starts;
@@ -332,5 +336,20 @@ class ProductController extends Controller
         $product->save();
         Alert::success('Updated', 'Updated Successfully');
         return redirect('/admin/master-product');
+    }
+    public function master_product_delete($id)
+    {
+        $product = Product::find($id);
+        if ($product->image) {
+            if (!$product->additional_image) {
+                $product->delete();
+                return response()->json(['status' => 200]);
+            } else {
+                $key = json_decode($product->additional_image);
+                Cloudinary::destroy($key->public_id);
+            };
+        };
+        $product->delete();
+        return response()->json(['status' => 200]);
     }
 }

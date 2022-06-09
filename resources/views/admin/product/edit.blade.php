@@ -28,7 +28,7 @@
                     <div class="form-group">
                         <label for="merchant_id">Merchant</label>
                         <select name="merchant_id" id="merchant_id" class="js-data-example-ajax multiselect-dropdown form-control"
-                                onchange="getMerchantData(this.value)" required title="Select Merchant">
+                                onchange="handleMerchant(this.value)" required title="Select Merchant">
                             <option disabled selected value="">Choose One!</option>
                             @foreach ($merchants as $merchant)
                                 <option {{ $product->merchant_id == $merchant->id ? 'selected':'' }} value="{{ $merchant->id }}">{{ $merchant->name }}</option>
@@ -170,6 +170,29 @@
       </div>
    </div>
      <script>
+        function handleMerchant(id){
+             $.get('/admin/get-merchants/'+id,function(response){
+                $('#category').val(response.category);
+                $('#category_name').val(response.category_name);
+                $("#sub_category").empty();
+                $.each(response.sub_categories, function (i, item) {
+                    $('#sub_category').append($('<option>', {
+                        value: item.id,
+                        text : item.name
+                    }));
+                });
+                let sub_category_id = $('#sub_category').val();
+                $.get('/admin/get-sub-sub-category/'+sub_category_id,function(response){
+                    $('#sub_sub_category').empty();
+                    $.each(response, function (i, item) {
+                        $('#sub_sub_category').append($('<option>', {
+                            value: item.id,
+                            text : item.name
+                        }));
+                    });
+                });
+            });
+        };
         function handleSubCategory(id){
             $("#sub_sub_category").empty();
             $.get(`/admin/get-sub-sub-category/${id}`,function(response){
