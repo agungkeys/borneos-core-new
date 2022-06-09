@@ -144,8 +144,10 @@ class ProductController extends Controller
         $product->description = $request->description == null ? '' : $request->description;
         $product->image = $image_url;
         $product->additional_image = $additional_image;
-        $product->category_id = $request->sub_category ? ($request->sub_sub_category ?? $request->sub_category) : $request->category;
+        $product->category_id = $request->category;
         $product->category_ids = json_encode($category);
+        $product->sub_category_id = $request->sub_category ?? '';
+        $product->sub_sub_category_id = $request->sub_sub_category ?? '';
         $product->variations = '';
         $product->add_ons = '';
         $product->attributes = '';
@@ -322,7 +324,9 @@ class ProductController extends Controller
         $product->description = $request->description == null ? '' : $request->description;
         $product->image = $image_url;
         $product->additional_image = $additional_image;
-        $product->category_id = $request->sub_category ? ($request->sub_sub_category ?? $request->sub_category) : $request->category;
+        $product->category_id = $request->category;
+        $product->sub_category_id = $request->sub_category ?? '';
+        $product->sub_sub_category_id = $request->sub_sub_category ?? '';
         $product->category_ids = json_encode($category);
         $product->price = $request->price;
         $product->available_time_starts = $request->available_time_starts;
