@@ -28,7 +28,7 @@
                                         <i class="fa fa-search fa-w-16 "></i>
                                         </div>
                                     </div>
-                                    <input id="filter" name="filter" value="{{ $filter }}" placeholder="Search Product, Price" type="text" class="form-control" style="color: gray;">
+                                    <input id="filter" name="filter" value="{{ $filter }}" placeholder="Search Title" type="text" class="form-control" style="color: gray;">
                                     <div class="input-group-prepend">
                                         <button type="submit" class="btn btn-primary btn-md">Search</buttton>
                                     </div>
@@ -47,12 +47,11 @@
                                 <th>@sortablelink('id', 'No')</th>
                                 <th>@sortablelink('title', 'Title')</th>
                                 <th>Type</th>
+                                <th>Merchant Name</th>
                                 <th>Image</th>
                                 <th>@sortablelink('url', 'URL')</th>
                                 <th>Status</th>
-                                <th>Data</th>
                                 <th>Admin ID</th>
-                                <th>Zone ID</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -69,6 +68,8 @@
                                     <td>{{ $banner->id }}</td>
                                     <td>{{ $banner->title ? $banner->title : "-" }}</td>
                                     <td>{{ $banner->type ? $banner->type : "-" }}</td>
+                                    <td>{{ $banner->merchantName($banner->merchant_id) }}</td>
+
                                     @if ($banner->image)
                                         <td> <img src="{{ $banner->image }}"  alt="" width="100"> </td>
                                     @else
@@ -80,19 +81,10 @@
                                             <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.banner.status',[$banner['id'],$banner->status ? 0 : 1])}}'" id="statusCheckbox{{$banner->id}}" {{$banner->status? 'checked' : ''}}>
                                         </label>
                                     </td>
-                                    <td>{{ $banner->data ? $banner->data : "-" }}</td>
                                     <td>{{ $banner->admin_id ? $banner->admin_id : "-" }}</td>
-                                    <td>{{ $banner->zone_id ? $banner->zone_id : "-" }}</td>
                                     <td>
-                                         <form action="{{ route('admin.banner.destroy', $banner->id) }}" method="POST">
-
-                                            <a title="Edit" class="btn btn-warning btn-sm" href="{{ route('admin.banner.edit',$banner->id) }}" tooltip="Edit"> <i style="font-size: 14px" class="text-white pe-7s-note"></i> </a>
-
-                                            @csrf
-                                            @method('DELETE')
-
-                                            <button title="Delete" type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure???')"> <i style="font-size: 14px" class="pe-7s-trash"></i> </button>
-                                        </form>
+                                         <a href="{{ route('admin.banner.edit',$banner->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+                                        <button type="button" onclick="delete_banner({{$banner->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -110,5 +102,40 @@
                 </div>
             </div>
         </div>
+         @include('sweetalert::alert')
+        <script>
+
+            function delete_banner(id)
+            {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to delete this file!?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                    let _token =  $('meta[name="csrf-token"]').attr('content');
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/admin/banner/"+id,
+                        data: {_token:_token,id:id},
+                        success:function(response){
+                            if(response.status == 200){
+                                Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                                )
+                                window.location = "{{ route('admin.banner.index') }}";
+                            }
+                        }
+                    });
+                    }
+                    })
+            }
+        </script>
     </div>
 @endsection
