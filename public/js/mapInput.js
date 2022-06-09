@@ -34,6 +34,7 @@ function initialize() {
 
         locationButton.textContent = 'Lokasi saat ini';
         locationButton.classList.add('custom-map-control-button');
+        locationButton.type = 'button';
 
         map.controls[google.maps.ControlPosition.RIGHT_TOP].push(locationButton);
         locationButton.addEventListener('click', () => {

@@ -8,6 +8,7 @@ use App\Models\Merchant;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class MerchantController extends Controller
 {
@@ -24,11 +25,12 @@ class MerchantController extends Controller
             'f_name' => 'required',
             'name' => 'required',
             'slug' => 'required',
+            'district' => 'required',
             'main_category_id' => 'required',
-            // 'categories_id' => 'required',
+            'categories_id' => 'required',
             'address' => 'required',
-            // 'latitude' => 'required',
-            // 'longitude' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
             'email' => 'required|unique:vendors',
             'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:vendors',
             'password' => 'required|min:6',
@@ -39,15 +41,16 @@ class MerchantController extends Controller
         ], [
             'f_name.required' => 'The first name field is required.'
         ]);
-        if ($validator->fails()) {
-            return back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-        $category_ids = MainCategory::find($request->main_category_id);
-        $json_category_ids = json_encode(['id' => $category_ids->id, 'slug' => $category_ids->slug]);
-        $categories_id = implode(',', $request->categories_id);
+        // if ($validator->fails()) {
+        //     return back()
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // }
 
+        $category_ids = Category::find($request->main_category_id);
+        $json_category_ids = json_encode(['id' => $category_ids->id, 'slug' => $category_ids->slug]);
+        $categories_id = implode(',', array($request->categories_id));
+        dd($request);
         $categories = Category::whereIn('id', $request->categories_id)->get();
         if ($categories->count() == 1) {
             $categories_ids = ['id' => $categories[0]->id, 'name' => $categories[0]->name, 'slug' => $categories[0]->slug];
@@ -133,8 +136,8 @@ class MerchantController extends Controller
 
         ]);
         $merchant->categories()->sync(request('categories_id'));
-        dd($request);
         // return redirect()->route('admin.master-merchant');
+
     }
 }
 ?>

@@ -39,9 +39,6 @@
                         <div class="form-group">
                             <label for="categories_id">Merchant Sub Category</label>
                             <select name="categories_id" id="categories_id" multiple="multiple" class="multiselect-dropdown form-control">
-                                {{-- @foreach ($main_categories as $main_category)
-                                    <option value="{{ $main_category['id'] }}">{{ $main_category['name'] }}</option>
-                                @endforeach --}}
                             </select>
                             @error('categories_id')
                                 <span class="text-danger mt-2">{{ $message }}</span>
@@ -70,15 +67,14 @@
                         </div>
                         <div class="form-group">
                             <label for="address">Merchant Address</label>
-                            {{-- <input type="text" id="address" name="address" class="form-control"> --}}
-                            <input type="text" id="address-input" name="address_address" class="form-control map-input">
-                            <input type="text" name="address_latitude" id="address-latitude" value="0" />
-                            <input type="text" name="address_longitude" id="address-longitude" value="0" />
+                            <input type="text" id="address-input" name="address" class="form-control map-input" placeholder="">
+                            <input type="hidden" name="address_latitude" id="address-latitude" value="0" />
+                            <input type="hidden" name="address_longitude" id="address-longitude" value="0" />
                             @error('address')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
+                            <div style="width: 100%; height: 400px" id="address-map"></div>
                         </div>
-                        <div style="width: 100%; height: 400px" id="address-map"></div>
                         <div class="form-group">
                             <label for="tax">VAT/TAX (%)</label>
                             <input type="number" id="tax" name="tax" class="form-control" min="0" step=".01">
@@ -103,6 +99,16 @@
                                 <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="coverImageViewer" src="" alt="">
                             </div>
                             @error('cover_photo')
+                                <br><span class="text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                        </div>
+                         <div class="form-group">
+                            <label for="seo_image">SEO Image</label><br>
+                            <input type="file" id="seoImageUpload" name="seo_image">
+                            <div class="form-group text-center" style="margin-bottom:0%;">
+                                <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="seoImageViewer" src="" alt="">
+                            </div>
+                            @error('seo_image')
                                 <br><span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
                         </div>
@@ -190,9 +196,11 @@
         $("#customFileEg1").change(function () {
             readURL(this, 'viewer');
         });
-
         $("#coverImageUpload").change(function () {
             readURL(this, 'coverImageViewer');
+        });
+         $("#seoImageUpload").change(function () {
+            readURL(this, 'seoImageViewer');
         });
         $(document).ready(function() {
             //toggle password hide
