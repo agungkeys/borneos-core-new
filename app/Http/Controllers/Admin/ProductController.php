@@ -73,7 +73,6 @@ class ProductController extends Controller
             'merchant_id'  => 'required',
             'product_name' => 'required',
             'price'        => 'required|numeric|min:0',
-            'discount'     => 'required|numeric|min:0',
             'description'  => 'max:1000',
             'image'        => 'image|mimes:jpeg,png,jpg,svg|max:8192'
         ]);
