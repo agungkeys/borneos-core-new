@@ -25,9 +25,9 @@ class ProductController extends Controller
                 ->orWhere('products.price', 'like', '%' . $filter . '%')
                 ->orWhere('products.merchant_id', '=', $merchant)
                 ->paginate(10);
-        } elseif(!empty($merchant)){
-          $products = Product::sortable()->where('products.merchant_id', '=', $merchant)->paginate(10);
-        }else {
+        } elseif (!empty($merchant)) {
+            $products = Product::sortable()->where('products.merchant_id', '=', $merchant)->paginate(10);
+        } else {
             $products = Product::sortable()->paginate(10);
         }
         return view('admin.product.index', compact('products', 'filter', 'merchants'));
@@ -332,5 +332,20 @@ class ProductController extends Controller
         $product->save();
         Alert::success('Updated', 'Updated Successfully');
         return redirect('/admin/master-product');
+    }
+    public function master_product_delete($id)
+    {
+        $product = Product::find($id);
+        if ($product->image) {
+            if (!$product->additional_image) {
+                $product->delete();
+                return response()->json(['status' => 200]);
+            } else {
+                $key = json_decode($product->additional_image);
+                Cloudinary::destroy($key->public_id);
+            };
+        };
+        $product->delete();
+        return response()->json(['status' => 200]);
     }
 }
