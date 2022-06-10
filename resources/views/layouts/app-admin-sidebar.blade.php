@@ -39,13 +39,19 @@
                   </li>
               </ul>
             </li>
-
             <li>
               <a class="merchant" href="#"><i class="metismenu-icon pe-7s-home"></i>Merchant</a>
             </li>
             <li>
               <a class="master-product {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-product' ? 'mm-active' : '' }}" href="{{ route('admin.master-product') }}"><i class="metismenu-icon pe-7s-box2"></i>Product</a>
             </li>
+            <li>
+              <a class="master-courier {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-courier' ? 'mm-active' : '' }}" ><i class="metismenu-icon pe-7s-users"></i>User Courier</a>
+            </li>
+            <li>
+              <a class="master-admin {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-admin' ? 'mm-active' : '' }}" ><i class="metismenu-icon pe-7s-users"></i>User Admin</a>
+            </li>
+
             <li class="app-sidebar__heading">Marketing</li>
 
             <li>
