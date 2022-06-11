@@ -17,6 +17,7 @@ class CreateCouponsTable extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->string('coupon_type')->nullable();
+            $table->bigInteger('merchant_id')->nullable();
             $table->string('code')->nullable();
             $table->integer('limit_same_user')->nullable();
             $table->date('date_start')->nullable();
