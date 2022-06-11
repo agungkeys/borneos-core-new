@@ -12,7 +12,7 @@ class Coupons extends Model
     use Sortable;
 
     protected $fillable = [
-        'title', 'coupon_type', 'code', 'limit_same_user', 'date_start', 'date_end', 'discount_type', 'discount', 'max_discount', 'min_purchase', 'status'
+        'title', 'coupon_type', 'merchant_id', 'code', 'limit_same_user', 'date_start', 'date_end', 'discount_type', 'discount', 'max_discount', 'min_purchase', 'status'
     ];
 
     public $sortable = [
