@@ -177,6 +177,14 @@ class CategoryController extends Controller
         $category->delete();
         return response()->json(['status' => 200]);
     }
+    public function master_category_status(Request $request)
+    {
+        $category = Category::withoutGlobalScopes()->find($request->id);
+        $category->status = $request->status;
+        $category->save();
+        Alert::toast('Status Updated', 'success');
+        return redirect('/admin/master-category');
+    }
 
     public function master_sub_category_index(Request $request)
     {
@@ -346,6 +354,14 @@ class CategoryController extends Controller
         $category->delete();
         return response()->json(['status' => 200]);
     }
+    public function master_sub_category_status(Request $request)
+    {
+        $category = Category::withoutGlobalScopes()->find($request->id);
+        $category->status = $request->status;
+        $category->save();
+        Alert::toast('Status Updated', 'success');
+        return redirect('/admin/master-sub-category');
+    }
     public function master_sub_sub_category_index(Request $request)
     {
         $filter = $request->query('filter');
@@ -514,5 +530,13 @@ class CategoryController extends Controller
         };
         $category->delete();
         return response()->json(['status' => 200]);
+    }
+    public function master_sub_sub_category_status(Request $request)
+    {
+        $category = Category::withoutGlobalScopes()->find($request->id);
+        $category->status = $request->status;
+        $category->save();
+        Alert::toast('Status Updated', 'success');
+        return redirect('/admin/master-sub-sub-category');
     }
 }

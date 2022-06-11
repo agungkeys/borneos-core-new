@@ -23,6 +23,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/master-category/{id}', 'CategoryController@master_category_edit')->name('master-category.edit');
     Route::put('/master-category/{id}', 'CategoryController@master_category_update')->name('master-category.update');
     Route::delete('/master-category/{id}', 'CategoryController@master_category_delete')->name('master-category.delete');
+    Route::get('/master-category/status/{id}/{status}', 'CategoryController@master_category_status')->name('master-category.status');
 
     Route::get('/master-sub-category', 'CategoryController@master_sub_category_index')->name('master-sub-category');
     Route::get('/master-sub-category/add', 'CategoryController@master_sub_category_add')->name('master-sub-category.add');
@@ -30,6 +31,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/master-sub-category/{id}', 'CategoryController@master_sub_category_edit')->name('master-sub-category.edit');
     Route::put('/master-sub-category/{id}', 'CategoryController@master_sub_category_update')->name('master-sub-category.update');
     Route::delete('/master-sub-category/{id}', 'CategoryController@master_sub_category_delete')->name('master-sub-category.delete');
+    Route::get('/master-sub-category/status/{id}/{status}', 'CategoryController@master_sub_category_status')->name('master-sub-category.status');
 
     Route::get('/master-sub-sub-category', 'CategoryController@master_sub_sub_category_index')->name('master-sub-sub-category');
     Route::get('/master-sub-sub-category/add', 'CategoryController@master_sub_sub_category_add')->name('master-sub-sub-category.add');
@@ -37,6 +39,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/master-sub-sub-category/{id}', 'CategoryController@master_sub_sub_category_edit')->name('master-sub-sub-category.edit');
     Route::put('/master-sub-sub-category/{id}', 'CategoryController@master_sub_sub_category_update')->name('master-sub-sub-category.update');
     Route::delete('/master-sub-sub-category/{id}', 'CategoryController@master_sub_sub_category_delete')->name('master-sub-sub-category.delete');
+    Route::get('/master-sub-sub-category/status/{id}/{status}', 'CategoryController@master_sub_sub_category_status')->name('master-sub-sub-category.status');
 
     Route::get('/master-product', 'ProductController@master_product_index')->name('master-product');
     Route::get('/master-product/datasource', 'ProductController@master_product_datasource')->name('master-product-get');

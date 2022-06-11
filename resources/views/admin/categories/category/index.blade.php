@@ -46,6 +46,7 @@
                   <th>Image</th>
                   <th>@sortablelink('name', 'Category Name')</th>
                   <th>@sortablelink('slug', 'Category Slug')</th>
+                  <th>Status</th>
                   <th>Action</th>
                </tr>
             </thead>
@@ -70,8 +71,13 @@
                         <td>{{ $category->name ? $category->name : '-' }}</td>
                         <td>{{ $category->slug  }}</td>
                         <td>
-                           <a href="{{ route('admin.master-category.edit',$category->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
-                           <button type="button" onclick="delete_category({{$category->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
+                           <label class="m-auto align-middle" for="statusCheckbox{{$category->id}}">
+                              <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.master-category.status',[$category['id'],$category->status?0:1])}}'" id="statusCheckbox{{$category->id}}" {{$category->status?'checked':''}}>
+                           </label>
+                        </td>
+                        <td>
+                           <a href="{{ route('admin.master-category.edit',$category->id) }}" class="btn btn-warning btn-sm" title="Edit ?"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+                           <button type="button" onclick="delete_category({{$category->id}})" class="btn btn-danger btn-sm" title="Delete ?"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                         </td>
                     </tr>
                 @endforeach
