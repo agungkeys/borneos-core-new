@@ -46,6 +46,9 @@
             <li>
               <a class="master-product {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-product' ? 'mm-active' : '' }}" href="{{ route('admin.master-product') }}"><i class="metismenu-icon pe-7s-box2"></i>Product</a>
             </li>
+            <li>
+              <a class="master-product" href="{{ route('admin.master-user') }}"><i class="metismenu-icon pe-7s-users"></i>User</a>
+            </li>
             <li class="app-sidebar__heading">Marketing</li>
 
             <li>

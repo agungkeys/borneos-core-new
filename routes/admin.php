@@ -53,6 +53,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::put('/master-product/{id}', 'ProductController@master_product_update')->name('master-product.update');
     Route::delete('/master-product/{id}', 'ProductController@master_product_delete')->name('master-product.delete');
 
+    Route::get('/master-user', 'UserController@master_user_index')->name('master-user');
+    Route::get('/master-user/status/{id}/{status}', 'UserController@master_user_status')->name('master-user.status');
 
 
 
