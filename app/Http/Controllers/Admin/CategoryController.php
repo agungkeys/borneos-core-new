@@ -6,13 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CategoryController extends Controller
 {
-    public function master_category_index()
+    public function master_category_index(Request $request)
     {
-        $master_categories = Category::where(['position' => 0])->get();
-        return view('admin.categories.category.index', compact('master_categories'));
+        $filter = $request->query('filter');
+        if (!empty($filter)) {
+            $master_categories = Category::sortable()
+                ->where(['position' => 0])
+                ->where('categories.name', 'like', '%' . $filter . '%')
+                ->orWhere('categories.slug', 'like', '%' . $filter . '%')
+                ->paginate(10);
+        } else {
+            $master_categories = Category::sortable()->where(['position' => 0])->paginate(10);
+        }
+        return view('admin.categories.category.index', compact('master_categories', 'filter'));
     }
     public function master_category_add()
     {
@@ -67,7 +77,8 @@ class CategoryController extends Controller
             'priority'  => 0,
             'status'    => 1
         ]);
-        return redirect()->route('admin.master-category')->with('success', 'Data Created Successfully');
+        Alert::success('Success', 'Data Created Successfully');
+        return redirect()->route('admin.master-category');
     }
 
     public function master_category_edit($id)
@@ -153,8 +164,8 @@ class CategoryController extends Controller
             'position'          => $category->position,
             'additional_image'  => $additional_image
         ]);
-
-        return redirect()->route('admin.master-category')->with('success', 'Data Updated Successfully');
+        Alert::success('Updated', 'Data Updated Successfully');
+        return redirect()->route('admin.master-category');
     }
     public function master_category_delete($id)
     {
@@ -167,10 +178,19 @@ class CategoryController extends Controller
         return response()->json(['status' => 200]);
     }
 
-    public function master_sub_category_index()
+    public function master_sub_category_index(Request $request)
     {
-        $master_sub_categories = Category::where(['position' => 1])->get();
-        return view('admin.categories.sub-category.index', compact('master_sub_categories'));
+        $filter = $request->query('filter');
+        if (!empty($filter)) {
+            $master_sub_categories = Category::sortable()
+                ->where(['position' => 1])
+                ->where('categories.name', 'like', '%' . $filter . '%')
+                ->orWhere('categories.slug', 'like', '%' . $filter . '%')
+                ->paginate(10);
+        } else {
+            $master_sub_categories = Category::sortable()->where(['position' => 1])->paginate(10);
+        }
+        return view('admin.categories.sub-category.index', compact('master_sub_categories', 'filter'));
     }
     public function master_sub_category_add()
     {
@@ -226,7 +246,8 @@ class CategoryController extends Controller
             'priority'  => 0,
             'status'    => 1
         ]);
-        return redirect()->route('admin.master-sub-category')->with('success', 'Data Created Successfully');
+        Alert::success('Success', 'Data Created Successfully');
+        return redirect()->route('admin.master-sub-category');
     }
     public function master_sub_category_edit($id)
     {
@@ -312,7 +333,8 @@ class CategoryController extends Controller
             'additional_image' => $additional_image,
             'parent_id' => request('category')
         ]);
-        return redirect()->route('admin.master-sub-category')->with('success', 'Data Updated');
+        Alert::success('Updated', 'Data Updated Successfully');
+        return redirect()->route('admin.master-sub-category');
     }
     public function master_sub_category_delete($id)
     {
@@ -324,10 +346,19 @@ class CategoryController extends Controller
         $category->delete();
         return response()->json(['status' => 200]);
     }
-    public function master_sub_sub_category_index()
+    public function master_sub_sub_category_index(Request $request)
     {
-        $master_sub_sub_categories = Category::where(['position' => 2])->get();
-        return view('admin.categories.sub-sub-category.index', compact('master_sub_sub_categories'));
+        $filter = $request->query('filter');
+        if (!empty($filter)) {
+            $master_sub_sub_categories = Category::sortable()
+                ->where(['position' => 2])
+                ->where('categories.name', 'like', '%' . $filter . '%')
+                ->orWhere('categories.slug', 'like', '%' . $filter . '%')
+                ->paginate(10);
+        } else {
+            $master_sub_sub_categories = Category::sortable()->where(['position' => 2])->paginate(10);
+        }
+        return view('admin.categories.sub-sub-category.index', compact('master_sub_sub_categories', 'filter'));
     }
     public function master_sub_sub_category_add()
     {
@@ -384,7 +415,8 @@ class CategoryController extends Controller
             'priority'  => 0,
             'status'    => 1
         ]);
-        return redirect()->route('admin.master-sub-sub-category')->with('success', 'Data Created Successfully');
+        Alert::success('Success', 'Data Created Successfully');
+        return redirect()->route('admin.master-sub-sub-category');
     }
     public function master_sub_sub_category_edit($id)
     {
@@ -470,7 +502,8 @@ class CategoryController extends Controller
             'additional_image' => $additional_image,
             'parent_id' => request('sub-category')
         ]);
-        return redirect()->route('admin.master-sub-sub-category')->with('success', 'Data Updated Successfully');
+        Alert::success('Updated', 'Data Updated Successfully');
+        return redirect()->route('admin.master-sub-sub-category');
     }
     public function master_sub_sub_category_delete($id)
     {

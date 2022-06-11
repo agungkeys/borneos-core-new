@@ -26,7 +26,7 @@
                      @csrf
                      <div class="form-group">
                         <label for="category">Category</label>
-                        <select class="multiselect-dropdown form-control" name="category" id="category" required>
+                        <select class="multiselect-dropdown form-control" name="category" id="category" data-placeholder="Select Category ..." required>
                               @foreach ($master_categories as $master_category)
                                  <option {{ $sub_category->parent_id == $master_category->parent_id ? 'selected':''  }} value="{{ $master_category->parent_id }}">{{ $master_category->name }}</option>
                               @endforeach
@@ -67,7 +67,7 @@
    </div>
      <script>
         $('.js-select2-custom').select2();
-   
+
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();

@@ -18,6 +18,11 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next)
     {
       if (Auth::guard('admin')->check()) {
+        if(!auth('admin')->user()->status)
+        {
+            auth()->guard('admin')->logout();
+            return redirect()->route('admin.auth.login');
+        }
         return $next($request);
       }
       return redirect()->route('admin.auth.login');
