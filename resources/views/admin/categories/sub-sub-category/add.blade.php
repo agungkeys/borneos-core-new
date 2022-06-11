@@ -25,8 +25,8 @@
                         @csrf
                         <div class="form-group">
                            <label for="sub-category">Sub Category</label>
-                           <select class="multiselect-dropdown form-control" name="sub-category" id="sub-category" required>
-                                 <option disabled selected value="">Choose One!</option>
+                           <select class="multiselect-dropdown form-control" name="sub-category" id="sub-category" data-placeholder="Select Sub Category ..." required>
+                                 <option disabled selected value="">Select Sub Category ...</option>
                                  @foreach ($master_sub_categories as $master_sub_category)
                                     <option value="{{ $master_sub_category->id }}">{{ $master_sub_category->name }}</option>
                                  @endforeach
@@ -67,7 +67,7 @@
    </div>
      <script>
         $('.js-select2-custom').select2();
-   
+
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();

@@ -18,26 +18,41 @@ class RedirectIfAuthenticated
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     // public function handle(Request $request, Closure $next, ...$guards)
-    public function handle(Request $request, Closure $next, $guard = null)
+    public function handle(Request $request, Closure $next, ...$guards)
     {
-          switch ($guard) {
-            case 'vendor':
-              if (Auth::guard($guard)->check()) {
-                return redirect()->route('vendor.dashboard');
-              }
-              break;
-            case 'admin':
-              if (Auth::guard($guard)->check()) {
-                return redirect()->route('admin.dashboard');
-              }
-              break;
-            default:
-              if (Auth::guard($guard)->check()) {
-                // return response()->json([],404);
-                return redirect(RouteServiceProvider::HOME);
-              }
-              break;
-          }
-        return $next($request);
+      foreach ($guards as $guard) {
+
+        // if ($guard == 'vendor' && Auth::guard($guard)->check()) {
+        //     return redirect()->route('vendor.dashboard');
+        // }
+        //
+        // if ($guard == 'admin' && Auth::guard($guard)->check()) {
+        //   return redirect()->route('admin.dashboard');
+        // }
+        //
+        // if ($guard == 'curier' && Auth::guard($guard)->check()) {
+        //   return redirect()->route('admin.curier');
+        // }
+
+        switch ($guard) {
+          case 'vendor':
+            if (Auth::guard($guard)->check()) {
+              return redirect()->route('vendor.dashboard');
+            }
+            break;
+          case 'admin':
+            if (Auth::guard($guard)->check()) {
+              return redirect()->route('admin.dashboard');
+            }
+            break;
+          default:
+            if (Auth::guard($guard)->check()) {
+              // return response()->json([],404);
+              return redirect(RouteServiceProvider::HOME);
+            }
+            break;
+        }
+      }
+      return $next($request);
     }
 }
