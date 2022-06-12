@@ -57,6 +57,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/master-user/status/{id}/{status}', 'UserController@master_user_status')->name('master-user.status');
     Route::get('/master-user/add', 'UserController@master_user_add')->name('master-user.add');
     Route::post('/master-user/add', 'UserController@master_user_store')->name('master-user.store');
+    Route::get('/master-user/{id}', 'UserController@master_user_edit')->name('master-user.edit');
+    Route::put('/master-user/{id}', 'UserController@master_user_update')->name('master-user.update');
+
 
 
 
