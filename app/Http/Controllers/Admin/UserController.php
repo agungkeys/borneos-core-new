@@ -215,4 +215,19 @@ class UserController extends Controller
         Alert::success('Updated', 'Data Updated Successfully');
         return redirect()->route('admin.master-user');
     }
+    public function master_user_delete($id)
+    {
+        $admin = Admin::find($id);
+        if (!$admin->additional_image) {
+            $admin->delete();
+            return response()->json(['status' => 200]);
+        } else {
+            if ($admin->image) {
+                $key = json_decode($admin->additional_image);
+                Cloudinary::destroy($key->public_id);
+            };
+        };
+        $admin->delete();
+        return response()->json(['status' => 200]);
+    }
 }
