@@ -14,6 +14,9 @@ class Admin extends Authenticatable
     use HasFactory;
     use Sortable;
     protected $table = 'admins';
+    protected $fillable = [
+        'f_name', 'l_name', 'phone', 'email', 'image', 'additional_image', 'password', 'role_id', 'status'
+    ];
 
     public function role()
     {
