@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-striped-table-bordered" id="bannerTable">
+                    <table class="table" id="bannerTable">
                         <thead>
                             <tr>
                                 <th>@sortablelink('id', 'No')</th>
