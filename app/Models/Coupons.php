@@ -18,4 +18,11 @@ class Coupons extends Model
     public $sortable = [
         'id', 'title', 'code', 'date_start', 'date_end', 'discount', 'max_discount'
     ];
+
+    public function merchantName($id){
+        $merchants = Merchant::select('name')->where('id', $id)->get();
+        foreach($merchants as $merchant){
+            return $merchant->name;
+        }
+    }
 }
