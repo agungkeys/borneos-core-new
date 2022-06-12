@@ -64,10 +64,10 @@ class CouponController extends Controller
         $request->validate([
             'title' => 'required',
             'coupon_type' => 'required',
-            'merchant_id' => 'required',
+            'merchant_id' => 'nullable',
             'code' => 'required',
-            'date_start' => 'date|required',
-            'date_end' => 'date|required',
+            'date_start' => 'date|nullable',
+            'date_end' => 'date|nullable',
             'limit_same_user' => 'nullable',
             'discount_type' => 'nullable',
             'max_discount' => 'nullable',
@@ -113,7 +113,12 @@ class CouponController extends Controller
      */
     public function edit($id)
     {
-        //
+        $coupon = Coupons::where('id', $id)->first();
+        $merchants = Merchant::all();
+        return view('admin.coupons.edit', [
+            'coupon' => $coupon,
+            'merchants' => $merchants
+        ]);
     }
 
     /**
@@ -125,7 +130,37 @@ class CouponController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'coupon_type' => 'required',
+            'merchant_id' => 'nullable',
+            'code' => 'required',
+            'date_start' => 'date|nullable',
+            'date_end' => 'date|nullable',
+            'limit_same_user' => 'nullable',
+            'discount_type' => 'nullable',
+            'max_discount' => 'nullable',
+            'minimal_purchase' => 'nullable'
+        ]);
+
+        $coupon = Coupons::findOrFail($id);
+
+        $coupon->title = $request->title;
+        $coupon->coupon_type = $request->coupon_type;
+        $coupon->merchant_id = $request->merchant_id;
+        $coupon->code = $request->code;
+        $coupon->limit_same_user = $request->limit_same_user;
+        $coupon->date_start = $request->date_start;
+        $coupon->date_end = $request->date_end;
+        $coupon->discount_type = $request->discount_type;
+        $coupon->discount = $request->discount;
+        $coupon->max_discount = $request->max_discount;
+        $coupon->min_purchase = $request->min_purchase;
+        $coupon->status = 1;
+
+        $coupon->save();
+        Alert::success('Success', 'Data saved succesfully!');
+        return redirect()->route('admin.coupon.index');
     }
 
     /**
