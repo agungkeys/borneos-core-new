@@ -11,7 +11,7 @@
             <div>Master User <span class="badge badge-pill badge-primary">{{ number_format($master_users->total(), 0, "", ".") }}</span><div class="page-title-subheading">List Master User</div></div>
          </div>
          <div class="page-title-actions">
-             <a href="#" class="btn-shadow btn btn-info btn-lg">Add User</a>
+             <a href="{{ route('admin.master-user.add') }}" class="btn-shadow btn btn-info btn-lg">Add User</a>
          </div>
       </div>
    </div>
