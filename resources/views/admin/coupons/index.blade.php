@@ -40,8 +40,9 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="table-responsive">
-                    <table class="table table-striped-table-bordered" id="couponsTable">
+                    <table class="table" id="couponsTable">
                         <thead>
                             <tr>
                                 <th>@sortablelink('id', 'No')</th>
@@ -89,6 +90,7 @@
                                     </td>
                                     <td>
                                          <a href="{{ route('admin.coupon.edit',$coupon->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+
                                         <button type="button" onclick="delete_coupon({{$coupon->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                                     </td>
                                 </tr>
@@ -107,6 +109,7 @@
                 </div>
             </div>
         </div>
+
          @include('sweetalert::alert')
         <script>
 
