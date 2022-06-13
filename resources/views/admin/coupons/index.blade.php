@@ -8,10 +8,10 @@
                     <div class="page-title-icon">
                         <i class="pe-7s-photo-gallery icon-gradient bg-tempting-azure"></i>
                     </div>
-                    <div>List Banner <span class="badge badge-pill badge-primary">{{ number_format($banners->total(), 0, "", ".") }}</span></div>
+                    <div>List Coupon <span class="badge badge-pill badge-primary">{{ number_format($coupons->total(), 0, "", ".") }}</span></div>
                 </div>
                 <div class="page-title-actions">
-                    <a href="{{ route('admin.banner.create') }}" class="btn-shadow btn btn-info btn-lg">Add Banner</a>
+                    <a href="{{ route('admin.coupon.create') }}" class="btn-shadow btn btn-info btn-lg">Add Coupons</a>
                 </div>
             </div>
         </div>
@@ -40,51 +40,58 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="table-responsive">
-                    <table class="table" id="bannerTable">
+                    <table class="table" id="couponsTable">
                         <thead>
                             <tr>
                                 <th>@sortablelink('id', 'No')</th>
                                 <th>@sortablelink('title', 'Title')</th>
-                                <th>Type</th>
+                                <th>Coupon Type</th>
                                 <th>Merchant Name</th>
-                                <th>Image</th>
-                                <th>@sortablelink('url', 'URL')</th>
+                                <th>Code</th>
+                                <th>Limit</th>
+                                <th>Date Start</th>
+                                <th>Date End</th>
+                                <th>Discount Type</th>
+                                <th>Discount</th>
+                                <th>Max Discount</th>
+                                <th>Min Purchase</th>
                                 <th>Status</th>
-                                <th>Admin ID</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            @if ($banners->count() == 0)
+                            @if ($coupons->count() == 0)
                                 <tr>
                                     <td colspan="8">No products to display</td>
                                 </tr>
                             @endif
 
-                            @foreach ($banners as $banner )
+                            @foreach ($coupons as $coupon )
                                 <tr>
-                                    <td>{{ $banner->id }}</td>
-                                    <td>{{ $banner->title ? $banner->title : "-" }}</td>
-                                    <td>{{ $banner->type ? $banner->type : "-" }}</td>
-                                    <td>{{ $banner->merchantName($banner->merchant_id) }}</td>
-
-                                    @if ($banner->image)
-                                        <td> <img src="{{ $banner->image }}"  alt="" width="100"> </td>
-                                    @else
-                                        <td> <img src="{{ asset('images/default-image.jpg') }}"  alt="" width="100"> </td>
-                                    @endif
-                                    <td>{{ $banner->url ? $banner->url : "-" }}</td>
+                                    <td>{{ $coupon->id }}</td>
+                                    <td>{{ $coupon->title }}</td>
+                                    <td>{{ $coupon->coupon_type ? $coupon->coupon_type : "-" }}</td>
+                                    <td>{{ $coupon->merchantName($coupon->merchant_id) }}</td>
+                                    <td>{{ $coupon->code ? $coupon->code : "-" }}</td>
+                                    <td>{{ $coupon->limit_same_user ? $coupon->limit_same_user : "-" }}</td>
+                                    <td>{{ $coupon->date_start ? $coupon->date_start : "-" }}</td>
+                                    <td>{{ $coupon->date_end ? $coupon->date_end : "-" }}</td>
+                                    <td>{{ $coupon->discount_type ? $coupon->discount_type : "-" }}</td>
+                                    <td>{{ $coupon->discount ? $coupon->discount : "-" }}</td>
+                                    <td>{{ $coupon->max_discount ? $coupon->max_discount : "-" }}</td>
+                                    <td> Rp. {{ $coupon->min_purchase ? number_format($coupon->min_purchase) : "-" }}</td>
                                     <td>
-                                        <label class="m-auto align-middle" for="statusCheckbox{{$banner->id}}">
-                                            <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.banner.status',[$banner['id'],$banner->status ? 0 : 1])}}'" id="statusCheckbox{{$banner->id}}" {{$banner->status? 'checked' : ''}}>
+                                        <label class="m-auto align-middle" for="statusCheckbox{{$coupon->id}}">
+                                            <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.coupon.status',[$coupon['id'],$coupon->status ? 0 : 1])}}'" id="statusCheckbox{{$coupon->id}}" {{$coupon->status ? 'checked' : ''}}>
                                         </label>
                                     </td>
-                                    <td>{{ $banner->admin_id ? $banner->admin_id : "-" }}</td>
                                     <td>
-                                         <a href="{{ route('admin.banner.edit',$banner->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
-                                        <button type="button" onclick="delete_banner({{$banner->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
+                                         <a href="{{ route('admin.coupon.edit',$coupon->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+
+                                        <button type="button" onclick="delete_coupon({{$coupon->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -93,19 +100,20 @@
                     </table>
                     <div class="row">
                         <div class="col-12 col-md-6 flex-1">
-                            {!! $banners->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter])->onEachSide(2)->links() !!}
+                            {!! $coupons->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter])->onEachSide(2)->links() !!}
                         </div>
                         <div class="col-12 col-md-6 w-100 d-flex justify-content-end align-middle">
-                            <p>Displaying {{$banners->count()}} of {{ number_format($banners->total(), 0, "", ".") }} product(s).</p>
+                            <p>Displaying {{$coupons->count()}} of {{ number_format($coupons->total(), 0, "", ".") }} product(s).</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
          @include('sweetalert::alert')
         <script>
 
-            function delete_banner(id)
+            function delete_coupon(id)
             {
                 Swal.fire({
                     title: 'Are you sure?',
@@ -120,7 +128,7 @@
                     let _token =  $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
                         type: "DELETE",
-                        url: "/admin/banner/"+id,
+                        url: "/admin/coupon/"+id,
                         data: {_token:_token,id:id},
                         success:function(response){
                             if(response.status == 200){
@@ -129,12 +137,12 @@
                                 'Your file has been deleted.',
                                 'success'
                                 )
-                                window.location = "{{ route('admin.banner.index') }}";
+                                window.location = "{{ route('admin.coupon.index') }}";
                             }
                         }
-                    });
+                        });
                     }
-                    })
+                })
             }
         </script>
     </div>

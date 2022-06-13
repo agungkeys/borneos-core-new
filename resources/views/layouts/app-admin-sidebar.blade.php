@@ -57,7 +57,7 @@
               <a class="bannners {{ count(request()->segments()) > 1 && request()->segments()[1] == 'banner' ? 'mm-active' : '' }}" href="{{ route('admin.banner.index') }}"><i class="metismenu-icon pe-7s-photo-gallery"></i>Banners</a>
             </li>
             <li>
-              <a class="coupons" href="#"><i class="metismenu-icon pe-7s-ticket"></i>Coupons</a>
+              <a class="coupons {{ count(request()->segments()) > 1 && request()->segments()[1] == 'coupon' ? 'mm-active' : '' }}" href="{{ route('admin.coupon.index') }}"><i class="metismenu-icon pe-7s-ticket"></i>Coupons</a>
             </li>
             <li class="app-sidebar__heading">Business</li>
             <li>

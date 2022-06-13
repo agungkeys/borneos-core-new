@@ -9,7 +9,7 @@
                         <i class="pe-7s-medal icon-gradient bg-tempting-azure"></i>
                     </div>
                     <div>
-                        Edit Master Category
+                        Edit Banner
                         <div class="page-title-subheading">
 
                         </div>
@@ -50,7 +50,6 @@
                                     @foreach ($merchants as $merchant)
                                         <option value="{{ $merchant->id }}" @if(old('merchant') == $merchant->id || $merchant->id == $banner->merchant_id) selected @endif  > {{ $merchant->name }} </option>
                                     @endforeach
-
                                 </select>
                             </div>
 

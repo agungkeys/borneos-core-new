@@ -73,5 +73,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
     Route::resource('banner', 'BannerController');
     Route::get('/master-banner/status/{id}/{status}', 'BannerController@master_banner_status')->name('banner.status');
+    Route::resource('coupon', 'CouponController');
+    Route::get('/master-coupon/status/{id}/{status}', 'CouponController@master_coupon_status')->name('coupon.status');
   });
 });
