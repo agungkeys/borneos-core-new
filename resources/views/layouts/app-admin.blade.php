@@ -17,7 +17,7 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
 
   <!-- Styles -->
-  <link href="{{asset(env('PUBLIC').'css/main.css')}}" rel="stylesheet">
+  <link href="{{asset(env('PUBLIC_ASSETS').'css/main.css')}}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
@@ -57,11 +57,11 @@
                 <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu-sm dropdown-menu dropdown-menu-right" style="top: '10%' !important;">
                   <div class="dropdown-menu-header">
                     <div class="dropdown-menu-header-inner bg-info">
-                      <div class="menu-header-image opacity-2" style="background-image: url(env('PUBLIC').'assets/images/dropdown-header/city3.jpg');"></div>
+                      <div class="menu-header-image opacity-2" style="background-image: url(env('PUBLIC_ASSETS').'assets/images/dropdown-header/city3.jpg');"></div>
                       <div class="menu-header-content text-left">
                         <div class="widget-content p-0">
                           <div class="widget-content-wrapper">
-                            <div class="widget-content-left mr-3"><img width="42" class="rounded-circle" src="{{env('PUBLIC')}}/images/avatars/1.jpg" alt=""></div>
+                            <div class="widget-content-left mr-3"><img width="42" class="rounded-circle" src="{{env('PUBLIC_ASSETS')}}/images/avatars/1.jpg" alt=""></div>
                             <div class="widget-content-left">
                               <div class="widget-heading">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->f_name : ''}} {{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->l_name : ''}}</div>
                               <div class="widget-subheading opacity-8">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->email : ''}}</div>
@@ -95,7 +95,7 @@
                               <div class="menu-header-content text-left">
                                 <div class="widget-content p-0">
                                   <div class="widget-content-wrapper">
-                                    <div class="widget-content-left mr-3"><img width="42" class="rounded-circle" src="{{env('PUBLIC')}}/images/avatars/1.jpg" alt=""></div>
+                                    <div class="widget-content-left mr-3"><img width="42" class="rounded-circle" src="{{env('PUBLIC_ASSETS')}}/images/avatars/1.jpg" alt=""></div>
                                     <div class="widget-content-left">
                                       <div class="widget-heading">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->f_name : ''}} {{ Auth::guard('admin')->check() ? Auth::guard('admin')->user()->l_name : ''}}</div>
                                       <div class="widget-subheading opacity-8">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->email : ''}}</div>
@@ -148,14 +148,10 @@
       </div>
       <div class="app-drawer-overlay d-none animated fadeIn"></div>
     </body>
-    <script src="{{asset(env('PUBLIC').'js/sweetalert2.all.min.js')}}"></script>
-    <script src="{{asset(env('PUBLIC').'js/main.js')}}" defer></script>
+    <script src="{{asset(env('PUBLIC_ASSETS').'js/sweetalert2.all.min.js')}}"></script>
+    <script src="{{asset(env('PUBLIC_ASSETS').'js/main.js')}}" defer></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
   </div>
-  <script>
-      function previewImageOnEdit() {
-        imgpreview.src=URL.createObjectURL(event.target.files[0])
-      }
-  </script>
+
 </body>
 </html>
