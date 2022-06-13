@@ -104,8 +104,8 @@
                            </label>
                         </td>
                         <td>
-                           <a href="{{ route('admin.master-product.edit',$product->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
-                           <button type="button" onclick="delete_product({{$product->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
+                           <a href="{{ route('admin.master-product.edit',$product->id) }}" class="btn btn-warning btn-sm" title="Edit ?"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+                           <button type="button" onclick="delete_product({{$product->id}})" class="btn btn-danger btn-sm" title="Delete ?"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                         </td>
                     </tr>
                 @endforeach

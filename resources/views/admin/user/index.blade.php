@@ -6,12 +6,12 @@
       <div class="page-title-wrapper">
          <div class="page-title-heading">
             <div class="page-title-icon">
-               <i class="pe-7s-server icon-gradient bg-tempting-azure"></i>
+               <i class="pe-7s-users icon-gradient bg-tempting-azure"></i>
             </div>
-            <div>Master Category <span class="badge badge-pill badge-primary">{{ number_format($master_categories->total(), 0, "", ".") }}</span><div class="page-title-subheading">List Master Category</div></div>
+            <div>Master User <span class="badge badge-pill badge-primary">{{ number_format($master_users->total(), 0, "", ".") }}</span><div class="page-title-subheading">List Master User</div></div>
          </div>
          <div class="page-title-actions">
-             <a href="{{ route('admin.master-category.add') }}" class="btn-shadow btn btn-info btn-lg">Add Category</a>
+             <a href="{{ route('admin.master-user.add') }}" class="btn-shadow btn btn-info btn-lg">Add User</a>
          </div>
       </div>
    </div>
@@ -27,7 +27,7 @@
                       <i class="fa fa-search fa-w-16"></i>
                     </div>
                   </div>
-                  <input id="filter" name="filter" value="{{$filter}}" autocomplete="off" placeholder="Search Category" type="text" class="form-control" style="color: gray;">
+                  <input id="filter" name="filter" value="{{$filter}}" autocomplete="off" placeholder="Search User" type="text" class="form-control" style="color: gray;">
                   <div class="input-group-prepend">
                     <button type="submit" class="btn btn-primary btn-md">Search</buttton>
                   </div>
@@ -44,40 +44,44 @@
                <tr>
                   <th>@sortablelink('id', 'ID')</th>
                   <th>Image</th>
-                  <th>@sortablelink('name', 'Category Name')</th>
-                  <th>@sortablelink('slug', 'Category Slug')</th>
+                  <th>@sortablelink('f_name', 'Name')</th>
+                  <th>@sortablelink('phone', 'Phone')</th>
+                  <th>@sortablelink('email', 'Email')</th>
+                  <th>Role</th>
                   <th>Status</th>
                   <th>Action</th>
                </tr>
             </thead>
             <tbody>
-              @if ($master_categories->count() == 0)
+              @if ($master_users->count() == 0)
               <tr>
-                <td colspan="8">No category to display.</td>
+                <td colspan="8">No user to display.</td>
               </tr>
               @endif
-                @foreach ($master_categories as $index => $category)
+                @foreach ($master_users as $index => $user)
                     <tr>
-                        <td>{{ $category->id }}</td>
-                        @if($category->image)
+                        <td>{{ $user->id }}</td>
+                        @if($user->image)
                         <td>
-                            <img src="{{ URL::to($category->image) }}" alt="" width="32" height="32">
+                            <img src="{{ URL::to($user->image) }}" alt="" width="32" height="32">
                         </td>
                         @else
                         <td>
                             <img src="{{ asset('images/default-image.jpg') }}" alt="" width="32" height="32">
                         </td>
                         @endif
-                        <td>{{ $category->name ? $category->name : '-' }}</td>
-                        <td>{{ $category->slug  }}</td>
+                        <td>{{ $user->f_name }} {{ $user->l_name }}</td>
+                        <td>{{ $user->phone  }}</td>
+                        <td>{{ $user->email  }}</td>
+                        <td>{{ $user->role && $user->role->name ? $user->role->name : '-' }}</td>
                         <td>
-                           <label class="m-auto align-middle" for="statusCheckbox{{$category->id}}">
-                              <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.master-category.status',[$category['id'],$category->status?0:1])}}'" id="statusCheckbox{{$category->id}}" {{$category->status?'checked':''}}>
+                           <label class="m-auto align-middle" for="statusCheckbox{{$user->id}}">
+                              <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.master-user.status',[$user['id'],$user->status?0:1])}}'" id="statusCheckbox{{$user->id}}" {{$user->status?'checked':''}}>
                            </label>
                         </td>
                         <td>
-                           <a href="{{ route('admin.master-category.edit',$category->id) }}" class="btn btn-warning btn-sm" title="Edit ?"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
-                           <button type="button" onclick="delete_category({{$category->id}})" class="btn btn-danger btn-sm" title="Delete ?"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
+                           <a href="{{ route('admin.master-user.edit',$user->id) }}" class="btn btn-warning btn-sm" title="Edit ?"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+                           <button type="button" onclick="delete_master_user({{$user->id}})" class="btn btn-danger btn-sm" title="Delete ?"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                         </td>
                     </tr>
                 @endforeach
@@ -85,19 +89,18 @@
          </table>
           <div class="row">
             <div class="col-12 col-md-6 flex-1">
-              {!! $master_categories->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter])->onEachSide(2)->links() !!}
+              {!! $master_users->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter])->onEachSide(2)->links() !!}
             </div>
             <div class="col-12 col-md-6 w-100 d-flex justify-content-end align-middle">
-              <p>Displaying {{$master_categories->count()}} of {{ number_format($master_categories->total(), 0, "", ".") }} category</p>
+              <p>Displaying {{$master_users->count()}} of {{ number_format($master_users->total(), 0, "", ".") }} users</p>
             </div>
           </div>
       </div>
    </div>
    @include('sweetalert::alert')
-   <script type="text/javascript">
-      function delete_category(id)
-      {
-         Swal.fire({
+   <script>
+     function delete_master_user(id){
+        Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
             icon: 'warning',
@@ -110,22 +113,22 @@
                let _token =  $('meta[name="csrf-token"]').attr('content');
                $.ajax({
                   type: "DELETE",
-                  url: "/admin/master-category/"+id,
+                  url: "/admin/master-user/"+id,
                   data: {_token:_token,id:id},
                   success:function(response){
-                     if(response.status == 200){
+                    if(response.status == 200){
                         Swal.fire(
                            'Deleted!',
                            'Your file has been deleted.',
                            'success'
                         )
-                        window.location = "/admin/master-category";
+                        window.location = "/admin/master-user";
                      }
                   }
                });
             }
             })
-      }
+     }
    </script>
  </div>
 @endsection

@@ -49,9 +49,8 @@
               <a class="master-courier {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-courier' ? 'mm-active' : '' }}" ><i class="metismenu-icon pe-7s-users"></i>User Courier</a>
             </li>
             <li>
-              <a class="master-admin {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-admin' ? 'mm-active' : '' }}" ><i class="metismenu-icon pe-7s-users"></i>User Admin</a>
+              <a class="master-admin {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-admin' ? 'mm-active' : '' }}" href="{{ route('admin.master-user') }}" ><i class="metismenu-icon pe-7s-users"></i>User Admin</a>
             </li>
-
             <li class="app-sidebar__heading">Marketing</li>
 
             <li>
