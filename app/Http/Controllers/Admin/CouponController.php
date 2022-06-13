@@ -156,10 +156,10 @@ class CouponController extends Controller
         $coupon->discount = $request->discount;
         $coupon->max_discount = $request->max_discount;
         $coupon->min_purchase = $request->min_purchase;
-        $coupon->status = 1;
+        $coupon->status = $coupon->status;
 
         $coupon->save();
-        Alert::success('Success', 'Data saved succesfully!');
+        Alert::success('Success', 'Data updated succesfully!');
         return redirect()->route('admin.coupon.index');
     }
 
