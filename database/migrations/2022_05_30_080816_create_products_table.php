@@ -21,8 +21,8 @@ class CreateProductsTable extends Migration
             $table->longtext('image')->nullable();
             $table->longtext('additional_image')->nullable();
             $table->foreignId('category_id')->nullable();
-            $table->bigint('sub_category_id')->nullable();
-            $table->bigint('sub_sub_category_id')->nullable();
+            $table->bigInteger('sub_category_id')->nullable();
+            $table->bigInteger('sub_sub_category_id')->nullable();
             $table->string('category_ids', 255)->nullable();
             $table->text('variations')->nullable();
             $table->string('add_ons')->nullable();
