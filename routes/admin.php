@@ -59,6 +59,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::post('/master-user/add', 'UserController@master_user_store')->name('master-user.store');
     Route::get('/master-user/{id}', 'UserController@master_user_edit')->name('master-user.edit');
     Route::put('/master-user/{id}', 'UserController@master_user_update')->name('master-user.update');
+    Route::delete('/master-user/{id}', 'UserController@master_user_delete')->name('master-user.delete');
 
 
 
