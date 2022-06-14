@@ -11,7 +11,7 @@
                     <div>List Courier <span class="badge badge-pill badge-primary">{{ number_format($couriers->total(), 0, "", ".") }}</span></div>
                 </div>
                 <div class="page-title-actions">
-                    <a href="{{ route('admin.coupon.create') }}" class="btn-shadow btn btn-info btn-lg">Add Courier</a>
+                    <a href="{{ route('admin.courier.create') }}" class="btn-shadow btn btn-info btn-lg">Add Courier</a>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
                                         <i class="fa fa-search fa-w-16 "></i>
                                         </div>
                                     </div>
-                                    <input id="filter" name="filter" value="{{ $filter }}" placeholder="Search Title" type="text" class="form-control" style="color: gray;">
+                                    <input id="filter" name="filter" value="{{ $filter }}" placeholder="Search by Name, Phone and Address" type="text" class="form-control" style="color: gray;">
                                     <div class="input-group-prepend">
                                         <button type="submit" class="btn btn-primary btn-md">Search</buttton>
                                     </div>
@@ -42,23 +42,15 @@
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table" id="couponsTable">
+                    <table class="table table-striped table-bordered table-hover" id="couponsTable">
                         <thead>
                             <tr>
                                 <th>@sortablelink('id', 'No')</th>
                                 <th>@sortablelink('name', 'Name')</th>
                                 <th>@sortablelink('phone', 'Phone')</th>
                                 <th>Address</th>
-                                <th>Address Lat</th>
-                                <th>Address Lang</th>
                                 <th>Identity Type</th>
-                                <th>Identity Number</th>
-                                <th>Identity Expired</th>
-                                <th>Identity Image</th>
-                                <th>Identity Additional Image</th>
                                 <th>Profile Image</th>
-                                <th>Profile Additional Image</th>
-                                <th>Badge</th>
                                 <th>@sortablelink('status', 'Status')</th>
                                 <th>@sortablelink('join_date', 'Join Date')</th>
                                 <th>Action</th>
@@ -77,23 +69,19 @@
                                     <td>{{ $courier->id }}</td>
                                     <td>{{ $courier->name }}</td>
                                     <td>{{ $courier->phone }}</td>
-                                    <td>{{ $courier->address }}</td>
-                                    <td>{{ $courier->address_lat ? $courier->address_lat : "-" }}</td>
-                                    <td>{{ $courier->address_lang ? $courier->address_lang : "-" }}</td>
-                                    <td>{{ $courier->identity_type ? $courier->identity_type : "-" }}</td>
-                                    <td>{{ $courier->identity_no ? $courier->identity_no : "-" }}</td>
-                                    <td>{{ $courier->identity_expired ? $courier->identity_expired : "-" }}</td>
-                                    <td>{{ $courier->identity_image ? $courier->identity_image : "-" }}</td>
-                                    <td>{{ $courier->identity_additional_image ? $courier->identity_additional_image : "-" }}</td>
-                                    <td>{{ $courier->profile_image ? $courier->profile_image : "-" }}</td>
-                                    <td>{{ $courier->profile_additional_image ? $courier->profile_additional_image : "-" }}</td>
-                                    <td>{{ $courier->badge ? $courier->badge : "-" }}</td>
+                                    <td>{!! Str::limit($courier->address, 20) !!}</td>
+                                    <td>{{ $courier->identity_type }}</td>
+                                    <td>
+                                        <img src="{{ $courier->profile_image ? $courier->profile_image : asset('images/default-image.jpg') }}" alt="" width="100">
+                                    </td>
                                     <td>
                                         <label class="m-auto align-middle" for="statusCheckbox{{$courier->id}}">
                                             <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.courier.status',[$courier['id'],$courier->status ? 0 : 1])}}'" id="statusCheckbox{{$courier->id}}" {{$courier->status ? 'checked' : ''}}>
                                         </label>
                                     </td>
-                                    <td>{{ $courier->join_date ? $courier->join_date : "-" }}</td>
+                                    <td>
+                                        {{ \Carbon\Carbon::createFromDate($courier->join_date)->diff(Carbon::now())->format('%y tahun %m bulan %d hari') }}
+                                    </td>
                                     <td>
                                          <a href="{{ route('admin.courier.edit',$courier->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
 
