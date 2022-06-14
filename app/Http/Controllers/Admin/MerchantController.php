@@ -50,8 +50,8 @@ class MerchantController extends Controller
         $category_ids = Category::find($request->main_category_id);
         $json_category_ids = json_encode(['id' => $category_ids->id, 'slug' => $category_ids->slug]);
         $categories_id = implode(',', array($request->categories_id));
-        dd($request);
-        $categories = Category::whereIn('id', $request->categories_id)->get();
+        // dd($request);
+        $categories = Category::where('id', $request->categories_id)->get();
         if ($categories->count() == 1) {
             $categories_ids = ['id' => $categories[0]->id, 'name' => $categories[0]->name, 'slug' => $categories[0]->slug];
         } elseif ($categories->count() > 1) {
@@ -92,7 +92,15 @@ class MerchantController extends Controller
             $path_name = $request->file('cover_photo')->getRealPath();
             $image_cover = Cloudinary::upload($path_name, ["folder" => "images/merchants/cover", "overwrite" => TRUE, "resource_type" => "image"]);
             $image_url_cover = $image_cover->getSecurePath();
-            $detail_image_cover = [
+        } else {
+            $image_url_cover = '';
+        };
+
+        if ($request->file('seo_image')) {
+            $path_name = $request->file('seo_image')->getRealPath();
+            $image_cover = Cloudinary::upload($path_name, ["folder" => "images/merchants/seo", "overwrite" => TRUE, "resource_type" => "image"]);
+            $image_url_seo = $image_cover->getSecurePath();
+            $detail_image_seo = [
                 'public_id' =>  $image_cover->getPublicId(),
                 'file_type' =>  $image_cover->getFileType(),
                 'size'      =>  $image_cover->getReadableSize(),
@@ -100,40 +108,51 @@ class MerchantController extends Controller
                 'height'    =>  $image_cover->getHeight(),
                 'extension' =>  $image_cover->getExtension(),
             ];
-            $additional_image_cover = $detail_image_cover;
+            $additional_image_seo = $detail_image_seo;
         } else {
-            $image_url_cover = '';
-            $additional_image_cover = '';
+            $image_url_seo = '';
+            $additional_image_seo = '';
         };
 
         $additional_image = [
             'logo'  => $additional_image_logo,
-            'cover' => $additional_image_cover
         ];
         $additional_image_json = json_encode($additional_image);
 
         $merchant = Merchant::create([
-            'name'             => $request->name,
-            'slug'             => $request->slug,
-            'category_id'      => $request->main_category_id,
-            'category_ids'     => $json_category_ids,
-            'categories_id'    => $categories_id,
-            'categories_ids'   => $json_categories_ids,
-            'merchant_type'    => $request->merchant_type,
-            'phone'            => $request->phone,
-            'email'            => $request->email,
-            'logo'             => $image_url_logo,
-            'cover_photo'      => $image_url_cover,
-            'district'         => $request->district,
-            'address'          => $request->address,
-            'latitude'         => $request->latitude,
-            'longitude'        => $request->longitude,
-            'vendor_id'        => $vendor->id,
-            'tax'              => $request->tax,
-            'delivery_time'    => '10 - 30',
-            'delivery_time'    => $request->minimum_delivery_time . '-' . $request->maximum_delivery_time,
-            'additional_image' => $additional_image_json
-
+            'category_id'           => $request->main_category_id,
+            'category_ids'          => $json_category_ids,
+            'categories_id'         => $categories_id,
+            'categories_ids'        => $json_categories_ids,
+            'merchant_type'         => $request->merchant_type,
+            'name'                  => $request->name,
+            'slug'                  => $request->slug,
+            'phone'                 => $request->phone,
+            'email'                 => $request->email,
+            'logo'                  => $image_url_logo,
+            'additional_image'      => $additional_image_json,
+            'latitude'              => $request->latitude,
+            'longitude'             => $request->longitude,
+            'district'              => $request->district,
+            'address'               => $request->address,
+            'minimum_order'         => 0,
+            'comission'             => 0,
+            'schedule_order'        => 0,
+            'status'                => 0,
+            'vendor_id'             => $vendor->id,
+            'free_delivery'         => 0,
+            'delivery'              => 1,
+            'cover_photo'           => $image_url_cover,
+            'take_away'             => 1,
+            'food_section'          => 1,
+            'tax'                   => $request->tax,
+            'review_section'        => 1,
+            'active'                => 1,
+            'self_delivery_system'  => 0,
+            'pos_system'            => 0,
+            'cash_on_delivery'      => 0,
+            'seo_image'             => $image_url_seo,
+            'additional_seo_image'  => $additional_image_seo
         ]);
         $merchant->categories()->sync(request('categories_id'));
         // return redirect()->route('admin.master-merchant');

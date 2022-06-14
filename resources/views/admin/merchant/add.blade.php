@@ -68,8 +68,8 @@
                         <div class="form-group">
                             <label for="address">Merchant Address</label>
                             <input type="text" id="address-input" name="address" class="form-control map-input" placeholder="">
-                            <input type="hidden" name="address_latitude" id="address-latitude" value="0" />
-                            <input type="hidden" name="address_longitude" id="address-longitude" value="0" />
+                            <input type="hidden" name="latitude" id="address-latitude" value="0" />
+                            <input type="hidden" name="longitude" id="address-longitude" value="0" />
                             @error('address')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
