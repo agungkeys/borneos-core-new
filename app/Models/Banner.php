@@ -12,20 +12,26 @@ class Banner extends Model
     use Sortable;
 
     protected $fillable = [
-        'title','type', 'image', 'url', 'status', 'merchant_id', 'admin_id'
+        'title', 'type', 'image', 'url', 'status', 'merchant_id', 'admin_id'
     ];
 
     public $sortable = [
-        'id','title', 'url'
+        'id', 'title', 'url'
     ];
 
-    public function merchant(){
+    public function merchant()
+    {
         return $this->belongsTo(Merchant::class, 'merchant_id');
     }
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class, 'admin_id');
+    }
 
-    public function merchantName($id){
+    public function merchantName($id)
+    {
         $merchants = Merchant::select('name')->where('id', $id)->get();
-        foreach($merchants as $merchant){
+        foreach ($merchants as $merchant) {
             return $merchant->name;
         }
     }
