@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
@@ -8,7 +8,7 @@ use App\Models\Merchant;
 
 class CategoryController extends Controller
 {
-    public function master_category_index()
+    public function get_categories()
     {
         try {
             $categories = Category::where(['position' => 0, 'status' => 1])->orderBy('priority', 'desc')->get();
