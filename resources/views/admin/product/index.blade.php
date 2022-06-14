@@ -70,6 +70,8 @@
                   <th>Image</th>
                   <th>@sortablelink('name', 'Name')</th>
                   <th>@sortablelink('category.name', 'Category')</th>
+                  <th>Sub Category</th>
+                  <th>Sub Sub Category</th>
                   <th>@sortablelink('merchant.name', 'Merchant')</th>
                   <th>@sortablelink('price', 'Price')</th>
                   <th>Status</th>
@@ -96,6 +98,8 @@
                         @endif
                         <td>{{ $product->name ? $product->name : '-' }}</td>
                         <td>{{ $product->category && $product->category->name ? $product->category->name : '-' }}</td>
+                        <td>{{ $product->sub_category_id ? $product->sub_category($product->sub_category_id) : '-' }}</td>
+                        <td>{{ $product->sub_sub_category_id ? $product->sub_sub_category($product->sub_sub_category_id) : '-' }}</td>
                         <td>{{ $product->merchant && $product->merchant->name ? $product->merchant->name : '-' }}</td>
                         <td>Rp. {{ number_format($product->price,2, ",", ".") }}</td>
                         <td>
