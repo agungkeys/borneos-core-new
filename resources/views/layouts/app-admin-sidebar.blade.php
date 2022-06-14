@@ -3,7 +3,7 @@
         <ul class="vertical-nav-menu">
             <li class="app-sidebar__heading">Menu</li>
             <li>
-              <a href="/admin" class="mm-active"><i class="metismenu-icon pe-7s-rocket"></i>Dashboards</a>
+              <a href="/admin" class="admin {{ count(request()->segments()) == 1 && request()->segments()[0] == 'admin' ? 'mm-active' : '' }}"><i class="metismenu-icon pe-7s-rocket"></i>Dashboards</a>
             </li>
             <li class="app-sidebar__heading">Orders</li>
             <li>
@@ -25,33 +25,39 @@
               <a class="all" href="#"><i class="metismenu-icon pe-7s-news-paper"></i>All</a>
             </li>
             <li class="app-sidebar__heading">Master Data</li>
-            <li>
+            <li class="{{ count(request()->segments()) > 1 && request()->segments()[1] === 'master-category' || count(request()->segments()) > 1 && request()->segments()[1] === 'master-sub-category' || count(request()->segments()) > 1 && request()->segments()[1] === 'master-sub-sub-category' ? 'mm-active' : '' }}">
               <a href="#"><i class="metismenu-icon pe-7s-server"></i>Master Category<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i></a>
               <ul>
                   <li>
-                    <a class="master-category" href="{{ route('admin.master-category') }}"><i class="metismenu-icon pe-7s-server"></i>Category</a>
+                    <a class="master-category {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-category' ? 'mm-active' : '' }}" href="{{ route('admin.master-category') }}"><i class="metismenu-icon pe-7s-server"></i>Category</a>
                   </li>
                   <li>
-                    <a class="master-sub-category" href="{{ route('admin.master-sub-category') }}"><i class="metismenu-icon pe-7s-server"></i>Sub Category</a>
+                    <a class="master-sub-category {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-sub-category' ? 'mm-active' : '' }}" href="{{ route('admin.master-sub-category') }}"><i class="metismenu-icon pe-7s-server"></i>Sub Category</a>
                   </li>
                   <li>
-                    <a class="master-sub-sub-category" href="{{ route('admin.master-sub-sub-category') }}"><i class="metismenu-icon pe-7s-server"></i>Sub Sub Category</a>
+                    <a class="master-sub-sub-category {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-sub-sub-category' ? 'mm-active' : '' }}" href="{{ route('admin.master-sub-sub-category') }}"><i class="metismenu-icon pe-7s-server"></i>Sub Sub Category</a>
                   </li>
               </ul>
             </li>
-
             <li>
-              <a class="merchant" href="{{ route('admin.master-merchant') }}"><i class="metismenu-icon pe-7s-home"></i>Merchant</a>
+              <a class="merchant {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-merchant' ? 'mm-active' : '' }}" href="{{ route('admin.master-merchant') }}"><i class="metismenu-icon pe-7s-home"></i>Merchant</a>
             </li>
             <li>
-              <a class="product" href="#"><i class="metismenu-icon pe-7s-box2"></i>Product</a>
+              <a class="master-product {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-product' ? 'mm-active' : '' }}" href="{{ route('admin.master-product') }}"><i class="metismenu-icon pe-7s-box2"></i>Product</a>
+            </li>
+            <li>
+              <a class="master-courier {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-courier' ? 'mm-active' : '' }}" ><i class="metismenu-icon pe-7s-users"></i>User Courier</a>
+            </li>
+            <li>
+              <a class="master-admin {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-admin' ? 'mm-active' : '' }}" href="{{ route('admin.master-user') }}" ><i class="metismenu-icon pe-7s-users"></i>User Admin</a>
             </li>
             <li class="app-sidebar__heading">Marketing</li>
+
             <li>
-              <a class="bannners" href="#"><i class="metismenu-icon pe-7s-photo-gallery"></i>Banners</a>
+              <a class="bannners {{ count(request()->segments()) > 1 && request()->segments()[1] == 'banner' ? 'mm-active' : '' }}" href="{{ route('admin.banner.index') }}"><i class="metismenu-icon pe-7s-photo-gallery"></i>Banners</a>
             </li>
             <li>
-              <a class="coupons" href="#"><i class="metismenu-icon pe-7s-ticket"></i>Coupons</a>
+              <a class="coupons {{ count(request()->segments()) > 1 && request()->segments()[1] == 'coupon' ? 'mm-active' : '' }}" href="{{ route('admin.coupon.index') }}"><i class="metismenu-icon pe-7s-ticket"></i>Coupons</a>
             </li>
             <li class="app-sidebar__heading">Business</li>
             <li>

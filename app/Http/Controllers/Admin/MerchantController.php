@@ -12,9 +12,18 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class MerchantController extends Controller
 {
-    public function master_merchant_index(){
-        $master_merchants = Merchant::join('vendors', 'merchants.vendor_id', '=', 'vendors.id')->get();
-        return view('admin.merchant.index', compact('master_merchants'));
+    public function master_merchant_index(Request $request){
+        $filter = $request->query('filter');
+        if (!empty($filter)) {
+            $master_merchants = Merchant::sortable()
+                ->join('vendors', 'merchants.vendor_id', '=', 'vendors.id')
+                ->where('merchants.name', 'like', '%' . $filter . '%')
+                ->orWhere('vendors.f_name', 'like', '%' . $filter . '%')
+                ->paginate(10);
+        } else {
+            $master_merchants = Merchant::sortable()->join('vendors', 'merchants.vendor_id', '=', 'vendors.id')->paginate(10);
+        }
+        return view('admin.merchant.index', compact('master_merchants','filter'));
     }
     public function master_merchant_add(){
         $main_categories = Category::where(['position' => 0 ])->get();
@@ -154,6 +163,12 @@ class MerchantController extends Controller
             'additional_seo_image'  => $additional_image_seo
         ]);
         return redirect()->route('admin.master-merchant');
+    }
+     public function master_merchant_edit($id)
+    {
+        return view('admin.merchant.edit', [
+            'master_merchant' => Merchant::find($id)
+        ]);
     }
 }
 ?>

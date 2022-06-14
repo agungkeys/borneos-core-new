@@ -14,19 +14,22 @@
   <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
   <!-- Select2 -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
 
   <!-- Styles -->
-  <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+  <link href="{{asset(env('PUBLIC_ASSETS').'css/main.css')}}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
   <div id="app">
+      @include('sweetalert::alert')
+
     <body>
       <div class="app-container app-theme-white body-tabs-shadow fixed-header fixed-sidebar">
         <div class="app-header header-shadow">
           <div class="app-header__logo">
             <div class="w-100">
-              <img style="max-height: 3em" src="/images/logo.svg" />
+              <img style="max-height: 3em" src="{{env('PUBLIC_IMAGE')}}/images/logo.svg" />
               <span style="font-weight: bold; color: #3f6ad8;">Admin</span>
             </div>
             <div class="header__pane ml-auto">
@@ -48,20 +51,20 @@
               <!-- START FOR RIGHT MENU MOBILE -->
               <div class="btn-group">
                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                  <img width="42" class="rounded-circle" src="/images/avatars/1.jpg" alt="">
+                  <img width="42" class="rounded-circle" src="{{env('PUBLIC_IMAGE')}}/images/avatars/1.jpg" alt="">
                   <i class="fa fa-angle-down ml-2 opacity-8"></i>
                 </a>
                 <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu-sm dropdown-menu dropdown-menu-right" style="top: '10%' !important;">
                   <div class="dropdown-menu-header">
                     <div class="dropdown-menu-header-inner bg-info">
-                      <div class="menu-header-image opacity-2" style="background-image: url('assets/images/dropdown-header/city3.jpg');"></div>
+                      <div class="menu-header-image opacity-2" style="background-image: url(env('PUBLIC_ASSETS').'assets/images/dropdown-header/city3.jpg');"></div>
                       <div class="menu-header-content text-left">
                         <div class="widget-content p-0">
                           <div class="widget-content-wrapper">
-                            <div class="widget-content-left mr-3"><img width="42" class="rounded-circle" src="/images/avatars/1.jpg" alt=""></div>
+                            <div class="widget-content-left mr-3"><img width="42" class="rounded-circle" src="{{env('PUBLIC_ASSETS')}}/images/avatars/1.jpg" alt=""></div>
                             <div class="widget-content-left">
-                              <div class="widget-heading">{{Auth::guard('admin')->user()->f_name}} {{Auth::guard('admin')->user()->l_name}}</div>
-                              <div class="widget-subheading opacity-8">{{Auth::guard('admin')->user()->email}}</div>
+                              <div class="widget-heading">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->f_name : ''}} {{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->l_name : ''}}</div>
+                              <div class="widget-subheading opacity-8">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->email : ''}}</div>
                             </div>
                             <div class="widget-content-right mr-2"><a href="{{ route('admin.auth.logout') }}" class="btn-pill btn-shadow btn-shine btn btn-focus">Logout</a></div>
                           </div>
@@ -82,7 +85,7 @@
                     <div class="widget-content-left">
                       <div class="btn-group">
                         <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                          <img width="42" class="rounded-circle" src="/images/avatars/1.jpg" alt="">
+                          <img width="42" class="rounded-circle" src="{{env('PUBLIC_IMAGE')}}/images/avatars/1.jpg" alt="">
                           <i class="fa fa-angle-down ml-2 opacity-8"></i>
                         </a>
                         <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu-lg dropdown-menu dropdown-menu-right">
@@ -92,10 +95,10 @@
                               <div class="menu-header-content text-left">
                                 <div class="widget-content p-0">
                                   <div class="widget-content-wrapper">
-                                    <div class="widget-content-left mr-3"><img width="42" class="rounded-circle" src="/images/avatars/1.jpg" alt=""></div>
+                                    <div class="widget-content-left mr-3"><img width="42" class="rounded-circle" src="{{env('PUBLIC_ASSETS')}}/images/avatars/1.jpg" alt=""></div>
                                     <div class="widget-content-left">
-                                      <div class="widget-heading">{{Auth::guard('admin')->user()->f_name}} {{Auth::guard('admin')->user()->l_name}}</div>
-                                      <div class="widget-subheading opacity-8">{{Auth::guard('admin')->user()->email}}</div>
+                                      <div class="widget-heading">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->f_name : ''}} {{ Auth::guard('admin')->check() ? Auth::guard('admin')->user()->l_name : ''}}</div>
+                                      <div class="widget-subheading opacity-8">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->email : ''}}</div>
                                     </div>
                                     <div class="widget-content-right mr-2"><a href="{{ route('admin.auth.logout') }}" class="btn-pill btn-shadow btn-shine btn btn-focus">Logout</a></div>
                                   </div>
@@ -107,8 +110,8 @@
                       </div>
                     </div>
                     <div class="widget-content-left  ml-3 header-user-info">
-                      <div class="widget-heading">{{Auth::guard('admin')->user()->f_name}} {{Auth::guard('admin')->user()->l_name}}</div>
-                      <div class="widget-subheading">{{Auth::guard('admin')->user()->email}}</div>
+                      <div class="widget-heading">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->f_name : ''}} {{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->l_name : ''}}</div>
+                      <div class="widget-subheading">{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->email : ''}}</div>
                     </div>
                     <!-- <div class="widget-content-right header-user-info ml-3"><button type="button" class="btn-shadow p-1 btn btn-primary btn-sm show-toastr-example"><i class="fa text-white fa-calendar pr-1 pl-1"></i></button></div> -->
                   </div>
@@ -135,8 +138,9 @@
             @include('layouts.app-admin-sidebar')
             <!-- SIDEBAR MENU END -->
           </div>
-          <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
           <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
           <div class="app-main__outer">
             @yield('content')
           </div>
@@ -145,9 +149,12 @@
       <div class="app-drawer-overlay d-none animated fadeIn"></div>
     </body>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="{{ asset('js/main.js') }}" defer></script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize" async defer></script>
     <script src="/js/mapInput.js"></script>
+    <script src="{{asset(env('PUBLIC_ASSETS').'js/sweetalert2.all.min.js')}}"></script>
+    <script src="{{asset(env('PUBLIC_ASSETS').'js/main.js')}}" defer></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
   </div>
+
 </body>
 </html>
