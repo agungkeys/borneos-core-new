@@ -41,17 +41,16 @@ class MerchantController extends Controller
         ], [
             'f_name.required' => 'The first name field is required.'
         ]);
-        // if ($validator->fails()) {
-        //     return back()
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // }
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         $category_ids = Category::find($request->main_category_id);
         $json_category_ids = json_encode(['id' => $category_ids->id, 'slug' => $category_ids->slug]);
-        $categories_id = implode(',', array($request->categories_id));
-        // dd($request);
-        $categories = Category::where('id', $request->categories_id)->get();
+        $categories_id = implode(',', $request->categories_id);
+        $categories = Category::whereIn('id', $request->categories_id)->get();
         if ($categories->count() == 1) {
             $categories_ids = ['id' => $categories[0]->id, 'name' => $categories[0]->name, 'slug' => $categories[0]->slug];
         } elseif ($categories->count() > 1) {
@@ -154,9 +153,7 @@ class MerchantController extends Controller
             'seo_image'             => $image_url_seo,
             'additional_seo_image'  => $additional_image_seo
         ]);
-        $merchant->categories()->sync(request('categories_id'));
-        // return redirect()->route('admin.master-merchant');
-
+        return redirect()->route('admin.master-merchant');
     }
 }
 ?>

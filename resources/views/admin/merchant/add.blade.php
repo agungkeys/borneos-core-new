@@ -38,7 +38,7 @@
                         </div>
                         <div class="form-group">
                             <label for="categories_id">Merchant Sub Category</label>
-                            <select name="categories_id" id="categories_id" multiple="multiple" class="multiselect-dropdown form-control">
+                            <select name="categories_id[]" id="categories_id" multiple="multiple" class="multiselect-dropdown form-control">
                             </select>
                             @error('categories_id')
                                 <span class="text-danger mt-2">{{ $message }}</span>
@@ -77,7 +77,7 @@
                         </div>
                         <div class="form-group">
                             <label for="tax">VAT/TAX (%)</label>
-                            <input type="number" id="tax" name="tax" class="form-control" min="0" step=".01">
+                            <input type="number" id="tax" name="tax" class="form-control" min="0" step=".01" value="0">
                             @error('tax')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
@@ -241,7 +241,7 @@
             success:function(res){
                 if(res){
                     $.each(res,function(key,data){
-                        $("#categories_id").append('<option value="'+key+'">'+data.name+'</option>');
+                        $("#categories_id").append('<option value="'+data.id+'">'+data.name+'</option>');
                     });
                 }else{
                 $("#categories_id").empty();
