@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class BannerController extends Controller
 {
-    public function master_banner_index()
+    public function get_banners()
     {
         $banners = Banner::where(['status' => 1])->get();
         foreach ($banners as $banner) {
