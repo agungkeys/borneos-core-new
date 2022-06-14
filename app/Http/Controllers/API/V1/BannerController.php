@@ -30,6 +30,6 @@ class BannerController extends Controller
                 ]
             ];
         };
-        return response()->json($data, 200);
+        return response()->json(['status' => 'success', 'data' => $data], 201);
     }
 }

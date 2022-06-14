@@ -26,9 +26,9 @@ class CategoryController extends Controller
                     'totalMerchant' => Merchant::where('category_id', '=', $c->id)->get('category_id')->count()
                 ];
             }
-            return response()->json($category, 200);
+            return response()->json(['status' => 'success', 'data' => $category], 201);;
         } catch (\Exception $e) {
-            return response()->json([], 200);
+            return response()->json(['status' => 'error', 'data' => null], 200);
         }
     }
 }
