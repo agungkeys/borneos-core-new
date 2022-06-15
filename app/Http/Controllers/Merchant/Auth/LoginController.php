@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Vendor\Auth;
+namespace App\Http\Controllers\Merchant\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Vendor;
+use App\Models\Merchant;
 
 class LoginController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('guest:vendor', ['except' => 'logout']);
+        $this->middleware('guest:merchant', ['except' => 'logout']);
     }
 
     public function login()
     {
-        return view('vendor.auth.login');
+        return view('merchant.auth.login');
     }
 
     public function submit(Request $request)
@@ -33,8 +34,8 @@ class LoginController extends Controller
             ->withErrors([trans('messages.inactive_vendor_warning')]);
             }
         }
-        if (auth('vendor')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-            return redirect()->route('vendor.dashboard');
+        if (auth('merchant')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+            return redirect()->route('merchant.dashboard');
         }
 
         return redirect()->back()->withInput($request->only('email', 'remember'))
@@ -43,7 +44,7 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        auth()->guard('vendor')->logout();
-        return redirect()->route('vendor.auth.login');
+        auth()->guard('merchant')->logout();
+        return redirect()->route('merchant.auth.login');
     }
 }

@@ -17,7 +17,6 @@ class Authenticate extends Middleware
         // if (! $request->expectsJson()) {
         //     return route('login');
         // }
-
           if($request->is('api/*')) {
               return route('authentication-failed');
           }
@@ -25,9 +24,9 @@ class Authenticate extends Middleware
           {
               return route('admin.auth.login');
           }
-          else if ($request->is('vendor/*') || $request->is('vendor'))
+          else if ($request->is('merchant/*') || $request->is('merchant'))
           {
-              return route('vendor.auth.login');
+              return route('merchant.auth.login');
           }
           else if ($request->is('courier/*') || $request->is('courier'))
           {

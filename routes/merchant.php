@@ -1,7 +1,7 @@
 <?php
   use Illuminate\Support\Facades\Route;
 
-  Route::group(['namespace' => 'Vendor', 'as' => 'vendor.'], function () {
+  Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
     /*authentication*/
     Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
       Route::get('login', 'LoginController@login')->name('login');
@@ -9,7 +9,7 @@
       Route::get('logout', 'LoginController@logout')->name('logout');
     });
     /*authentication*/
-    Route::group(['middleware' => ['vendor']], function () {
+    Route::group(['middleware' => ['auth:merchant']], function () {
       //dashboard
       Route::get('/', 'DashboardController@dashboard')->name('dashboard');
 

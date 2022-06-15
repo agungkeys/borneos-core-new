@@ -46,7 +46,7 @@ return [
             'provider' => 'admins',
         ],
 
-        'vendor' => [
+        'merchant' => [
             'driver' => 'session',
             'provider' => 'vendors',
         ],
