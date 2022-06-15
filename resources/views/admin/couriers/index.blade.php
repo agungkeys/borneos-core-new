@@ -74,7 +74,7 @@
                                     <td>{{ $courier->email }}</td>
                                     <td>{{ $courier->identity_type }}</td>
                                     <td>
-                                        <img src="{{ $courier->profile_image ? $courier->profile_image : asset('images/default-image.jpg') }}" alt="" width="100">
+                                        <img src="{{ $courier->profile_image ? $courier->profile_image : asset('images/default-image.jpg') }}" alt="" width="100" height="100" style="object-fit: cover">
                                     </td>
                                     <td>
                                         <label class="m-auto align-middle" for="statusCheckbox{{$courier->id}}">

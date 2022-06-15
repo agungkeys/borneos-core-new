@@ -9,7 +9,7 @@
                         <i class="pe-7s-medal icon-gradient bg-tempting-azure"></i>
                     </div>
                     <div>
-                        Add Courier
+                        Edit Courier
                         <div class="page-title-subheading">
 
                         </div>
@@ -44,7 +44,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" name="password" id="password" required>
+                                <input type="password" class="form-control" name="password" id="password">
                             </div>
                             <div class="form-group">
                                 <label for="address_lat">Address lat.</label>
