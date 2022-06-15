@@ -8,6 +8,7 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class CourierController extends Controller
 {
@@ -64,6 +65,8 @@ class CourierController extends Controller
             'name' => 'required',
             'phone' => 'required',
             'address' => 'required',
+            'email' => 'email|required',
+            'password' => 'required',
             'address_lat' => 'nullable',
             'address_lang' => 'nullable',
             'identity_type' => 'required',
@@ -146,6 +149,8 @@ class CourierController extends Controller
         $courier->name = $request->name;
         $courier->phone = $request->phone;
         $courier->address = $request->address;
+        $courier->email = $request->email;
+        $courier->password = Hash::make($request->password);
         $courier->address_lat = $request->address_lat;
         $courier->address_lang = $request->address_lang;
         $courier->identity_type = $request->identity_type;
@@ -182,7 +187,11 @@ class CourierController extends Controller
      */
     public function edit($id)
     {
-        //
+        $courier = Courier::where('id', $id)->first();
+
+        return view('admin.couriers.edit', [
+            'courier' => $courier
+        ]);
     }
 
     /**

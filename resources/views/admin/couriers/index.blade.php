@@ -49,6 +49,7 @@
                                 <th>@sortablelink('name', 'Name')</th>
                                 <th>@sortablelink('phone', 'Phone')</th>
                                 <th>Address</th>
+                                <th>Email</th>
                                 <th>Identity Type</th>
                                 <th>Profile Image</th>
                                 <th>@sortablelink('status', 'Status')</th>
@@ -70,6 +71,7 @@
                                     <td>{{ $courier->name }}</td>
                                     <td>{{ $courier->phone }}</td>
                                     <td>{!! Str::limit($courier->address, 20) !!}</td>
+                                    <td>{{ $courier->email }}</td>
                                     <td>{{ $courier->identity_type }}</td>
                                     <td>
                                         <img src="{{ $courier->profile_image ? $courier->profile_image : asset('images/default-image.jpg') }}" alt="" width="100">

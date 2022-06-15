@@ -12,7 +12,7 @@ class Courier extends Model
     use Sortable;
 
     protected $fillable = [
-        'name', 'phone', 'address', 'address_lat', 'address_lang', 'identity_type', 'identity_no', 'identity_expired', 'identity_image', 'identity_additional_image', 'profile_image', 'profile_additional_image', 'badge', 'status', 'join_date'
+        'name', 'phone', 'address', 'email', 'password', 'address_lat', 'address_lang', 'identity_type', 'identity_no', 'identity_expired', 'identity_image', 'identity_additional_image', 'profile_image', 'profile_additional_image', 'badge', 'status', 'join_date'
     ];
 
     public $sortable = [
