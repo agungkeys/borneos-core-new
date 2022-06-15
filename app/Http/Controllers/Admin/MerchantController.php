@@ -9,6 +9,7 @@ use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class MerchantController extends Controller
 {
@@ -100,8 +101,18 @@ class MerchantController extends Controller
             $path_name = $request->file('cover_photo')->getRealPath();
             $image_cover = Cloudinary::upload($path_name, ["folder" => "images/merchants/cover", "overwrite" => TRUE, "resource_type" => "image"]);
             $image_url_cover = $image_cover->getSecurePath();
+             $detail_image_cover = [
+                'public_id' =>  $image_cover->getPublicId(),
+                'file_type' =>  $image_cover->getFileType(),
+                'size'      =>  $image_cover->getReadableSize(),
+                'width'     =>  $image_cover->getWidth(),
+                'height'    =>  $image_cover->getHeight(),
+                'extension' =>  $image_cover->getExtension(),
+            ];
+            $additional_image_cover = $detail_image_cover;
         } else {
             $image_url_cover = '';
+            $additional_image_cover ='';
         };
 
         if ($request->file('seo_image')) {
@@ -124,6 +135,7 @@ class MerchantController extends Controller
 
         $additional_image = [
             'logo'  => $additional_image_logo,
+            'cover' => $additional_image_cover,
         ];
         $additional_image_json = json_encode($additional_image);
 
@@ -162,13 +174,25 @@ class MerchantController extends Controller
             'seo_image'             => $image_url_seo,
             'additional_seo_image'  => $additional_image_seo
         ]);
+        Alert::success('Success', 'Data Created Successfully');
         return redirect()->route('admin.master-merchant');
     }
-     public function master_merchant_edit($id)
+    public function master_merchant_edit($id)
     {
         return view('admin.merchant.edit', [
             'master_merchant' => Merchant::find($id)
         ]);
+    }
+    public function master_merchant_delete($id)
+    {
+        $master_merchant = Category::find($id);
+        if ($master_merchant->logo) {
+            $key = json_decode($master_merchant->additional_image);
+            // Cloudinary::destroy($key->public_id);
+        };
+        dd($key);
+        // $master_merchant->delete();
+        // return response()->json(['status' => 200]);
     }
 }
 ?>
