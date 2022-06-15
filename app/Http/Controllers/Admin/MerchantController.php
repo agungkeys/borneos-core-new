@@ -185,14 +185,19 @@ class MerchantController extends Controller
     }
     public function master_merchant_delete($id)
     {
-        $master_merchant = Category::find($id);
+        $master_merchant = Merchant::find($id);
         if ($master_merchant->logo) {
             $key = json_decode($master_merchant->additional_image);
-            // Cloudinary::destroy($key->public_id);
+            Cloudinary::destroy($key->logo->public_id);
+            if ($key->cover) {
+                Cloudinary::destroy($key->cover->public_id);
+            }
         };
-        dd($key);
+        // if ($master_merchant->) {
+        //     # code...
+        // }
         // $master_merchant->delete();
-        // return response()->json(['status' => 200]);
+        return response()->json(['status' => 200]);
     }
 }
 ?>

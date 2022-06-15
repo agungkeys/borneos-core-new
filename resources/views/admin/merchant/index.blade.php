@@ -86,8 +86,7 @@
         </div>
       </div>
    </div>
- </div>
- @include('sweetalert::alert')
+    @include('sweetalert::alert')
    <script type="text/javascript">
       function delete_master_merchant(id)
       {
@@ -121,4 +120,5 @@
             })
       }
    </script>
+ </div>
 @endsection
