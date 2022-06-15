@@ -18,6 +18,8 @@ class CreateCouriersTable extends Migration
             $table->string('name');
             $table->string('phone', 13);
             $table->text('address');
+            $table->string('email');
+            $table->string('password');
             $table->string('address_lat', 100)->nullable();
             $table->string('address_lang', 100)->nullable();
             $table->string('identity_type');
