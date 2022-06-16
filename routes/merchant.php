@@ -17,6 +17,9 @@
       Route::post('settings', 'SystemController@settings_update');
       Route::post('settings-password', 'SystemController@settings_password_update')->name('settings-password');
       Route::get('/get-restaurant-data', 'SystemController@restaurant_data')->name('get-restaurant-data');
+
+      Route::get('/master-banner', 'BannerController@master_banner_index')->name('master-banner');
+      Route::get('/master-banner-status/{id}/{status}', 'BannerController@master_banner_status')->name('master-banner.status');
     });
 
     // Route::middleware(['auth:vendor'])->group(function(){
