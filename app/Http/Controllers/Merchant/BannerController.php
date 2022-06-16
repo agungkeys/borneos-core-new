@@ -148,8 +148,11 @@ class BannerController extends Controller
         return redirect()->route('merchant.master-banner');
     }
 
-    public function master_banner_delete(){
+    public function master_banner_delete($id){
+        $banner = Banner::findOrFail($id);
 
+        $banner->delete();
+        return response()->json(['status' => 200]);
     }
 
 }

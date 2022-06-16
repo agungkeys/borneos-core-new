@@ -120,7 +120,7 @@
                     let _token =  $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
                         type: "DELETE",
-                        url: "/admin/banner/"+id,
+                        url: "/merchant/master-banner/"+id,
                         data: {_token:_token,id:id},
                         success:function(response){
                             if(response.status == 200){
@@ -129,7 +129,7 @@
                                 'Your file has been deleted.',
                                 'success'
                                 )
-                                window.location = "{{ route('admin.banner.index') }}";
+                                window.location = "{{ route('merchant.master-banner') }}";
                             }
                         }
                     });
