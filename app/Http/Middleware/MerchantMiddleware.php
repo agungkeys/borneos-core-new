@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class VendorMiddleware
+class MerchantMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,14 +17,14 @@ class VendorMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-      if (Auth::guard('vendor')->check()) {
-          if(!auth('vendor')->user()->status)
+      if (Auth::guard('merchant')->check()) {
+          if(!auth('merchant')->user()->status)
           {
-              auth()->guard('vendor')->logout();
-              return redirect()->route('vendor.auth.login');
+              auth()->guard('merchant')->logout();
+              return redirect()->route('merchant.auth.login');
           }
           return $next($request);
       }
-      return redirect()->route('vendor.auth.login');
+      return redirect()->route('merchant.auth.login');
     }
 }
