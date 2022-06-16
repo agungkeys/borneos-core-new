@@ -67,7 +67,7 @@
                         </div>
                         <div class="form-group">
                             <label for="address">Merchant Address</label>
-                            <input type="text" id="address-input" name="address" class="form-control map-input" placeholder="">
+                            <input type="text" id="address-input" name="address" class="form-control map-input" placeholder=" ">
                             <input type="hidden" name="latitude" id="address-latitude" value="0" />
                             <input type="hidden" name="longitude" id="address-longitude" value="0" />
                             @error('address')
@@ -188,9 +188,7 @@
                 reader.onload = function (e) {
                     $('#'+viewer).attr('src', e.target.result);
                 }
-
                 reader.readAsDataURL(input.files[0]);
-
             }
         }
         $("#customFileEg1").change(function () {

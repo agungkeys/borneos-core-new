@@ -70,6 +70,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         return response()->json($course);
     });
     Route::get('/master-merchant/{id}', 'MerchantController@master_merchant_edit')->name('master-merchant.edit');
+    Route::delete('/master-merchant/{id}', 'MerchantController@master_merchant_delete')->name('master-merchant.delete');
 
 
     Route::get('settings', 'SystemController@settings')->name('settings');
