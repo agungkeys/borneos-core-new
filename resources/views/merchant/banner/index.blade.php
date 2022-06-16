@@ -11,7 +11,7 @@
                     <div>List Banner <span class="badge badge-pill badge-primary">{{ number_format($banners->total(), 0, "", ".") }}</span></div>
                 </div>
                 <div class="page-title-actions">
-                    <a href="{{ route('admin.banner.create') }}" class="btn-shadow btn btn-info btn-lg">Add Banner</a>
+                    <a href="{{ route('merchant.master-banner.add') }}" class="btn-shadow btn btn-info btn-lg">Add Banner</a>
                 </div>
             </div>
         </div>

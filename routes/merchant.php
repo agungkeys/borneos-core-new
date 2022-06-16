@@ -20,6 +20,8 @@
 
       Route::get('/master-banner', 'BannerController@master_banner_index')->name('master-banner');
       Route::get('/master-banner-status/{id}/{status}', 'BannerController@master_banner_status')->name('master-banner.status');
+      Route::get('/master-banner/add', 'BannerController@master_banner_add')->name('master-banner.add');
+      Route::post('/master-banner/store', 'BannerController@master_banner_store')->name('master-banner.store');
     });
 
     // Route::middleware(['auth:vendor'])->group(function(){
