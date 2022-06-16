@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Carbon;
+
 return [
 
     /*
@@ -235,7 +237,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Cloudinary' => CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
-
+        'Carbon' => \Illuminate\Support\Carbon::class,
     ],
 
 ];
