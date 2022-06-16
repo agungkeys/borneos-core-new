@@ -23,8 +23,8 @@
 @php
 use App\Models\Merchant;
 use Illuminate\Support\Str;
-$merchant = Merchant::where(['vendor_id' => Auth()->id()])->get();
-$merchantname = Str::of($merchant[0]->name)->words(2, '..');
+$merchant = Merchant::find(['vendor_id' => Auth()->id()])->first();
+$merchantname = Str::of($merchant->name)->words(2, '..');
 @endphp
 <body>
   <div id="app">
