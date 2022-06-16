@@ -308,6 +308,9 @@ class CourierController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $courier = Courier::findOrFail($id);
+
+        $courier->delete();
+        return response()->json(['status' => 200]);
     }
 }
