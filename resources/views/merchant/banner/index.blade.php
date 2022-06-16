@@ -83,7 +83,7 @@
                                     </td>
                                     <td>{{ $banner->admin_id ? $banner->admin_id : "-" }}</td>
                                     <td>
-                                         <a href="{{ route('admin.banner.edit',$banner->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+                                         <a href="{{ route('merchant.master-banner.edit',$banner->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
                                         <button type="button" onclick="delete_banner({{$banner->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                                     </td>
                                 </tr>

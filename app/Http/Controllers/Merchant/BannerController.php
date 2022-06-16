@@ -43,6 +43,7 @@ class BannerController extends Controller
 
     public function master_banner_store(Request $request){
         $merchant = Merchant::where(['vendor_id' => Auth::guard('merchant')->user()->id])->first();
+
         $request->validate([
             'title' => 'required',
             'type' => 'required',
@@ -94,16 +95,61 @@ class BannerController extends Controller
         return redirect()->route('merchant.master-banner');
     }
 
-
-    public function master_banner_edit(){
-
+    public function master_banner_edit($id){
+        $banner = Banner::findOrFail($id);
+        return view('merchant.banner.edit', [
+            'banner' => $banner
+        ]);
     }
-    public function master_banner_update(){
 
+    public function master_banner_update(Request $request, $id){
+        $banner = Banner::findOrFail($id);
+
+        if ($request->file('image')) {
+            $path_name = $request->file('image')->getRealPath();
+            $image = Cloudinary::upload($path_name, ["folder" => "images/banners", "overwrite" => TRUE, "resource_type" => "image"]);
+            $image_url = $image->getSecurePath();
+            $ext = substr($image_url, -3);
+            $ext_jpeg = substr($image_url, -4);
+
+            if ($ext == "jpg") {
+                $image_url_webp = substr($image_url, 0, -3) . "webp";
+            } else if ($ext == "png") {
+                $image_url_webp = substr($image_url, 0, -3) . "webp";
+            } elseif ($ext == "svg") {
+                $image_url_webp = substr($image_url, 0, -3) . "webp";
+            } elseif ($ext_jpeg == "jpeg") {
+                $image_url_webp = substr($image_url, 0, -4) . "webp";
+            };
+
+            $detail_image = [
+                'public_id' =>  $image->getPublicId(),
+                'file_type' =>  $image->getFileType(),
+                'size'      =>  $image->getReadableSize(),
+                'width'     =>  $image->getWidth(),
+                'height'    =>  $image->getHeight(),
+                'extension' =>  $image->getExtension(),
+                'webp'      =>  $image_url_webp
+            ];
+        } else {
+            $image_url = $banner->image;
+        };
+
+        $banner->title = $request->title;
+        $banner->type = $banner->type;
+        $banner->image = $image_url;
+        $banner->url = $request->url;
+        $banner->status = $banner->status;
+        $banner->merchant_id = $banner->merchant_id;
+        $banner->admin_id = $banner->admin_id;
+
+        $banner->save();
+        Alert::success('Success', 'Data updated succesfully!');
+        return redirect()->route('merchant.master-banner');
     }
+
     public function master_banner_delete(){
 
     }
-
 
 }

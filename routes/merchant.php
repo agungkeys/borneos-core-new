@@ -22,6 +22,8 @@
       Route::get('/master-banner-status/{id}/{status}', 'BannerController@master_banner_status')->name('master-banner.status');
       Route::get('/master-banner/add', 'BannerController@master_banner_add')->name('master-banner.add');
       Route::post('/master-banner/store', 'BannerController@master_banner_store')->name('master-banner.store');
+      Route::get('master-banner/{id}', 'BannerController@master_banner_edit')->name('master-banner.edit');
+      Route::put('/master-banner/{id}', 'BannerController@master_banner_update')->name('master-banner.update');
     });
 
     // Route::middleware(['auth:vendor'])->group(function(){
