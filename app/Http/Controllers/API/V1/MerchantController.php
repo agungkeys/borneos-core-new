@@ -63,4 +63,29 @@ class MerchantController extends Controller
             return response()->json(['status' => 'error', 'meta' => null, 'data' => null], 401);
         }
     }
+    public function get_merchant_detail(Request $request, $slug)
+    {
+        if ($request->header('KEY_HEADER') === env('KEY_HEADER')) {
+            $slug_id = $this->getCategorySlugPosition($slug);
+            if ($slug_id !== null) {
+                if ($slug_id['position'] == 0) {
+                    $result = Merchant::where('category_id', $slug_id['id'])->get();
+                    if ($result->count() == 0) {
+                        return response()->json(['status' => 'error', 'data' => null]);
+                    }
+                } elseif ($slug_id['position'] > 0) {
+                    $result = Merchant::where('categories_id', 'like', "%{$slug_id['id']}%")->get();
+                    if ($result->count() == 0) {
+                        return response()->json(['status' => 'error', 'data' => null]);
+                    }
+                }
+                $merchant = $this->get_merchant_list($result);
+                return response()->json(['status' => 'success', 'data' => $merchant]);
+            } else {
+                return response()->json(['status' => 'error', 'data' => null]);
+            };
+        } else {
+            return response()->json(['status' => 'error', 'data' => null], 401);
+        }
+    }
 }

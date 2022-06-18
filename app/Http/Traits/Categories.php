@@ -32,6 +32,14 @@ trait Categories
             ->get()[0];
         return $category->id;
     }
+    public function getCategorySlugPosition($data)
+    {
+        $query = Category::where('slug', $data)->get();
+        if ($query->count() > 0) {
+            return ['id' => $query[0]->id, 'position' => $query[0]->position];
+        }
+        return null;
+    }
     public function DefaultMetacategory()
     {
         foreach (Category::where(['position' => 0])->get() as $c) {
