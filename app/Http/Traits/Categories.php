@@ -25,4 +25,18 @@ trait Categories
         }
         return $category;
     }
+    public function getCategoryId($data)
+    {
+        $category = Category::where('name', '=', $data['category'])
+            ->orWhere('slug', '=', $data['category'])
+            ->get()[0];
+        return $category->id;
+    }
+    public function DefaultMetacategory()
+    {
+        foreach (Category::where(['position' => 0])->get() as $c) {
+            $result[] = ['id' => $c->id, 'slug' => $c->slug, 'name' => $c->name];
+        }
+        return $result;
+    }
 }

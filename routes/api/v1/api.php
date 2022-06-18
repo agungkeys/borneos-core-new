@@ -9,4 +9,7 @@ Route::group(['namespace' => 'Api\v1'], function () {
   Route::group(['prefix' => 'categories'], function () {
     Route::get('/', 'CategoryController@get_categories');
   });
+  Route::group(['prefix' => 'merchants'], function () {
+    Route::get('/', 'MerchantController@get_merchants');
+  });
 });
