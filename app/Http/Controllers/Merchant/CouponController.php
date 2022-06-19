@@ -75,11 +75,50 @@ class CouponController extends Controller
     }
 
     public function master_coupon_edit(Request $request, $id){
+        $merchant = Merchant::where(['vendor_id' => Auth::guard('merchant')->user()->id])->first();
+        $coupon = Coupons::where([['merchant_id', $merchant->id], ['id', $id]])->first();
 
+        if ($coupon){
+            return view('merchant.coupon.edit', [
+                'coupon' => $coupon
+            ]);
+        }else{
+            return abort(404);
+        }
     }
 
     public function master_coupon_update(Request $request, $id){
+        $request->validate([
+            'title' => 'required',
+            'coupon_type' => 'required',
+            'merchant_id' => 'nullable',
+            'code' => 'required',
+            'date_start' => 'date|nullable',
+            'date_end' => 'date|nullable',
+            'limit_same_user' => 'nullable',
+            'discount_type' => 'nullable',
+            'max_discount' => 'nullable',
+            'minimal_purchase' => 'nullable'
+        ]);
 
+        $coupon = Coupons::findOrFail($id);
+
+        $coupon->title = $request->title;
+        $coupon->coupon_type = $request->coupon_type;
+        $coupon->merchant_id = $coupon->merchant_id;
+        $coupon->code = $request->code;
+        $coupon->limit_same_user = $request->limit_same_user;
+        $coupon->date_start = $request->date_start;
+        $coupon->date_end = $request->date_end;
+        $coupon->discount_type = $request->discount_type;
+        $coupon->discount = $request->discount;
+        $coupon->max_discount = $request->max_discount;
+        $coupon->min_purchase = $request->min_purchase;
+        $coupon->status = $coupon->status;
+
+        $coupon->save();
+        Alert::success('Success', 'Data updated succesfully!');
+        return redirect()->route('merchant.master-coupon');
     }
 
     public function master_coupon_delete($id){
