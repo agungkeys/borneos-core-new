@@ -91,4 +91,29 @@ trait FormatMeta
             ]
         ];
     }
+    public function MetaProduct($data)
+    {
+        return [
+            'pagination' => [
+                'page' => 1,
+                'perPage' => 10,
+                'total' => $data['product_count']
+            ],
+            'filter' => [
+                'category' => $data['category'],
+                'subCategory' => $data['sub_category'],
+                'subSubCategory' => $data['sub_sub_category'],
+                'sort' => [
+                    [
+                        'id' => 'asc',
+                        'label' => 'ASC'
+                    ],
+                    [
+                        'id' => 'desc',
+                        'label' => 'DESC'
+                    ]
+                ]
+            ]
+        ];
+    }
 }
