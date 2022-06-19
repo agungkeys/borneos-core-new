@@ -38,4 +38,12 @@ class Product extends Model
     {
         return $this->sub_category($id);
     }
+    public function SubCategory()
+    {
+        return $this->belongsTo(Category::class, 'sub_category_id');
+    }
+    public function SubSubCategory()
+    {
+        return $this->belongsTo(Category::class, 'sub_sub_category_id');
+    }
 }
