@@ -128,7 +128,7 @@
                     let _token =  $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
                         type: "DELETE",
-                        url: "/admin/coupon/"+id,
+                        url: "/merchant/master-coupon/"+id,
                         data: {_token:_token,id:id},
                         success:function(response){
                             if(response.status == 200){
@@ -137,7 +137,7 @@
                                 'Your file has been deleted.',
                                 'success'
                                 )
-                                window.location = "{{ route('admin.coupon.index') }}";
+                                window.location = "{{ route('merchant.master-coupon') }}";
                             }
                         }
                         });

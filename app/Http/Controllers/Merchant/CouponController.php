@@ -122,6 +122,9 @@ class CouponController extends Controller
     }
 
     public function master_coupon_delete($id){
+        $coupon = Coupons::findOrFail($id);
 
+        $coupon->delete();
+        return response()->json(['status' => 200]);
     }
 }
