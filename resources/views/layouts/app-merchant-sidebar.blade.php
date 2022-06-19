@@ -3,7 +3,7 @@
         <ul class="vertical-nav-menu">
             <li class="app-sidebar__heading">Menu</li>
             <li>
-              <a href="/admin" class="admin {{ count(request()->segments()) == 1 && request()->segments()[0] == 'admin' ? 'mm-active' : '' }}"><i class="metismenu-icon pe-7s-rocket"></i>Dashboards</a>
+              <a href="/merchant" class="admin {{ count(request()->segments()) == 1 && request()->segments()[0] == 'admin' ? 'mm-active' : '' }}"><i class="metismenu-icon pe-7s-rocket"></i>Dashboards</a>
             </li>
             <li class="app-sidebar__heading">Orders</li>
             <li>
@@ -19,10 +19,10 @@
             <li class="app-sidebar__heading">Marketing</li>
 
             <li>
-              <a class="bannners {{ count(request()->segments()) > 1 && request()->segments()[1] == 'banner' ? 'mm-active' : '' }}" href="{{ route('admin.banner.index') }}"><i class="metismenu-icon pe-7s-photo-gallery"></i>Banners</a>
+              <a class="bannners {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-banner' ? 'mm-active' : '' }}" href="{{ route('merchant.master-banner') }}"><i class="metismenu-icon pe-7s-photo-gallery"></i>Banners</a>
             </li>
             <li>
-              <a class="coupons {{ count(request()->segments()) > 1 && request()->segments()[1] == 'coupon' ? 'mm-active' : '' }}" href="{{ route('admin.coupon.index') }}"><i class="metismenu-icon pe-7s-ticket"></i>Coupons</a>
+              <a class="coupons {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-coupon' ? 'mm-active' : '' }}" href="{{ route('merchant.master-coupon') }}"><i class="metismenu-icon pe-7s-ticket"></i>Coupons</a>
             </li>
         </ul>
     </div>
