@@ -96,10 +96,16 @@ class BannerController extends Controller
     }
 
     public function master_banner_edit($id){
-        $banner = Banner::findOrFail($id);
-        return view('merchant.banner.edit', [
-            'banner' => $banner
-        ]);
+        $merchant = Merchant::where(['vendor_id' => Auth::guard('merchant')->user()->id])->first();
+        $banner = Banner::where([['merchant_id', '=', $merchant->id], ['id', '=', $id]])->first();
+
+        if ($banner){
+            return view('merchant.banner.edit', [
+                'banner' => $banner
+            ]);
+        }else{
+            return abort(404);
+        }
     }
 
     public function master_banner_update(Request $request, $id){
