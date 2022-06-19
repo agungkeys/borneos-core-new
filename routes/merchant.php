@@ -28,6 +28,8 @@
 
       Route::get('master-coupon', 'CouponController@master_coupon_index')->name('master-coupon');
       Route::get('master-coupon-status/{id}/{status}', 'CouponController@master_coupon_status')->name('master-coupon.status');
+      Route::get('master-coupon/create', 'CouponController@master_coupon_create')->name('master-coupon.create');
+      Route::post('master-coupon/store', 'CouponController@master_coupon_store')->name('master-coupon.store');
     });
 
     // Route::middleware(['auth:vendor'])->group(function(){

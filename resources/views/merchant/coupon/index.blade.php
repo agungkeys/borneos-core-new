@@ -11,7 +11,7 @@
                     <div>List Coupon <span class="badge badge-pill badge-primary">{{ number_format($coupons->total(), 0, "", ".") }}</span></div>
                 </div>
                 <div class="page-title-actions">
-                    <a href="{{ route('admin.coupon.create') }}" class="btn-shadow btn btn-info btn-lg">Add Coupons</a>
+                    <a href="{{ route('merchant.master-coupon.create') }}" class="btn-shadow btn btn-info btn-lg">Add Coupons</a>
                 </div>
             </div>
         </div>
