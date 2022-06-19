@@ -21,4 +21,8 @@ class Vendor extends Authenticatable
         'auth_token',
         'remember_token',
     ];
+    public function VendorName()
+    {
+        return "$this->f_name $this->l_name";
+    }
 }
