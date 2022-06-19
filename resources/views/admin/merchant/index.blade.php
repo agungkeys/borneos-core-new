@@ -52,6 +52,7 @@
                </tr>
             </thead>
             <tbody>
+                {{-- @dd($master_merchants) --}}
                 @foreach ($master_merchants as $master_merchant)
                     <tr>
                         <td>{{ $loop->iteration }}.</td>
@@ -69,8 +70,8 @@
                            </label>
                         </td>
                         <td>
-                           <a href="{{ route('admin.master-merchant.edit',$master_merchant->id) }}" class="btn btn-warning btn-sm" title="Edit"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
-                           <button type="button" onclick="delete_master_merchant({{$master_merchant->id}})" class="btn btn-danger btn-sm" title="Delete"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
+                           <a href="{{ route('admin.master-merchant.edit',$master_merchant->merchant_id) }}" class="btn btn-warning btn-sm" title="Edit"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+                           <button type="button" onclick="delete_master_merchant({{$master_merchant->merchant_id}})" class="btn btn-danger btn-sm" title="Delete"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                         </td>
                     </tr>
                 @endforeach
@@ -86,8 +87,8 @@
         </div>
       </div>
    </div>
-    @include('sweetalert::alert')
-   <script type="text/javascript">
+   @include('sweetalert::alert')
+   <script>
       function delete_master_merchant(id)
       {
          Swal.fire({
@@ -104,7 +105,10 @@
                $.ajax({
                   type: "DELETE",
                   url: "/admin/master-merchant/"+id,
-                  data: {_token:_token,id:id},
+                  data: {
+                            _token:_token,
+                            id:id
+                        },
                   success:function(response){
                      if(response.status == 200){
                         Swal.fire(
@@ -112,8 +116,16 @@
                            'Your file has been deleted.',
                            'success'
                         )
-                        window.location = "/admin/master-merchant";
+                        setTimeout("location.href = '/admin/master-merchant';",1000);
                      }
+                     else if(response.status == 201){
+                        Swal.fire(
+                           'Erorr!',
+                           'Your file cannot be deleted, your merchant still has the product.',
+                           'error'
+                        )
+                     }
+
                   }
                });
             }
