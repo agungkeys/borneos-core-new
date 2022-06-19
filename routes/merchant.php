@@ -25,6 +25,9 @@
       Route::get('master-banner/{id}', 'BannerController@master_banner_edit')->name('master-banner.edit');
       Route::put('/master-banner/{id}', 'BannerController@master_banner_update')->name('master-banner.update');
       Route::delete('master-banner/{id}', 'BannerController@master_banner_delete')->name('master-banner.delete');
+
+      Route::get('master-coupon', 'CouponController@master_coupon_index')->name('master-coupon');
+      Route::get('master-coupon-status/{id}/{status}', 'CouponController@master_coupon_status')->name('master-coupon.status');
     });
 
     // Route::middleware(['auth:vendor'])->group(function(){
