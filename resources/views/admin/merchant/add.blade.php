@@ -238,6 +238,7 @@
             dataType: 'JSON',
             success:function(res){
                 if(res){
+                    $("#categories_id").empty();
                     $.each(res,function(key,data){
                         $("#categories_id").append('<option value="'+data.id+'">'+data.name+'</option>');
                     });
