@@ -67,13 +67,33 @@
                         </div>
                         <div class="form-group">
                             <label for="address">Merchant Address</label>
-                            <input type="text" id="address-input" name="address" class="form-control map-input" placeholder=" ">
+                            <textarea name="address" class="form-control"></textarea>
+                            {{-- <input type="text" id="address-input" name="address" class="form-control map-input" placeholder=" ">
                             <input type="hidden" name="latitude" id="address-latitude" value="0" />
-                            <input type="hidden" name="longitude" id="address-longitude" value="0" />
+                            <input type="hidden" name="longitude" id="address-longitude" value="0" /> --}}
                             @error('address')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
-                            <div style="width: 100%; height: 400px" id="address-map"></div>
+                            {{-- <div style="width: 100%; height: 400px" id="address-map"></div> --}}
+                        </div>
+                        <div class="form-group">
+                            <label for="coordinate">Coordinate Point</label>
+                            <div class="input-group">
+                                <input type="text" id="latitude" name="latitude" class="form-control" placeholder="Latitude" readonly>
+                                <input type="text" id="longitude" name="longitude" class="form-control" placeholder="Longitude" readonly>
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-success">Add Coordinate</button>
+                                    <button type="button" class="btn mr-2 mb-2 btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    Basic Modal
+                                    </button>
+                                </div>
+                            </div>
+                            @error('latitude')
+                                <span class="text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                            @error('longitude')
+                                <span class="text-danger mt-2">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="tax">VAT/TAX (%)</label>
@@ -103,7 +123,7 @@
                             @enderror
                         </div>
                          <div class="form-group">
-                            <label for="seo_image">SEO Image</label><br>
+                            <label for="seo_image">SEO Image</label><small style="color: red"> ( Ratio 1:1 )</small><br>
                             <input type="file" id="seoImageUpload" name="seo_image">
                             <div class="form-group text-center" style="margin-bottom:0%;">
                                 <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="seoImageViewer" src="" alt="">
@@ -251,4 +271,24 @@
         }
         });
     </script>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
