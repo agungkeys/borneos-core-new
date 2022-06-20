@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
-use RealRashid\SweetAlert\Facades\Alert;
 
 class CategoryController extends Controller
 {
@@ -77,8 +76,7 @@ class CategoryController extends Controller
             'priority'  => 0,
             'status'    => 1
         ]);
-        Alert::success('Success', 'Data Created Successfully');
-        return redirect()->route('admin.master-category');
+        return redirect()->route('admin.master-category')->with('success', 'Data Created Successfully');
     }
 
     public function master_category_edit($id)
@@ -164,8 +162,8 @@ class CategoryController extends Controller
             'position'          => $category->position,
             'additional_image'  => $additional_image
         ]);
-        Alert::success('Updated', 'Data Updated Successfully');
-        return redirect()->route('admin.master-category');
+
+        return redirect()->route('admin.master-category')->with('success', 'Data Updated Successfully');
     }
     public function master_category_delete($id)
     {
@@ -254,8 +252,7 @@ class CategoryController extends Controller
             'priority'  => 0,
             'status'    => 1
         ]);
-        Alert::success('Success', 'Data Created Successfully');
-        return redirect()->route('admin.master-sub-category');
+        return redirect()->route('admin.master-sub-category')->with('success', 'Data Created Successfully');
     }
     public function master_sub_category_edit($id)
     {
@@ -341,8 +338,7 @@ class CategoryController extends Controller
             'additional_image' => $additional_image,
             'parent_id' => request('category')
         ]);
-        Alert::success('Updated', 'Data Updated Successfully');
-        return redirect()->route('admin.master-sub-category');
+        return redirect()->route('admin.master-sub-category')->with('success', 'Data Updated');
     }
     public function master_sub_category_delete($id)
     {
@@ -431,8 +427,7 @@ class CategoryController extends Controller
             'priority'  => 0,
             'status'    => 1
         ]);
-        Alert::success('Success', 'Data Created Successfully');
-        return redirect()->route('admin.master-sub-sub-category');
+        return redirect()->route('admin.master-sub-sub-category')->with('success', 'Data Created Successfully');
     }
     public function master_sub_sub_category_edit($id)
     {
@@ -518,8 +513,7 @@ class CategoryController extends Controller
             'additional_image' => $additional_image,
             'parent_id' => request('sub-category')
         ]);
-        Alert::success('Updated', 'Data Updated Successfully');
-        return redirect()->route('admin.master-sub-sub-category');
+        return redirect()->route('admin.master-sub-sub-category')->with('success', 'Data Updated Successfully');
     }
     public function master_sub_sub_category_delete($id)
     {

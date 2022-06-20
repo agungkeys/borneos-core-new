@@ -162,40 +162,36 @@
       </div>
    </div>
      <script>
-        function getMerchantData(id){
-            $.get('/admin/get-merchants/'+id,function(response){
+         function getMerchantData(id){
+             $.get('/admin/get-merchants/'+id,function(response){
                 $('#category').val(response.category);
                 $('#category_name').val(response.category_name);
-                $("#sub_category").empty();
                 $.each(response.sub_categories, function (i, item) {
                     $('#sub_category').append($('<option>', {
                         value: item.id,
                         text : item.name
                     }));
                 });
-                let sub_category_id = $('#sub_category').val();
-                $.get('/admin/get-sub-sub-category/'+sub_category_id,function(response){
-                    $('#sub_sub_category').empty();
+             });
+         }
+         function get_sub_category(id){
+            $.get('/admin/get-sub-sub-category/'+id,function(response){
+                if(response.length == 1){
+                    $('#sub_sub_category').append($('<option>', {
+                        value: item.id,
+                        text : item.name
+                    }));
+                }else if(response.length > 1){
                     $.each(response, function (i, item) {
                         $('#sub_sub_category').append($('<option>', {
                             value: item.id,
                             text : item.name
                         }));
                     });
-                });
+                };
             });
-        }
-        function get_sub_category(id){
-            $.get('/admin/get-sub-sub-category/'+id,function(response){
-                $('#sub_sub_category').empty();
-                $.each(response, function (i, item) {
-                    $('#sub_sub_category').append($('<option>', {
-                        value: item.id,
-                        text : item.name
-                    }));
-                });
-            });
-        }
+         }
+
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
