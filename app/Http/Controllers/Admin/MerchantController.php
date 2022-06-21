@@ -9,6 +9,7 @@ use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class MerchantController extends Controller
@@ -17,12 +18,16 @@ class MerchantController extends Controller
         $filter = $request->query('filter');
         if (!empty($filter)) {
             $master_merchants = Merchant::sortable()
-                ->join('vendors', 'merchants.vendor_id', '=', 'vendors.id')
-                ->where('merchants.name', 'like', '%' . $filter . '%')
-                ->orWhere('vendors.f_name', 'like', '%' . $filter . '%')
-                ->paginate(10);
+                                ->join('vendors', 'merchants.vendor_id', '=', 'vendors.id')
+                                ->select('merchants.*','merchants.id AS merchant_id','vendors.*')
+                                ->where('merchants.name', 'like', '%' . $filter . '%')
+                                ->orWhere('vendors.f_name', 'like', '%' . $filter . '%')
+                                ->paginate(10);
         } else {
-            $master_merchants = Merchant::sortable()->join('vendors', 'merchants.vendor_id', '=', 'vendors.id')->paginate(10);
+            $master_merchants = Merchant::sortable()
+                                ->join('vendors', 'merchants.vendor_id', '=', 'vendors.id')
+                                ->select('merchants.*','merchants.id AS merchant_id','vendors.*')
+                                ->paginate(10);
         }
         return view('admin.merchant.index', compact('master_merchants','filter'));
     }
@@ -138,6 +143,7 @@ class MerchantController extends Controller
             'cover' => $additional_image_cover,
         ];
         $additional_image_json = json_encode($additional_image);
+        $additional_image_seo_json = json_encode($additional_image_seo);
 
         $merchant = Merchant::create([
             'category_id'           => $request->main_category_id,
@@ -172,7 +178,7 @@ class MerchantController extends Controller
             'pos_system'            => 0,
             'cash_on_delivery'      => 0,
             'seo_image'             => $image_url_seo,
-            'additional_seo_image'  => $additional_image_seo
+            'additional_seo_image'  => $additional_image_seo_json
         ]);
         Alert::success('Success', 'Data Created Successfully');
         return redirect()->route('admin.master-merchant');
@@ -186,18 +192,27 @@ class MerchantController extends Controller
     public function master_merchant_delete($id)
     {
         $master_merchant = Merchant::find($id);
-        if ($master_merchant->logo) {
-            $key = json_decode($master_merchant->additional_image);
-            Cloudinary::destroy($key->logo->public_id);
-            if ($key->cover) {
-                Cloudinary::destroy($key->cover->public_id);
+        $check_product = DB::table('products')->where('merchant_id',$master_merchant->id)->count('merchant_id');
+        if ($check_product>0) {
+            return response()->json(['status' => 201]);
+        }
+        else{
+            if ($master_merchant->logo) {
+                $key = json_decode($master_merchant->additional_image);
+                Cloudinary::destroy($key->logo->public_id);
+                if ($key->cover) {
+                    Cloudinary::destroy($key->cover->public_id);
+                }
+            };
+            if ($master_merchant->seo_image) {
+                $key = json_decode($master_merchant->additional_seo_image);
+                Cloudinary::destroy($key->public_id);
             }
-        };
-        // if ($master_merchant->) {
-        //     # code...
-        // }
-        // $master_merchant->delete();
-        return response()->json(['status' => 200]);
+            $master_merchant->delete();
+            $vendor = DB::table('vendors')->where('id',$master_merchant->vendor_id);
+            $vendor->delete();
+            return response()->json(['status' => 200]);
+        }
     }
 }
 ?>
