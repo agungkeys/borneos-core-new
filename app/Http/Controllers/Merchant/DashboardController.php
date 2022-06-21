@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Vendor;
+namespace App\Http\Controllers\Merchant;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-
   public function dashboard(Request $request)
   {
-    return view('vendor.dashboard');
+    $merchant = Merchant::where(['vendor_id' => Auth()->id()])->get();
+    return view('merchant.dashboard', compact(['merchant']));
   }
 }

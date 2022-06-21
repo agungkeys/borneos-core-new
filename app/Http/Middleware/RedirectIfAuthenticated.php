@@ -35,9 +35,9 @@ class RedirectIfAuthenticated
         // }
 
         switch ($guard) {
-          case 'vendor':
+          case 'merchant':
             if (Auth::guard($guard)->check()) {
-              return redirect()->route('vendor.dashboard');
+              return redirect()->route('merchant.dashboard');
             }
             break;
           case 'admin':

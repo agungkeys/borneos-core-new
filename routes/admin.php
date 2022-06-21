@@ -1,6 +1,4 @@
 <?php
-
-use App\Http\Controllers\Admin\BannerController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
@@ -75,5 +73,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/master-banner/status/{id}/{status}', 'BannerController@master_banner_status')->name('banner.status');
     Route::resource('coupon', 'CouponController');
     Route::get('/master-coupon/status/{id}/{status}', 'CouponController@master_coupon_status')->name('coupon.status');
+    Route::resource('courier', 'CourierController');
+    Route::get('/master-courier/status/{id}/{status}', 'CourierController@master_courier_status')->name('courier.status');
   });
 });

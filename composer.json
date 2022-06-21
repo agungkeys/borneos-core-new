@@ -17,6 +17,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
+        "nesbot/carbon": "^2.58",
         "realrashid/sweet-alert": "^5.1"
     },
     "require-dev": {

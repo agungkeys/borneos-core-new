@@ -53,7 +53,7 @@
             <!-- <h6 class="mt-3">Tidak memiliki akun? <a href="#" class="text-primary">Daftar Sekarang</a></h6> -->
             <div class="divider row"></div>
             <div>
-              <form class="" method="POST" action="{{route('vendor.auth.login')}}">
+              <form class="" method="POST" action="{{route('merchant.auth.login')}}">
                 @csrf
                 <div class="form-row">
                   <div class="col-md-6">
