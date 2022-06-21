@@ -75,5 +75,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/master-coupon/status/{id}/{status}', 'CouponController@master_coupon_status')->name('coupon.status');
     Route::resource('courier', 'CourierController');
     Route::get('/master-courier/status/{id}/{status}', 'CourierController@master_courier_status')->name('courier.status');
+
+    Route::get('master-tac', 'TACController@master_tac_index')->name('master-tac');
+    Route::get('master-tac/status/{id}/{status}', 'TACController@master_tac_status')->name('master-tac.status');
   });
 });
