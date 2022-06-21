@@ -78,5 +78,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
     Route::get('master-tac', 'TACController@master_tac_index')->name('master-tac');
     Route::get('master-tac/status/{id}/{status}', 'TACController@master_tac_status')->name('master-tac.status');
+    Route::get('master-tac/create', 'TACController@master_tac_create')->name('master-tac.create');
+    Route::post('master-tac/store', 'TACController@master_tac_store')->name('master-tac.store');
   });
 });
