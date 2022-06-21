@@ -66,7 +66,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/master-merchant/add', 'MerchantController@master_merchant_add')->name('master-merchant.add');
     Route::post('/master-merchant/add', 'MerchantController@master_merchant_store')->name('master-merchant.store');
     Route::get('/get-sub-category/{id}', function ($id) {
-        $course = Category::where('position',$id)->get();
+        $course = Category::where('position',1)->where('parent_id',$id)->get();
         return response()->json($course);
     });
     Route::get('/master-merchant/{id}', 'MerchantController@master_merchant_edit')->name('master-merchant.edit');

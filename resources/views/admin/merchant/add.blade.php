@@ -68,13 +68,9 @@
                         <div class="form-group">
                             <label for="address">Merchant Address</label>
                             <textarea name="address" class="form-control"></textarea>
-                            {{-- <input type="text" id="address-input" name="address" class="form-control map-input" placeholder=" ">
-                            <input type="hidden" name="latitude" id="address-latitude" value="0" />
-                            <input type="hidden" name="longitude" id="address-longitude" value="0" /> --}}
                             @error('address')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
-                            {{-- <div style="width: 100%; height: 400px" id="address-map"></div> --}}
                         </div>
                         <div class="form-group">
                             <label for="coordinate">Coordinate Point</label>
@@ -82,10 +78,8 @@
                                 <input type="text" id="latitude" name="latitude" class="form-control" placeholder="Latitude" readonly>
                                 <input type="text" id="longitude" name="longitude" class="form-control" placeholder="Longitude" readonly>
                                 <div class="input-group-append">
-                                    <button type="button" class="btn btn-success">Add Coordinate</button>
-                                    <button type="button" class="btn mr-2 mb-2 btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                    Basic Modal
-                                    </button>
+                                    <button type="button" id="btnCoordinate" class="btn btn-success" data-toggle="modal" data-target="#addCoordinate">Add Coordinate</button>
+                                    <button type="button" onclick="deleteCoordinate()" class="btn btn-success"> Delete </button>
                                 </div>
                             </div>
                             @error('latitude')
@@ -258,6 +252,7 @@
             dataType: 'JSON',
             success:function(res){
                 if(res){
+                    $("#categories_id").empty();
                     $.each(res,function(key,data){
                         $("#categories_id").append('<option value="'+data.id+'">'+data.name+'</option>');
                     });
@@ -275,23 +270,56 @@
 @endsection
 
 @section('extend')
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addCoordinate" tabindex="-1" role="dialog" aria-labelledby="addCoordinate" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="addCoordinate">Modal title</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p class="mb-0">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</p>
+                <form action="">
+                    <input type="text" id="address-input" name="address" class="form-control map-input" placeholder=" ">
+                    <input type="hidden" name="latitude" id="address-latitude"/>
+                    <input type="hidden" name="longitude" id="address-longitude"/>
+                    <div style="width: 100%; height: 400px" id="address-map"></div>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg" data-dismiss="modal" onclick="setCoordinate()"><i class="pe-7s-diskette btn-icon-wrapper"></i>Save Coordinate</button>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function getCookie(cname) {
+    let name = cname + "=";
+    let ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+    }
+    let lat = getCookie("lat");
+    let lng = getCookie("lng");
+    document.getElementById('address-latitude').value = lat;
+    document.getElementById('address-longitude').value = lng;
+    document.getElementById('latitude').value = lat;
+    document.getElementById('longitude').value = lng;
+    if(lat != ""){
+        document.getElementById('btnCoordinate').innerHTML= "Edit Coordinate"
+    }
+    else{
+        document.getElementById('btnCoordinate').innerHTML= "Add Coordinate"
+    }
+
+</script>
 @endsection
