@@ -87,10 +87,59 @@ class TACController extends Controller
     }
 
     public function tac_edit($id){
-
+        $tac = Tac::findOrFail($id);
+        return view('admin.tac.edit', [
+            'tac' => $tac
+        ]);
     }
 
     public function tac_update(Request $request, $id){
+        $tac = Tac::findOrFail($id);
 
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,svg|max:8192'
+        ]);
+
+        if ($request->file('image')) {
+            $path_name = $request->file('image')->getRealPath();
+            $image = Cloudinary::upload($path_name, ["folder" => "images/tac", "overwrite" => TRUE, "resource_type" => "image"]);
+            $image_url = $image->getSecurePath();
+            $ext = substr($image_url, -3);
+            $ext_jpeg = substr($image_url, -4);
+
+            if ($ext == "jpg") {
+                $image_url_webp = substr($image_url, 0, -3) . "webp";
+            } else if ($ext == "png") {
+                $image_url_webp = substr($image_url, 0, -3) . "webp";
+            } elseif ($ext == "svg") {
+                $image_url_webp = substr($image_url, 0, -3) . "webp";
+            } elseif ($ext_jpeg == "jpeg") {
+                $image_url_webp = substr($image_url, 0, -4) . "webp";
+            };
+
+            $detail_image = [
+                'public_id' =>  $image->getPublicId(),
+                'file_type' =>  $image->getFileType(),
+                'size'      =>  $image->getReadableSize(),
+                'width'     =>  $image->getWidth(),
+                'height'    =>  $image->getHeight(),
+                'extension' =>  $image->getExtension(),
+                'webp'      =>  $image_url_webp
+            ];
+        } else {
+            $image_url = $tac->image;
+        };
+
+        $tac->title = $request->title;
+        $tac->description = $request->description;
+        $tac->image = $image_url;
+        $tac->position = $request->position;
+        $tac->type = $request->type;
+
+        $tac->save();
+        Alert::success('Success', 'Data updated successfully');
+        return redirect()->route('admin.tac');
     }
 }
