@@ -17,7 +17,7 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
 
   <!-- Styles -->
-  <link href="{{asset(env('PUBLIC_ASSETS').'css/main.css')}}" rel="stylesheet">
+  <link href="{{asset(env('PUBLIC_ASSETS').'css/base.min.css')}}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
@@ -148,9 +148,10 @@
       </div>
       <div class="app-drawer-overlay d-none animated fadeIn"></div>
     </body>
-    <script src="{{asset(env('PUBLIC_ASSETS').'js/sweetalert2.all.min.js')}}"></script>
-    <script src="{{asset(env('PUBLIC_ASSETS').'js/main.js')}}" defer></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <!--SCRIPTS INCLUDES-->
+
+    @include('layouts.app-js')
+    @yield('js')
   </div>
 
 </body>

@@ -32,6 +32,9 @@ class CreateOrdersTable extends Migration
             $table->bigInteger('total_price')->nullable();
             $table->string('payment_type');
             $table->bigInteger('payment_total');
+            $table->string('payment_bank_name');
+            $table->string('payment_account_number');
+            $table->string('payment_status');
             $table->string('status');
             $table->text('status_notes')->nullable();
             $table->timestamps();
