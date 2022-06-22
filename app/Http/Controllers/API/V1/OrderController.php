@@ -14,7 +14,7 @@ class OrderController extends Controller
 
     public function order_store(OrderRequest $request)
     {
-        if ($request->header('KEY_HEADER') === env('KEY_HEADER')) {
+        if ($request->header('tokenb') === env('tokenb')) {
             $prefix_generate = Str::random(20);
             $prefix = $prefix_generate;
             $orders = new Order;
@@ -34,6 +34,9 @@ class OrderController extends Controller
             $orders->total_price = $request->totalPrice;
             $orders->payment_type = $request->paymentType;
             $orders->payment_total = $request->paymentTotal;
+            $orders->payment_bank_name = $request->paymentBankName;
+            $orders->payment_account_number = $request->paymentAccountNumber;
+            $orders->payment_status = $request->paymentStatus;
             $orders->status = $request->status ?? 'new';
             $orders->status_notes = $request->statusNotes ?? '';
             $orders->save();

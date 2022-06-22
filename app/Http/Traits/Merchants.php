@@ -9,7 +9,7 @@ trait Merchants
         foreach ($results as $result) {
             $data[] = [
                 'id' => $result->id,
-                'categoryId' => $result->category->name,
+                'categoryId' => $result->category_id ? $result->category->name : $result->category_id,
                 'categoryIds' => json_decode($result->category_ids),
                 'categoriesId' => $result->categories_id,
                 'categoriesIds' => json_decode($result->categories_ids),

@@ -13,39 +13,65 @@ class MerchantController extends Controller
 
     public function get_merchants(Request $request)
     {
-        if ($request->header('KEY_HEADER') === env('KEY_HEADER')) {
+        if ($request->header('tokenb') === env('tokenb')) {
             $status = $request->status ?? 1;
-            $merchant_favorite = $request->merchant_favorite ?? 1;
+            $merchant_favorite = $request->merchantFavorite ?? null;
             $category_id = $request->category ? $this->getCategoryId(['category' => $request->category]) : 0;
             $categories_id = $request->categories ? $this->getCategoryId(['category' => $request->categories]) : 0;
             $sort = $request->sort ?? 'desc';
             if ($category_id == 0) {
                 if ($categories_id == 0) {
-                    $query = Merchant::where('status', $status)
-                        ->where('merchant_favorite', $merchant_favorite)
-                        ->orderBy('id', $sort)
-                        ->get();
+                    if ($merchant_favorite == null) {
+                        $query = Merchant::where('status', $status)->orderBy('id', $sort)->get();
+                    } elseif ($merchant_favorite !== null) {
+                        $query = Merchant::where('status', $status)
+                            ->where('merchant_favorite', $merchant_favorite)
+                            ->orderBy('id', $sort)
+                            ->get();
+                    }
                 } elseif ($categories_id > 0) {
-                    $query = Merchant::where('categories_id', 'like', "%{$categories_id}%")
-                        ->where('status', $status)
-                        ->where('merchant_favorite', $merchant_favorite)
-                        ->orderBy('id', $sort)
-                        ->get();
+                    if ($merchant_favorite == null) {
+                        $query = Merchant::where('categories_id', 'like', "%{$categories_id}%")
+                            ->where('status', $status)
+                            ->orderBy('id', $sort)
+                            ->get();
+                    } elseif ($merchant_favorite !== null) {
+                        $query = Merchant::where('categories_id', 'like', "%{$categories_id}%")
+                            ->where('status', $status)
+                            ->where('merchant_favorite', $merchant_favorite)
+                            ->orderBy('id', $sort)
+                            ->get();
+                    }
                 }
             } elseif ($category_id > 0) {
                 if ($categories_id > 0) {
-                    $query = Merchant::where('category_id', $category_id)
-                        ->where('categories_id', 'like', "%{$categories_id}%")
-                        ->where('status', $status)
-                        ->where('merchant_favorite', $merchant_favorite)
-                        ->orderBy('id', $sort)
-                        ->get();
+                    if ($merchant_favorite == null) {
+                        $query = Merchant::where('category_id', $category_id)
+                            ->where('categories_id', 'like', "%{$categories_id}%")
+                            ->where('status', $status)
+                            ->orderBy('id', $sort)
+                            ->get();
+                    } elseif ($merchant_favorite !== null) {
+                        $query = Merchant::where('category_id', $category_id)
+                            ->where('categories_id', 'like', "%{$categories_id}%")
+                            ->where('status', $status)
+                            ->where('merchant_favorite', $merchant_favorite)
+                            ->orderBy('id', $sort)
+                            ->get();
+                    }
                 } elseif ($categories_id == 0) {
-                    $query = Merchant::where('category_id', $category_id)
-                        ->where('status', $status)
-                        ->where('merchant_favorite', $merchant_favorite)
-                        ->orderBy('id', $sort)
-                        ->get();
+                    if ($merchant_favorite == null) {
+                        $query = Merchant::where('category_id', $category_id)
+                            ->where('status', $status)
+                            ->orderBy('id', $sort)
+                            ->get();
+                    } elseif ($merchant_favorite !== null) {
+                        $query = Merchant::where('category_id', $category_id)
+                            ->where('status', $status)
+                            ->where('merchant_favorite', $merchant_favorite)
+                            ->orderBy('id', $sort)
+                            ->get();
+                    }
                 }
             }
             if ($query->count()) {
@@ -65,7 +91,7 @@ class MerchantController extends Controller
     }
     public function get_merchant_detail(Request $request, $slug)
     {
-        if ($request->header('KEY_HEADER') === env('KEY_HEADER')) {
+        if ($request->header('tokenb') === env('tokenb')) {
             $slug_id = $this->getCategorySlugPosition($slug);
             if ($slug_id !== null) {
                 if ($slug_id['position'] == 0) {

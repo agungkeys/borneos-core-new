@@ -12,7 +12,7 @@ class ProductController extends Controller
 
     public function get_products(Request $request)
     {
-        if ($request->header('KEY_HEADER') === env('KEY_HEADER')) {
+        if ($request->header('tokenb') === env('tokenb')) {
             $status = $request->status ?? 1;
             $category = $request->category ? $this->getCategoryIdPositionParentId($request->category) : 0;
             $sub_category = $request->sub_category ? $this->getCategoryIdPositionParentId($request->sub_category) : 0;
