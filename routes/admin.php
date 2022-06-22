@@ -76,9 +76,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::resource('courier', 'CourierController');
     Route::get('/master-courier/status/{id}/{status}', 'CourierController@master_courier_status')->name('courier.status');
 
-    Route::get('master-tac', 'TACController@master_tac_index')->name('master-tac');
-    Route::get('master-tac/status/{id}/{status}', 'TACController@master_tac_status')->name('master-tac.status');
-    Route::get('master-tac/create', 'TACController@master_tac_create')->name('master-tac.create');
-    Route::post('master-tac/store', 'TACController@master_tac_store')->name('master-tac.store');
+    Route::get('tac', 'TACController@tac_index')->name('tac');
+    Route::get('tac/status/{id}/{status}', 'TACController@tac_status')->name('tac.status');
+    Route::get('tac/create', 'TACController@tac_create')->name('tac.create');
+    Route::post('tac/store', 'TACController@tac_store')->name('tac.store');
   });
 });

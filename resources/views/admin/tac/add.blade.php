@@ -31,7 +31,7 @@
             <div class="col-md-6 col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('admin.master-tac.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin.tac.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label for="title">Title</label>
@@ -67,7 +67,7 @@
                                 </select>
                             </div>
                             <div class="text-right mt-2">
-                                <a href="{{ route('admin.banner.index') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
+                                <a href="{{ route('admin.tac') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
                                 <button type="submit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Save</button>
                             </div>
                         </form>

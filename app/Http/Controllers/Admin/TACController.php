@@ -10,7 +10,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class TACController extends Controller
 {
-    public function master_tac_index(Request $request){
+    public function tac_index(Request $request){
         $filter = $request->query('filter');
         if (!empty($filter)){
             $tacs = Tac::sortable()
@@ -22,21 +22,21 @@ class TACController extends Controller
         return view('admin.tac.index', compact('tacs', 'filter'));
     }
 
-    public function master_tac_status(Request $request){
+    public function tac_status(Request $request){
         $tac = Tac::withoutGlobalScopes()->find($request->id);
 
         $tac->status = $request->status;
         $tac->save();
 
         Alert::toast('Status updated!', 'success');
-        return redirect()->route('admin.master-tac');
+        return redirect()->route('admin.tac');
     }
 
-    public function master_tac_create(){
+    public function tac_create(){
         return view('admin.tac.add');
     }
 
-    public function master_tac_store(Request $request){
+    public function tac_store(Request $request){
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -83,14 +83,14 @@ class TACController extends Controller
 
         $tac->save();
         Alert::success('Success', 'Data saved successfully');
-        return redirect()->route('admin.master-tac');
+        return redirect()->route('admin.tac');
     }
 
-    public function master_tac_edit($id){
+    public function tac_edit($id){
 
     }
 
-    public function master_tac_update(Request $request, $id){
+    public function tac_update(Request $request, $id){
 
     }
 }
