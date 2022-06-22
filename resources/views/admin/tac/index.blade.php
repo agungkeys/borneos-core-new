@@ -11,7 +11,7 @@
                     <div>List Terms and Conditions <span class="badge badge-pill badge-primary">{{ number_format($tacs->total(), 0, "", ".") }}</span></div>
                 </div>
                 <div class="page-title-actions">
-                    <a href="{{ route('merchant.master-coupon.create') }}" class="btn-shadow btn btn-info btn-lg">Add Coupons</a>
+                    <a href="{{ route('admin.master-tac.create') }}" class="btn-shadow btn btn-info btn-lg">Add Term and Condition</a>
                 </div>
             </div>
         </div>
@@ -69,7 +69,7 @@
                                     <td>{{ $tac->title }}</td>
                                     <td>{!! Str::limit($tac->description, 20) !!}</td>
                                     <td>
-                                        <img src="{{ $tac->image ? $tac->image : asset('images/default-image.jpg')  }}" alt="" width="100" height="100">
+                                        <img src="{{ $tac->image ? $tac->image : asset('images/default-image.jpg')  }}" alt="" width="100" height="100" style="object-fit: cover">
                                     </td>
                                     <td>{{ $tac->position ? $tac->position : "-" }}</td>
                                     <td>{{ $tac->type ? $tac->type : "-" }}</td>

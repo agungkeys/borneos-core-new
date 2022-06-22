@@ -12,7 +12,7 @@ class Tac extends Model
     use Sortable;
 
     protected $fillable = [
-        'title', 'description', 'description', 'image', 'position', 'type', 'status'
+        'title', 'description', 'image', 'position', 'type', 'status'
     ];
 
     public $sortable = [
