@@ -81,7 +81,7 @@
                                     <td>
                                          <a href="{{ route('admin.tac.edit',$tac->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
 
-                                        <button type="button" onclick="delete_coupon({{$tac->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
+                                        <button type="button" onclick="delete_tac({{$tac->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -99,11 +99,13 @@
                 </div>
             </div>
         </div>
+@endsection
 
-         @include('sweetalert::alert')
+@section('js')
+    @include('sweetalert::alert')
         <script>
 
-            function delete_coupon(id)
+            function delete_tac(id)
             {
                 Swal.fire({
                     title: 'Are you sure?',
@@ -118,7 +120,7 @@
                     let _token =  $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
                         type: "DELETE",
-                        url: "/merchant/master-coupon/"+id,
+                        url: "/admin/tac/delete/"+id,
                         data: {_token:_token,id:id},
                         success:function(response){
                             if(response.status == 200){
@@ -127,7 +129,7 @@
                                 'Your file has been deleted.',
                                 'success'
                                 )
-                                window.location = "{{ route('merchant.master-coupon') }}";
+                                window.location = "{{ route('admin.tac') }}";
                             }
                         }
                         });

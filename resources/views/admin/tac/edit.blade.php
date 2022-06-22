@@ -97,6 +97,9 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
     <script>
         function previewImageOnAdd() {
             imgpreview.src=URL.createObjectURL(event.target.files[0])
