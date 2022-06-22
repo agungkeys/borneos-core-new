@@ -119,8 +119,7 @@
 <script src="{{env('PUBLIC_ASSETS').'js/arch/scripts-init/toastr.js'}}"></script>
 
 <!--SweetAlert2-->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-<script src="{{env('PUBLIC_ASSETS').'js/arch/scripts-init/sweet-alerts.js'}}"></script>
+<script src="{{asset(env('PUBLIC_ASSETS').'js/sweetalert2.all.min.js')}}"></script>
 
 <!--Tree View -->
 <script src="{{env('PUBLIC_ASSETS').'js/arch/vendors/treeview.js'}}"></script>
