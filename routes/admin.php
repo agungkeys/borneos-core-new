@@ -86,5 +86,6 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::post('tac/store', 'TACController@tac_store')->name('tac.store');
     Route::get('tac/edit/{id}', 'TACController@tac_edit')->name('tac.edit');
     Route::put('tac/update/{id}', 'TACController@tac_update')->name('tac.update');
+    Route::delete('tac/delete/{id}', 'TACController@tac_delete')->name('tac.delete');
   });
 });

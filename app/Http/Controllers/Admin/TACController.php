@@ -40,7 +40,7 @@ class TACController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'image' => 'required||image|mimes:jpeg,png,jpg,svg|max:8192'
+            'image' => 'image|mimes:jpeg,png,jpg,svg|max:8192'
         ]);
 
         if ($request->file('image')) {
@@ -141,5 +141,12 @@ class TACController extends Controller
         $tac->save();
         Alert::success('Success', 'Data updated successfully');
         return redirect()->route('admin.tac');
+    }
+
+    public function tac_delete($id){
+        $tac = Tac::findOrFail($id);
+
+        $tac->delete();
+        return response()->json(['status' => 200]);
     }
 }
