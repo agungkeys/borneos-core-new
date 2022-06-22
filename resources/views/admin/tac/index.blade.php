@@ -79,7 +79,7 @@
                                         </label>
                                     </td>
                                     <td>
-                                         <a href="{{ route('merchant.master-coupon.edit',$tac->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+                                         <a href="{{ route('admin.tac.edit',$tac->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
 
                                         <button type="button" onclick="delete_coupon({{$tac->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                                     </td>

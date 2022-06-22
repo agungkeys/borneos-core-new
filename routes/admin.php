@@ -80,5 +80,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('tac/status/{id}/{status}', 'TACController@tac_status')->name('tac.status');
     Route::get('tac/create', 'TACController@tac_create')->name('tac.create');
     Route::post('tac/store', 'TACController@tac_store')->name('tac.store');
+    Route::get('tac/edit/{id}', 'TACController@tac_edit')->name('tac.edit');
+    Route::put('tac/update/{id}', 'TACController@tac_update')->name('tac.update');
   });
 });
