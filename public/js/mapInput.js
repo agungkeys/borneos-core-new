@@ -21,7 +21,6 @@ function initialize() {
             center: { lat: 0.1369281, lng: 117.4354375 },
             zoom: 13
         });
-        console.log(map);
         const marker = new google.maps.Marker({
             map: map,
             position: {lat: latitude, lng: longitude},
@@ -107,4 +106,28 @@ function setLocationCoordinates(key, lat, lng) {
     const longitudeField = document.getElementById(key + "-" + "longitude");
     latitudeField.value = lat;
     longitudeField.value = lng;
+}
+
+function setCoordinate() {
+    const latitudeField = document.getElementById("address-latitude").value;
+    const longitudeField = document.getElementById("address-longitude").value;
+    document.cookie = "lat="+latitudeField;
+    document.cookie = "lng="+longitudeField;
+    document.getElementById('address-latitude').value = latitudeField;
+    document.getElementById('address-longitude').value = longitudeField;
+    document.getElementById('latitude').value = latitudeField;
+    document.getElementById('longitude').value = longitudeField;
+    document.getElementById('btnCoordinate').innerHTML= "Edit Coordinate"
+    console.log(document.cookie);
+}
+
+ function deleteCoordinate(){
+    document.cookie = "lat=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    document.cookie = "lng=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    document.getElementById('address-latitude').value = "";
+    document.getElementById('address-longitude').value = "";
+    document.getElementById('latitude').value = "";
+    document.getElementById('longitude').value = "";
+    document.getElementById('btnCoordinate').innerHTML= "Add Coordinate"
+    console.log(document.cookie);
 }

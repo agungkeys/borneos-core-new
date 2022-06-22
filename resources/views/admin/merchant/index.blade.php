@@ -87,8 +87,9 @@
         </div>
       </div>
    </div>
+
    @include('sweetalert::alert')
-   <script>
+   <script type="text/javascript">
       function delete_master_merchant(id)
       {
          Swal.fire({
