@@ -11,7 +11,7 @@
                     <div>List Privacy Policy <span class="badge badge-pill badge-primary">{{ number_format($privacies->total(), 0, "", ".") }}</span></div>
                 </div>
                 <div class="page-title-actions">
-                    <a href="{{ route('admin.tac.create') }}" class="btn-shadow btn btn-info btn-lg">Add Privacy Policy</a>
+                    <a href="{{ route('admin.privacy-policy.create') }}" class="btn-shadow btn btn-info btn-lg">Add Privacy Policy</a>
                 </div>
             </div>
         </div>
