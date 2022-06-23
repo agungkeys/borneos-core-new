@@ -19,7 +19,7 @@ class MerchantController extends Controller
         if (!empty($filter)) {
             $master_merchants = Merchant::sortable()
                                 ->join('vendors', 'merchants.vendor_id', '=', 'vendors.id')
-                                ->select('merchants.*','merchants.id AS merchant_id','vendors.*')
+                                ->select('merchants.*','merchants.id AS merchant_id','merchants.status AS merchant_status' ,'vendors.*')
                                 ->where('merchants.name', 'like', '%' . $filter . '%')
                                 ->orWhere('vendors.f_name', 'like', '%' . $filter . '%')
                                 ->paginate(10);
@@ -151,7 +151,6 @@ class MerchantController extends Controller
             'category_ids'          => $json_category_ids,
             'categories_id'         => $categories_id,
             'categories_ids'        => $json_categories_ids,
-            'merchant_type'         => $request->merchant_type,
             'name'                  => $request->name,
             'slug'                  => $request->slug,
             'phone'                 => $request->phone,
@@ -165,7 +164,6 @@ class MerchantController extends Controller
             'minimum_order'         => 0,
             'comission'             => 0,
             'schedule_order'        => 0,
-            'status'                => 0,
             'vendor_id'             => $vendor->id,
             'free_delivery'         => 0,
             'delivery'              => 1,
@@ -228,21 +226,21 @@ class MerchantController extends Controller
         if ($request->file('logo')) {
             if ($master_merchant->logo) {
                 $key = json_decode($master_merchant->additional_image);
-                // Cloudinary::destroy($key->logo->public_id);
+                Cloudinary::destroy($key->logo->public_id);
                 $path_name = $request->file('logo')->getRealPath();
                 $image = Cloudinary::upload($path_name, ["folder" => "images/merchants/logo", "overwrite" => TRUE, "resource_type" => "image"]);
-                $image_url = $image->getSecurePath();
-                $ext = substr($image_url, -3);
-                $ext_jpeg = substr($image_url, -4);
+                $image_url_logo = $image->getSecurePath();
+                $ext = substr($image_url_logo, -3);
+                $ext_jpeg = substr($image_url_logo, -4);
 
                 if ($ext == "jpg") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    $image_url_webp = substr($image_url_logo, 0, -3) . "webp";
                 } else if ($ext == "png") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    $image_url_webp = substr($image_url_logo, 0, -3) . "webp";
                 } elseif ($ext == "svg") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    $image_url_webp = substr($image_url_logo, 0, -3) . "webp";
                 } elseif ($ext_jpeg == "jpeg") {
-                    $image_url_webp = substr($image_url, 0, -4) . "webp";
+                    $image_url_webp = substr($image_url_logo, 0, -4) . "webp";
                 };
 
                 $detail_image = [
@@ -257,19 +255,19 @@ class MerchantController extends Controller
                 $additional_image_logo = json_encode($detail_image);
             } else {
                 $path_name = $request->file('logo')->getRealPath();
-                // $image = Cloudinary::upload($path_name, ["folder" => "images/merchants/logo", "overwrite" => TRUE, "resource_type" => "image"]);
-                $image_url = $image->getSecurePath();
-                $ext = substr($image_url, -3);
-                $ext_jpeg = substr($image_url, -4);
+                $image = Cloudinary::upload($path_name, ["folder" => "images/merchants/logo", "overwrite" => TRUE, "resource_type" => "image"]);
+                $image_url_logo = $image->getSecurePath();
+                $ext = substr($image_url_logo, -3);
+                $ext_jpeg = substr($image_url_logo, -4);
 
                 if ($ext == "jpg") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    $image_url_webp = substr($image_url_logo, 0, -3) . "webp";
                 } else if ($ext == "png") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    $image_url_webp = substr($image_url_logo, 0, -3) . "webp";
                 } elseif ($ext == "svg") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    $image_url_webp = substr($image_url_logo, 0, -3) . "webp";
                 } elseif ($ext_jpeg == "jpeg") {
-                    $image_url_webp = substr($image_url, 0, -4) . "webp";
+                    $image_url_webp = substr($image_url_logo, 0, -4) . "webp";
                 };
                 $detail_image = [
                     'public_id' =>  $image->getPublicId(),
@@ -285,7 +283,7 @@ class MerchantController extends Controller
         } else {
             $key = json_decode($master_merchant->additional_image);
             $additional_image_logo = json_encode($key->logo);
-            $image_url = $master_merchant->logo;
+            $image_url_logo = $master_merchant->logo;
         };
 
         if ($request->file('cover_photo')) {
@@ -294,18 +292,18 @@ class MerchantController extends Controller
                 Cloudinary::destroy($key->cover->public_id);
                 $path_name = $request->file('cover_photo')->getRealPath();
                 $image = Cloudinary::upload($path_name, ["folder" => "images/merchants/cover", "overwrite" => TRUE, "resource_type" => "image"]);
-                $image_url = $image->getSecurePath();
-                $ext = substr($image_url, -3);
-                $ext_jpeg = substr($image_url, -4);
+                $image_url_cover = $image->getSecurePath();
+                $ext = substr($image_url_cover, -3);
+                $ext_jpeg = substr($image_url_cover, -4);
 
                 if ($ext == "jpg") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    $image_url_webp = substr($image_url_cover, 0, -3) . "webp";
                 } else if ($ext == "png") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    $image_url_webp = substr($image_url_cover, 0, -3) . "webp";
                 } elseif ($ext == "svg") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    $image_url_webp = substr($image_url_cover, 0, -3) . "webp";
                 } elseif ($ext_jpeg == "jpeg") {
-                    $image_url_webp = substr($image_url, 0, -4) . "webp";
+                    $image_url_webp = substr($image_url_cover, 0, -4) . "webp";
                 };
 
                 $detail_image = [
@@ -321,18 +319,18 @@ class MerchantController extends Controller
             } else {
                 $path_name = $request->file('cover_photo')->getRealPath();
                 $image = Cloudinary::upload($path_name, ["folder" => "images/merchants/cover", "overwrite" => TRUE, "resource_type" => "image"]);
-                $image_url = $image->getSecurePath();
-                $ext = substr($image_url, -3);
-                $ext_jpeg = substr($image_url, -4);
+                $image_url_cover = $image->getSecurePath();
+                $ext = substr($image_url_cover, -3);
+                $ext_jpeg = substr($image_url_cover, -4);
 
                 if ($ext == "jpg") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    $image_url_webp = substr($image_url_cover, 0, -3) . "webp";
                 } else if ($ext == "png") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    $image_url_webp = substr($image_url_cover, 0, -3) . "webp";
                 } elseif ($ext == "svg") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    $image_url_webp = substr($image_url_cover, 0, -3) . "webp";
                 } elseif ($ext_jpeg == "jpeg") {
-                    $image_url_webp = substr($image_url, 0, -4) . "webp";
+                    $image_url_webp = substr($image_url_cover, 0, -4) . "webp";
                 };
                 $detail_image = [
                     'public_id' =>  $image->getPublicId(),
@@ -348,7 +346,7 @@ class MerchantController extends Controller
         } else {
             $key = json_decode($master_merchant->additional_image);
             $additional_image_cover = json_encode($key->cover);
-            $image_url = $master_merchant->cover_photo;
+            $image_url_cover = $master_merchant->cover_photo;
         };
 
           if ($request->file('seo_image')) {
@@ -357,18 +355,18 @@ class MerchantController extends Controller
                 Cloudinary::destroy($key->public_id);
                 $path_name = $request->file('seo_image')->getRealPath();
                 $image = Cloudinary::upload($path_name, ["folder" => "images/merchants/seo", "overwrite" => TRUE, "resource_type" => "image"]);
-                $image_url = $image->getSecurePath();
-                $ext = substr($image_url, -3);
-                $ext_jpeg = substr($image_url, -4);
+                $image_url_seo = $image->getSecurePath();
+                $ext = substr($image_url_seo, -3);
+                $ext_jpeg = substr($image_url_seo, -4);
 
                 if ($ext == "jpg") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    $image_url_webp = substr($image_url_seo, 0, -3) . "webp";
                 } else if ($ext == "png") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    $image_url_webp = substr($image_url_seo, 0, -3) . "webp";
                 } elseif ($ext == "svg") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    $image_url_webp = substr($image_url_seo, 0, -3) . "webp";
                 } elseif ($ext_jpeg == "jpeg") {
-                    $image_url_webp = substr($image_url, 0, -4) . "webp";
+                    $image_url_webp = substr($image_url_seo, 0, -4) . "webp";
                 };
 
                 $detail_image = [
@@ -384,18 +382,18 @@ class MerchantController extends Controller
             } else {
                 $path_name = $request->file('seo_image')->getRealPath();
                 $image = Cloudinary::upload($path_name, ["folder" => "images/merchants/seo", "overwrite" => TRUE, "resource_type" => "image"]);
-                $image_url = $image->getSecurePath();
-                $ext = substr($image_url, -3);
-                $ext_jpeg = substr($image_url, -4);
+                $image_url_seo = $image->getSecurePath();
+                $ext = substr($image_url_seo, -3);
+                $ext_jpeg = substr($image_url_seo, -4);
 
                 if ($ext == "jpg") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    $image_url_webp = substr($image_url_seo, 0, -3) . "webp";
                 } else if ($ext == "png") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    $image_url_webp = substr($image_url_seo, 0, -3) . "webp";
                 } elseif ($ext == "svg") {
-                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                    $image_url_webp = substr($image_url_seo, 0, -3) . "webp";
                 } elseif ($ext_jpeg == "jpeg") {
-                    $image_url_webp = substr($image_url, 0, -4) . "webp";
+                    $image_url_webp = substr($image_url_seo, 0, -4) . "webp";
                 };
                 $detail_image = [
                     'public_id' =>  $image->getPublicId(),
@@ -410,7 +408,7 @@ class MerchantController extends Controller
             }
         } else {
             $additional_image_logo = $master_merchant->additional_seo_image;
-            $image_url = $master_merchant->seo_image;
+            $image_url_seo = $master_merchant->seo_image;
         };
 
         $additional_image = [
@@ -423,8 +421,44 @@ class MerchantController extends Controller
         $vendor->l_name = $request->l_name;
         $vendor->email = $request->email;
         $vendor->phone = $request->phone;
-        $vendor->password = strlen($request->password) > 1 ? bcrypt($request->password) : $restaurant->vendor->password;
+        $vendor->password = strlen($request->password) > 1 ? bcrypt($request->password) : $vendor->password;
         $vendor->save();
+
+        $category_ids = Category::find($request->main_category_id);
+        $json_category_ids = json_encode(['id' => $category_ids->id, 'slug' => $category_ids->slug]);
+        $categories_id = implode(',', $request->categories_id);
+        $categories = Category::whereIn('id', $request->categories_id)->get();
+        if ($categories->count() == 1) {
+            $categories_ids = ['id' => $categories[0]->id, 'name' => $categories[0]->name, 'slug' => $categories[0]->slug];
+        } elseif ($categories->count() > 1) {
+            foreach ($categories as $category) {
+                $categories_ids[] = ['id' => $category->id, 'name' => $category->name, 'slug' => $category->slug];
+            }
+        }
+
+        $json_categories_ids = json_encode($categories_ids);
+
+        $master_merchant->update([
+            'category_id'      => $request->main_category_id,
+            'category_ids'     => $json_category_ids,
+            'categories_id'    => $categories_id,
+            'categories_ids'   => $json_categories_ids,
+            'name'             => $request->name,
+            'slug'             => $request->slug,
+            'phone'            => $request->phone,
+            'email'            => $request->email,
+            'logo'             => $image_url_logo,
+            'additional_image' => json_encode($additional_image),
+            'latitude'         => $request->latitude,
+            'longitude'        => $request->longitude,
+            'district'         => $request->district,
+            'address'          => $request->address,
+            'cover_photo'      => $image_url_cover,
+            'tax'              => $request->tax
+        ]);
+
+        Alert::success('Updated', 'Data Updated Successfully');
+        return redirect()->route('admin.master-merchant');
     }
     public function master_merchant_delete($id)
     {
@@ -450,6 +484,19 @@ class MerchantController extends Controller
             $vendor->delete();
             return response()->json(['status' => 200]);
         }
+    }
+    public function master_merchant_status(Request $request)
+    {
+        $master_merchant = Merchant::withoutGlobalScopes()->find($request->id);
+        $master_merchant->status = $request->status;
+        $master_merchant->save();
+
+        $vendor = Vendor::withoutGlobalScopes()->find($master_merchant->vendor_id);
+        $vendor->status = $request->status;
+        $vendor->save();
+
+        Alert::toast('Status Updated', 'success');
+        return redirect('/admin/master-merchant');
     }
 }
 ?>

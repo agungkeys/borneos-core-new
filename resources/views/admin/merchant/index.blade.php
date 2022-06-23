@@ -62,11 +62,11 @@
                         <td>{{ $master_merchant->f_name }}{{ ' ' }}{{ $master_merchant->l_name }}</td>
                         <td>{{ $master_merchant->phone }}</td>
                         <td>
-                           <label class="m-auto align-middle" for="statusCheckbox{{$master_merchant->id}}">
-                              <input type="checkbox" data-toggle="toggle" data-size="small"
-                              {{-- onChange="location.href='{{route('admin.master-master_merchant.status',[$master_merchant['id'],$master_merchant->status?0:1])}}'"  --}}
-                              id="statusCheckbox{{$master_merchant->id}}" {{$master_merchant->status?'checked':''}}>
-                           </label>
+                           <label class="m-auto align-middle" for="statusCheckbox{{$master_merchant->merchant_id}}">
+                              <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.master-merchant.status',[$master_merchant['merchant_id'],$master_merchant->merchant_status?0:1])}}'" id="statusCheckbox{{$master_merchant->merchant_id}}" {{$master_merchant->merchant_status?'checked':''}} >
+                              {{ $master_merchant->merchant_status }}
+                            </label>
+                           {{-- @dd($master_merchant['id']) --}}
                         </td>
                         <td>
                            <a href="{{ route('admin.master-merchant.edit',$master_merchant->merchant_id) }}" class="btn btn-warning btn-sm" title="Edit"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>

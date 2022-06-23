@@ -169,7 +169,7 @@
                         <div class="form-group">
                             <label for="password">Password</label>
                             <div class="input-group" id="show_hide_password">
-                                <input type="password" id="password" name="password" class="form-control" >
+                                <input type="password" onkeyup="checkMatching()" id="password" name="password" class="form-control" >
                                 <div class="input-group-append">
                                     <button type="button" class="btn btn-light" ><i class="fa fa-eye-slash"></i></button>
                                 </div>
@@ -181,7 +181,7 @@
                         <div class="form-group">
                             <label for="confirmPassword">Confirm Password</label>
                             <div class="input-group" id="show_hide_password_confirm">
-                                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" >
+                                <input type="password" onkeyup="checkMatching()" id="confirmPassword" name="confirmPassword" class="form-control" >
                                 <div class="input-group-append">
                                     <button type="button" class="btn btn-light" ><i class="fa fa-eye-slash"></i></button>
                                 </div>
