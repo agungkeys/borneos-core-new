@@ -87,5 +87,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('tac/edit/{id}', 'TACController@tac_edit')->name('tac.edit');
     Route::put('tac/update/{id}', 'TACController@tac_update')->name('tac.update');
     Route::delete('tac/delete/{id}', 'TACController@tac_delete')->name('tac.delete');
+
+    Route::get('privacy-policy', 'PrivacyController@privacy_index')->name('privacy-policy');
+    Route::get('privacy-policy/status/{id}/{status}', 'PrivacyController@privacy_status')->name('privacy-policy.status');
   });
 });
