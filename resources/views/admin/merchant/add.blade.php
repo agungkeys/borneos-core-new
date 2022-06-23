@@ -163,7 +163,7 @@
                         <div class="form-group">
                             <label for="password">Password</label>
                             <div class="input-group" id="show_hide_password">
-                                <input type="password" id="password" name="password" class="form-control" >
+                                <input type="password" onkeyup="checkMatching()" id="password" name="password" class="form-control" >
                                 <div class="input-group-append">
                                     <button type="button" class="btn btn-light" ><i class="fa fa-eye-slash"></i></button>
                                 </div>
@@ -175,18 +175,19 @@
                         <div class="form-group">
                             <label for="confirmPassword">Confirm Password</label>
                             <div class="input-group" id="show_hide_password_confirm">
-                                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" >
+                                <input type="password" onkeyup="checkMatching()" id="confirmPassword" name="confirmPassword" class="form-control" >
                                 <div class="input-group-append">
                                     <button type="button" class="btn btn-light" ><i class="fa fa-eye-slash"></i></button>
                                 </div>
                             </div>
+                            <span class="text-danger mt-2" id="messageMatching"></span>
                             @error('confirmPassword')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="text-right mt-2">
                             <a href="{{ route('admin.master-merchant') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
-                            <button type="submit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Save</button>
+                            <button type="submit" id="buttonSubmit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Save</button>
                         </div>
                     </div>
                 </div>
@@ -213,6 +214,7 @@
          $("#seoImageUpload").change(function () {
             readURL(this, 'seoImageViewer');
         });
+
         $(document).ready(function() {
             //toggle password hide
             $("#show_hide_password button").on('click', function(event) {
@@ -241,6 +243,16 @@
                 }
             });
         });
+
+        function checkMatching() {
+            if (document.getElementById('password').value === document.getElementById('confirmPassword').value) {
+                document.getElementById('messageMatching').innerHTML = '';
+                document.getElementById('buttonSubmit').disabled = false;
+            } else {
+                document.getElementById('messageMatching').innerHTML = 'Password does not match';
+                document.getElementById('buttonSubmit').disabled = true;
+            }
+        }
 
         $('#main_category_id').change(function(){
         var stateId = $(this).val();

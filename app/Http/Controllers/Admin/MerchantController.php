@@ -52,6 +52,7 @@ class MerchantController extends Controller
             'confirmPassword' => 'required|min:6',
             'logo' => 'required|image|mimes:jpeg,png,jpg,svg|max:8192',
             'cover_photo' => 'image|mimes:jpeg,png,jpg,svg|max:8192',
+            'seo_image' => 'image|mimes:jpeg,png,jpg,svg|max:8192',
             'tax' => 'required',
         ], [
             'f_name.required' => 'The first name field is required.'
@@ -193,31 +194,237 @@ class MerchantController extends Controller
             'categories_position_1' => Category::where('position', 1)->where('parent_id',$master_merchant->category_id)->get()
         ]);
     }
-     public function master_merchant_update(Request $request, Merchant $merchant, Vendor $vendor)
+     public function master_merchant_update(Request $request, $id)
     {
+        $master_merchant=Merchant::find($id);
         $validator = Validator::make($request->all(), [
             'f_name' => 'required',
             'name' => 'required',
-            'slug' => 'required|unique:merchants,slug,'. $request->id,
+            'slug' => 'required|unique:merchants,slug,'. $id,
+            'district' => 'required',
             'main_category_id' => 'required',
             'categories_id' => 'required',
-            'email' => 'required|unique:vendors,email,' . $vendor->id,
-            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:vendors,phone,' . $vendor->id,
-            'zone_id' => 'required',
+            'address' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
-            'tax' => 'required',
+            'email' => 'required|unique:vendors,email,' . $master_merchant->vendor_id,
+            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:vendors,phone,' . $master_merchant->vendor_id,
             'password' => 'nullable|min:6',
+            'confirmPassword' => 'nullable|min:6',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:8192',
+            'cover_photo' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:8192',
+            'seo_image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:8192',
+            'tax' => 'required',
         ], [
             'f_name.required' => 'First name is required!',
             'name.required' => 'Restaurant name is required!'
         ]);
-        // if ($validator->fails()) {
-        //     return back()
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // }
-        dd($request->id);
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        if ($request->file('logo')) {
+            if ($master_merchant->logo) {
+                $key = json_decode($master_merchant->additional_image);
+                // Cloudinary::destroy($key->logo->public_id);
+                $path_name = $request->file('logo')->getRealPath();
+                $image = Cloudinary::upload($path_name, ["folder" => "images/merchants/logo", "overwrite" => TRUE, "resource_type" => "image"]);
+                $image_url = $image->getSecurePath();
+                $ext = substr($image_url, -3);
+                $ext_jpeg = substr($image_url, -4);
+
+                if ($ext == "jpg") {
+                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                } else if ($ext == "png") {
+                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                } elseif ($ext == "svg") {
+                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                } elseif ($ext_jpeg == "jpeg") {
+                    $image_url_webp = substr($image_url, 0, -4) . "webp";
+                };
+
+                $detail_image = [
+                    'public_id' =>  $image->getPublicId(),
+                    'file_type' =>  $image->getFileType(),
+                    'size'      =>  $image->getReadableSize(),
+                    'width'     =>  $image->getWidth(),
+                    'height'    =>  $image->getHeight(),
+                    'extension' =>  $image->getExtension(),
+                    'webp'      =>  $image_url_webp
+                ];
+                $additional_image_logo = json_encode($detail_image);
+            } else {
+                $path_name = $request->file('logo')->getRealPath();
+                // $image = Cloudinary::upload($path_name, ["folder" => "images/merchants/logo", "overwrite" => TRUE, "resource_type" => "image"]);
+                $image_url = $image->getSecurePath();
+                $ext = substr($image_url, -3);
+                $ext_jpeg = substr($image_url, -4);
+
+                if ($ext == "jpg") {
+                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                } else if ($ext == "png") {
+                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                } elseif ($ext == "svg") {
+                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                } elseif ($ext_jpeg == "jpeg") {
+                    $image_url_webp = substr($image_url, 0, -4) . "webp";
+                };
+                $detail_image = [
+                    'public_id' =>  $image->getPublicId(),
+                    'file_type' =>  $image->getFileType(),
+                    'size'      =>  $image->getReadableSize(),
+                    'width'     =>  $image->getWidth(),
+                    'height'    =>  $image->getHeight(),
+                    'extension' =>  $image->getExtension(),
+                    'webp'      =>  $image_url_webp
+                ];
+                $additional_image_logo = json_encode($detail_image);
+            }
+        } else {
+            $key = json_decode($master_merchant->additional_image);
+            $additional_image_logo = json_encode($key->logo);
+            $image_url = $master_merchant->logo;
+        };
+
+        if ($request->file('cover_photo')) {
+            if ($master_merchant->cover_photo) {
+                $key = json_decode($master_merchant->additional_image);
+                Cloudinary::destroy($key->cover->public_id);
+                $path_name = $request->file('cover_photo')->getRealPath();
+                $image = Cloudinary::upload($path_name, ["folder" => "images/merchants/cover", "overwrite" => TRUE, "resource_type" => "image"]);
+                $image_url = $image->getSecurePath();
+                $ext = substr($image_url, -3);
+                $ext_jpeg = substr($image_url, -4);
+
+                if ($ext == "jpg") {
+                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                } else if ($ext == "png") {
+                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                } elseif ($ext == "svg") {
+                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                } elseif ($ext_jpeg == "jpeg") {
+                    $image_url_webp = substr($image_url, 0, -4) . "webp";
+                };
+
+                $detail_image = [
+                    'public_id' =>  $image->getPublicId(),
+                    'file_type' =>  $image->getFileType(),
+                    'size'      =>  $image->getReadableSize(),
+                    'width'     =>  $image->getWidth(),
+                    'height'    =>  $image->getHeight(),
+                    'extension' =>  $image->getExtension(),
+                    'webp'      =>  $image_url_webp
+                ];
+                $additional_image_cover = json_encode($detail_image);
+            } else {
+                $path_name = $request->file('cover_photo')->getRealPath();
+                $image = Cloudinary::upload($path_name, ["folder" => "images/merchants/cover", "overwrite" => TRUE, "resource_type" => "image"]);
+                $image_url = $image->getSecurePath();
+                $ext = substr($image_url, -3);
+                $ext_jpeg = substr($image_url, -4);
+
+                if ($ext == "jpg") {
+                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                } else if ($ext == "png") {
+                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                } elseif ($ext == "svg") {
+                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                } elseif ($ext_jpeg == "jpeg") {
+                    $image_url_webp = substr($image_url, 0, -4) . "webp";
+                };
+                $detail_image = [
+                    'public_id' =>  $image->getPublicId(),
+                    'file_type' =>  $image->getFileType(),
+                    'size'      =>  $image->getReadableSize(),
+                    'width'     =>  $image->getWidth(),
+                    'height'    =>  $image->getHeight(),
+                    'extension' =>  $image->getExtension(),
+                    'webp'      =>  $image_url_webp
+                ];
+                $additional_image_cover = json_encode($detail_image);
+            }
+        } else {
+            $key = json_decode($master_merchant->additional_image);
+            $additional_image_cover = json_encode($key->cover);
+            $image_url = $master_merchant->cover_photo;
+        };
+
+          if ($request->file('seo_image')) {
+            if ($master_merchant->seo_image) {
+                $key = json_decode($master_merchant->additional_seo_image);
+                Cloudinary::destroy($key->public_id);
+                $path_name = $request->file('seo_image')->getRealPath();
+                $image = Cloudinary::upload($path_name, ["folder" => "images/merchants/seo", "overwrite" => TRUE, "resource_type" => "image"]);
+                $image_url = $image->getSecurePath();
+                $ext = substr($image_url, -3);
+                $ext_jpeg = substr($image_url, -4);
+
+                if ($ext == "jpg") {
+                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                } else if ($ext == "png") {
+                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                } elseif ($ext == "svg") {
+                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                } elseif ($ext_jpeg == "jpeg") {
+                    $image_url_webp = substr($image_url, 0, -4) . "webp";
+                };
+
+                $detail_image = [
+                    'public_id' =>  $image->getPublicId(),
+                    'file_type' =>  $image->getFileType(),
+                    'size'      =>  $image->getReadableSize(),
+                    'width'     =>  $image->getWidth(),
+                    'height'    =>  $image->getHeight(),
+                    'extension' =>  $image->getExtension(),
+                    'webp'      =>  $image_url_webp
+                ];
+                $additional_seo_image = json_encode($detail_image);
+            } else {
+                $path_name = $request->file('seo_image')->getRealPath();
+                $image = Cloudinary::upload($path_name, ["folder" => "images/merchants/seo", "overwrite" => TRUE, "resource_type" => "image"]);
+                $image_url = $image->getSecurePath();
+                $ext = substr($image_url, -3);
+                $ext_jpeg = substr($image_url, -4);
+
+                if ($ext == "jpg") {
+                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                } else if ($ext == "png") {
+                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                } elseif ($ext == "svg") {
+                    $image_url_webp = substr($image_url, 0, -3) . "webp";
+                } elseif ($ext_jpeg == "jpeg") {
+                    $image_url_webp = substr($image_url, 0, -4) . "webp";
+                };
+                $detail_image = [
+                    'public_id' =>  $image->getPublicId(),
+                    'file_type' =>  $image->getFileType(),
+                    'size'      =>  $image->getReadableSize(),
+                    'width'     =>  $image->getWidth(),
+                    'height'    =>  $image->getHeight(),
+                    'extension' =>  $image->getExtension(),
+                    'webp'      =>  $image_url_webp
+                ];
+                $additional_seo_image = json_encode($detail_image);
+            }
+        } else {
+            $additional_image_logo = $master_merchant->additional_seo_image;
+            $image_url = $master_merchant->seo_image;
+        };
+
+        $additional_image = [
+            'logo'  => $additional_image_logo,
+            'cover' => $additional_image_cover,
+        ];
+
+        $vendor = Vendor::findOrFail($master_merchant->vendor_id);
+        $vendor->f_name = $request->f_name;
+        $vendor->l_name = $request->l_name;
+        $vendor->email = $request->email;
+        $vendor->phone = $request->phone;
+        $vendor->password = strlen($request->password) > 1 ? bcrypt($request->password) : $restaurant->vendor->password;
+        $vendor->save();
     }
     public function master_merchant_delete($id)
     {
