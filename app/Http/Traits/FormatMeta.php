@@ -95,8 +95,8 @@ trait FormatMeta
     {
         return [
             'pagination' => [
-                'page' => 1,
-                'perPage' => 10,
+                'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                'perPage' => (int)$data['perPage'],
                 'total' => $data['product_count']
             ],
             'filter' => [

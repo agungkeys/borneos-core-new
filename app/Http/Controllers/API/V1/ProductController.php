@@ -18,8 +18,9 @@ class ProductController extends Controller
             $sub_category = $request->sub_category ? $this->getCategoryIdPositionParentId($request->sub_category) : 0;
             $sub_sub_category = $request->sub_sub_category ? $this->getCategoryIdPositionParentId($request->sub_sub_category) : 0;
             $sort = $request->sort ?? 'desc';
+            $perPage = $request->perPage ? $request->perPage : 10;
             $product = $this->get_product_list(
-                compact('status', 'category', 'sub_category', 'sub_sub_category', 'sort')
+                compact('status', 'category', 'sub_category', 'sub_sub_category', 'sort', 'perPage')
             );
             if ($product->count() == 0) {
                 return response()->json(['status' => 'error', 'meta' => null, 'data' => null]);
@@ -31,7 +32,9 @@ class ProductController extends Controller
                     'category' => $decision_category['category'],
                     'sub_category' => $decision_category['sub_category'],
                     'sub_sub_category' => $decision_category['sub_sub_category'],
-                    'product_count' => $product->count()
+                    'page' => $request->page == null ? null : $request->page,
+                    'perPage' => $perPage,
+                    'product_count' => $product->total()
                 ]);
                 return response()->json(['status' => 'success', 'meta' => $meta, 'data' => $this->result_product_list($product)]);
             }
