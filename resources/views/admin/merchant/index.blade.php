@@ -88,49 +88,51 @@
    </div>
 
    @include('sweetalert::alert')
-   <script type="text/javascript">
-      function delete_master_merchant(id)
-      {
-         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-            if (result.isConfirmed) {
-               let _token =  $('meta[name="csrf-token"]').attr('content');
-               $.ajax({
-                  type: "DELETE",
-                  url: "/admin/master-merchant/"+id,
-                  data: {
-                            _token:_token,
-                            id:id
-                        },
-                  success:function(response){
-                     if(response.status == 200){
-                        Swal.fire(
-                           'Deleted!',
-                           'Your file has been deleted.',
-                           'success'
-                        )
-                        setTimeout("location.href = '/admin/master-merchant';",1000);
-                     }
-                     else if(response.status == 201){
-                        Swal.fire(
-                           'Erorr!',
-                           'Your file cannot be deleted, your merchant still has the product.',
-                           'error'
-                        )
-                     }
-
-                  }
-               });
-            }
-            })
-      }
-   </script>
  </div>
+@endsection
+@section('js')
+    <script type="text/javascript">
+        function delete_master_merchant(id)
+        {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                let _token =  $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    type: "DELETE",
+                    url: "/admin/master-merchant/"+id,
+                    data: {
+                                _token:_token,
+                                id:id
+                            },
+                    success:function(response){
+                        if(response.status == 200){
+                            Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                            )
+                            setTimeout("location.href = '/admin/master-merchant';",1000);
+                        }
+                        else if(response.status == 201){
+                            Swal.fire(
+                            'Erorr!',
+                            'Your file cannot be deleted, your merchant still has the product.',
+                            'error'
+                            )
+                        }
+
+                    }
+                });
+                }
+                })
+        }
+    </script>
 @endsection

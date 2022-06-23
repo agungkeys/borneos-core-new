@@ -309,33 +309,29 @@
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-        document.cookie = "lat=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-        document.cookie = "lng=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-    });
-    function hideMaps(){
-        document.getElementById('address-map').style.display =""
-    }
-    function getCookie(cname) {
-    let name = cname + "=";
-    let ca = document.cookie.split(';');
-    for(let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') {
-        c = c.substring(1);
+@endsection
+@section('js')
+    <script>
+        $(document).ready(function() {
+            document.cookie = "lat=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+            document.cookie = "lng=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+        });
+        function hideMaps(){
+            document.getElementById('address-map').style.display =""
         }
-        if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
+        function getCookie(cname) {
+        let name = cname + "=";
+        let ca = document.cookie.split(';');
+        for(let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+            }
         }
-    }
-    return "";
-    }
-    // let lat = getCookie("lat");
-    // let lng = getCookie("lng");
-    // document.getElementById('address-latitude').value = lat;
-    // document.getElementById('address-longitude').value = lng;
-    // document.getElementById('latitude').value = lat;
-    // document.getElementById('longitude').value = lng;
-</script>
+        return "";
+        }
+    </script>
 @endsection
