@@ -52,7 +52,6 @@
                </tr>
             </thead>
             <tbody>
-                {{-- @dd($master_merchants) --}}
                 @foreach ($master_merchants as $master_merchant)
                     <tr>
                         <td>{{ $loop->iteration }}.</td>

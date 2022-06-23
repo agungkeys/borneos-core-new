@@ -185,9 +185,39 @@ class MerchantController extends Controller
     }
     public function master_merchant_edit($id)
     {
+        $master_merchant = Merchant::find($id);
         return view('admin.merchant.edit', [
-            'master_merchant' => Merchant::find($id)
+            'master_merchant' => Merchant::find($id),
+            'master_merchant_vendor' => Vendor::where('id', $master_merchant->vendor_id)->first(),
+            'categories_position_0' => Category::where('position', 0)->get(),
+            'categories_position_1' => Category::where('position', 1)->where('parent_id',$master_merchant->category_id)->get()
         ]);
+    }
+     public function master_merchant_update(Request $request, Merchant $merchant, Vendor $vendor)
+    {
+        $validator = Validator::make($request->all(), [
+            'f_name' => 'required',
+            'name' => 'required',
+            'slug' => 'required|unique:merchants,slug,'. $request->id,
+            'main_category_id' => 'required',
+            'categories_id' => 'required',
+            'email' => 'required|unique:vendors,email,' . $vendor->id,
+            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:vendors,phone,' . $vendor->id,
+            'zone_id' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'tax' => 'required',
+            'password' => 'nullable|min:6',
+        ], [
+            'f_name.required' => 'First name is required!',
+            'name.required' => 'Restaurant name is required!'
+        ]);
+        // if ($validator->fails()) {
+        //     return back()
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // }
+        dd($request->id);
     }
     public function master_merchant_delete($id)
     {
@@ -203,7 +233,7 @@ class MerchantController extends Controller
                 if ($key->cover) {
                     Cloudinary::destroy($key->cover->public_id);
                 }
-            };
+            }
             if ($master_merchant->seo_image) {
                 $key = json_decode($master_merchant->additional_seo_image);
                 Cloudinary::destroy($key->public_id);
