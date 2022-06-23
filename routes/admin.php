@@ -92,5 +92,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('privacy-policy/status/{id}/{status}', 'PrivacyController@privacy_status')->name('privacy-policy.status');
     Route::get('privacy-policy/create', 'PrivacyController@privacy_create')->name('privacy-policy.create');
     Route::post('privacy-policy/store', 'PrivacyController@privacy_store')->name('privacy-policy.store');
+    Route::get('privacy-policy/edit/{id}', 'PrivacyController@privacy_edit')->name('privacy-policy.edit');
+    Route::put('privacy-policy/update/{id}', 'PrivacyController@privacy_update')->name('privacy-policy.update');
   });
 });

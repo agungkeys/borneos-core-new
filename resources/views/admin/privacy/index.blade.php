@@ -79,7 +79,7 @@
                                         </label>
                                     </td>
                                     <td>
-                                         <a href="{{ route('admin.tac.edit',$privacy->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+                                         <a href="{{ route('admin.privacy-policy.edit', $privacy->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
 
                                         <button type="button" onclick="delete_privacy({{$privacy->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                                     </td>
