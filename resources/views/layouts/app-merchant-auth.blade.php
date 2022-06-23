@@ -21,11 +21,11 @@
 </head>
 <body>
   <div id="app">
-    <body>
-      @yield('content')
-    </body>
-    @include('layouts.app-js')
-    @yield('js')
+    @yield('content')
   </div>
+  // Call package JS
+  @include('layouts.app-js')
+  // Call self function
+  @yield('js')
 </body>
 </html>

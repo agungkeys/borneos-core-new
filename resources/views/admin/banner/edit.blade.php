@@ -83,6 +83,9 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
     <script>
         $('#type').on('change', function(){
             const selectedTypeBanner = $('#type').val();

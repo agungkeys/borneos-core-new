@@ -105,8 +105,11 @@
                 </div>
             </div>
         </div>
+    </div>
+@endsection
 
-         @include('sweetalert::alert')
+@section('js')
+     @include('sweetalert::alert')
         <script>
 
             function delete_courier(id)
@@ -141,5 +144,4 @@
                 })
             }
         </script>
-    </div>
 @endsection

@@ -61,7 +61,7 @@
             </li>
             <li class="app-sidebar__heading">Business</li>
             <li>
-              <a class="tac" href="#"><i class="metismenu-icon pe-7s-flag"></i>Terms & Condition</a>
+              <a class="tacs {{ count(request()->segments()) > 1 && request()->segments()[1] == 'tac' ? 'mm-active' : '' }}" href="{{ route('admin.tac') }}"><i class="metismenu-icon pe-7s-ticket"></i>Terms and Conditions</a>
             </li>
             <li>
               <a class="privacy-policy" href="#"><i class="metismenu-icon pe-7s-attention"></i>Privacy Policy</a>
