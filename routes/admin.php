@@ -1,5 +1,4 @@
 <?php
-
 use App\Models\Category;
 use App\Http\Controllers\Admin\BannerController;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +16,10 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
   Route::group(['middleware' => ['auth:admin']], function () {
     //dashboard
     Route::get('/', 'DashboardController@dashboard')->name('dashboard');
+    // orders
+    Route::get('/orders', 'OrderController@index')->name('orders');
+    Route::get('/orders/{slug}', 'OrderController@index_slug')->name('orders.slug');
+
     //categories
     Route::get('/master-category', 'CategoryController@master_category_index')->name('master-category');
     Route::get('/master-category/add', 'CategoryController@master_category_add')->name('master-category.add');
@@ -83,5 +86,15 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/master-banner/status/{id}/{status}', 'BannerController@master_banner_status')->name('banner.status');
     Route::resource('coupon', 'CouponController');
     Route::get('/master-coupon/status/{id}/{status}', 'CouponController@master_coupon_status')->name('coupon.status');
+    Route::resource('courier', 'CourierController');
+    Route::get('/master-courier/status/{id}/{status}', 'CourierController@master_courier_status')->name('courier.status');
+
+    Route::get('tac', 'TACController@tac_index')->name('tac');
+    Route::get('tac/status/{id}/{status}', 'TACController@tac_status')->name('tac.status');
+    Route::get('tac/create', 'TACController@tac_create')->name('tac.create');
+    Route::post('tac/store', 'TACController@tac_store')->name('tac.store');
+    Route::get('tac/edit/{id}', 'TACController@tac_edit')->name('tac.edit');
+    Route::put('tac/update/{id}', 'TACController@tac_update')->name('tac.update');
+    Route::delete('tac/delete/{id}', 'TACController@tac_delete')->name('tac.delete');
   });
 });

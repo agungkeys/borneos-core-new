@@ -16,15 +16,16 @@
   <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
   <!-- Styles -->
-  <link href="{{asset(env('PUBLIC_ASSETS').'css/main.css')}}" rel="stylesheet">
+  <link href="{{asset(env('PUBLIC_ASSETS').'css/base.min.css')}}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
   <div id="app">
-    <body>
-      @yield('content')
-    </body>
-    <script src="{{asset(env('PUBLIC_ASSETS').'js/main.js')}}" defer></script>
+    @yield('content')
   </div>
+  // Call package JS
+  @include('layouts.app-js')
+  // Call self function
+  @yield('js')
 </body>
 </html>

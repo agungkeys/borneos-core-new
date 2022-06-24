@@ -109,8 +109,11 @@
                 </div>
             </div>
         </div>
+    </div>
+@endsection
 
-         @include('sweetalert::alert')
+@section('js')
+    @include('sweetalert::alert')
         <script>
 
             function delete_coupon(id)
@@ -145,5 +148,4 @@
                 })
             }
         </script>
-    </div>
 @endsection

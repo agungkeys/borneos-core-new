@@ -7,22 +7,22 @@
             </li>
             <li class="app-sidebar__heading">Orders</li>
             <li>
-              <a class="new" href="#"><i class="metismenu-icon pe-7s-download"></i>New</a>
+              <a class="new" href="/admin/orders/new"><i class="metismenu-icon pe-7s-download"></i>New</a>
             </li>
             <li>
-              <a class="processing" href="#"><i class="metismenu-icon pe-7s-hourglass"></i>Processing</a>
+              <a class="processing" href="/admin/orders/processing"><i class="metismenu-icon pe-7s-hourglass"></i>Processing</a>
             </li>
             <li>
-              <a class="otw" href="#"><i class="metismenu-icon pe-7s-bicycle"></i>Product OTW</a>
+              <a class="otw" href="/admin/orders/otw"><i class="metismenu-icon pe-7s-bicycle"></i>Product OTW</a>
             </li>
             <li>
-              <a class="delivered" href="#"><i class="metismenu-icon pe-7s-cup"></i>Delivered</a>
+              <a class="delivered" href="/admin/orders/delivered"><i class="metismenu-icon pe-7s-cup"></i>Delivered</a>
             </li>
             <li>
-              <a class="canceled" href="#"><i class="metismenu-icon pe-7s-close"></i>Canceled</a>
+              <a class="canceled" href="/admin/orders/canceled"><i class="metismenu-icon pe-7s-close"></i>Canceled</a>
             </li>
             <li>
-              <a class="all" href="#"><i class="metismenu-icon pe-7s-news-paper"></i>All</a>
+              <a class="all" href="/admin/orders"><i class="metismenu-icon pe-7s-news-paper"></i>All</a>
             </li>
             <li class="app-sidebar__heading">Master Data</li>
             <li class="{{ count(request()->segments()) > 1 && request()->segments()[1] === 'master-category' || count(request()->segments()) > 1 && request()->segments()[1] === 'master-sub-category' || count(request()->segments()) > 1 && request()->segments()[1] === 'master-sub-sub-category' ? 'mm-active' : '' }}">
@@ -46,7 +46,7 @@
               <a class="master-product {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-product' ? 'mm-active' : '' }}" href="{{ route('admin.master-product') }}"><i class="metismenu-icon pe-7s-box2"></i>Product</a>
             </li>
             <li>
-              <a class="master-courier {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-courier' ? 'mm-active' : '' }}" ><i class="metismenu-icon pe-7s-users"></i>User Courier</a>
+              <a class="master-courier {{ count(request()->segments()) > 1 && request()->segments()[1] == 'courier' ? 'mm-active' : '' }}" href="{{ route('admin.courier.index') }}" ><i class="metismenu-icon pe-7s-users"></i>User Courier</a>
             </li>
             <li>
               <a class="master-admin {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-admin' ? 'mm-active' : '' }}" href="{{ route('admin.master-user') }}" ><i class="metismenu-icon pe-7s-users"></i>User Admin</a>
@@ -61,7 +61,7 @@
             </li>
             <li class="app-sidebar__heading">Business</li>
             <li>
-              <a class="tac" href="#"><i class="metismenu-icon pe-7s-flag"></i>Terms & Condition</a>
+              <a class="tacs {{ count(request()->segments()) > 1 && request()->segments()[1] == 'tac' ? 'mm-active' : '' }}" href="{{ route('admin.tac') }}"><i class="metismenu-icon pe-7s-ticket"></i>Terms and Conditions</a>
             </li>
             <li>
               <a class="privacy-policy" href="#"><i class="metismenu-icon pe-7s-attention"></i>Privacy Policy</a>
