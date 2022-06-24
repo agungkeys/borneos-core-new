@@ -2,34 +2,34 @@
 
 @section('content')
 <div class="app-main__inner">
-   <div class="app-page-title">
-      <div class="page-title-wrapper">
-         <div class="page-title-heading">
-            <div class="page-title-icon">
-               <i class="metismenu-icon pe-7s-home icon-gradient bg-tempting-azure"></i>
-            </div>
-            <div>
-               Add Master Merchant
-               <div class="page-title-subheading">
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                <i class="pe-7s-medal icon-gradient bg-tempting-azure"></i>
+                </div>
+                <div>
+                Edit Master Category
+                <div class="page-title-subheading">
 
-    <form action="{{ route('admin.master-merchant.store') }}" method="POST" enctype="multipart/form-data">
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form action="{{ route('admin.master-merchant.update',$master_merchant) }}" method="POST" enctype="multipart/form-data">
+        @method('PUT')
+        @csrf
         <div class="row">
             <div class="col-md-6">
                 <div class="main-card mb-3 card">
-                    <div class="card-header">Merchant Info</div>
                     <div class="card-body">
-                        @csrf
                         <div class="form-group">
                             <label for="main_category_id">Merchant Category</label>
                             <select name="main_category_id" id="main_category_id" class="form-control">
                                 <option hidden>Select Merchant Category</option>
-                                @foreach ($main_categories as $main_category)
-                                    <option value="{{ $main_category['id'] }}">{{ $main_category['name'] }}</option>
+                                @foreach($categories_position_0 as $category_position_0)
+                                    <option {{ $master_merchant->category_id == $category_position_0->parent_id ? 'selected':'' }} value="{{$category_position_0->parent_id}}">{{$category_position_0->name}}</option>
                                 @endforeach
                             </select>
                             @error('main_category_id')
@@ -39,6 +39,12 @@
                         <div class="form-group">
                             <label for="categories_id">Merchant Sub Category</label>
                             <select name="categories_id[]" id="categories_id" multiple="multiple" class="multiselect-dropdown form-control">
+                                @foreach ($categories_position_1 as $category_position_1)
+                                    @php
+                                        $categories_ids = explode(',',$master_merchant->categories_id)
+                                    @endphp
+                                    <option value="{{ $category_position_1->id }}" {{is_array($categories_ids) && in_array($category_position_1->id, $categories_ids) ? 'selected' : '' }}> {{$category_position_1->name}}</option>
+                                @endforeach
                             </select>
                             @error('categories_id')
                                 <span class="text-danger mt-2">{{ $message }}</span>
@@ -46,28 +52,28 @@
                         </div>
                         <div class="form-group">
                             <label for="name">Merchant Name</label>
-                            <input type="text" id="name" name="name" class="form-control">
+                            <input type="text" id="name" name="name" value="{{ $master_merchant->name }}" class="form-control">
                             @error('name')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="slug">Merchant Slug</label>
-                            <input type="text" id="slug" name="slug" class="form-control">
+                            <input type="text" id="slug" name="slug" value="{{ $master_merchant->slug }}" class="form-control">
                             @error('slug')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="district">Merchant District</label>
-                            <input type="text" id="district" name="district" class="form-control">
+                            <input type="text" id="district" name="district" value="{{ $master_merchant->district }}" class="form-control">
                             @error('district')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="address">Merchant Address</label>
-                            <textarea name="address" class="form-control"></textarea>
+                            <textarea name="address" class="form-control">{{ $master_merchant->address }}</textarea>
                             @error('address')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
@@ -75,10 +81,10 @@
                         <div class="form-group">
                             <label for="coordinate">Coordinate Point</label>
                             <div class="input-group">
-                                <input type="text" id="latitude" name="latitude" class="form-control" placeholder="Latitude" readonly>
-                                <input type="text" id="longitude" name="longitude" class="form-control" placeholder="Longitude" readonly>
+                                <input type="text" id="latitude" name="latitude" value="{{ $master_merchant->latitude }}" class="form-control" placeholder="Latitude" readonly>
+                                <input type="text" id="longitude" name="longitude" value="{{ $master_merchant->longitude }}" class="form-control" placeholder="Longitude" readonly>
                                 <div class="input-group-append">
-                                    <button type="button" id="btnCoordinate" class="btn btn-success" data-toggle="modal" data-target="#addCoordinate">Add Coordinate</button>
+                                    <button type="button" id="btnCoordinate" class="btn btn-success" data-toggle="modal" data-target="#addCoordinate">Edit Coordinate</button>
                                 </div>
                             </div>
                             @error('latitude')
@@ -90,7 +96,7 @@
                         </div>
                         <div class="form-group">
                             <label for="tax">VAT/TAX (%)</label>
-                            <input type="number" id="tax" name="tax" class="form-control" min="0" step=".01" value="0">
+                            <input type="number" id="tax" name="tax" class="form-control" min="0" step=".01" value="{{ $master_merchant->tax }}">
                             @error('tax')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
@@ -99,7 +105,7 @@
                             <label for="logo">Merchant Logo</label><small style="color: red"> ( Ratio 1:1 )</small><br>
                             <input type="file" id="customFileEg1" name="logo">
                             <div class="form-group text-center" style="margin-bottom:0%;">
-                                <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="viewer" src="" alt="">
+                                <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="viewer" src="{{ $master_merchant->logo }}" alt="">
                             </div>
                             @error('logo')
                                 <br><span class="text-danger mt-2">{{ $message }}</span>
@@ -109,7 +115,7 @@
                             <label for="cover_photo">Cover Photo</label><small style="color: red"> ( Ratio 2:1 )</small><br>
                             <input type="file" id="coverImageUpload" name="cover_photo">
                             <div class="form-group text-center" style="margin-bottom:0%;">
-                                <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="coverImageViewer" src="" alt="">
+                                <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="coverImageViewer" src="{{ $master_merchant->cover_photo }}" alt="">
                             </div>
                             @error('cover_photo')
                                 <br><span class="text-danger mt-2">{{ $message }}</span>
@@ -119,7 +125,7 @@
                             <label for="seo_image">SEO Image</label><small style="color: red"> ( Ratio 1:1 )</small><br>
                             <input type="file" id="seoImageUpload" name="seo_image">
                             <div class="form-group text-center" style="margin-bottom:0%;">
-                                <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="seoImageViewer" src="" alt="">
+                                <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="seoImageViewer" src="{{ $master_merchant->seo_image }}" alt="">
                             </div>
                             @error('seo_image')
                                 <br><span class="text-danger mt-2">{{ $message }}</span>
@@ -134,28 +140,28 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="f_name">First Name</label>
-                            <input type="text" id="f_name" name="f_name" class="form-control" >
+                            <input type="text" id="f_name" name="f_name" value="{{ $master_merchant_vendor->f_name }}" class="form-control" >
                             @error('f_name')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="l_name">Last Name</label>
-                            <input type="text" id="l_name" name="l_name" class="form-control">
+                            <input type="text" id="l_name" name="l_name" value="{{ $master_merchant_vendor->l_name }}" class="form-control">
                             @error('l_name')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone</label>
-                            <input type="number" min="0" id="phone" name="phone" class="form-control" >
+                            <input type="number" min="0" id="phone" name="phone" value="{{ $master_merchant_vendor->phone }}" class="form-control" >
                             @error('phone')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" id="email" name="email" class="form-control" >
+                            <input type="email" id="email" name="email" value="{{ $master_merchant_vendor->email }}" class="form-control" >
                             @error('email')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
@@ -180,14 +186,16 @@
                                     <button type="button" class="btn btn-light" ><i class="fa fa-eye-slash"></i></button>
                                 </div>
                             </div>
-                            <span class="text-danger mt-2" id="messageMatching"></span>
+                                <span class="text-danger mt-2" id="messageMatching"></span>
                             @error('confirmPassword')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="text-right mt-2">
-                            <a href="{{ route('admin.master-merchant') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
-                            <button type="submit" id="buttonSubmit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Save</button>
+                            {{-- <a href="{{ route('admin.master-merchant') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
+                            <button type="submit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Update</button> --}}
+                            <a href="{{ route('admin.master-category') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
+                            <button type="submit" id="buttonSubmit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Update</button>
                         </div>
                     </div>
                 </div>
@@ -277,7 +285,6 @@
         }
         });
     </script>
-</div>
 @endsection
 
 @section('extend')
@@ -306,7 +313,8 @@
 @section('js')
     <script>
         $(document).ready(function() {
-            deleteCoordinate();
+            document.cookie = "lat=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+            document.cookie = "lng=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
         });
         function hideMaps(){
             document.getElementById('address-map').style.display =""
@@ -324,18 +332,6 @@
             }
         }
         return "";
-        }
-        let lat = getCookie("lat");
-        let lng = getCookie("lng");
-        document.getElementById('address-latitude').value = lat;
-        document.getElementById('address-longitude').value = lng;
-        document.getElementById('latitude').value = lat;
-        document.getElementById('longitude').value = lng;
-        if(lat != ""){
-            document.getElementById('btnCoordinate').innerHTML= "Edit Coordinate"
-        }
-        else{
-            document.getElementById('btnCoordinate').innerHTML= "Add Coordinate"
         }
     </script>
 @endsection

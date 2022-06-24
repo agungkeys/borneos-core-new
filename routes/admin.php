@@ -1,6 +1,7 @@
 <?php
 use App\Models\Category;
 use App\Http\Controllers\Admin\BannerController;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
@@ -74,8 +75,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     });
     Route::get('/master-merchant/{id}', 'MerchantController@master_merchant_edit')->name('master-merchant.edit');
     Route::delete('/master-merchant/{id}', 'MerchantController@master_merchant_delete')->name('master-merchant.delete');
-    // Route::delete('/master-merchant/delete/{id}', 'MerchantController@master_merchant_delete')->name('master-merchant.delete');
-
+    Route::put('/master-merchant/{id}', 'MerchantController@master_merchant_update')->name('master-merchant.update');
+    Route::get('/master-merchant/status/{id}/{status}', 'MerchantController@master_merchant_status')->name('master-merchant.status');
 
     Route::get('settings', 'SystemController@settings')->name('settings');
     Route::post('settings', 'SystemController@settings_update');

@@ -43,10 +43,9 @@ function initialize() {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
             };
-
-            marker.setPosition(pos);
             map.setCenter(pos);
             map.setZoom(17);
+            marker.setPosition(pos);
             $("#address-latitude").val(pos.lat.toFixed(6));
             $("#address-longitude").val(pos.lng.toFixed(6));
             },
@@ -118,10 +117,9 @@ function setCoordinate() {
     document.getElementById('latitude').value = latitudeField;
     document.getElementById('longitude').value = longitudeField;
     document.getElementById('btnCoordinate').innerHTML= "Edit Coordinate"
-    console.log(document.cookie);
 }
 
- function deleteCoordinate(){
+function deleteCoordinate(){
     document.cookie = "lat=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     document.cookie = "lng=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     document.getElementById('address-latitude').value = "";
@@ -129,5 +127,4 @@ function setCoordinate() {
     document.getElementById('latitude').value = "";
     document.getElementById('longitude').value = "";
     document.getElementById('btnCoordinate').innerHTML= "Add Coordinate"
-    console.log(document.cookie);
 }
