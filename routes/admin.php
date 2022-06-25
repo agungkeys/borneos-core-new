@@ -98,5 +98,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
     Route::get('faq', 'FaqController@faq_index')->name('faq');
     Route::get('faq/{id}/{status}', 'FaqController@faq_status')->name('faq.status');
+    Route::get('faq/create', 'FaqController@faq_create')->name('faq.create');
+    Route::post('faq/store', 'FaqController@faq_store')->name('faq.store');
   });
 });
