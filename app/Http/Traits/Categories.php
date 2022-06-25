@@ -55,13 +55,7 @@ trait Categories
         }
         return null;
     }
-    public function DefaultMetacategory()
-    {
-        foreach (Category::where(['position' => 0])->get() as $c) {
-            $result[] = ['id' => $c->id, 'slug' => $c->slug, 'name' => $c->name];
-        }
-        return $result;
-    }
+
     public function DesicionCategoryForListProduct($data)
     {
         if ($data['category'] == 0) {
