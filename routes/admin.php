@@ -97,8 +97,10 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::delete('privacy-policy/delete/{id}', 'PrivacyController@privacy_delete')->name('privacy-policy.delete');
 
     Route::get('faq', 'FaqController@faq_index')->name('faq');
-    Route::get('faq/{id}/{status}', 'FaqController@faq_status')->name('faq.status');
+    Route::get('faq/status/{id}/{status}', 'FaqController@faq_status')->name('faq.status');
     Route::get('faq/create', 'FaqController@faq_create')->name('faq.create');
     Route::post('faq/store', 'FaqController@faq_store')->name('faq.store');
+    Route::get('faq/edit/{id}', 'FaqController@faq_edit')->name('faq.edit');
+    Route::put('faq/update/{id}', 'FaqController@faq_update')->name('faq.update');
   });
 });
