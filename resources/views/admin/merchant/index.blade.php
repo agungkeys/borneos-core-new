@@ -64,9 +64,7 @@
                         <td>
                            <label class="m-auto align-middle" for="statusCheckbox{{$master_merchant->merchant_id}}">
                               <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.master-merchant.status',[$master_merchant['merchant_id'],$master_merchant->merchant_status?0:1])}}'" id="statusCheckbox{{$master_merchant->merchant_id}}" {{$master_merchant->merchant_status?'checked':''}} >
-                              {{ $master_merchant->merchant_status }}
                             </label>
-                           {{-- @dd($master_merchant['id']) --}}
                         </td>
                         <td>
                            <a href="{{ route('admin.master-merchant.edit',$master_merchant->merchant_id) }}" class="btn btn-warning btn-sm" title="Edit"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
