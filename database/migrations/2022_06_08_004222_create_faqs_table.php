@@ -15,6 +15,13 @@ class CreateFaqsTable extends Migration
     {
         Schema::create('faqs', function (Blueprint $table) {
             $table->id();
+            $table->integer('merchant_id');
+            $table->string('title');
+            $table->text('description');
+            $table->text('image');
+            $table->integer('position');
+            $table->string('type');
+            $table->boolean('status');
             $table->timestamps();
         });
     }
