@@ -105,7 +105,7 @@
     @include('sweetalert::alert')
         <script>
 
-            function delete_tac(id)
+            function delete_privacy(id)
             {
                 Swal.fire({
                     title: 'Are you sure?',
@@ -120,7 +120,7 @@
                     let _token =  $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
                         type: "DELETE",
-                        url: "/admin/tac/delete/"+id,
+                        url: "/admin/privacy-policy/delete/"+id,
                         data: {_token:_token,id:id},
                         success:function(response){
                             if(response.status == 200){
@@ -129,7 +129,7 @@
                                 'Your file has been deleted.',
                                 'success'
                                 )
-                                window.location = "{{ route('admin.tac') }}";
+                                window.location = "{{ route('admin.privacy-policy') }}";
                             }
                         }
                         });

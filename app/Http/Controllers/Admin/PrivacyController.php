@@ -143,4 +143,11 @@ class PrivacyController extends Controller
         Alert::success('Success', 'Data updated successfully');
         return redirect()->route('admin.privacy-policy');
     }
+
+    public function privacy_delete($id){
+        $privacy = PrivacyPolicy::findOrFail($id);
+
+        $privacy->delete();
+        return response()->json(['status' => 200]);
+    }
 }
