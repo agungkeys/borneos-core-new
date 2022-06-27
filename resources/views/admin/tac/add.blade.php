@@ -56,7 +56,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="position">Position</label>
-                                <input type="text" class="form-control" name="position" id="position">
+                                <input type="number" class="form-control" name="position" id="position">
                             </div>
                             <div class="form-group">
                                 <label for="type">Type</label>
