@@ -102,5 +102,6 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::post('faq/store', 'FaqController@faq_store')->name('faq.store');
     Route::get('faq/edit/{id}', 'FaqController@faq_edit')->name('faq.edit');
     Route::put('faq/update/{id}', 'FaqController@faq_update')->name('faq.update');
+    Route::delete('faq/delete/{id}', 'FaqController@faq_delete')->name('faq.delete');
   });
 });

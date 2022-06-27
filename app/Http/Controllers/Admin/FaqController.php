@@ -150,4 +150,11 @@ class FaqController extends Controller
         Alert::success('Success', 'Data updated successfully');
         return redirect()->route('admin.faq');
     }
+
+    public function faq_delete($id){
+        $faq = Faq::findOrFail($id);
+
+        $faq->delete();
+        return response()->json(['status' => 200]);
+    }
 }

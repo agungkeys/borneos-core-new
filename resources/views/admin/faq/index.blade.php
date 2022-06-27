@@ -83,7 +83,7 @@
                                     <td>
                                          <a href="{{ route('admin.faq.edit', $faq->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
 
-                                        <button type="button" onclick="delete_privacy({{$faq->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
+                                        <button type="button" onclick="delete_faq({{$faq->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -107,7 +107,7 @@
     @include('sweetalert::alert')
         <script>
 
-            function delete_privacy(id)
+            function delete_faq(id)
             {
                 Swal.fire({
                     title: 'Are you sure?',
@@ -122,7 +122,7 @@
                     let _token =  $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
                         type: "DELETE",
-                        url: "/admin/privacy-policy/delete/"+id,
+                        url: "/admin/faq/delete/"+id,
                         data: {_token:_token,id:id},
                         success:function(response){
                             if(response.status == 200){
@@ -131,7 +131,7 @@
                                 'Your file has been deleted.',
                                 'success'
                                 )
-                                window.location = "{{ route('admin.privacy-policy') }}";
+                                window.location = "{{ route('admin.faq') }}";
                             }
                         }
                         });
