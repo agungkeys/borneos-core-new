@@ -18,4 +18,12 @@ class Faq extends Model
     public $sortable = [
         'id', 'merchant_id', 'title'
     ];
+
+    public function merchantName($id)
+    {
+        $merchants = Merchant::select('name')->where('id', $id)->get();
+        foreach ($merchants as $merchant) {
+            return $merchant->name;
+        }
+    }
 }
