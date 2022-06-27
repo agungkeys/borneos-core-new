@@ -9,7 +9,7 @@
                         <i class="pe-7s-medal icon-gradient bg-tempting-azure"></i>
                     </div>
                     <div>
-                        Add FAQ
+                        Edit FAQ
                         <div class="page-title-subheading">
 
                         </div>
@@ -31,23 +31,24 @@
             <div class="col-md-6 col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('admin.faq.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin.faq.update', $faq->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
                             <div class="form-group">
                                 <label for="merchant_id">Merchant</label>
-                                <select name="merchant_id" id="merchant_id" class="multiselect-dropdown form-control" >
+                                <select name="merchant_id" id="merchant_id" class="multiselect-dropdown form-control form-control">
                                     @foreach ($merchants as $merchant)
-                                        <option value="{{ $merchant->id }}"> {{ $merchant->name }} </option>
+                                        <option value="{{ $merchant->id }}" @if(old('merchant') == $merchant->id || $merchant->id == $faq->merchant_id) selected @endif  > {{ $merchant->name }} </option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="title">Title</label>
-                                <input type="text" class="form-control" name="title" id="title" required>
+                                <input type="text" class="form-control" name="title" id="title" value="{{ $faq->title }}">
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea name="description" id="editor" class="form-control" required></textarea>
+                                <textarea name="description" id="editor" class="form-control">{{ $faq->description }}</textarea>
                             </div>
                             <label for="image">Image</label>
                             <div class="input-group mb-3">
@@ -59,19 +60,39 @@
                                     <label class="custom-file-label" for="inputGroupFile01">Choose File</label>
                                 </div>
                                 <div class="form-group text-center my-2">
-                                    <img id="imgpreview" width="100%" alt=""/>
+                                    <img id="imgpreview" src="{{ $faq->image }}" width="100%" alt=""/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="position">Position</label>
-                                <input type="number" class="form-control" name="position" id="position">
+                                <input type="number" class="form-control" name="position" id="position" value="{{ $faq->position }}">
                             </div>
                             <div class="form-group">
                                 <label for="type">Type</label>
                                 <select name="type" id="type" class="form-control">
-                                    <option value="merchant">Merchant</option>
-                                    <option value="courier">Courier</option>
-                                    <option value="unknown">Unknown</option>
+                                    @php
+                                        $types = array(
+                                            'merchant' => array(
+                                                'id' => 1,
+                                                'value' => 'merchant',
+                                                'text' => 'Merchant'
+                                            ),
+                                            'courier' => array(
+                                                'id' => 2,
+                                                'value' => 'courier',
+                                                'text' => 'Courier'
+                                            ),
+                                            'unknown' => array(
+                                                'id' => 3,
+                                                'value' => 'unknown',
+                                                'text' => 'Unknown'
+                                            ),
+                                        );
+                                    @endphp
+
+                                    @foreach ($types as $type)
+                                         <option value="{{ $type['value'] }}" @if (old('type') == $faq->type || $faq->type == $type['value'] ) selected @endif>{{ $type['text'] }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="text-right mt-2">

@@ -64,7 +64,7 @@
                                 </tr>
                             @endif
 
-                            @foreach ($faqs as $faq )
+                            @foreach ($faqs as $faq)
                                 <tr>
                                     <td>{{ $faq->id }}</td>
                                     <td>{{ $faq->merchantName($faq->merchant_id) }}</td>
@@ -81,7 +81,7 @@
                                         </label>
                                     </td>
                                     <td>
-                                         <a href="{{ route('admin.privacy-policy.edit', $faq->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+                                         <a href="{{ route('admin.faq.edit', $faq->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
 
                                         <button type="button" onclick="delete_privacy({{$faq->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                                     </td>
