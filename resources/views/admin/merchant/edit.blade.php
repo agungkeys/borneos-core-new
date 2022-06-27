@@ -59,7 +59,7 @@
                         </div>
                         <div class="form-group">
                             <label for="slug">Merchant Slug</label>
-                            <input type="text" id="slug" name="slug" value="{{ $master_merchant->slug }}" class="form-control" readonly>
+                            <input type="text" id="slug" name="slug" value="{{ $master_merchant->slug }}" class="form-control">
                             @error('slug')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
