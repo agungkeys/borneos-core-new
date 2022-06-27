@@ -23,9 +23,9 @@
   <div id="app">
     @yield('content')
   </div>
-  // Call package JS
+  <!--Call package JS-->
   @include('layouts.app-js')
-  // Call self function
+  <!--Call self function-->
   @yield('js')
 </body>
 </html>

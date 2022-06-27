@@ -156,9 +156,9 @@
     <div class="app-drawer-overlay d-none animated fadeIn"></div>
   </div>
   <!--SCRIPTS INCLUDES-->
-  // Call package JS
+  <!--Call package JS-->
   @include('layouts.app-js')
-  // Call self function
+  <!--Call self function-->
   @yield('js')
 </body>
 </html>
