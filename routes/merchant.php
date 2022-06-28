@@ -37,6 +37,8 @@ Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
 
     Route::get('/master-product', 'ProductController@master_product_index')->name('master-product');
     Route::get('/master-product/status/{id}/{status}', 'ProductController@master_product_status')->name('product.status');
+    Route::get('/master-product/add', 'ProductController@master_product_add')->name('master-product.add');
+    Route::post('/master-product/add', 'ProductController@master_product_store')->name('master-product.store');
   });
 
   // Route::middleware(['auth:vendor'])->group(function(){
