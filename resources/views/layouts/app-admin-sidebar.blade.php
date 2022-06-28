@@ -40,7 +40,7 @@
               </ul>
             </li>
             <li>
-              <a class="merchant" href="#"><i class="metismenu-icon pe-7s-home"></i>Merchant</a>
+              <a class="merchant {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-merchant' ? 'mm-active' : '' }}" href="{{ route('admin.master-merchant') }}"><i class="metismenu-icon pe-7s-home"></i>Merchant</a>
             </li>
             <li>
               <a class="master-product {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-product' ? 'mm-active' : '' }}" href="{{ route('admin.master-product') }}"><i class="metismenu-icon pe-7s-box2"></i>Product</a>
@@ -61,7 +61,7 @@
             </li>
             <li class="app-sidebar__heading">Business</li>
             <li>
-              <a class="tac" href="#"><i class="metismenu-icon pe-7s-flag"></i>Terms & Condition</a>
+              <a class="tacs {{ count(request()->segments()) > 1 && request()->segments()[1] == 'tac' ? 'mm-active' : '' }}" href="{{ route('admin.tac') }}"><i class="metismenu-icon pe-7s-ticket"></i>Terms and Conditions</a>
             </li>
             <li>
               <a class="privacy-policy" href="#"><i class="metismenu-icon pe-7s-attention"></i>Privacy Policy</a>

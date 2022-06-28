@@ -14,7 +14,7 @@
               <a class="merchant" href="#"><i class="metismenu-icon pe-7s-home"></i>Merchant</a>
             </li>
             <li>
-              <a class="master-product {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-product' ? 'mm-active' : '' }}" href="{{ route('admin.master-product') }}"><i class="metismenu-icon pe-7s-box2"></i>Product</a>
+              <a class="products {{ count(request()->segments()) > 1 && request()->segments()[1] == 'products' ? 'mm-active' : '' }}" href="{{ route('merchant.master-product') }}"><i class="metismenu-icon pe-7s-box2"></i>Product</a>
             </li>
             <li class="app-sidebar__heading">Marketing</li>
 

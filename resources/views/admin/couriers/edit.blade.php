@@ -165,6 +165,10 @@
             </div>
         </div>
     </div>
+
+@endsection
+
+@section('js')
     <script>
         $('#coupon_type').on('change', function(){
             const selectedCouponType = $('#coupon_type').val();

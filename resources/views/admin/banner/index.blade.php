@@ -103,39 +103,48 @@
             </div>
         </div>
          @include('sweetalert::alert')
-        <script>
-
-            function delete_banner(id)
-            {
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to delete this file!?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                    let _token =  $('meta[name="csrf-token"]').attr('content');
-                    $.ajax({
-                        type: "DELETE",
-                        url: "/admin/banner/"+id,
-                        data: {_token:_token,id:id},
-                        success:function(response){
-                            if(response.status == 200){
-                                Swal.fire(
-                                'Deleted!',
-                                'Your file has been deleted.',
-                                'success'
-                                )
-                                window.location = "{{ route('admin.banner.index') }}";
-                            }
-                        }
-                    });
-                    }
-                    })
-            }
-        </script>
     </div>
+@endsection
+
+@section('js')
+<script>
+    // render function index banner ======<<<<<
+
+    function handleSubmit() {
+
+
+    }
+
+    function delete_banner(id)
+    {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to delete this file!?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+            let _token =  $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                type: "DELETE",
+                url: "/admin/banner/"+id,
+                data: {_token:_token,id:id},
+                success:function(response){
+                    if(response.status == 200){
+                        Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                        )
+                        window.location = "{{ route('admin.banner.index') }}";
+                    }
+                }
+            });
+            }
+            })
+    }
+</script>
 @endsection

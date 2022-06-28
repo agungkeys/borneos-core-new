@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
@@ -64,10 +65,17 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::put('/master-user/{id}', 'UserController@master_user_update')->name('master-user.update');
     Route::delete('/master-user/{id}', 'UserController@master_user_delete')->name('master-user.delete');
 
-
-
-
-
+    Route::get('/master-merchant', 'MerchantController@master_merchant_index')->name('master-merchant');
+    Route::get('/master-merchant/add', 'MerchantController@master_merchant_add')->name('master-merchant.add');
+    Route::post('/master-merchant/add', 'MerchantController@master_merchant_store')->name('master-merchant.store');
+    Route::get('/get-sub-category/{id}', function ($id) {
+      $course = Category::where('parent_id', $id)->where('position', 1)->get();
+      return response()->json($course);
+    });
+    Route::get('/master-merchant/{id}', 'MerchantController@master_merchant_edit')->name('master-merchant.edit');
+    Route::delete('/master-merchant/{id}', 'MerchantController@master_merchant_delete')->name('master-merchant.delete');
+    Route::put('/master-merchant/{id}', 'MerchantController@master_merchant_update')->name('master-merchant.update');
+    Route::get('/master-merchant/status/{id}/{status}', 'MerchantController@master_merchant_status')->name('master-merchant.status');
 
     Route::get('settings', 'SystemController@settings')->name('settings');
     Route::post('settings', 'SystemController@settings_update');
@@ -80,5 +88,13 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/master-coupon/status/{id}/{status}', 'CouponController@master_coupon_status')->name('coupon.status');
     Route::resource('courier', 'CourierController');
     Route::get('/master-courier/status/{id}/{status}', 'CourierController@master_courier_status')->name('courier.status');
+
+    Route::get('tac', 'TACController@tac_index')->name('tac');
+    Route::get('tac/status/{id}/{status}', 'TACController@tac_status')->name('tac.status');
+    Route::get('tac/create', 'TACController@tac_create')->name('tac.create');
+    Route::post('tac/store', 'TACController@tac_store')->name('tac.store');
+    Route::get('tac/edit/{id}', 'TACController@tac_edit')->name('tac.edit');
+    Route::put('tac/update/{id}', 'TACController@tac_update')->name('tac.update');
+    Route::delete('tac/delete/{id}', 'TACController@tac_delete')->name('tac.delete');
   });
 });

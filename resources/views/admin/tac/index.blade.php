@@ -8,10 +8,10 @@
                     <div class="page-title-icon">
                         <i class="pe-7s-photo-gallery icon-gradient bg-tempting-azure"></i>
                     </div>
-                    <div>List Coupon <span class="badge badge-pill badge-primary">{{ number_format($coupons->total(), 0, "", ".") }}</span></div>
+                    <div>List Terms and Conditions <span class="badge badge-pill badge-primary">{{ number_format($tacs->total(), 0, "", ".") }}</span></div>
                 </div>
                 <div class="page-title-actions">
-                    <a href="{{ route('admin.coupon.create') }}" class="btn-shadow btn btn-info btn-lg">Add Coupons</a>
+                    <a href="{{ route('admin.tac.create') }}" class="btn-shadow btn btn-info btn-lg">Add Term and Condition</a>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
                                         <i class="fa fa-search fa-w-16 "></i>
                                         </div>
                                     </div>
-                                    <input id="filter" name="filter" value="{{ $filter }}" placeholder="Search Title" type="text" class="form-control" style="color: gray;">
+                                    <input id="filter" name="filter" value="{{ $filter }}" placeholder="Search by Title" type="text" class="form-control" style="color: gray;">
                                     <div class="input-group-prepend">
                                         <button type="submit" class="btn btn-primary btn-md">Search</buttton>
                                     </div>
@@ -47,51 +47,41 @@
                             <tr>
                                 <th>@sortablelink('id', 'No')</th>
                                 <th>@sortablelink('title', 'Title')</th>
-                                <th>Coupon Type</th>
-                                <th>Merchant Name</th>
-                                <th>Code</th>
-                                <th>Limit</th>
-                                <th>Date Start</th>
-                                <th>Date End</th>
-                                <th>Discount Type</th>
-                                <th>Discount</th>
-                                <th>Max Discount</th>
-                                <th>Min Purchase</th>
+                                <th>Description</th>
+                                <th>Image</th>
+                                <th>Position</th>
+                                <th>Type</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            @if ($coupons->count() == 0)
+                            @if ($tacs->count() == 0)
                                 <tr>
-                                    <td colspan="8">No products to display</td>
+                                    <td colspan="8">No coupons to display</td>
                                 </tr>
                             @endif
 
-                            @foreach ($coupons as $coupon )
+                            @foreach ($tacs as $tac )
                                 <tr>
-                                    <td>{{ $coupon->id }}</td>
-                                    <td>{{ $coupon->title }}</td>
-                                    <td>{{ $coupon->coupon_type ? $coupon->coupon_type : "-" }}</td>
-                                    <td>{{ $coupon->merchantName($coupon->merchant_id) }}</td>
-                                    <td>{{ $coupon->code ? $coupon->code : "-" }}</td>
-                                    <td>{{ $coupon->limit_same_user ? $coupon->limit_same_user : "-" }}</td>
-                                    <td>{{ $coupon->date_start ? $coupon->date_start : "-" }}</td>
-                                    <td>{{ $coupon->date_end ? $coupon->date_end : "-" }}</td>
-                                    <td>{{ $coupon->discount_type ? $coupon->discount_type : "-" }}</td>
-                                    <td>{{ $coupon->discount ? $coupon->discount : "-" }}</td>
-                                    <td>{{ $coupon->max_discount ? $coupon->max_discount : "-" }}</td>
-                                    <td> Rp. {{ $coupon->min_purchase ? number_format($coupon->min_purchase) : "-" }}</td>
+                                    <td>{{ $tac->id }}</td>
+                                    <td>{{ $tac->title }}</td>
+                                    <td>{!! Str::limit($tac->description, 20) !!}</td>
                                     <td>
-                                        <label class="m-auto align-middle" for="statusCheckbox{{$coupon->id}}">
-                                            <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.coupon.status',[$coupon['id'],$coupon->status ? 0 : 1])}}'" id="statusCheckbox{{$coupon->id}}" {{$coupon->status ? 'checked' : ''}}>
+                                        <img src="{{ $tac->image ? $tac->image : asset('images/default-image.jpg')  }}" alt="" width="100" height="100" style="object-fit: cover">
+                                    </td>
+                                    <td>{{ $tac->position ? $tac->position : "-" }}</td>
+                                    <td>{{ $tac->type ? $tac->type : "-" }}</td>
+                                    <td>
+                                        <label class="m-auto align-middle" for="statusCheckbox{{$tac->id}}">
+                                            <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.tac.status',[$tac['id'],$tac->status ? 0 : 1])}}'" id="statusCheckbox{{$tac->id}}" {{$tac->status ? 'checked' : ''}}>
                                         </label>
                                     </td>
                                     <td>
-                                         <a href="{{ route('admin.coupon.edit',$coupon->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+                                         <a href="{{ route('admin.tac.edit',$tac->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
 
-                                        <button type="button" onclick="delete_coupon({{$coupon->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
+                                        <button type="button" onclick="delete_tac({{$tac->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -100,23 +90,22 @@
                     </table>
                     <div class="row">
                         <div class="col-12 col-md-6 flex-1">
-                            {!! $coupons->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter])->onEachSide(2)->links() !!}
+                            {!! $tacs->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter])->onEachSide(2)->links() !!}
                         </div>
                         <div class="col-12 col-md-6 w-100 d-flex justify-content-end align-middle">
-                            <p>Displaying {{$coupons->count()}} of {{ number_format($coupons->total(), 0, "", ".") }} product(s).</p>
+                            <p>Displaying {{$tacs->count()}} of {{ number_format($tacs->total(), 0, "", ".") }} product(s).</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 @endsection
 
 @section('js')
     @include('sweetalert::alert')
         <script>
 
-            function delete_coupon(id)
+            function delete_tac(id)
             {
                 Swal.fire({
                     title: 'Are you sure?',
@@ -131,7 +120,7 @@
                     let _token =  $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
                         type: "DELETE",
-                        url: "/admin/coupon/"+id,
+                        url: "/admin/tac/delete/"+id,
                         data: {_token:_token,id:id},
                         success:function(response){
                             if(response.status == 200){
@@ -140,7 +129,7 @@
                                 'Your file has been deleted.',
                                 'success'
                                 )
-                                window.location = "{{ route('admin.coupon.index') }}";
+                                window.location = "{{ route('admin.tac') }}";
                             }
                         }
                         });
@@ -148,4 +137,5 @@
                 })
             }
         </script>
+    </div>
 @endsection

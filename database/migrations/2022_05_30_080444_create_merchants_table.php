@@ -53,6 +53,9 @@ class CreateMerchantsTable extends Migration
             $table->tinyInteger('self_delivery_system')->default(0);
             $table->tinyInteger('pos_system')->default(0);
             $table->boolean('cash_on_delivery')->default(0);
+            $table->string('seo_image',255);
+            $table->longText('additional_seo_image');
+            $table->tinyInteger('merchant_favorite')->default(0);
             $table->timestamps();
         });
     }
