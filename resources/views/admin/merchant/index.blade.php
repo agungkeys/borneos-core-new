@@ -1,4 +1,4 @@
-@extends('layouts.app-admin')
+`@extends('layouts.app-admin')
 
 @section('content')
 <div class="app-main__inner">
@@ -84,7 +84,6 @@
         </div>
       </div>
    </div>
-
    @include('sweetalert::alert')
  </div>
 @endsection
@@ -107,9 +106,9 @@
                     type: "DELETE",
                     url: "/admin/master-merchant/"+id,
                     data: {
-                                _token:_token,
-                                id:id
-                            },
+                            _token:_token,
+                            id:id
+                          },
                     success:function(response){
                         if(response.status == 200){
                             Swal.fire(
@@ -130,7 +129,7 @@
                     }
                 });
                 }
-                })
+            })
         }
     </script>
 @endsection

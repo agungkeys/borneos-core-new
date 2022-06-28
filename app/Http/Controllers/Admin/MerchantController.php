@@ -252,7 +252,7 @@ class MerchantController extends Controller
                     'extension' =>  $image->getExtension(),
                     'webp'      =>  $image_url_webp
                 ];
-                $additional_image_logo = json_encode($detail_image);
+                $additional_image_logo = $detail_image;
             } else {
                 $path_name = $request->file('logo')->getRealPath();
                 $image = Cloudinary::upload($path_name, ["folder" => "images/merchants/logo", "overwrite" => TRUE, "resource_type" => "image"]);
@@ -278,11 +278,11 @@ class MerchantController extends Controller
                     'extension' =>  $image->getExtension(),
                     'webp'      =>  $image_url_webp
                 ];
-                $additional_image_logo = json_encode($detail_image);
+                $additional_image_logo = $detail_image;
             }
         } else {
             $key = json_decode($master_merchant->additional_image);
-            $additional_image_logo = json_encode($key->logo);
+            $additional_image_logo = $key->logo;
             $image_url_logo = $master_merchant->logo;
         };
 
@@ -315,7 +315,7 @@ class MerchantController extends Controller
                     'extension' =>  $image->getExtension(),
                     'webp'      =>  $image_url_webp
                 ];
-                $additional_image_cover = json_encode($detail_image);
+                $additional_image_cover = $detail_image;
             } else {
                 $path_name = $request->file('cover_photo')->getRealPath();
                 $image = Cloudinary::upload($path_name, ["folder" => "images/merchants/cover", "overwrite" => TRUE, "resource_type" => "image"]);
@@ -341,11 +341,11 @@ class MerchantController extends Controller
                     'extension' =>  $image->getExtension(),
                     'webp'      =>  $image_url_webp
                 ];
-                $additional_image_cover = json_encode($detail_image);
+                $additional_image_cover = $detail_image;
             }
         } else {
             $key = json_decode($master_merchant->additional_image);
-            $additional_image_cover = json_encode($key->cover);
+            $additional_image_cover = $key->cover;
             $image_url_cover = $master_merchant->cover_photo;
         };
 
@@ -407,7 +407,7 @@ class MerchantController extends Controller
                 $additional_seo_image = json_encode($detail_image);
             }
         } else {
-            $additional_image_logo = $master_merchant->additional_seo_image;
+            $additional_seo_image = $master_merchant->additional_seo_image;
             $image_url_seo = $master_merchant->seo_image;
         };
 
@@ -415,6 +415,7 @@ class MerchantController extends Controller
             'logo'  => $additional_image_logo,
             'cover' => $additional_image_cover,
         ];
+        $additional_image_json = json_encode($additional_image);
 
         $vendor = Vendor::findOrFail($master_merchant->vendor_id);
         $vendor->f_name = $request->f_name;
@@ -448,7 +449,7 @@ class MerchantController extends Controller
             'phone'                 => $request->phone,
             'email'                 => $request->email,
             'logo'                  => $image_url_logo,
-            'additional_image'      => json_encode($additional_image),
+            'additional_image'      => $additional_image_json,
             'latitude'              => $request->latitude,
             'longitude'             => $request->longitude,
             'district'              => $request->district,
