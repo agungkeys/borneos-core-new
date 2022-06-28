@@ -11,7 +11,7 @@
             </li>
             <li class="app-sidebar__heading">Master Data</li>
             <li>
-              <a class="merchant" {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-merchant' ? 'mm-active' : '' }}" href="{{ route('merchant.master-merchant.edit',280), }}"><i class="metismenu-icon pe-7s-home"></i>Merchant</a>
+              <a class="merchant" {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-merchant' ? 'mm-active' : '' }}" href="{{ route('merchant.master-merchant.edit') }}"><i class="metismenu-icon pe-7s-home"></i>Merchant</a>
             </li>
             <li>
               <a class="master-product {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-product' ? 'mm-active' : '' }}" href="{{ route('admin.master-product') }}"><i class="metismenu-icon pe-7s-box2"></i>Product</a>

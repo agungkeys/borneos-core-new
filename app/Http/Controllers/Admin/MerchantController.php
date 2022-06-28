@@ -182,7 +182,7 @@ class MerchantController extends Controller
         Alert::success('Success', 'Data Created Successfully');
         return redirect()->route('admin.master-merchant');
     }
-    public function master_merchant_edit($id)
+        public function master_merchant_edit($id)
     {
         $master_merchant = Merchant::find($id);
         return view('admin.merchant.edit', [
@@ -439,22 +439,24 @@ class MerchantController extends Controller
         $json_categories_ids = json_encode($categories_ids);
 
         $master_merchant->update([
-            'category_id'      => $request->main_category_id,
-            'category_ids'     => $json_category_ids,
-            'categories_id'    => $categories_id,
-            'categories_ids'   => $json_categories_ids,
-            'name'             => $request->name,
-            'slug'             => $request->slug,
-            'phone'            => $request->phone,
-            'email'            => $request->email,
-            'logo'             => $image_url_logo,
-            'additional_image' => json_encode($additional_image),
-            'latitude'         => $request->latitude,
-            'longitude'        => $request->longitude,
-            'district'         => $request->district,
-            'address'          => $request->address,
-            'cover_photo'      => $image_url_cover,
-            'tax'              => $request->tax
+            'category_id'           => $request->main_category_id,
+            'category_ids'          => $json_category_ids,
+            'categories_id'         => $categories_id,
+            'categories_ids'        => $json_categories_ids,
+            'name'                  => $request->name,
+            'slug'                  => $request->slug,
+            'phone'                 => $request->phone,
+            'email'                 => $request->email,
+            'logo'                  => $image_url_logo,
+            'additional_image'      => json_encode($additional_image),
+            'latitude'              => $request->latitude,
+            'longitude'             => $request->longitude,
+            'district'              => $request->district,
+            'address'               => $request->address,
+            'cover_photo'           => $image_url_cover,
+            'tax'                   => $request->tax,
+            'seo_image'             => $image_url_seo,
+            'additional_seo_image'  => $additional_seo_image
         ]);
 
         Alert::success('Updated', 'Data Updated Successfully');
