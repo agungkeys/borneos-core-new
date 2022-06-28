@@ -6,6 +6,8 @@
     Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
       Route::get('login', 'LoginController@login')->name('login');
       Route::post('login', 'LoginController@submit')->name('login.submit');
+      Route::get('register', 'LoginController@register')->name('register');
+      Route::get('register-submit', 'LoginController@register_submit')->name('register.submit');
       Route::get('logout', 'LoginController@logout')->name('logout');
     });
     /*authentication*/
