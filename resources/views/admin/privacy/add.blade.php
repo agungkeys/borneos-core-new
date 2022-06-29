@@ -63,7 +63,7 @@
                                 <select name="type" id="type" class="form-control">
                                     <option value="merchant">Merchant</option>
                                     <option value="courier">Courier</option>
-                                    <option value="unknown">Unknown</option>
+                                    <option value="general">General</option>
                                 </select>
                             </div>
                             <div class="text-right mt-2">

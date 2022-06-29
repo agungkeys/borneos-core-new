@@ -74,10 +74,10 @@
                                                 'value' => 'courier',
                                                 'text' => 'Courier'
                                             ),
-                                            'unknown' => array(
+                                            'general' => array(
                                                 'id' => 3,
-                                                'value' => 'unknown',
-                                                'text' => 'Unknown'
+                                                'value' => 'general',
+                                                'text' => 'General'
                                             ),
                                         );
                                     @endphp
