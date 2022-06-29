@@ -34,11 +34,11 @@
                         <form action="{{ route('admin.faq.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <label for="merchant_id">Merchant</label>
-                                <select name="merchant_id" id="merchant_id" class="multiselect-dropdown form-control" >
-                                    @foreach ($merchants as $merchant)
-                                        <option value="{{ $merchant->id }}"> {{ $merchant->name }} </option>
-                                    @endforeach
+                                <label for="type">Type</label>
+                                <select name="type" id="type" class="form-control">
+                                    <option value="merchant">Merchant</option>
+                                    <option value="courier">Courier</option>
+                                    <option value="general">General</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -65,14 +65,6 @@
                             <div class="form-group">
                                 <label for="position">Position</label>
                                 <input type="number" class="form-control" name="position" id="position">
-                            </div>
-                            <div class="form-group">
-                                <label for="type">Type</label>
-                                <select name="type" id="type" class="form-control">
-                                    <option value="merchant">Merchant</option>
-                                    <option value="courier">Courier</option>
-                                    <option value="unknown">Unknown</option>
-                                </select>
                             </div>
                             <div class="text-right mt-2">
                                 <a href="{{ route('admin.faq') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>

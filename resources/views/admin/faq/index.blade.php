@@ -46,7 +46,6 @@
                         <thead>
                             <tr>
                                 <th>@sortablelink('id', 'No')</th>
-                                <th>@sortablelink('merchant_id', 'Merchant Name')</th>
                                 <th>@sortablelink('title', 'Title')</th>
                                 <th>Description</th>
                                 <th>Image</th>
@@ -67,7 +66,6 @@
                             @foreach ($faqs as $faq)
                                 <tr>
                                     <td>{{ $faq->id }}</td>
-                                    <td>{{ $faq->merchantName($faq->merchant_id) }}</td>
                                     <td>{{ $faq->title }}</td>
                                     <td>{!! Str::limit($faq->description, 20) !!}</td>
                                     <td>
