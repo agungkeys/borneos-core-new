@@ -1,4 +1,4 @@
-`@extends('layouts.app-admin')
+@extends('layouts.app-admin')
 
 @section('content')
 <div class="app-main__inner">
@@ -68,7 +68,7 @@
                         </td>
                         <td>
                            <a href="{{ route('admin.master-merchant.edit',$master_merchant->merchant_id) }}" class="btn btn-warning btn-sm" title="Edit"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
-                           <button type="button" onclick="delete_master_merchant({{$master_merchant->merchant_id}})" class="btn btn-danger btn-sm" title="Delete"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
+                           <button type="button" onclick="delete_master_merchant({{ $master_merchant->merchant_id }})" class="btn btn-danger btn-sm" title="Delete"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                         </td>
                     </tr>
                 @endforeach
@@ -79,13 +79,13 @@
               {!! $master_merchants->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter])->onEachSide(2)->links() !!}
             </div>
             <div class="col-12 col-md-6 w-100 d-flex justify-content-end align-middle">
-              <p>Displaying {{$master_merchants->count()}} of {{ number_format($master_merchants->total(), 0, "", ".") }} category</p>
+              <p>Displaying {{$master_merchants->count()}} of {{ number_format($master_merchants->total(), 0, "", ".") }} merchant(s).</p>
             </div>
         </div>
       </div>
    </div>
-   @include('sweetalert::alert')
- </div>
+</div>
+@include('sweetalert::alert')
 @endsection
 @section('js')
     <script type="text/javascript">

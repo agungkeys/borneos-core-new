@@ -182,7 +182,7 @@ class MerchantController extends Controller
         Alert::success('Success', 'Data Created Successfully');
         return redirect()->route('admin.master-merchant');
     }
-        public function master_merchant_edit($id)
+    public function master_merchant_edit($id)
     {
         $master_merchant = Merchant::find($id);
         return view('admin.merchant.edit', [
@@ -192,7 +192,7 @@ class MerchantController extends Controller
             'categories_position_1' => Category::where('position', 1)->where('parent_id',$master_merchant->category_id)->get()
         ]);
     }
-     public function master_merchant_update(Request $request, $id)
+    public function master_merchant_update(Request $request, $id)
     {
         $master_merchant=Merchant::find($id);
         $validator = Validator::make($request->all(), [

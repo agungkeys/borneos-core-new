@@ -18,7 +18,6 @@ class MerchantController extends Controller
     public function master_merchant_edit()
     {
         $master_merchant = Merchant::where(['vendor_id' => Auth()->id()])->first();
-        // dd($master_merchant->vendor_id);
         return view('merchant.merchant.edit', [
             'master_merchant' => Merchant::find($master_merchant->id),
             'master_merchant_vendor' => Vendor::where('id', $master_merchant->vendor_id)->first(),
@@ -27,8 +26,8 @@ class MerchantController extends Controller
         ]);
     }
 
-    public function master_merchant_update(Request $request, $id){
-        {
+    public function master_merchant_update(Request $request, $id)
+    {
         $master_merchant=Merchant::find($id);
         $validator = Validator::make($request->all(), [
             'f_name' => 'required',
@@ -87,7 +86,7 @@ class MerchantController extends Controller
                     'extension' =>  $image->getExtension(),
                     'webp'      =>  $image_url_webp
                 ];
-                $additional_image_logo = json_encode($detail_image);
+                $additional_image_logo = $detail_image;
             } else {
                 $path_name = $request->file('logo')->getRealPath();
                 $image = Cloudinary::upload($path_name, ["folder" => "images/merchants/logo", "overwrite" => TRUE, "resource_type" => "image"]);
@@ -113,11 +112,11 @@ class MerchantController extends Controller
                     'extension' =>  $image->getExtension(),
                     'webp'      =>  $image_url_webp
                 ];
-                $additional_image_logo = json_encode($detail_image);
+                $additional_image_logo = $detail_image;
             }
         } else {
             $key = json_decode($master_merchant->additional_image);
-            $additional_image_logo = json_encode($key->logo);
+            $additional_image_logo = $key->logo;
             $image_url_logo = $master_merchant->logo;
         };
 
@@ -150,7 +149,7 @@ class MerchantController extends Controller
                     'extension' =>  $image->getExtension(),
                     'webp'      =>  $image_url_webp
                 ];
-                $additional_image_cover = json_encode($detail_image);
+                $additional_image_cover = $detail_image;
             } else {
                 $path_name = $request->file('cover_photo')->getRealPath();
                 $image = Cloudinary::upload($path_name, ["folder" => "images/merchants/cover", "overwrite" => TRUE, "resource_type" => "image"]);
@@ -176,11 +175,11 @@ class MerchantController extends Controller
                     'extension' =>  $image->getExtension(),
                     'webp'      =>  $image_url_webp
                 ];
-                $additional_image_cover = json_encode($detail_image);
+                $additional_image_cover = $detail_image;
             }
         } else {
             $key = json_decode($master_merchant->additional_image);
-            $additional_image_cover = json_encode($key->cover);
+            $additional_image_cover = $key->cover;
             $image_url_cover = $master_merchant->cover_photo;
         };
 
@@ -242,7 +241,7 @@ class MerchantController extends Controller
                 $additional_seo_image = json_encode($detail_image);
             }
         } else {
-            $additional_image_logo = $master_merchant->additional_seo_image;
+            $additional_seo_image = $master_merchant->additional_seo_image;
             $image_url_seo = $master_merchant->seo_image;
         };
 
@@ -250,6 +249,7 @@ class MerchantController extends Controller
             'logo'  => $additional_image_logo,
             'cover' => $additional_image_cover,
         ];
+        $additional_image_json = json_encode($additional_image);
 
         $vendor = Vendor::findOrFail($master_merchant->vendor_id);
         $vendor->f_name = $request->f_name;
@@ -274,27 +274,38 @@ class MerchantController extends Controller
         $json_categories_ids = json_encode($categories_ids);
 
         $master_merchant->update([
-            'category_id'      => $request->main_category_id,
-            'category_ids'     => $json_category_ids,
-            'categories_id'    => $categories_id,
-            'categories_ids'   => $json_categories_ids,
-            'name'             => $request->name,
-            'slug'             => $request->slug,
-            'phone'            => $request->phone,
-            'email'            => $request->email,
-            'logo'             => $image_url_logo,
-            'additional_image' => json_encode($additional_image),
-            'latitude'         => $request->latitude,
-            'longitude'        => $request->longitude,
-            'district'         => $request->district,
-            'address'          => $request->address,
-            'cover_photo'      => $image_url_cover,
-            'tax'              => $request->tax
+            'category_id'           => $request->main_category_id,
+            'category_ids'          => $json_category_ids,
+            'categories_id'         => $categories_id,
+            'categories_ids'        => $json_categories_ids,
+            'name'                  => $request->name,
+            'slug'                  => $request->slug,
+            'phone'                 => $request->phone,
+            'email'                 => $request->email,
+            'logo'                  => $image_url_logo,
+            'additional_image'      => $additional_image_json,
+            'latitude'              => $request->latitude,
+            'longitude'             => $request->longitude,
+            'district'              => $request->district,
+            'address'               => $request->address,
+            'cover_photo'           => $image_url_cover,
+            'tax'                   => $request->tax,
+            'seo_image'             => $image_url_seo,
+            'additional_seo_image'  => $additional_seo_image
         ]);
 
         Alert::success('Updated', 'Data Updated Successfully');
-        return redirect()->route('merchant.master-merchant');
+        return redirect()->route('merchant.master-merchant.edit');
     }
+
+    public function master_merchant_status(Request $request)
+    {
+        $master_merchant = Merchant::withoutGlobalScopes()->find($request->id);
+        $master_merchant->active = $request->active;
+        $master_merchant->save();
+
+        Alert::toast('Status Updated', 'success');
+        return redirect()->route('merchant.master-merchant.edit');
     }
 }
 ?>

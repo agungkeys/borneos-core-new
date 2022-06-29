@@ -9,7 +9,7 @@
                 <i class="pe-7s-medal icon-gradient bg-tempting-azure"></i>
                 </div>
                 <div>
-                Edit Master Category
+                Edit Master Merchant
                 <div class="page-title-subheading">
 
                 </div>
@@ -23,6 +23,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="main-card mb-3 card">
+                    <div class="card-header">Merchant Info</div>
                     <div class="card-body">
                         <div class="form-group">
                             <label for="main_category_id">Merchant Category</label>
@@ -192,8 +193,6 @@
                             @enderror
                         </div>
                         <div class="text-right mt-2">
-                            {{-- <a href="{{ route('admin.master-merchant') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
-                            <button type="submit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Update</button> --}}
                             <a href="{{ route('admin.master-category') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
                             <button type="submit" id="buttonSubmit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Update</button>
                         </div>
