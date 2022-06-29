@@ -44,9 +44,9 @@
                                     <input type="file" accept="image/*" onchange="previewImageOnAdd()" class="custom-file-input" id="image" name="image" aria-describedby="inputGroupFileAddon01" required>
                                     <label class="custom-file-label" for="inputGroupFile01">Choose File</label>
                                 </div>
-                                <div class="form-group text-center my-2">
-                                    <img id="imgpreview" width="100%" alt=""/>
-                                </div>
+                            </div>
+                            <div class="form-group text-center my-2">
+                                <img id="imgpreview" class="img-thumbnail" alt=""/>
                             </div>
                             <div class="form-group">
                                 <label for="url">URL</label>
