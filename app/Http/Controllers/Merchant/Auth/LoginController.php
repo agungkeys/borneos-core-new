@@ -42,6 +42,11 @@ class LoginController extends Controller
             ->withErrors(['Credentials does not match.']);
     }
 
+    public function register()
+    {
+        return view('merchant.auth.register');
+    }
+
     public function logout(Request $request)
     {
         auth()->guard('merchant')->logout();
