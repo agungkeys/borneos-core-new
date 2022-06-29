@@ -78,7 +78,7 @@ class FaqController extends Controller
         };
 
         $faq = new Faq();
-        $faq->merchant_id = $request->merchant_id;
+        $faq->merchant_id = 0;
         $faq->title = $request->title;
         $faq->description = $request->description;
         $faq->image = $image_url;
@@ -138,7 +138,7 @@ class FaqController extends Controller
             $image_url = $faq->image;
         };
 
-        $faq->merchant_id = $request->merchant_id;
+        $faq->merchant_id = $faq->merchant_id;
         $faq->title = $request->title;
         $faq->description = $request->description;
         $faq->image = $image_url;

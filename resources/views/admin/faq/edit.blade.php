@@ -35,10 +35,30 @@
                             @csrf
                             @method('PUT')
                             <div class="form-group">
-                                <label for="merchant_id">Merchant</label>
-                                <select name="merchant_id" id="merchant_id" class="multiselect-dropdown form-control form-control">
-                                    @foreach ($merchants as $merchant)
-                                        <option value="{{ $merchant->id }}" @if(old('merchant') == $merchant->id || $merchant->id == $faq->merchant_id) selected @endif  > {{ $merchant->name }} </option>
+                                <label for="type">Type</label>
+                                <select name="type" id="type" class="form-control">
+                                    @php
+                                        $types = array(
+                                            'merchant' => array(
+                                                'id' => 1,
+                                                'value' => 'merchant',
+                                                'text' => 'Merchant'
+                                            ),
+                                            'courier' => array(
+                                                'id' => 2,
+                                                'value' => 'courier',
+                                                'text' => 'Courier'
+                                            ),
+                                            'general' => array(
+                                                'id' => 3,
+                                                'value' => 'general',
+                                                'text' => 'General'
+                                            ),
+                                        );
+                                    @endphp
+
+                                    @foreach ($types as $type)
+                                         <option value="{{ $type['value'] }}" @if (old('type') == $faq->type || $faq->type == $type['value'] ) selected @endif>{{ $type['text'] }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -66,34 +86,6 @@
                             <div class="form-group">
                                 <label for="position">Position</label>
                                 <input type="number" class="form-control" name="position" id="position" value="{{ $faq->position }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="type">Type</label>
-                                <select name="type" id="type" class="form-control">
-                                    @php
-                                        $types = array(
-                                            'merchant' => array(
-                                                'id' => 1,
-                                                'value' => 'merchant',
-                                                'text' => 'Merchant'
-                                            ),
-                                            'courier' => array(
-                                                'id' => 2,
-                                                'value' => 'courier',
-                                                'text' => 'Courier'
-                                            ),
-                                            'unknown' => array(
-                                                'id' => 3,
-                                                'value' => 'unknown',
-                                                'text' => 'Unknown'
-                                            ),
-                                        );
-                                    @endphp
-
-                                    @foreach ($types as $type)
-                                         <option value="{{ $type['value'] }}" @if (old('type') == $faq->type || $faq->type == $type['value'] ) selected @endif>{{ $type['text'] }}</option>
-                                    @endforeach
-                                </select>
                             </div>
                             <div class="text-right mt-2">
                                 <a href="{{ route('admin.faq') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
