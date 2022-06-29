@@ -8,6 +8,7 @@ use App\Models\Merchant;
 use App\Models\Product;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -305,5 +306,21 @@ class ProductController extends Controller
         $product->save();
         Alert::success('Updated', 'Updated Successfully');
         return redirect('/merchant/master-product');
+    }
+    public function master_product_delete($id)
+    {
+        $product = Product::find($id);
+        if ($product->image) {
+            if (!$product->additional_image) {
+                if (Storage::disk('public')->exists('product/' . $product->image)) {
+                    Storage::disk('public')->delete('product/' . $product->image);
+                }
+            } else {
+                $key = json_decode($product->additional_image);
+                Cloudinary::destroy($key->public_id);
+            };
+        };
+        $product->delete();
+        return response()->json(['status' => 200]);
     }
 }

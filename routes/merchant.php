@@ -41,6 +41,7 @@ Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
     Route::post('/master-product/add', 'ProductController@master_product_store')->name('master-product.store');
     Route::get('/master-product/{id}', 'ProductController@master_product_edit')->name('master-product.edit');
     Route::put('/master-product/{id}', 'ProductController@master_product_update')->name('master-product.update');
+    Route::delete('/master-product/{id}', 'ProductController@master_product_delete')->name('master-product.delete');
   });
 
   // Route::middleware(['auth:vendor'])->group(function(){
