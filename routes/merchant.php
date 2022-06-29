@@ -35,6 +35,10 @@
       Route::get('master-coupon/{id}', 'CouponController@master_coupon_edit')->name('master-coupon.edit');
       Route::put('master-coupon/{id}', 'CouponController@master_coupon_update')->name('master-coupon.update');
       Route::delete('master-coupon/{id}', 'CouponController@master_coupon_delete')->name('master-coupon.delete');
+
+      Route::get('master-merchant', 'MerchantController@master_merchant_edit')->name('master-merchant.edit');
+      Route::put('/master-merchant/{id}', 'MerchantController@master_merchant_update')->name('master-merchant.update');
+      Route::get('/master-merchant/status/{id}/{active}', 'MerchantController@master_merchant_status')->name('master-merchant.status');
     });
 
     // Route::middleware(['auth:vendor'])->group(function(){
