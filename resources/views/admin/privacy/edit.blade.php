@@ -51,13 +51,13 @@
                                     <input type="file" accept="image/*" onchange="previewImageOnAdd()"" class="custom-file-input" id="image" name="image" aria-describedby="inputGroupFileAddon01">
                                     <label class="custom-file-label" for="inputGroupFile01">Choose File</label>
                                 </div>
-                                <div class="form-group text-center my-2">
-                                    <img id="imgpreview" src="{{ $privacy->image }}" width="100%" alt=""/>
-                                </div>
+                            </div>
+                            <div class="form-group text-center my-2">
+                                <img id="imgpreview" src="{{ $privacy->image }}" class="img-thumbnail" alt=""/>
                             </div>
                             <div class="form-group">
                                 <label for="position">Position</label>
-                                <input type="number" class="form-control" name="position" id="position" value="{{ $privacy->position }}"
+                                <input type="number" class="form-control" name="position" id="position" value="{{ $privacy->position }}">
                             </div>
                             <div class="form-group">
                                 <label for="type">Type</label>

@@ -70,7 +70,7 @@
               <a class="faq {{ count(request()->segments()) > 1 && request()->segments()[1] == 'faq' ? 'mm-active' : '' }}" href="{{ route('admin.faq') }}"><i class="metismenu-icon pe-7s-help1"></i>FAQ</a>
             </li>
             <li>
-              <a class="about-us" href="#"><i class="metismenu-icon pe-7s-info"></i>General</a>
+              <a class="general {{ count(request()->segments()) > 1 && request()->segments()[1] == 'general' ? 'mm-active' : '' }}" href="{{ route('admin.general') }}"><i class="metismenu-icon pe-7s-info"></i>General</a>
             </li>
         </ul>
     </div>
