@@ -61,16 +61,16 @@
             </li>
             <li class="app-sidebar__heading">Business</li>
             <li>
-              <a class="tacs {{ count(request()->segments()) > 1 && request()->segments()[1] == 'tac' ? 'mm-active' : '' }}" href="{{ route('admin.tac') }}"><i class="metismenu-icon pe-7s-ticket"></i>Terms and Conditions</a>
+              <a class="tacs {{ count(request()->segments()) > 1 && request()->segments()[1] == 'tac' ? 'mm-active' : '' }}" href="{{ route('admin.tac') }}"><i class="metismenu-icon pe-7s-flag"></i>Terms and Conditions</a>
             </li>
             <li>
-              <a class="privacy-policy" href="#"><i class="metismenu-icon pe-7s-attention"></i>Privacy Policy</a>
+              <a class="privacy-policy {{ count(request()->segments()) > 1 && request()->segments()[1] == 'privacy-policy' ? 'mm-active' : '' }}" href="{{ route('admin.privacy-policy') }}"><i class="metismenu-icon pe-7s-attention"></i>Privacy Policy</a>
             </li>
             <li>
-              <a class="faq" href="#"><i class="metismenu-icon pe-7s-help1"></i>FAQ</a>
+              <a class="faq {{ count(request()->segments()) > 1 && request()->segments()[1] == 'faq' ? 'mm-active' : '' }}" href="{{ route('admin.faq') }}"><i class="metismenu-icon pe-7s-help1"></i>FAQ</a>
             </li>
             <li>
-              <a class="about-us" href="#"><i class="metismenu-icon pe-7s-info"></i>About Us</a>
+              <a class="general {{ count(request()->segments()) > 1 && request()->segments()[1] == 'general' ? 'mm-active' : '' }}" href="{{ route('admin.general') }}"><i class="metismenu-icon pe-7s-info"></i>General</a>
             </li>
         </ul>
     </div>

@@ -96,5 +96,26 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('tac/edit/{id}', 'TACController@tac_edit')->name('tac.edit');
     Route::put('tac/update/{id}', 'TACController@tac_update')->name('tac.update');
     Route::delete('tac/delete/{id}', 'TACController@tac_delete')->name('tac.delete');
+
+    Route::get('privacy-policy', 'PrivacyController@privacy_index')->name('privacy-policy');
+    Route::get('privacy-policy/status/{id}/{status}', 'PrivacyController@privacy_status')->name('privacy-policy.status');
+    Route::get('privacy-policy/create', 'PrivacyController@privacy_create')->name('privacy-policy.create');
+    Route::post('privacy-policy/store', 'PrivacyController@privacy_store')->name('privacy-policy.store');
+    Route::get('privacy-policy/edit/{id}', 'PrivacyController@privacy_edit')->name('privacy-policy.edit');
+    Route::put('privacy-policy/update/{id}', 'PrivacyController@privacy_update')->name('privacy-policy.update');
+    Route::delete('privacy-policy/delete/{id}', 'PrivacyController@privacy_delete')->name('privacy-policy.delete');
+
+    Route::get('faq', 'FaqController@faq_index')->name('faq');
+    Route::get('faq/status/{id}/{status}', 'FaqController@faq_status')->name('faq.status');
+    Route::get('faq/create', 'FaqController@faq_create')->name('faq.create');
+    Route::post('faq/store', 'FaqController@faq_store')->name('faq.store');
+    Route::get('faq/edit/{id}', 'FaqController@faq_edit')->name('faq.edit');
+    Route::put('faq/update/{id}', 'FaqController@faq_update')->name('faq.update');
+    Route::delete('faq/delete/{id}', 'FaqController@faq_delete')->name('faq.delete');
+
+    Route::get('general', 'GeneralController@general_index')->name('general');
+    Route::get('general/maintenance/{id}/{maintenance_mode}', 'GeneralController@general_maintenance')->name('general.maintenance');
+    Route::post('general/store', 'GeneralController@general_store')->name('general.store');
+    Route::put('general/update/{id}', 'GeneralController@general_update')->name('general.update');
   });
 });

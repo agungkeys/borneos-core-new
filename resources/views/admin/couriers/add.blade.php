@@ -80,9 +80,9 @@
                                     <input type="file" accept="image/*" onchange="previewImageOnIdentity()"" class="custom-file-input" id="identity_image" name="identity_image" aria-describedby="inputGroupFileAddon01">
                                     <label class="custom-file-label" for="inputGroupFile01">Choose File</label>
                                 </div>
-                                <div class="form-group text-center my-2">
-                                    <img id="imgPreviewIdentity" width="100%" alt=""/>
-                                </div>
+                            </div>
+                            <div class="form-group text-center my-2">
+                                <img id="imgPreviewIdentity" class="img-thumbnail" alt=""/>
                             </div>
 
                             <label for="profile_image">Profile Image</label>
@@ -94,9 +94,9 @@
                                     <input type="file" accept="image/*" onchange="previewImageOnProfile()"" class="custom-file-input" id="profile_image" name="profile_image" aria-describedby="inputGroupFileAddon01">
                                     <label class="custom-file-label" for="inputGroupFile03">Choose File</label>
                                 </div>
-                                <div class="form-group text-center my-2">
-                                    <img id="imgPreviewProfile" width="100%" alt=""/>
-                                </div>
+                            </div>
+                            <div class="form-group text-center my-2">
+                                <img id="imgPreviewProfile" class="img-thumbnail" alt=""/>
                             </div>
 
                             <div class="form-group">

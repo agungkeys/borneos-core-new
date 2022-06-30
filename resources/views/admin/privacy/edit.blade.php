@@ -9,7 +9,7 @@
                         <i class="pe-7s-medal icon-gradient bg-tempting-azure"></i>
                     </div>
                     <div>
-                        Add Term and Condition
+                        Edit Privacy Policy
                         <div class="page-title-subheading">
 
                         </div>
@@ -31,15 +31,16 @@
             <div class="col-md-6 col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('admin.tac.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin.privacy-policy.update', $privacy->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
                             <div class="form-group">
                                 <label for="title">Title</label>
-                                <input type="text" class="form-control" name="title" id="title">
+                                <input type="text" class="form-control" name="title" id="title" value="{{ $privacy->title }}">
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea name="description" id="editor" class="form-control"></textarea>
+                                <textarea name="description" id="editor" class="form-control">{{ $privacy->description }}</textarea>
                             </div>
                             <label for="image">Image</label>
                             <div class="input-group mb-3">
@@ -47,27 +48,47 @@
                                     <span class="input-group-text" id="inputGroupFileAddon01">Upload Image</span>
                                 </div>
                                 <div class="custom-file">
-                                    <input type="file" accept="image/*" onchange="previewImageOnAdd()" class="custom-file-input" id="image" name="image" aria-describedby="inputGroupFileAddon01">
+                                    <input type="file" accept="image/*" onchange="previewImageOnAdd()"" class="custom-file-input" id="image" name="image" aria-describedby="inputGroupFileAddon01">
                                     <label class="custom-file-label" for="inputGroupFile01">Choose File</label>
                                 </div>
                             </div>
                             <div class="form-group text-center my-2">
-                                <img id="imgpreview" class="img-thumbnail" alt=""/>
+                                <img id="imgpreview" src="{{ $privacy->image }}" class="img-thumbnail" alt=""/>
                             </div>
                             <div class="form-group">
                                 <label for="position">Position</label>
-                                <input type="number" class="form-control" name="position" id="position">
+                                <input type="number" class="form-control" name="position" id="position" value="{{ $privacy->position }}">
                             </div>
                             <div class="form-group">
                                 <label for="type">Type</label>
                                 <select name="type" id="type" class="form-control">
-                                    <option value="merchant">Merchant</option>
-                                    <option value="courier">Courier</option>
-                                    <option value="general">General</option>
+                                    @php
+                                        $types = array(
+                                            'merchant' => array(
+                                                'id' => 1,
+                                                'value' => 'merchant',
+                                                'text' => 'Merchant'
+                                            ),
+                                            'courier' => array(
+                                                'id' => 2,
+                                                'value' => 'courier',
+                                                'text' => 'Courier'
+                                            ),
+                                            'general' => array(
+                                                'id' => 3,
+                                                'value' => 'general',
+                                                'text' => 'General'
+                                            ),
+                                        );
+                                    @endphp
+
+                                    @foreach ($types as $type)
+                                         <option value="{{ $type['value'] }}" @if (old('type') == $privacy->type || $privacy->type == $type['value'] ) selected @endif>{{ $type['text'] }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="text-right mt-2">
-                                <a href="{{ route('admin.tac') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
+                                <a href="{{ route('admin.privacy-policy') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
                                 <button type="submit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Save</button>
                             </div>
                         </form>

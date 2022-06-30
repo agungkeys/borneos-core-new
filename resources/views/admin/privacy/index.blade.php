@@ -8,10 +8,10 @@
                     <div class="page-title-icon">
                         <i class="pe-7s-photo-gallery icon-gradient bg-tempting-azure"></i>
                     </div>
-                    <div>List Terms and Conditions <span class="badge badge-pill badge-primary">{{ number_format($tacs->total(), 0, "", ".") }}</span></div>
+                    <div>List Privacy Policy <span class="badge badge-pill badge-primary">{{ number_format($privacies->total(), 0, "", ".") }}</span></div>
                 </div>
                 <div class="page-title-actions">
-                    <a href="{{ route('admin.tac.create') }}" class="btn-shadow btn btn-info btn-lg">Add Term and Condition</a>
+                    <a href="{{ route('admin.privacy-policy.create') }}" class="btn-shadow btn btn-info btn-lg">Add Privacy Policy</a>
                 </div>
             </div>
         </div>
@@ -57,31 +57,31 @@
                         </thead>
                         <tbody>
 
-                            @if ($tacs->count() == 0)
+                            @if ($privacies->count() == 0)
                                 <tr>
-                                    <td colspan="8">No Term and Condition to display</td>
+                                    <td colspan="8">No Privacy Policies to display</td>
                                 </tr>
                             @endif
 
-                            @foreach ($tacs as $tac )
+                            @foreach ($privacies as $privacy )
                                 <tr>
-                                    <td>{{ $tac->id }}</td>
-                                    <td>{{ $tac->title }}</td>
-                                    <td>{!! Str::limit($tac->description, 20) !!}</td>
+                                    <td>{{ $privacy->id }}</td>
+                                    <td>{{ $privacy->title }}</td>
+                                    <td>{!! Str::limit($privacy->description, 20) !!}</td>
                                     <td>
-                                        <img src="{{ $tac->image ? $tac->image : asset('images/default-image.jpg')  }}" alt="" width="100" height="100" style="object-fit: cover">
+                                        <img src="{{ $privacy->image ? $privacy->image : asset('images/default-image.jpg')  }}" alt="" width="100" height="100" style="object-fit: cover">
                                     </td>
-                                    <td>{{ $tac->position ? $tac->position : "-" }}</td>
-                                    <td>{{ $tac->type ? $tac->type : "-" }}</td>
+                                    <td>{{ $privacy->position ? $privacy->position : "-" }}</td>
+                                    <td>{{ $privacy->type ? $privacy->type : "-" }}</td>
                                     <td>
-                                        <label class="m-auto align-middle" for="statusCheckbox{{$tac->id}}">
-                                            <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.tac.status',[$tac['id'],$tac->status ? 0 : 1])}}'" id="statusCheckbox{{$tac->id}}" {{$tac->status ? 'checked' : ''}}>
+                                        <label class="m-auto align-middle" for="statusCheckbox{{$privacy->id}}">
+                                            <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.privacy-policy.status',[$privacy['id'], $privacy->status ? 0 : 1])}}'" id="statusCheckbox{{$privacy->id}}" {{$privacy->status ? 'checked' : ''}}>
                                         </label>
                                     </td>
                                     <td>
-                                         <a href="{{ route('admin.tac.edit',$tac->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+                                         <a href="{{ route('admin.privacy-policy.edit', $privacy->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
 
-                                        <button type="button" onclick="delete_tac({{$tac->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
+                                        <button type="button" onclick="delete_privacy({{$privacy->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -90,10 +90,10 @@
                     </table>
                     <div class="row">
                         <div class="col-12 col-md-6 flex-1">
-                            {!! $tacs->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter])->onEachSide(2)->links() !!}
+                            {!! $privacies->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter])->onEachSide(2)->links() !!}
                         </div>
                         <div class="col-12 col-md-6 w-100 d-flex justify-content-end align-middle">
-                            <p>Displaying {{$tacs->count()}} of {{ number_format($tacs->total(), 0, "", ".") }} product(s).</p>
+                            <p>Displaying {{$privacies->count()}} of {{ number_format($privacies->total(), 0, "", ".") }} product(s).</p>
                         </div>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
     @include('sweetalert::alert')
         <script>
 
-            function delete_tac(id)
+            function delete_privacy(id)
             {
                 Swal.fire({
                     title: 'Are you sure?',
@@ -120,7 +120,7 @@
                     let _token =  $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
                         type: "DELETE",
-                        url: "/admin/tac/delete/"+id,
+                        url: "/admin/privacy-policy/delete/"+id,
                         data: {_token:_token,id:id},
                         success:function(response){
                             if(response.status == 200){
@@ -129,7 +129,7 @@
                                 'Your file has been deleted.',
                                 'success'
                                 )
-                                window.location = "{{ route('admin.tac') }}";
+                                window.location = "{{ route('admin.privacy-policy') }}";
                             }
                         }
                         });
