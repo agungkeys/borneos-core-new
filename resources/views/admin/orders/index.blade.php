@@ -39,95 +39,101 @@
             </div>
           </div>
         </div>
-         <table style="width: 100%;" class="table table-hover table-striped table-bordered">
-            <tr>
-                <th rowspan="2">ID</th>
-                <th rowspan="2" style="text-align: center">Type</th>
-                <th rowspan="2">Merchant</th>
-                <th colspan="4" style="text-align: center">Customer</th>
-                <th colspan="4" style="text-align: center">Total</th>
-                <th colspan="2" style="text-align: center">Payment</th>
-                <th rowspan="2">Courier</th>
-                <th rowspan="2" style="text-align: center">Status</th>
-                <th rowspan="2">Action</th>
-            </tr>
-            <tr>
-                <th style="text-align: center">Name</th>
-                <th style="text-align: center">Telp</td>
-                <th style="text-align: center">Address</th>
-                <th style="text-align: center">Notes</td>
-                <th style="text-align: center">Item</th>
-                <th style="text-align: center">Item Price</th>
-                <th style="text-align: center">Distance</th>
-                <th style="text-align: center">Price</th>
-                <th style="text-align: center">Type</th>
-                <th style="text-align: center">Status</th>
-            </tr>
-            <tbody>
-              @if ($orders->count() == 0)
+        <div style="width: 100%">
+          <table class="table table-hover table-striped table-bordered table-responsive">
+            <thead>
               <tr>
-                <td colspan="8">No order to display.</td>
+                  <th rowspan="2">ID</th>
+                  <th rowspan="2" style="text-align: center">Type</th>
+                  <th rowspan="2" style="">Merchant</th>
+                  <th colspan="2" style="text-align: center">Customer</th>
+                  <th colspan="4" style="text-align: center">Total</th>
+                  <th colspan="2" style="text-align: center">Payment</th>
+                  <th rowspan="2">Courier</th>
+                  <th rowspan="2" style="text-align: center">Status</th>
+                  <th rowspan="2">Action</th>
               </tr>
-              @endif
-                @foreach ($orders as $order)
-                    <tr>
-                        <td>{{ $order->id }}</td>
-                        @if($order->order_type == 'borneos')
-                        <td><span class="mr-3 ml-3 badge badge-pill badge-warning">{{ $order->order_type }}</span></td>
-                        @elseif($order->order_type == 'bonjek')
-                        <td><span style="background-color: palevioletred" class="mr-3 ml-3 badge badge-pill badge-info">{{ $order->order_type }}</span></td>
-                        @elseif($order->order_type == 'legenda')
-                        <td><span class="mr-3 ml-3 badge badge-pill badge-danger">{{ $order->order_type }}</span></td>
-                        @else
-                        <td><span class="mr-3 ml-3 badge badge-pill badge-secondary">{{ $order->order_type }}</span></td>
-                        @endif
-                        <td>{{ $order->merchant_id && $order->merchant->name ? $order->merchant->name : '-' }}</td>
-                        <td>{{ $order->customer_name }}</td>
-                        <td>{{ $order->customer_telp }}</td>
-                        <td title="{{ $order->customer_address }}">{{ $order->customer_address ? \Str::limit($order->customer_address, 10, '..') : '-' }}</td>
-                        <td title="{{ $order->customer_notes }}">{{ $order->customer_notes ? \Str::limit($order->customer_notes, 15, '..'): '-' }}</td>
-                        <td>{{ $order->total_item }}</td>
-                        <td>{{ $order->total_item_price }}</td>
-                        <td>{{ $order->total_distance_price }}</td>
-                        <td>{{ $order->total_price }}</td>
-                        @if($order->payment_type == 'cash')
-                        <td><span class="mr-3 ml-3 badge badge-pill badge-success">{{ $order->payment_type }}</span></td>
-                        @elseif($order->payment_type == 'transfer')
-                        <td><span class="mr-2 ml-2 badge badge-pill badge-primary">{{ $order->payment_type }}</span></td>
-                        @else
-                        <td><span class="mr-2 ml-2 badge badge-pill badge-secondary">{{ $order->payment_type }}</span></td>
-                        @endif
-                        @if($order->payment_status == 'paid')
-                        <td><span class="mr-3 ml-3 badge badge-pill badge-success">{{ $order->payment_status }}</span></td>
-                        @else
-                        <td><span class="mr-3 ml-3 badge badge-pill badge-danger">{{ $order->payment_status }}</span></td>
-                        @endif
-                        <td style="text-align: center">{{ $order->courier_id && $order->courier->name ? $order->courier->name : '-' }}</td>
-                        @if($order->status == 'new')
-                        <td><span class="mr-3 ml-3 badge badge-pill badge-info">{{ $order->status }}</span></td>
-                        @else 
-                        <td><span class="mr-3 ml-3 badge badge-pill badge-success">{{ $order->status }}</span></td>
-                        @endif
-                        <td>
-                           <!-- Dropdown -->
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button"
-                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        <i class="pe-7s-settings"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#"><i class="pe-7s-user"></i>&nbsp;Details</a>
-                                    <a class="dropdown-item" href="#"> <i class="text-dark pe-7s-note"></i>&nbsp;Edit</a>
-                                    <a class="dropdown-item" href="#"> <i class="pe-7s-power"></i>&nbsp;Cancel</a>
-                                </div>
-                            </div>
-                            <!-- End Dropdown -->
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-         </table>
+              <tr>
+                  <th style="text-align: center">Name/Telp</th>
+                  <th style="text-align: center">Address</th>
+                  <!-- <th style="text-align: center">Notes</td> -->
+                  <th style="text-align: center">Item</th>
+                  <th style="text-align: center">Item&nbsp;Price</th>
+                  <th style="text-align: center">Distance</th>
+                  <th style="text-align: center">Price</th>
+                  <th style="text-align: center">Type</th>
+                  <th style="text-align: center">Status</th>
+              </tr>
+            </thead>
+             <tbody>
+               @if ($orders->count() == 0)
+               <tr>
+                 <td colspan="15">No order to display.</td>
+               </tr>
+               @endif
+                 @foreach ($orders as $order)
+                     <tr>
+                         <td>{{ $order->id }}</td>
+                         @if($order->order_type == 'borneos')
+                         <td><span class="badge badge-pill badge-warning">{{ $order->order_type }}</span></td>
+                         @elseif($order->order_type == 'bonjek')
+                         <td><span style="background-color: palevioletred" class="badge badge-pill badge-info">{{ $order->order_type }}</span></td>
+                         @elseif($order->order_type == 'legenda')
+                         <td><span class="badge badge-pill badge-danger">{{ $order->order_type }}</span></td>
+                         @else
+                         <td><span class="badge badge-pill badge-secondary">{{ $order->order_type }}</span></td>
+                         @endif
+                         <td><p style="font-size: 13px;">{{ $order->merchant_id && $order->merchant->name ? $order->merchant->name : '-' }}</p></td>
+                         <td>
+                           <div><span style="font-weight: bold; font-size: 12px;">{{ $order->customer_name }}</span></div>
+                           <div><small>{{ $order->customer_telp }}</small></div>
+                         </td>
+
+                         <td title="{{ $order->customer_address }}"><p style="font-size: 12px;">{{ $order->customer_address ? \Str::limit($order->customer_address, 45, '..') : '-' }}</p></td>
+                         <!-- <td title="{{ $order->customer_notes }}">{{ $order->customer_notes ? \Str::limit($order->customer_notes, 15, '..'): '-' }}</td> -->
+                         <td>{{ $order->total_item }}</td>
+                         <td>{{ $order->total_item_price }}</td>
+                         <td>{{ $order->total_distance_price }}</td>
+                         <td>{{ $order->total_price }}</td>
+                         @if($order->payment_type == 'cash')
+                         <td><span class="mr-3 ml-3 badge badge-pill badge-success">{{ $order->payment_type }}</span></td>
+                         @elseif($order->payment_type == 'transfer')
+                         <td><span class="mr-2 ml-2 badge badge-pill badge-primary">{{ $order->payment_type }}</span></td>
+                         @else
+                         <td><span class="mr-2 ml-2 badge badge-pill badge-secondary">{{ $order->payment_type }}</span></td>
+                         @endif
+                         @if($order->payment_status == 'paid')
+                         <td><span class="mr-3 ml-3 badge badge-pill badge-success">{{ $order->payment_status }}</span></td>
+                         @else
+                         <td><span class="mr-3 ml-3 badge badge-pill badge-danger">{{ $order->payment_status }}</span></td>
+                         @endif
+                         <td style="text-align: center">{{ $order->courier_id && $order->courier->name ? $order->courier->name : '-' }}</td>
+                         @if($order->status == 'new')
+                         <td><span class="mr-3 ml-3 badge badge-pill badge-info">{{ $order->status }}</span></td>
+                         @else
+                         <td><span class="mr-3 ml-3 badge badge-pill badge-success">{{ $order->status }}</span></td>
+                         @endif
+                         <td>
+                            <!-- Dropdown -->
+                             <div class="dropdown">
+                                 <button class="btn btn-primary dropdown-toggle" type="button"
+                                         id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                         aria-expanded="false">
+                                         <i class="pe-7s-settings"></i>
+                                 </button>
+                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                     <a class="dropdown-item" href="#"><i class="pe-7s-user"></i>&nbsp;Details</a>
+                                     <a class="dropdown-item" href="#"> <i class="text-dark pe-7s-note"></i>&nbsp;Edit</a>
+                                     <a class="dropdown-item" href="#"> <i class="pe-7s-power"></i>&nbsp;Cancel</a>
+                                 </div>
+                             </div>
+                             <!-- End Dropdown -->
+                         </td>
+                     </tr>
+                 @endforeach
+             </tbody>
+          </table>
+        </div>
           <div class="row">
             <div class="col-12 col-md-6 flex-1">
               {!! $orders->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter])->onEachSide(2)->links() !!}
