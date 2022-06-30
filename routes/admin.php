@@ -1,7 +1,6 @@
 <?php
+
 use App\Models\Category;
-use App\Http\Controllers\Admin\BannerController;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
@@ -70,8 +69,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/master-merchant/add', 'MerchantController@master_merchant_add')->name('master-merchant.add');
     Route::post('/master-merchant/add', 'MerchantController@master_merchant_store')->name('master-merchant.store');
     Route::get('/get-sub-category/{id}', function ($id) {
-        $course = Category::where('parent_id',$id)->where('position',1)->get();
-        return response()->json($course);
+      $course = Category::where('parent_id', $id)->where('position', 1)->get();
+      return response()->json($course);
     });
     Route::get('/master-merchant/{id}', 'MerchantController@master_merchant_edit')->name('master-merchant.edit');
     Route::delete('/master-merchant/{id}', 'MerchantController@master_merchant_delete')->name('master-merchant.delete');

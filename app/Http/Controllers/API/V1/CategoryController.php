@@ -12,7 +12,7 @@ class CategoryController extends Controller
 
     public function get_categories(Request $request)
     {
-        if ($request->header('KEY_HEADER') === env('KEY_HEADER')) {
+        if ($request->header('tokenb') === env('tokenb')) {
             $status = $request->status ?? null;
             $sort   = $request->sort ?? 'desc';
             if ($status == null) {
