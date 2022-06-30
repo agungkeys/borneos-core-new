@@ -147,7 +147,6 @@ $merchantname = Str::of($merchant->name)->words(2, '..');
 
         <div class="app-main__outer">
           @yield('content')
-
           <div class="body-block-loading d-none">
               <div class="loader bg-transparent no-shadow p-0 align-center">
                   <div class="ball-scale-multiple">
@@ -156,8 +155,8 @@ $merchantname = Str::of($merchant->name)->words(2, '..');
                     <div style="background-color: rgb(253, 126, 20);"></div>
                   </div>
               </div>
-              <div style="z-
-
+              <div style="z-index: 9999; padding-top: 2em; text-align: center; margin-left: -2.2em;"><span class="text-white">Loading...</span></div>
+          </div>
         </div>
       </div>
     </div>

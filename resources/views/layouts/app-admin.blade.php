@@ -151,13 +151,6 @@
 
           <div class="body-block-loading d-none">
               <div class="loader bg-transparent no-shadow p-0 align-center">
-                  <!-- <div class="ball-pulse-rise">
-                    <div style="background-color: rgb(253, 126, 20);"></div>
-                    <div style="background-color: rgb(253, 126, 20);"></div>
-                    <div style="background-color: rgb(253, 126, 20);"></div>
-                    <div style="background-color: rgb(253, 126, 20);"></div>
-                    <div style="background-color: rgb(253, 126, 20);"></div>
-                  </div> -->
                   <div class="ball-scale-multiple">
                     <div style="background-color: rgb(253, 126, 20);"></div>
                     <div style="background-color: rgb(253, 126, 20);"></div>
