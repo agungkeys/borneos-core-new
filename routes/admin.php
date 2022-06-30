@@ -18,7 +18,6 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/', 'DashboardController@dashboard')->name('dashboard');
     // orders
     Route::get('/orders', 'OrderController@index')->name('orders');
-    Route::get('/orders/{slug}', 'OrderController@index_slug')->name('orders.slug');
 
     //categories
     Route::get('/master-category', 'CategoryController@master_category_index')->name('master-category');
