@@ -102,7 +102,6 @@
 @endsection
 
 @section('js')
-    @include('sweetalert::alert')
         <script>
 
             function delete_faq(id)

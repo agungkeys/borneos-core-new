@@ -85,7 +85,6 @@
       </div>
    </div>
 </div>
-@include('sweetalert::alert')
 @endsection
 @section('js')
     <script type="text/javascript">

@@ -125,7 +125,6 @@
           </div>
       </div>
    </div>
-   @include('sweetalert::alert')
    <script>
      function delete_product(id){
         Swal.fire({

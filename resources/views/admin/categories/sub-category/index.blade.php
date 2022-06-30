@@ -95,7 +95,6 @@
           </div>
       </div>
    </div>
-   @include('sweetalert::alert')
    <script type="text/javascript">
       function delete_sub_category(id)
       {
