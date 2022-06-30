@@ -11,10 +11,7 @@ use Illuminate\Support\Facades\Route;
       Route::get('register-submit', 'LoginController@register_submit')->name('register.submit');
       Route::get('logout', 'LoginController@logout')->name('logout');
     });
-    /*authentication*/
-    Route::group(['middleware' => ['auth:merchant']], function () {
-      //dashboard
-      Route::get('/', 'DashboardController@dashboard')->name('dashboard');
+});
 
 Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
   /*authentication*/
@@ -57,12 +54,4 @@ Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
     Route::put('/master-product/{id}', 'ProductController@master_product_update')->name('master-product.update');
     Route::delete('/master-product/{id}', 'ProductController@master_product_delete')->name('master-product.delete');
   });
-
-  // Route::middleware(['auth:vendor'])->group(function(){
-  //   Route::get('/', 'DashboardController@dashboard')->name('dashboard');
-  // });
-  // Route::group(['middleware' => ['vendor']], function () {
-  // Route::get('/', 'DashboardController@dashboard')->name('dashboard');
-  // Route::get('/',[DashboardController::class, 'dashboard']);
-  // });
 });
