@@ -8,8 +8,9 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, $status)
     {
+
         $filter = $request->query('filter');
         if (!empty($filter)) {
             $orders = Order::sortable()
