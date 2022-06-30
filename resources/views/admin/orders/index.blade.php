@@ -40,26 +40,29 @@
           </div>
         </div>
          <table style="width: 100%;" class="table table-hover table-striped table-bordered">
-            <thead>
-               <tr>
-                  <th>@sortablelink('id', 'ID')</th>
-                  <th>@sortablelink('order_type', 'Type')</th>
-                  <th>Merchant Name</th>
-                  <th>@sortablelink('customer_name', 'Customer Name')</th>
-                  <th>@sortablelink('customer_telp', 'Customer Telp')</th>
-                  <th>@sortablelink('customer_address', 'Customer Address')</th>
-                  <th>@sortablelink('customer_notes', 'Customer Note')</th>
-                  <th>@sortablelink('total_item', 'Total Item')</th>
-                  <th>@sortablelink('total_item_price', 'Total Item Price')</th>
-                  <th>@sortablelink('total_distance_price', 'Total Distance')</th>
-                  <th>@sortablelink('total_price', 'Total Price')</th>
-                  <th>@sortablelink('payment_type', 'Payment Type')</th>
-                  <th>@sortablelink('payment_status', 'Payment Status')</th>
-                  <th>Courier Name</th>
-                  <th>@sortablelink('status', 'Status')</th>
-                  <th>Action</th>
-               </tr>
-            </thead>
+            <tr>
+                <th rowspan="2">ID</th>
+                <th rowspan="2" style="text-align: center">Type</th>
+                <th rowspan="2">Merchant</th>
+                <th colspan="4" style="text-align: center">Customer</th>
+                <th colspan="4" style="text-align: center">Total</th>
+                <th colspan="2" style="text-align: center">Payment</th>
+                <th rowspan="2">Courier</th>
+                <th rowspan="2" style="text-align: center">Status</th>
+                <th rowspan="2">Action</th>
+            </tr>
+            <tr>
+                <th style="text-align: center">Name</th>
+                <th style="text-align: center">Telp</td>
+                <th style="text-align: center">Address</th>
+                <th style="text-align: center">Notes</td>
+                <th style="text-align: center">Item</th>
+                <th style="text-align: center">Item Price</th>
+                <th style="text-align: center">Distance</th>
+                <th style="text-align: center">Price</th>
+                <th style="text-align: center">Type</th>
+                <th style="text-align: center">Status</th>
+            </tr>
             <tbody>
               @if ($orders->count() == 0)
               <tr>
@@ -81,8 +84,8 @@
                         <td>{{ $order->merchant_id && $order->merchant->name ? $order->merchant->name : '-' }}</td>
                         <td>{{ $order->customer_name }}</td>
                         <td>{{ $order->customer_telp }}</td>
-                        <td>{{ $order->customer_address }}</td>
-                        <td>{{ $order->customer_notes }}</td>
+                        <td title="{{ $order->customer_address }}">{{ $order->customer_address ? \Str::limit($order->customer_address, 10, '..') : '-' }}</td>
+                        <td title="{{ $order->customer_notes }}">{{ $order->customer_notes ? \Str::limit($order->customer_notes, 15, '..'): '-' }}</td>
                         <td>{{ $order->total_item }}</td>
                         <td>{{ $order->total_item_price }}</td>
                         <td>{{ $order->total_distance_price }}</td>
@@ -99,7 +102,7 @@
                         @else
                         <td><span class="mr-3 ml-3 badge badge-pill badge-danger">{{ $order->payment_status }}</span></td>
                         @endif
-                        <td>{{ $order->courier_id && $order->courier->name ? $order->courier->name : '-' }}</td>
+                        <td style="text-align: center">{{ $order->courier_id && $order->courier->name ? $order->courier->name : '-' }}</td>
                         @if($order->status == 'new')
                         <td><span class="mr-3 ml-3 badge badge-pill badge-info">{{ $order->status }}</span></td>
                         @else 
