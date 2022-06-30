@@ -64,13 +64,11 @@
                         <td>
                            <label class="m-auto align-middle" for="statusCheckbox{{$master_merchant->merchant_id}}">
                               <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.master-merchant.status',[$master_merchant['merchant_id'],$master_merchant->merchant_status?0:1])}}'" id="statusCheckbox{{$master_merchant->merchant_id}}" {{$master_merchant->merchant_status?'checked':''}} >
-                              {{ $master_merchant->merchant_status }}
                             </label>
-                           {{-- @dd($master_merchant['id']) --}}
                         </td>
                         <td>
                            <a href="{{ route('admin.master-merchant.edit',$master_merchant->merchant_id) }}" class="btn btn-warning btn-sm" title="Edit"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
-                           <button type="button" onclick="delete_master_merchant({{$master_merchant->merchant_id}})" class="btn btn-danger btn-sm" title="Delete"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
+                           <button type="button" onclick="delete_master_merchant({{ $master_merchant->merchant_id }})" class="btn btn-danger btn-sm" title="Delete"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                         </td>
                     </tr>
                 @endforeach
@@ -81,14 +79,13 @@
               {!! $master_merchants->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter])->onEachSide(2)->links() !!}
             </div>
             <div class="col-12 col-md-6 w-100 d-flex justify-content-end align-middle">
-              <p>Displaying {{$master_merchants->count()}} of {{ number_format($master_merchants->total(), 0, "", ".") }} category</p>
+              <p>Displaying {{$master_merchants->count()}} of {{ number_format($master_merchants->total(), 0, "", ".") }} merchant(s).</p>
             </div>
         </div>
       </div>
    </div>
-
-   @include('sweetalert::alert')
- </div>
+</div>
+@include('sweetalert::alert')
 @endsection
 @section('js')
     <script type="text/javascript">
@@ -109,9 +106,9 @@
                     type: "DELETE",
                     url: "/admin/master-merchant/"+id,
                     data: {
-                                _token:_token,
-                                id:id
-                            },
+                            _token:_token,
+                            id:id
+                          },
                     success:function(response){
                         if(response.status == 200){
                             Swal.fire(
@@ -132,7 +129,7 @@
                     }
                 });
                 }
-                })
+            })
         }
     </script>
 @endsection
