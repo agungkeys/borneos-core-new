@@ -23,7 +23,6 @@
 </head>
 <body>
   <div id="app">
-    @include('sweetalert::alert')
     <div class="app-container app-theme-white body-tabs-shadow fixed-header fixed-sidebar">
       <div class="app-header header-shadow">
         <div class="app-header__logo">
