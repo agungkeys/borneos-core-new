@@ -12,7 +12,7 @@ class BannerController extends Controller
 
     public function get_banners(Request $request)
     {
-        if ($request->header('KEY_HEADER') === env('KEY_HEADER')) {
+        if ($request->header('tokenb') === env('tokenb')) {
             $status = $request->status ?? null;
             $type  =  $request->type ?? null;
             $sort  = $request->sort ?? 'desc';

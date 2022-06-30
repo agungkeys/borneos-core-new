@@ -18,6 +18,7 @@
 
   <!-- Styles -->
   <link href="{{asset(env('PUBLIC_ASSETS').'css/base.min.css')}}" rel="stylesheet">
+  <link href="{{asset(env('PUBLIC_ASSETS').'css/borneos.css')}}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
@@ -119,6 +120,16 @@
           </div>
         </div>
       </div>
+      <div class="app-drawer-overlay d-none animated fadeIn"></div>
+      @yield('extend')
+    </body>
+    {{-- <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize" async defer></script>
+    <script src="/js/mapInput.js"></script>
+    <script src="{{asset(env('PUBLIC_ASSETS').'js/sweetalert2.all.min.js')}}"></script>
+    <script src="{{asset(env('PUBLIC_ASSETS').'js/main.js')}}" defer></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+  </div> --}}
 
       <div class="app-main">
         <div class="app-sidebar sidebar-shadow">
@@ -139,15 +150,52 @@
 
         <div class="app-main__outer">
           @yield('content')
+
+          <div class="body-block-loading d-none">
+              <div class="loader bg-transparent no-shadow p-0 align-center">
+                  <!-- <div class="ball-pulse-rise">
+                    <div style="background-color: rgb(253, 126, 20);"></div>
+                    <div style="background-color: rgb(253, 126, 20);"></div>
+                    <div style="background-color: rgb(253, 126, 20);"></div>
+                    <div style="background-color: rgb(253, 126, 20);"></div>
+                    <div style="background-color: rgb(253, 126, 20);"></div>
+                  </div> -->
+                  <div class="ball-scale-multiple">
+                    <div style="background-color: rgb(253, 126, 20);"></div>
+                    <div style="background-color: rgb(253, 126, 20);"></div>
+                    <div style="background-color: rgb(253, 126, 20);"></div>
+                  </div>
+              </div>
+              <div style="z-index: 9999; padding-top: 2em; text-align: center; margin-left: -2.2em;"><span class="text-white">Loading...</span></div>
+          </div>
+
         </div>
       </div>
     </div>
     <div class="app-drawer-overlay d-none animated fadeIn"></div>
   </div>
   <!--SCRIPTS INCLUDES-->
-  // Call package JS
+  <!--Call package JS-->
   @include('layouts.app-js')
-  // Call self function
+  <!--Call self function-->
   @yield('js')
+
+  <script>
+    $( document ).ready(function() {
+      $.blockUI.defaults = {
+          // timeout: 2000,
+          fadeIn: 200,
+          fadeOut: 400,
+      };
+
+      $('form').submit(function() {
+        $.blockUI({message: $('.body-block-loading')});
+      })
+
+      // $('.block-page-btn-loading').click(function () {
+      //     $.blockUI({message: $('.body-block-loading')});
+      // });
+    })
+  </script>
 </body>
 </html>

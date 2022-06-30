@@ -27,7 +27,7 @@
                       <i class="fa fa-search fa-w-16"></i>
                     </div>
                   </div>
-                  <input id="filter" name="filter" value="{{$filter}}" autocomplete="off" placeholder="Search Category" type="text" class="form-control" style="color: gray;">
+                  <input id="filter" name="filter" value="{{ $filter }}" autocomplete="off" placeholder="Search Category" type="text" class="form-control" style="color: gray;">
                   <div class="input-group-prepend">
                     <button type="submit" class="btn btn-primary btn-md">Search</buttton>
                   </div>

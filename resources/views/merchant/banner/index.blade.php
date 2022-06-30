@@ -30,7 +30,7 @@
                                     </div>
                                     <input id="filter" name="filter" value="{{ $filter }}" placeholder="Search Title" type="text" class="form-control" style="color: gray;">
                                     <div class="input-group-prepend">
-                                        <button type="submit" class="btn btn-primary btn-md">Search</buttton>
+                                        <button type="submit" class="btn btn-primary btn-md">Search</button>
                                     </div>
                                 </div>
                             </form>
