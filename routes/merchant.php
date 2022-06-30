@@ -2,25 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
-  Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
-    /*authentication*/
-    Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
-      Route::get('login', 'LoginController@login')->name('login');
-      Route::post('login', 'LoginController@submit')->name('login.submit');
-      Route::get('register', 'LoginController@register')->name('register');
-      Route::get('register-submit', 'LoginController@register_submit')->name('register.submit');
-      Route::get('logout', 'LoginController@logout')->name('logout');
-    });
-    /*authentication*/
-    Route::group(['middleware' => ['auth:merchant']], function () {
-      //dashboard
-      Route::get('/', 'DashboardController@dashboard')->name('dashboard');
-
 Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
   /*authentication*/
   Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
     Route::get('login', 'LoginController@login')->name('login');
     Route::post('login', 'LoginController@submit')->name('login.submit');
+    Route::get('register', 'LoginController@register')->name('register');
+    Route::get('register-submit', 'LoginController@register_submit')->name('register.submit');
     Route::get('logout', 'LoginController@logout')->name('logout');
   });
   /*authentication*/
@@ -49,6 +37,10 @@ Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
     Route::put('master-coupon/{id}', 'CouponController@master_coupon_update')->name('master-coupon.update');
     Route::delete('master-coupon/{id}', 'CouponController@master_coupon_delete')->name('master-coupon.delete');
 
+    Route::get('master-merchant', 'MerchantController@master_merchant_edit')->name('master-merchant.edit');
+    Route::put('/master-merchant/{id}', 'MerchantController@master_merchant_update')->name('master-merchant.update');
+    Route::get('/master-merchant/status/{id}/{active}', 'MerchantController@master_merchant_status')->name('master-merchant.status');
+
     Route::get('/master-product', 'ProductController@master_product_index')->name('master-product');
     Route::get('/master-product/status/{id}/{status}', 'ProductController@master_product_status')->name('product.status');
     Route::get('/master-product/add', 'ProductController@master_product_add')->name('master-product.add');
@@ -57,12 +49,4 @@ Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
     Route::put('/master-product/{id}', 'ProductController@master_product_update')->name('master-product.update');
     Route::delete('/master-product/{id}', 'ProductController@master_product_delete')->name('master-product.delete');
   });
-
-  // Route::middleware(['auth:vendor'])->group(function(){
-  //   Route::get('/', 'DashboardController@dashboard')->name('dashboard');
-  // });
-  // Route::group(['middleware' => ['vendor']], function () {
-  // Route::get('/', 'DashboardController@dashboard')->name('dashboard');
-  // Route::get('/',[DashboardController::class, 'dashboard']);
-  // });
 });

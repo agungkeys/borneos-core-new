@@ -20,6 +20,8 @@
   <link href="{{asset(env('PUBLIC_ASSETS').'css/base.min.css')}}" rel="stylesheet">
   <link href="{{asset(env('PUBLIC_ASSETS').'css/borneos.css')}}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <script src="{{env('PUBLIC_ASSETS').'vendor/sweetalert/sweetalert.all.js'}}"></script>
 </head>
 <body>
   <div id="app">
@@ -44,9 +46,6 @@
         </div>
         <div class="app-header__menu">
           <span>
-            <!-- <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
-              <span class="btn-icon-wrapper"><i class="fa fa-ellipsis-v fa-w-6"></i></span>
-            </button> -->
             <!-- START FOR RIGHT MENU MOBILE -->
             <div class="btn-group">
               <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
@@ -120,17 +119,7 @@
           </div>
         </div>
       </div>
-      <div class="app-drawer-overlay d-none animated fadeIn"></div>
       @yield('extend')
-    </body>
-    {{-- <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize" async defer></script>
-    <script src="/js/mapInput.js"></script>
-    <script src="{{asset(env('PUBLIC_ASSETS').'js/sweetalert2.all.min.js')}}"></script>
-    <script src="{{asset(env('PUBLIC_ASSETS').'js/main.js')}}" defer></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-  </div> --}}
-
       <div class="app-main">
         <div class="app-sidebar sidebar-shadow">
           <div class="app-header__logo">
@@ -153,13 +142,6 @@
 
           <div class="body-block-loading d-none">
               <div class="loader bg-transparent no-shadow p-0 align-center">
-                  <!-- <div class="ball-pulse-rise">
-                    <div style="background-color: rgb(253, 126, 20);"></div>
-                    <div style="background-color: rgb(253, 126, 20);"></div>
-                    <div style="background-color: rgb(253, 126, 20);"></div>
-                    <div style="background-color: rgb(253, 126, 20);"></div>
-                    <div style="background-color: rgb(253, 126, 20);"></div>
-                  </div> -->
                   <div class="ball-scale-multiple">
                     <div style="background-color: rgb(253, 126, 20);"></div>
                     <div style="background-color: rgb(253, 126, 20);"></div>
@@ -191,10 +173,6 @@
       $('form').submit(function() {
         $.blockUI({message: $('.body-block-loading')});
       })
-
-      // $('.block-page-btn-loading').click(function () {
-      //     $.blockUI({message: $('.body-block-loading')});
-      // });
     })
   </script>
 </body>

@@ -8,10 +8,10 @@
                     <div class="page-title-icon">
                         <i class="pe-7s-photo-gallery icon-gradient bg-tempting-azure"></i>
                     </div>
-                    <div>List Courier <span class="badge badge-pill badge-primary">{{ number_format($couriers->total(), 0, "", ".") }}</span></div>
+                    <div>List Privacy Policy <span class="badge badge-pill badge-primary">{{ number_format($privacies->total(), 0, "", ".") }}</span></div>
                 </div>
                 <div class="page-title-actions">
-                    <a href="{{ route('admin.courier.create') }}" class="btn-shadow btn btn-info btn-lg">Add Courier</a>
+                    <a href="{{ route('admin.privacy-policy.create') }}" class="btn-shadow btn btn-info btn-lg">Add Privacy Policy</a>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
                                         <i class="fa fa-search fa-w-16 "></i>
                                         </div>
                                     </div>
-                                    <input id="filter" name="filter" value="{{ $filter }}" placeholder="Search by Name, Phone and Address" type="text" class="form-control" style="color: gray;">
+                                    <input id="filter" name="filter" value="{{ $filter }}" placeholder="Search by Title" type="text" class="form-control" style="color: gray;">
                                     <div class="input-group-prepend">
                                         <button type="submit" class="btn btn-primary btn-md">Search</buttton>
                                     </div>
@@ -42,52 +42,46 @@
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover" id="couponsTable">
+                    <table class="table" id="couponsTable">
                         <thead>
                             <tr>
                                 <th>@sortablelink('id', 'No')</th>
-                                <th>@sortablelink('name', 'Name')</th>
-                                <th>@sortablelink('phone', 'Phone')</th>
-                                <th>Address</th>
-                                <th>Email</th>
-                                <th>Identity Type</th>
-                                <th>Profile Image</th>
-                                <th>@sortablelink('status', 'Status')</th>
-                                <th>@sortablelink('join_date', 'Join Date')</th>
+                                <th>@sortablelink('title', 'Title')</th>
+                                <th>Description</th>
+                                <th>Image</th>
+                                <th>Position</th>
+                                <th>Type</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            @if ($couriers->count() == 0)
+                            @if ($privacies->count() == 0)
                                 <tr>
-                                    <td colspan="8">No products to display</td>
+                                    <td colspan="8">No Privacy Policies to display</td>
                                 </tr>
                             @endif
 
-                            @foreach ($couriers as $courier )
+                            @foreach ($privacies as $privacy )
                                 <tr>
-                                    <td>{{ $courier->id }}</td>
-                                    <td>{{ $courier->name }}</td>
-                                    <td>{{ $courier->phone }}</td>
-                                    <td>{!! Str::limit($courier->address, 20) !!}</td>
-                                    <td>{{ $courier->email }}</td>
-                                    <td>{{ $courier->identity_type }}</td>
+                                    <td>{{ $privacy->id }}</td>
+                                    <td>{{ $privacy->title }}</td>
+                                    <td>{!! Str::limit($privacy->description, 20) !!}</td>
                                     <td>
-                                        <img src="{{ $courier->profile_image ? $courier->profile_image : asset('images/default-image.jpg') }}" alt="" width="100" height="100" style="object-fit: cover">
+                                        <img src="{{ $privacy->image ? $privacy->image : asset('images/default-image.jpg')  }}" alt="" width="100" height="100" style="object-fit: cover">
                                     </td>
+                                    <td>{{ $privacy->position ? $privacy->position : "-" }}</td>
+                                    <td>{{ $privacy->type ? $privacy->type : "-" }}</td>
                                     <td>
-                                        <label class="m-auto align-middle" for="statusCheckbox{{$courier->id}}">
-                                            <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.courier.status',[$courier['id'],$courier->status ? 0 : 1])}}'" id="statusCheckbox{{$courier->id}}" {{$courier->status ? 'checked' : ''}}>
+                                        <label class="m-auto align-middle" for="statusCheckbox{{$privacy->id}}">
+                                            <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.privacy-policy.status',[$privacy['id'], $privacy->status ? 0 : 1])}}'" id="statusCheckbox{{$privacy->id}}" {{$privacy->status ? 'checked' : ''}}>
                                         </label>
                                     </td>
                                     <td>
-                                        {{ \Carbon\Carbon::createFromDate($courier->join_date)->diff(Carbon::now())->format('%y tahun %m bulan %d hari') }}
-                                    </td>
-                                    <td>
-                                         <a href="{{ route('admin.courier.edit',$courier->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+                                         <a href="{{ route('admin.privacy-policy.edit', $privacy->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
 
-                                        <button type="button" onclick="delete_courier({{$courier->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
+                                        <button type="button" onclick="delete_privacy({{$privacy->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -96,22 +90,21 @@
                     </table>
                     <div class="row">
                         <div class="col-12 col-md-6 flex-1">
-                            {!! $couriers->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter])->onEachSide(2)->links() !!}
+                            {!! $privacies->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter])->onEachSide(2)->links() !!}
                         </div>
                         <div class="col-12 col-md-6 w-100 d-flex justify-content-end align-middle">
-                            <p>Displaying {{$couriers->count()}} of {{ number_format($couriers->total(), 0, "", ".") }} product(s).</p>
+                            <p>Displaying {{$privacies->count()}} of {{ number_format($privacies->total(), 0, "", ".") }} product(s).</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 @endsection
 
 @section('js')
         <script>
 
-            function delete_courier(id)
+            function delete_privacy(id)
             {
                 Swal.fire({
                     title: 'Are you sure?',
@@ -126,7 +119,7 @@
                     let _token =  $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
                         type: "DELETE",
-                        url: "/admin/courier/"+id,
+                        url: "/admin/privacy-policy/delete/"+id,
                         data: {_token:_token,id:id},
                         success:function(response){
                             if(response.status == 200){
@@ -135,7 +128,7 @@
                                 'Your file has been deleted.',
                                 'success'
                                 )
-                                window.location = "{{ route('admin.courier.index') }}";
+                                window.location = "{{ route('admin.privacy-policy') }}";
                             }
                         }
                         });
@@ -143,4 +136,5 @@
                 })
             }
         </script>
+    </div>
 @endsection

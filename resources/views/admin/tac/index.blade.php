@@ -59,7 +59,7 @@
 
                             @if ($tacs->count() == 0)
                                 <tr>
-                                    <td colspan="8">No coupons to display</td>
+                                    <td colspan="8">No Term and Condition to display</td>
                                 </tr>
                             @endif
 
@@ -102,7 +102,6 @@
 @endsection
 
 @section('js')
-    @include('sweetalert::alert')
         <script>
 
             function delete_tac(id)

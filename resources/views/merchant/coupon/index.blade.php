@@ -109,8 +109,6 @@
                 </div>
             </div>
         </div>
-
-         @include('sweetalert::alert')
         <script>
 
             function delete_coupon(id)
