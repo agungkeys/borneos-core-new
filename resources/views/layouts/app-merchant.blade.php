@@ -20,7 +20,7 @@
   <link href="{{asset(env('PUBLIC_ASSETS').'css/base.min.css')}}" rel="stylesheet">
   <link href="{{asset(env('PUBLIC_ASSETS').'css/borneos.css')}}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  
+
   <script src="{{env('PUBLIC_ASSETS').'vendor/sweetalert/sweetalert.all.js'}}"></script>
 </head>
 @php
@@ -31,6 +31,7 @@ $merchantname = Str::of($merchant->name)->words(2, '..');
 @endphp
 <body>
   <div id="app">
+    @include('sweetalert::alert')
     <div class="app-container app-theme-white body-tabs-shadow fixed-header fixed-sidebar">
       <div class="app-header header-shadow">
         <div class="app-header__logo">
@@ -51,9 +52,6 @@ $merchantname = Str::of($merchant->name)->words(2, '..');
         </div>
         <div class="app-header__menu">
           <span>
-            <!-- <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
-              <span class="btn-icon-wrapper"><i class="fa fa-ellipsis-v fa-w-6"></i></span>
-            </button> -->
             <!-- START FOR RIGHT MENU MOBILE -->
             <div class="btn-group">
               <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
