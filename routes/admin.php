@@ -114,6 +114,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::delete('faq/delete/{id}', 'FaqController@faq_delete')->name('faq.delete');
 
     Route::get('general', 'GeneralController@general_index')->name('general');
+    Route::get('general/maintenance/{id}/{maintenance_mode}', 'GeneralController@general_maintenance')->name('general.maintenance');
     Route::post('general/store', 'GeneralController@general_store')->name('general.store');
     Route::put('general/update/{id}', 'GeneralController@general_update')->name('general.update');
   });

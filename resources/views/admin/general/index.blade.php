@@ -219,27 +219,10 @@
                                     <input type="text" class="form-control" name="seo_facebook_link" id="seo_facebook_link" value="{{ $general->seo_facebook_link }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="type">Type</label>
-                                    <select name="type" id="type" class="form-control">
-                                        @php
-                                            $types = array(
-                                                '0' => array(
-                                                    'id' => 0,
-                                                    'value' => 0,
-                                                    'text' => '0'
-                                                ),
-                                                '1' => array(
-                                                    'id' => 1,
-                                                    'value' => 1,
-                                                    'text' => '1'
-                                                ),
-                                            );
-                                        @endphp
-
-                                        @foreach ($types as $type)
-                                                <option value="{{ $type['value'] }}" @if (old('type') == $general->maintenance_mode || $general->maintenance_mode == $type['value'] ) selected @endif>{{ $type['text'] }}</option>
-                                        @endforeach
-                                    </select>
+                                    <label for="maintenance_mode">Maintenance</label> <br>
+                                    <label class="m-auto align-middle" for="statusCheckbox{{$general->id}}">
+                                            <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.general.maintenance',[$general['id'], $general->maintenance_mode ? 0 : 1])}}'" id="statusCheckbox{{$general->id}}" {{$general->maintenance_mode ? 'checked' : ''}}>
+                                    </label>
                                 </div>
                                 <div class="form-group">
                                     <label for="min_delivery_charge">Min Delivery Charge</label>

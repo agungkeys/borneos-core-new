@@ -17,6 +17,16 @@ class GeneralController extends Controller
         ]);
     }
 
+    public function general_maintenance(Request $request){
+        $general = General::withoutGlobalScopes()->find($request->id);
+
+        $general->maintenance_mode = $request->maintenance_mode;
+        $general->save();
+
+        Alert::toast('Maintenance mode updated!', 'success');
+        return redirect()->route('admin.general');
+    }
+
     public function general_store(Request $request){
         if ($request->file('logo')) {
             $path_name = $request->file('logo')->getRealPath();
@@ -136,8 +146,8 @@ class GeneralController extends Controller
             ];
             $logo_additional = json_encode($detail_image);
         } else {
-            $logo = '';
-            $logo_additional = '';
+            $logo = $general->logo;
+            $logo_additional = $general->logo_additional;
         };
 
         if ($request->file('seo_image')) {
