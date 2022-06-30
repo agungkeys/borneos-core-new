@@ -20,6 +20,8 @@
   <link href="{{asset(env('PUBLIC_ASSETS').'css/base.min.css')}}" rel="stylesheet">
   <link href="{{asset(env('PUBLIC_ASSETS').'css/borneos.css')}}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <script src="{{env('PUBLIC_ASSETS').'vendor/sweetalert/sweetalert.all.js'}}"></script>
 </head>
 <body>
   <div id="app">
@@ -119,7 +121,7 @@
           </div>
         </div>
       </div>
-      <div class="app-drawer-overlay d-none animated fadeIn"></div>
+      @yield('extend')
       <div class="app-main">
         <div class="app-sidebar sidebar-shadow">
           <div class="app-header__logo">

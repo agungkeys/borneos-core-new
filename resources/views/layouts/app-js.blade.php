@@ -120,7 +120,6 @@
 
 <!--SweetAlert2-->
 <script src="{{asset(env('PUBLIC_ASSETS').'js/sweetalert2.all.min.js')}}"></script>
-<script src="{{env('PUBLIC_ASSETS').'vendor/sweetalert/sweetalert.all.js'}}"></script>
 
 <!--Tree View -->
 <script src="{{env('PUBLIC_ASSETS').'js/arch/vendors/treeview.js'}}"></script>
