@@ -1,4 +1,4 @@
-@extends('layouts.app-admin')
+@extends('layouts.app-merchant')
 
 @section('content')
 <div class="app-main__inner">
@@ -17,18 +17,25 @@
             </div>
         </div>
     </div>
-    <form action="{{ route('admin.master-merchant.update',$master_merchant) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('merchant.master-merchant.update',$master_merchant) }}" method="POST" enctype="multipart/form-data">
         @method('PUT')
         @csrf
         <div class="row">
             <div class="col-md-6">
                 <div class="main-card mb-3 card">
-                    <div class="card-header">Merchant Info</div>
+                    <div class="card-header">
+                        Informasi Merchant
+                        <div class="btn-actions-pane-right text-capitalize">
+                            <label class="m-auto align-middle" for="statusCheckbox{{$master_merchant->id}}">
+                                <input type="checkbox" data-toggle="toggle" data-size="small" data-on="Buka" data-off="Tutup" onChange="location.href='{{route('merchant.master-merchant.status',[$master_merchant['id'],$master_merchant->active?0:1])}}'" id="statusCheckbox{{$master_merchant->id}}" {{$master_merchant->active?'checked':''}} >
+                            </label>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="main_category_id">Merchant Category</label>
+                            <label for="main_category_id">Kategori Merchant</label>
                             <select name="main_category_id" id="main_category_id" class="form-control">
-                                <option hidden>Select Merchant Category</option>
+                                <option hidden>Pilih Kategori Merchant</option>
                                 @foreach($categories_position_0 as $category_position_0)
                                     <option {{ $master_merchant->category_id == $category_position_0->parent_id ? 'selected':'' }} value="{{$category_position_0->parent_id}}">{{$category_position_0->name}}</option>
                                 @endforeach
@@ -38,7 +45,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="categories_id">Merchant Sub Category</label>
+                            <label for="categories_id">Sub Kategori Merchant</label>
                             <select name="categories_id[]" id="categories_id" multiple="multiple" class="multiselect-dropdown form-control">
                                 @foreach ($categories_position_1 as $category_position_1)
                                     @php
@@ -52,40 +59,50 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="name">Merchant Name</label>
-                            <input type="text" id="name" name="name" value="{{ $master_merchant->name }}" class="form-control" autocomplete="none">
+                            <label for="name">Nama Merchant</label>
+                            <div class="input-group">
+                                <input type="text" id="name" name="name" value="{{ $master_merchant->name }}" class="form-control" readonly>
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-light" data-toggle="tooltip-light" title="Hubungi Admin Untuk Mengubah Nama Merchant"><i class="fa fa-question"></i></button>
+                                </div>
+                            </div>
                             @error('name')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="slug">Merchant Slug</label>
-                            <input type="text" id="slug" name="slug" value="{{ $master_merchant->slug }}" class="form-control">
+                            <label for="slug">Slug Merchant</label>
+                            <div class="input-group">
+                                <input type="text" id="slug" name="slug" value="{{ $master_merchant->slug }}" class="form-control" readonly>
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-light" data-toggle="tooltip-light" title="Hubungi Admin Untuk Mengubah Slug Merchant"><i class="fa fa-question"></i></button>
+                                    </div>
+                            </div>
                             @error('slug')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="district">Merchant District</label>
+                            <label for="district">Kelurahan Merchant</label>
                             <input type="text" id="district" name="district" value="{{ $master_merchant->district }}" class="form-control">
                             @error('district')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="address">Merchant Address</label>
+                            <label for="address">Alamant Merchant</label>
                             <textarea name="address" class="form-control">{{ $master_merchant->address }}</textarea>
                             @error('address')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="coordinate">Coordinate Point</label>
+                            <label for="coordinate">Titik Koordinat</label>
                             <div class="input-group">
                                 <input type="text" id="latitude" name="latitude" value="{{ $master_merchant->latitude }}" class="form-control" placeholder="Latitude" readonly>
                                 <input type="text" id="longitude" name="longitude" value="{{ $master_merchant->longitude }}" class="form-control" placeholder="Longitude" readonly>
                                 <div class="input-group-append">
-                                    <button type="button" id="btnCoordinate" class="btn btn-success" data-toggle="modal" data-target="#addCoordinate">Edit Coordinate</button>
+                                    <button type="button" id="btnCoordinate" class="btn btn-success" data-toggle="modal" data-target="#addCoordinate">Ubah Koordinat</button>
                                 </div>
                             </div>
                             @error('latitude')
@@ -103,7 +120,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="logo">Merchant Logo</label><small style="color: red"> ( Ratio 1:1 )</small><br>
+                            <label for="logo">Logo Merchant</label><small style="color: red"> ( Ratio 1:1 )</small><br>
                             <input type="file" id="customFileEg1" name="logo">
                             <div class="form-group text-center" style="margin-bottom:0%;">
                                 <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="viewer" src="{{ $master_merchant->logo }}" alt="">
@@ -113,7 +130,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="cover_photo">Cover Photo</label><small style="color: red"> ( Ratio 2:1 )</small><br>
+                            <label for="cover_photo">Foto Cover</label><small style="color: red"> ( Ratio 2:1 )</small><br>
                             <input type="file" id="coverImageUpload" name="cover_photo">
                             <div class="form-group text-center" style="margin-bottom:0%;">
                                 <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="coverImageViewer" src="{{ $master_merchant->cover_photo }}" alt="">
@@ -123,7 +140,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="seo_image">SEO Image</label><small style="color: red"> ( Ratio 1:1 )</small><br>
+                            <label for="seo_image">Gambar SEO</label><small style="color: red"> ( Ratio 1:1 )</small><br>
                             <input type="file" id="seoImageUpload" name="seo_image">
                             <div class="form-group text-center" style="margin-bottom:0%;">
                                 <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="seoImageViewer" src="{{ $master_merchant->seo_image }}" alt="">
@@ -137,24 +154,24 @@
             </div>
             <div class="col-md-6">
                 <div class="main-card mb-3 card">
-                    <div class="card-header">Owner Info</div>
+                    <div class="card-header">Informasi Pemilik</div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="f_name">First Name</label>
+                            <label for="f_name">Nama Depan</label>
                             <input type="text" id="f_name" name="f_name" value="{{ $master_merchant_vendor->f_name }}" class="form-control" >
                             @error('f_name')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="l_name">Last Name</label>
+                            <label for="l_name">Nama Belakang</label>
                             <input type="text" id="l_name" name="l_name" value="{{ $master_merchant_vendor->l_name }}" class="form-control">
                             @error('l_name')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="phone">Phone</label>
+                            <label for="phone">No. Handphone</label>
                             <input type="number" min="0" id="phone" name="phone" value="{{ $master_merchant_vendor->phone }}" class="form-control" >
                             @error('phone')
                                 <span class="text-danger mt-2">{{ $message }}</span>
@@ -168,7 +185,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="password">Password</label>
+                            <label for="password">Kata Sandi</label>
                             <div class="input-group" id="show_hide_password">
                                 <input type="password" onkeyup="checkMatching()" id="password" name="password" class="form-control" >
                                 <div class="input-group-append">
@@ -180,7 +197,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="confirmPassword">Confirm Password</label>
+                            <label for="confirmPassword">Konfirmasi Kata Sandi</label>
                             <div class="input-group" id="show_hide_password_confirm">
                                 <input type="password" onkeyup="checkMatching()" id="confirmPassword" name="confirmPassword" class="form-control" >
                                 <div class="input-group-append">
@@ -193,8 +210,8 @@
                             @enderror
                         </div>
                         <div class="text-right mt-2">
-                            <a href="{{ route('admin.master-category') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
-                            <button type="submit" id="buttonSubmit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Update</button>
+                            <a href="{{ route('admin.master-category') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Kembali</a>
+                            <button type="submit" id="buttonSubmit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Perbarui</button>
                         </div>
                     </div>
                 </div>
@@ -208,19 +225,19 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addCoordinate">Add Coordinate</h5>
+                <h5 class="modal-title" id="addCoordinate">Ubah Koordiant</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <input type="text" id="address-input" name="address" class="form-control map-input" onchange="hideMaps()" autocomplete="off" placeholder="Your Address">
+                <input type="text" id="address-input" name="address" class="form-control map-input" onchange="hideMaps()" autocomplete="off" placeholder="Masukkan Alamat Anda">
                 <input type="hidden" name="latitude" id="address-latitude"/>
                 <input type="hidden" name="longitude" id="address-longitude"/><br>
                 <div style="width: 100%; height: 400px; display: none;" id="address-map"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg" data-dismiss="modal" onclick="setCoordinate()"><i class="pe-7s-diskette btn-icon-wrapper"></i>Save Coordinate</button>
+                <button type="button" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg" data-dismiss="modal" onclick="setCoordinate()"><i class="pe-7s-diskette btn-icon-wrapper"></i>Perbarui</button>
             </div>
         </div>
     </div>
@@ -330,31 +347,6 @@
             }
         }
         return "";
-        }
-
-        //autoSlug
-        document.getElementById("name").addEventListener("input", function () {
-        let theSlug = string_to_slug(this.value);
-        document.getElementById("slug").value = theSlug;
-        });
-
-        function string_to_slug(str) {
-        str = str.replace(/^\s+|\s+$/g, ""); // trim
-        str = str.toLowerCase();
-
-        // remove accents, swap ñ for n, etc
-        var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
-        var to = "aaaaeeeeiiiioooouuuunc------";
-        for (var i = 0, l = from.length; i < l; i++) {
-            str = str.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
-        }
-
-        str = str
-            .replace(/[^a-z0-9 -]/g, "") // remove invalid chars
-            .replace(/\s+/g, "-") // collapse whitespace and replace by -
-            .replace(/-+/g, "-"); // collapse dashes
-
-        return str;
         }
     </script>
 @endsection

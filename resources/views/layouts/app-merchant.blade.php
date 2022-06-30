@@ -18,6 +18,7 @@
 
   <!-- Styles -->
   <link href="{{asset(env('PUBLIC_ASSETS').'css/base.min.css')}}" rel="stylesheet">
+  <link href="{{asset(env('PUBLIC_ASSETS').'css/borneos.css')}}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 @php
@@ -125,7 +126,7 @@ $merchantname = Str::of($merchant->name)->words(2, '..');
           </div>
         </div>
       </div>
-
+      @yield('extend')
       <div class="app-main">
         <div class="app-sidebar sidebar-shadow">
           <div class="app-header__logo">
@@ -147,6 +148,17 @@ $merchantname = Str::of($merchant->name)->words(2, '..');
 
         <div class="app-main__outer">
           @yield('content')
+
+          <div class="body-block-loading d-none">
+              <div class="loader bg-transparent no-shadow p-0 align-center">
+                  <div class="ball-scale-multiple">
+                    <div style="background-color: rgb(253, 126, 20);"></div>
+                    <div style="background-color: rgb(253, 126, 20);"></div>
+                    <div style="background-color: rgb(253, 126, 20);"></div>
+                  </div>
+              </div>
+              <div style="z-
+
         </div>
       </div>
     </div>
@@ -157,5 +169,19 @@ $merchantname = Str::of($merchant->name)->words(2, '..');
   @include('layouts.app-js')
   <!--Call self function-->
   @yield('js')
+
+  <script>
+    $( document ).ready(function() {
+      $.blockUI.defaults = {
+          // timeout: 2000,
+          fadeIn: 200,
+          fadeOut: 400,
+      };
+
+      $('form').submit(function() {
+        $.blockUI({message: $('.body-block-loading')});
+      })
+    })
+  </script>
 </body>
 </html>
