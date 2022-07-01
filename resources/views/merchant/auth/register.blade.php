@@ -40,17 +40,17 @@
         </div>
         <div class="h-100 d-flex bg-white justify-content-center align-items-center col-md-12 col-lg-8">
             <div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-9" style="min-width: 100%">
-                <form action="{{ route('admin.master-merchant.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('merchant.auth.register.submit') }}" method="POST" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="main-card mb-3 card">
-                                <div class="card-header">Informasi Merchant</div>
+                                {{-- <div class="card-header">Informasi Merchant</div> --}}
                                 <div class="card-body">
                                     @csrf
                                     <div class="form-group">
                                         <label for="main_category_id">Kategori Merchant</label>
-                                        <select name="main_category_id" id="main_category_id" class="form-control">
-                                            <option hidden>Pilih Kategori Merchant</option>
+                                        <select name="main_category_id" id="main_category_id" class="form-control" required>
+                                            <option hidden disabled value="" selected>Pilih Kategori Merchant</option>
                                             @foreach ($main_categories as $main_category)
                                                 <option value="{{ $main_category['id'] }}">{{ $main_category['name'] }}</option>
                                             @endforeach
@@ -59,9 +59,10 @@
                                             <span class="text-danger mt-2">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" style="align-content: center">
                                         <label for="categories_id">Sub Kategori Merchant</label>
-                                        <select name="categories_id[]" id="categories_id" multiple="multiple" class="multiselect-dropdown form-control">
+                                        <select name="categories_id[]" id="categories_id" multiple="multiple" class="multiselect-dropdown form-control" required>
+                                            <option hidden disabled value="" selected>Pilih Kategori Merchant</option>
                                         </select>
                                         @error('categories_id')
                                             <span class="text-danger mt-2">{{ $message }}</span>
@@ -70,10 +71,13 @@
                                     <div class="form-group">
                                         <label for="name">Nama & Slug Merchant</label>
                                         <div class="input-group">
-                                            <input type="text" id="name" name="name" class="form-control" autocomplete="none" placeholder="Nama Merchant">
-                                            <input type="text" id="slug" name="slug" class="form-control" placeholder="Slug Merchant">
+                                            <input type="text" id="name" name="name" class="form-control" autocomplete="none" placeholder="Nama Merchant" required>
+                                            <input type="text" id="slug" name="slug" class="form-control" placeholder="Slug Merchant" required>
                                         </div>
                                         @error('name')
+                                            <span class="text-danger mt-2">{{ $message }}</span>
+                                        @enderror
+                                        @error('slug')
                                             <span class="text-danger mt-2">{{ $message }}</span>
                                         @enderror
                                     </div>
@@ -81,8 +85,8 @@
                                         <label for="address">Alamat & Kelurahan Merchant</label>
                                         <div class="input-group">
                                             <textarea name="address" class="form-control" rows="1"></textarea>
-                                            <select name="district" id="district" class="js-data-example-ajax multiselect-dropdown form-control" required title="Select District">
-                                                <option hidden>Pilih Kelurahan</option>
+                                            <select name="district" id="district" class="js-data-example-ajax multiselect-dropdown form-control" required title="Select District" required>
+                                                <option hidden selected value="">Pilih Kelurahan</option>
                                                 <option value="Api - Api">Api - Api</option>
                                                 <option value="Belimbing">Belimbing</option>
                                                 <option value="Berbas Pantai">Berbas Pantai</option>
@@ -103,14 +107,17 @@
                                         @error('address')
                                             <span class="text-danger mt-2">{{ $message }}</span>
                                         @enderror
+                                        @error('district')
+                                            <span class="text-danger mt-2">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="coordinate">Titik Koordinat</label>
                                         <div class="input-group">
-                                            <input type="text" id="latitude" name="latitude" class="form-control" placeholder="Latitude" readonly>
-                                            <input type="text" id="longitude" name="longitude" class="form-control" placeholder="Longitude" readonly>
+                                            <input type="text" id="latitude" name="latitude" class="form-control" placeholder="Latitude" readonly required>
+                                            <input type="text" id="longitude" name="longitude" class="form-control" placeholder="Longitude" readonly required>
                                             <div class="input-group-append">
-                                                <button type="button" id="btnCoordinate" class="btn btn-success" data-toggle="modal" data-target="#addCoordinate">Tambah Koordinat</button>
+                                                <button type="button" id="btnCoordinateRegister" class="btn btn-success" data-toggle="modal" data-target="#addCoordinate">Tambah Koordinat</button>
                                             </div>
                                         </div>
                                         @error('latitude')
@@ -122,7 +129,10 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="logo">Logo Merchant</label><small style="color: red"> ( Ratio 1:1 )</small><br>
-                                        <input type="file" id="customFileEg1" name="logo">
+                                        <input type="file" id="customFileEg1" name="logo" required>
+                                        <div class="form-group text-center" style="margin-bottom:0%;">
+                                            <img style="height: 100px;border-radius: 10px;min-height:100px" id="viewer" src="" alt="">
+                                        </div>
                                         @error('logo')
                                             <br><span class="text-danger mt-2">{{ $message }}</span>
                                         @enderror
@@ -132,13 +142,13 @@
                         </div>
                         <div class="col-md-6">
                             <div class="main-card mb-3 card">
-                                <div class="card-header">Informasi Merchant</div>
+                                {{-- <div class="card-header">Informasi Pemilik</div> --}}
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="f_name">Nama Lengkap</label>
                                         <div class="input-group">
-                                            <input type="text" id="f_name" name="f_name" class="form-control" placeholder="Nama Depan">
-                                            <input type="text" id="l_name" name="l_name" class="form-control" placeholder="Nama Belakang">
+                                            <input type="text" id="f_name" name="f_name" class="form-control" placeholder="Nama Depan" required>
+                                            <input type="text" id="l_name" name="l_name" class="form-control" placeholder="Nama Belakang" required>
                                         </div>
                                         @error('f_name')
                                             <span class="text-danger mt-2">{{ $message }}</span>
@@ -146,14 +156,14 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="phone">No. Handphone</label>
-                                        <input type="number" min="0" id="phone" name="phone" class="form-control" placeholder="08xxxxxxxxxx">
+                                        <input type="number" min="0" id="phone" name="phone" class="form-control" placeholder="08xxxxxxxxxx" required>
                                         @error('phone')
                                             <span class="text-danger mt-2">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input type="email" id="email" name="email" class="form-control" placeholder="Email">
+                                        <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
                                         @error('email')
                                             <span class="text-danger mt-2">{{ $message }}</span>
                                         @enderror
@@ -161,8 +171,8 @@
                                     <div class="form-group">
                                         <label for="password">Kata Sandi & Konfirmasi Kata Sandi</label>
                                         <div class="input-group" id="show_hide_password">
-                                            <input type="password" onkeyup="checkMatching()" id="password" name="password" class="form-control" placeholder="Kata Sandi">
-                                            <input type="password" onkeyup="checkMatching()" id="confirmPassword" name="confirmPassword" class="form-control"  placeholder="">
+                                            <input type="password" onkeyup="checkMatching()" id="password" name="password" class="form-control" placeholder="Kata Sandi" required>
+                                            <input type="password" onkeyup="checkMatching()" id="confirmPassword" name="confirmPassword" class="form-control"  placeholder="" required>
                                             <div class="input-group-append">
                                                 <button type="button" class="btn btn-light" ><i class="fa fa-eye-slash"></i></button>
                                             </div>
@@ -173,11 +183,8 @@
                                         @enderror
                                     </div>
                                     <div class="text-right mt-2">
-                                        <a href="{{ route('admin.master-merchant') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Kembali</a>
+                                        <a href="{{ route('merchant.auth.login') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Kembali</a>
                                         <button type="submit" id="buttonSubmit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Simpan</button>
-                                    </div>
-                                    <div class="form-group text-center" style="margin-bottom:0%;">
-                                        <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="viewer" src="" alt="">
                                     </div>
                                 </div>
                             </div>
@@ -201,7 +208,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="text" id="address-input" name="address" class="form-control map-input" onchange="hideMaps()" autocomplete="off" placeholder="Your Address">
+                <input type="text" id="address-input" name="address" class="form-control map-input" onchange="hideMaps()" autocomplete="off" placeholder="Masukkan alamat anda">
                 <input type="hidden" name="latitude" id="address-latitude"/>
                 <input type="hidden" name="longitude" id="address-longitude"/><br>
                 <div style="width: 100%; height: 400px; display: none;" id="address-map"></div>
@@ -273,7 +280,7 @@
         if(stateId){
             $.ajax({
             type:"GET",
-            url:"/admin/get-sub-category/"+stateId,
+            url:"/merchant/auth/get-sub-category/"+stateId,
             dataType: 'JSON',
             success:function(res){
                 if(res){
@@ -318,10 +325,10 @@
         document.getElementById('latitude').value = lat;
         document.getElementById('longitude').value = lng;
         if(lat != ""){
-            document.getElementById('btnCoordinate').innerHTML= "Edit Coordinate"
+            document.getElementById('btnCoordinateRegister').innerHTML= "Ubah Koordinat"
         }
         else{
-            document.getElementById('btnCoordinate').innerHTML= "Add Coordinate"
+            document.getElementById('btnCoordinateRegister').innerHTML= "Tambah Koordinat"
         }
 
         //autoSlug
