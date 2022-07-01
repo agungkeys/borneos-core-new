@@ -1,6 +1,9 @@
 @extends('layouts.app-admin')
 
 @section('content')
+<style>
+
+</style>
 <div class="app-main__inner">
    <div class="app-page-title">
       <div class="page-title-wrapper">
@@ -16,7 +19,7 @@
       </div>
    </div>
    <div class="main-card mb-3 card">
-      <div class="card-body">
+      <div class="card-body" style="display: grid;">
         <div class="row mb-3">
           <div class="col-12 col-md-5">
             <div class="d-flex">
@@ -39,36 +42,37 @@
             </div>
           </div>
         </div>
-        <div style="width: 100%">
-          <table class="table table-hover table-striped table-bordered table-responsive">
+
+        <div style="overflow-x:auto;">
+          <table class="table table-hover table-striped table-bordered">
             <thead>
               <tr>
-                  <th rowspan="2" style="padding-bottom: auto">@sortablelink('id', 'ID')</th>
-                  <th rowspan="2" style="padding-bottom:29px">@sortablelink('order_type', 'Type')</th>
-                  <th rowspan="2" style="padding-bottom:29px;">Merchant</th>
-                  <th colspan="2" style="text-align: center">Customer</th>
-                  <th colspan="4" style="text-align: center">Total</th>
-                  <th colspan="2" style="text-align: center">Payment</th>
-                  <th rowspan="2" style="text-align: center; padding-bottom:28px">Courier</th>
-                  <th rowspan="2" style="text-align: center; padding-bottom:28px">@sortablelink('status', 'Status')</th>
-                  <th rowspan="2" style="text-align: center; padding-bottom:28px">Action</th>
+                  <th rowspan="2" style="min-width: 50px;">@sortablelink('id', 'ID')</th>
+                  <th rowspan="2" style="min-width: 60px;">@sortablelink('order_type', 'Type')</th>
+                  <th rowspan="2" style="min-width: 140px;">Merchant</th>
+                  <th colspan="2" style="">Customer</th>
+                  <th colspan="4" style="width: 40%;">Total</th>
+                  <th colspan="2" style="width: 20%;">Payment</th>
+                  <th rowspan="2" style="min-width: 120px;">Courier</th>
+                  <th rowspan="2" style="min-width: 100px;">@sortablelink('status', 'Status')</th>
+                  <th rowspan="2" style="min-width: 100px;;">Action</th>
               </tr>
               <tr>
-                  <th style="text-align: center; padding-bottom:10px">@sortablelink('customer_name', 'Name/Telp')</th>
-                  <th style="text-align: center; padding-bottom:30px;">@sortablelink('customer_address', 'Address')</th>
+                  <th style="min-width: 120px;">@sortablelink('customer_name', 'Name/Telp')</th>
+                  <th style="min-width: 160px;">@sortablelink('customer_address', 'Address')</th>
                   <!-- <th style="text-align: center">Notes</td> -->
-                  <th style="text-align: center; padding-bottom:10px;">@sortablelink('total_item', 'Item')</th>
-                  <th style="text-align: center; padding-bottom:10px; margin-right:10px">@sortablelink('total_item_price', 'Item Price')</th>
-                  <th style="text-align: center">@sortablelink('total_distance_price', 'Distance Price')</th>
-                  <th style="text-align: center; padding-bottom:28px">@sortablelink('total_price', 'Price')</th>
-                  <th style="text-align: center; padding-bottom:28px">@sortablelink('payment_type', 'Type')</th>
-                  <th style="text-align: center; padding-bottom:28px">@sortablelink('payment_status', 'Status')</th>
+                  <th style="min-width: 60px;">@sortablelink('total_item', 'Pcs')</th>
+                  <th style="min-width: 120px;">@sortablelink('total_item_price', 'Item Price')</th>
+                  <th style="min-width: 140px;">@sortablelink('total_distance_price', 'Distance Price')</th>
+                  <th style="min-width: 120px;">@sortablelink('total_price', 'Total Price')</th>
+                  <th style="">@sortablelink('payment_type', 'Type')</th>
+                  <th style="">@sortablelink('payment_status', 'Status')</th>
               </tr>
             </thead>
              <tbody>
                @if ($orders->count() == 0)
                <tr>
-                 <td colspan="15">No order to display.</td>
+                 <td colspan="13">No order to display.</td>
                </tr>
                @endif
                  @foreach ($orders as $order)
@@ -83,35 +87,35 @@
                          @else
                          <td><span class="badge badge-pill badge-secondary">{{ $order->order_type }}</span></td>
                          @endif
-                         <td><p style="font-size: 12px;">{{ $order->merchant_id && $order->merchant->name ? $order->merchant->name : '-' }}</p></td>
+                         <td><span>{{ $order->merchant_id && $order->merchant->name ? $order->merchant->name : '-' }}</span></td>
                          <td>
-                           <div><span style="font-weight: bold; font-size: 12px">{{ $order->customer_name }}</span></div>
-                           <div><small>{{ $order->customer_telp }}</small></div>
+                           <small style="font-weight: bold;">{{ $order->customer_name ? \Str::limit($order->customer_name, 13, '..') : '-' }}</small></br>
+                           <small>{{ $order->customer_telp }}</small>
                          </td>
 
-                         <td title="{{ $order->customer_address }}"><p style="font-size: 12px;">{{ $order->customer_address ? \Str::limit($order->customer_address, 16, '..') : '-' }}</p></td>
+                         <td title="{{ $order->customer_address }}"><span style="font-size: 12px;">{{ $order->customer_address ? \Str::limit($order->customer_address, 45, '..') : '-' }}</span></td>
                          <!-- <td title="{{ $order->customer_notes }}">{{ $order->customer_notes ? \Str::limit($order->customer_notes, 15, '..'): '-' }}</td> -->
                          <td>{{ $order->total_item }}</td>
                          <td>{{ $order->total_item_price }}</td>
                          <td>{{ $order->total_distance_price }}</td>
                          <td>{{ $order->total_price }}</td>
                          @if($order->payment_type == 'cash')
-                         <td><span class="mr-3 ml-3 badge badge-pill badge-success">{{ $order->payment_type }}</span></td>
+                         <td><span class="badge badge-pill badge-success">{{ $order->payment_type }}</span></td>
                          @elseif($order->payment_type == 'transfer')
-                         <td><span class="mr-2 ml-2 badge badge-pill badge-primary">{{ $order->payment_type }}</span></td>
+                         <td><span class="badge badge-pill badge-primary">{{ $order->payment_type }}</span></td>
                          @else
-                         <td><span class="mr-2 ml-2 badge badge-pill badge-secondary">{{ $order->payment_type }}</span></td>
+                         <td><span class="badge badge-pill badge-secondary">{{ $order->payment_type }}</span></td>
                          @endif
                          @if($order->payment_status == 'paid')
-                         <td><span class="mr-3 ml-3 badge badge-pill badge-success">{{ $order->payment_status }}</span></td>
+                         <td><span class="badge badge-pill badge-success">{{ $order->payment_status }}</span></td>
                          @else
-                         <td><span class="mr-3 ml-3 badge badge-pill badge-danger">{{ $order->payment_status }}</span></td>
+                         <td><span class="badge badge-pill badge-danger">{{ $order->payment_status }}</span></td>
                          @endif
-                         <td style="text-align: center">{{ $order->courier_id && $order->courier->name ? $order->courier->name : '-' }}</td>
+                         <td>{{ $order->courier_id && $order->courier->name ? $order->courier->name : '-' }}</td>
                          @if($order->status == 'new')
-                         <td><span class="mr-3 ml-3 badge badge-pill badge-info">{{ $order->status }}</span></td>
+                         <td><span class="badge badge-pill badge-info">{{ $order->status }}</span></td>
                          @else
-                         <td><span class="mr-3 ml-3 badge badge-pill badge-success">{{ $order->status }}</span></td>
+                         <td><span class="badge badge-pill badge-success">{{ $order->status }}</span></td>
                          @endif
                          <td>
                             <!-- Dropdown -->
