@@ -43,26 +43,26 @@
           <table class="table table-hover table-striped table-bordered table-responsive">
             <thead>
               <tr>
-                  <th rowspan="2">ID</th>
-                  <th rowspan="2" style="text-align: center">Type</th>
-                  <th rowspan="2" style="">Merchant</th>
+                  <th rowspan="2" style="padding-bottom: auto">@sortablelink('id', 'ID')</th>
+                  <th rowspan="2" style="padding-bottom:29px">@sortablelink('order_type', 'Type')</th>
+                  <th rowspan="2" style="padding-bottom:29px;">Merchant</th>
                   <th colspan="2" style="text-align: center">Customer</th>
                   <th colspan="4" style="text-align: center">Total</th>
                   <th colspan="2" style="text-align: center">Payment</th>
-                  <th rowspan="2">Courier</th>
-                  <th rowspan="2" style="text-align: center">Status</th>
-                  <th rowspan="2">Action</th>
+                  <th rowspan="2" style="text-align: center; padding-bottom:28px">Courier</th>
+                  <th rowspan="2" style="text-align: center; padding-bottom:28px">@sortablelink('status', 'Status')</th>
+                  <th rowspan="2" style="text-align: center; padding-bottom:28px">Action</th>
               </tr>
               <tr>
-                  <th style="text-align: center">Name/Telp</th>
-                  <th style="text-align: center">Address</th>
+                  <th style="text-align: center; padding-bottom:10px">@sortablelink('customer_name', 'Name/Telp')</th>
+                  <th style="text-align: center; padding-bottom:30px;">@sortablelink('customer_address', 'Address')</th>
                   <!-- <th style="text-align: center">Notes</td> -->
-                  <th style="text-align: center">Item</th>
-                  <th style="text-align: center">Item&nbsp;Price</th>
-                  <th style="text-align: center">Distance</th>
-                  <th style="text-align: center">Price</th>
-                  <th style="text-align: center">Type</th>
-                  <th style="text-align: center">Status</th>
+                  <th style="text-align: center; padding-bottom:10px;">@sortablelink('total_item', 'Item')</th>
+                  <th style="text-align: center; padding-bottom:10px; margin-right:10px">@sortablelink('total_item_price', 'Item Price')</th>
+                  <th style="text-align: center">@sortablelink('total_distance_price', 'Distance Price')</th>
+                  <th style="text-align: center; padding-bottom:28px">@sortablelink('total_price', 'Price')</th>
+                  <th style="text-align: center; padding-bottom:28px">@sortablelink('payment_type', 'Type')</th>
+                  <th style="text-align: center; padding-bottom:28px">@sortablelink('payment_status', 'Status')</th>
               </tr>
             </thead>
              <tbody>
@@ -83,13 +83,13 @@
                          @else
                          <td><span class="badge badge-pill badge-secondary">{{ $order->order_type }}</span></td>
                          @endif
-                         <td><p style="font-size: 13px;">{{ $order->merchant_id && $order->merchant->name ? $order->merchant->name : '-' }}</p></td>
+                         <td><p style="font-size: 12px;">{{ $order->merchant_id && $order->merchant->name ? $order->merchant->name : '-' }}</p></td>
                          <td>
-                           <div><span style="font-weight: bold; font-size: 12px;">{{ $order->customer_name }}</span></div>
+                           <div><span style="font-weight: bold; font-size: 12px">{{ $order->customer_name }}</span></div>
                            <div><small>{{ $order->customer_telp }}</small></div>
                          </td>
 
-                         <td title="{{ $order->customer_address }}"><p style="font-size: 12px;">{{ $order->customer_address ? \Str::limit($order->customer_address, 45, '..') : '-' }}</p></td>
+                         <td title="{{ $order->customer_address }}"><p style="font-size: 12px;">{{ $order->customer_address ? \Str::limit($order->customer_address, 16, '..') : '-' }}</p></td>
                          <!-- <td title="{{ $order->customer_notes }}">{{ $order->customer_notes ? \Str::limit($order->customer_notes, 15, '..'): '-' }}</td> -->
                          <td>{{ $order->total_item }}</td>
                          <td>{{ $order->total_item_price }}</td>
