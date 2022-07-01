@@ -72,7 +72,7 @@
              <tbody>
                @if ($orders->count() == 0)
                <tr>
-                 <td colspan="13">No order to display.</td>
+                 <td colspan="14">No order to display.</td>
                </tr>
                @endif
                  @foreach ($orders as $order)
