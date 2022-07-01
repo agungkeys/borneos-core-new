@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Merchant\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Vendor;
 use App\Models\Merchant;
@@ -44,7 +45,8 @@ class LoginController extends Controller
 
     public function register()
     {
-        return view('merchant.auth.register');
+        $main_categories = Category::where(['position' => 0 ])->get();
+        return view('merchant.auth.register', compact('main_categories'));
     }
 
     public function logout(Request $request)

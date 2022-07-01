@@ -89,7 +89,7 @@
                   <div class="ml-auto">
                     <!-- <a href="javascript:void(0);" class="btn-lg btn btn-link">Hubungi Admin Borneos</a> -->
                     <button class="btn btn-primary btn-lg" type="submit">Login Merchant</button>
-                    <a class="ml-2 btn btn-warning btn-lg">Daftar Mitra Merchant</a>
+                    <a href="{{ route('merchant.auth.register') }}" class="ml-2 btn btn-warning btn-lg">Daftar Mitra Merchant</a>
                   </div>
                 </div>
               </form>
