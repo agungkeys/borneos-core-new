@@ -299,7 +299,7 @@
         });
 
         $(document).ready(function() {
-            deleteCoordinate();
+            deleteCoordinateRegister();
         });
         function hideMaps(){
             document.getElementById('address-map').style.display =""

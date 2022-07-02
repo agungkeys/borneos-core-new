@@ -1,3 +1,4 @@
+
 function initialize() {
     $("form").on("keyup keypress", function (e) {
         var keyCode = e.keyCode || e.which;
@@ -160,5 +161,14 @@ function deleteCoordinate() {
     document.getElementById("latitude").value = "";
     document.getElementById("longitude").value = "";
     document.getElementById("btnCoordinate").innerHTML = "Add Coordinate";
+}
+
+function deleteCoordinateRegister() {
+    document.cookie = "lat=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    document.cookie = "lng=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    document.getElementById("address-latitude").value = "";
+    document.getElementById("address-longitude").value = "";
+    document.getElementById("latitude").value = "";
+    document.getElementById("longitude").value = "";
     document.getElementById("btnCoordinateRegister").innerHTML = "Tambah Coordinate";
 }
