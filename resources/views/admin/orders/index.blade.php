@@ -96,9 +96,9 @@
                          <td title="{{ $order->customer_address }}"><span style="font-size: 12px;">{{ $order->customer_address ? \Str::limit($order->customer_address, 45, '..') : '-' }}</span></td>
                          <!-- <td title="{{ $order->customer_notes }}">{{ $order->customer_notes ? \Str::limit($order->customer_notes, 15, '..'): '-' }}</td> -->
                          <td>{{ $order->total_item }}</td>
-                         <td>{{ $order->total_item_price }}</td>
-                         <td>{{ $order->total_distance_price }}</td>
-                         <td>{{ $order->total_price }}</td>
+                         <td>{{ number_format($order->total_item_price,0, ",",".") }}</td>
+                         <td>{{ number_format($order->total_distance_price,0, ",",".") }}</td>
+                         <td>{{ number_format($order->total_price,0, ",",".") }}</td>
                          @if($order->payment_type == 'cash')
                          <td><span class="badge badge-pill badge-success">{{ $order->payment_type }}</span></td>
                          @elseif($order->payment_type == 'transfer')
