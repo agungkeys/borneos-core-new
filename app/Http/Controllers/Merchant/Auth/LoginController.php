@@ -34,16 +34,17 @@ class LoginController extends Controller
         {
             if($vendor->status == 0)
             {
-                return redirect()->back()->withInput($request->only('email', 'remember'))
-            ->withErrors([trans('messages.inactive_vendor_warning')]);
+                Alert::toast('Akun anda belum di aktivasi, silahkan cek email atau hubungi admin', 'warning');
+                return redirect()->back()->withInput($request->only('email', 'remember'));
+            // ->withErrors([trans('messages.inactive_vendor_warning')]);
             }
         }
         if (auth('merchant')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
             return redirect()->route('merchant.dashboard');
         }
-
-        return redirect()->back()->withInput($request->only('email', 'remember'))
-            ->withErrors(['Credentials does not match.']);
+        Alert::toast('Email dan kata sandi tidak cocok ', 'error');
+        return redirect()->back()->withInput($request->only('email', 'remember'));
+            // ->withErrors(['Credentials does not match.']);
     }
 
     public function register()
