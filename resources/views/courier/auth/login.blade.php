@@ -84,7 +84,7 @@
                   <div class="ml-auto">
                     <!-- <a href="javascript:void(0);" class="btn-lg btn btn-link">Hubungi Admin Borneos</a> -->
                     <button class="btn btn-primary btn-lg" type="submit">Masuk</button>
-                    <a class="ml-2 btn btn-secondary btn-lg text-white">Daftar Mitra Kurir</a>
+                    <a href="{{ route('courier.auth.register') }}" class="ml-2 btn btn-secondary btn-lg text-white">Daftar Mitra Kurir</a>
                   </div>
                 </div>
               </form>

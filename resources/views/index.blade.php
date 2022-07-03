@@ -37,7 +37,7 @@
           </a>
         </div>
         <div class="col-md-4">
-          <a class="card mb-3 widget-chart" href="#">
+          <a class="card mb-3 widget-chart" href="{{ route('courier.dashboard') }}">
             <div class="icon-wrapper rounded-circle">
               <div class="icon-wrapper-bg bg-success"></div><i class="lnr-bicycle text-success"></i>
             </div>
