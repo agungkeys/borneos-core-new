@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
@@ -8,8 +10,13 @@ Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
     Route::get('login', 'LoginController@login')->name('login');
     Route::post('login', 'LoginController@submit')->name('login.submit');
     Route::get('register', 'LoginController@register')->name('register');
-    Route::get('register-submit', 'LoginController@register_submit')->name('register.submit');
+    Route::post('register-submit', 'LoginController@register_submit')->name('register.submit');
     Route::get('logout', 'LoginController@logout')->name('logout');
+    Route::get('/get-sub-category/{id}', function ($id) {
+      $course = Category::where('parent_id', $id)->where('position', 1)->get();
+      return response()->json($course);
+    });
+    Route::get('thanks', 'LoginController@thanks')->name('thanks.page');
   });
   /*authentication*/
   Route::group(['middleware' => ['auth:merchant']], function () {
