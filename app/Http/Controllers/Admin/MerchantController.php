@@ -26,7 +26,7 @@ class MerchantController extends Controller
         } else {
             $master_merchants = Merchant::sortable()
                                 ->join('vendors', 'merchants.vendor_id', '=', 'vendors.id')
-                                ->select('merchants.*','merchants.id AS merchant_id','vendors.*')
+                                ->select('merchants.*','merchants.id AS merchant_id','merchants.status AS merchant_status' ,'vendors.*')
                                 ->paginate(10);
         }
         return view('admin.merchant.index', compact('master_merchants','filter'));
