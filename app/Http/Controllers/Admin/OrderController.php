@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -56,5 +57,13 @@ class OrderController extends Controller
             $orders = Order::sortable()->paginate(10);
         }
         return view('admin.orders.index', compact('orders', 'filter'));
+    }
+
+    public function detail(Order $order)
+    {
+        return view('admin.orders.detail', [
+            'order'         => $order,
+            'order_details' => OrderDetail::where('order_id', $order->id)->get()
+        ]);
     }
 }
