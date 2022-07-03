@@ -55,7 +55,7 @@
                   <th colspan="2" style="width: 20%;">Payment</th>
                   <th rowspan="2" style="min-width: 120px;">Courier</th>
                   <th rowspan="2" style="min-width: 100px;">@sortablelink('status', 'Status')</th>
-                  <th rowspan="2" style="min-width: 100px;;">Action</th>
+                  <th rowspan="2" style="min-width: 120px;">Action</th>
               </tr>
               <tr>
                   <th style="min-width: 120px;">@sortablelink('customer_name', 'Name/Telp')</th>
@@ -118,20 +118,9 @@
                          <td><span class="badge badge-pill badge-success">{{ $order->status }}</span></td>
                          @endif
                          <td>
-                            <!-- Dropdown -->
-                             <div class="dropdown">
-                                 <button class="btn btn-primary dropdown-toggle" type="button"
-                                         id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                         aria-expanded="false">
-                                         <i class="pe-7s-settings"></i>
-                                 </button>
-                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                     <a class="dropdown-item" href="#"><i class="pe-7s-user"></i>&nbsp;Details</a>
-                                     <a class="dropdown-item" href="#"> <i class="text-dark pe-7s-note"></i>&nbsp;Edit</a>
-                                     <a class="dropdown-item" href="#"> <i class="pe-7s-power"></i>&nbsp;Cancel</a>
-                                 </div>
-                             </div>
-                             <!-- End Dropdown -->
+                          <a href="{{ route('admin.orders.detail',$order) }}" class="btn btn-primary btn-sm ion-android-clipboard" title="Details ?"></a>
+                          <a href="#" class="btn btn-warning btn-sm ion-android-create" title="Edit ?"></a>
+                          <button type="button" class="btn btn-danger btn-sm icon ion-android-close" title="Cancel ?"></button>   
                          </td>
                      </tr>
                  @endforeach
