@@ -8,195 +8,232 @@
             <div class="page-title-icon">
                <i class="pe-7s-news-paper icon-gradient bg-tempting-azure"></i>
             </div>
-            <div>Order Detail<div class="page-title-subheading">Orders Detail {{ $order->prefix }}</div></div>
+            <div>Order Detail<div class="page-title-subheading">Invoice No. INV/{{ $order->id }}/{{date('d/m/Y', strtotime($order->created_at));}}/{{ $order->prefix }}</div></div>
          </div>
       </div>
    </div>
-   <div class="main-card mb-3 card">
-      <div class="card-body" style="display: grid;">
-        <div style="overflow-x:auto;">
-             <div class="p-3 mb-3">          
-                <div class="row d-flex justify-content-between">
-                    <div class="col-sm-5 mb-2">
-                        <p class="lead"><b>Merchant</b></p>
-                        <div class="table-responsive">
-                            <table style="font-size: 12px">
-                                <tr>
-                                    <td>Name : {{ $order->merchant_id && $order->merchant->name ? $order->merchant->name : '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Phone : {{ $order->merchant_id && $order->merchant->phone ? $order->merchant->phone : '-' }}</th>
-                                </tr>
-                                <tr>
-                                    <td>Address : {{ $order->merchant_id && $order->merchant->address ? $order->merchant->address : '' }}</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="col-sm-5 mb-2">
-                        @if($order->status == 'new')
-                        <p class="badge badge-pill badge-info" style="float:right; font-size:10px;">Status&nbsp;:&nbsp;{{ $order->status }}</p>
-                        @elseif($order->status == 'canceled')
-                        <p class="badge badge-pill badge-danger" style="float:right; font-size:10px;">Status&nbsp;:&nbsp;{{ $order->status }}</p>
-                        @else
-                        <p class="badge badge-pill badge-success" style="float:right; font-size:10px;">Status&nbsp;:&nbsp;{{ $order->status }}</p>
-                        @endif
-                        <p class="lead"><b>Customer</b></p>
-                        <div class="table-responsive">
-                            <table style="font-size: 12px;">
-                                <tr>
-                                    <td style="width:20%">Name<span style="margin-left:14px">:</span></td>
-                                    <th>{{ $order->customer_name }} Adndriawan Saputra</th>
-                                </tr>
-                                <tr>
-                                    <td>Phone<span style="margin-left:12px">:</span></td>
-                                    <td>{{ $order->customer_telp }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Address&nbsp;:</td>
-                                    <td style="font-size: 11px">{{ $order->customer_address }}</td>
-                                </tr>   
-                                @if(strlen($order->customer_notes)>1)
-                                <tr>
-                                    <td>Notes<span style="margin-left:15px">:</span></td>
-                                    <td style="font-size:11px">{{ $order->customer_notes }}</td>
-                                </tr>
-                                @endif
-                            </table>
-                        </div>
-                    </div>
-                </div>                           
-            </div>
-        </div>
+   <div class="row">
+     <div class="col-12 col-lg-6 col-md-6 col-sm-12">
+       <a href="/admin/orders{{$order->status ? '/'.$order->status : ''}}" class="text-secondary mb-3" style="display: flex; align-items: center; text-decoration: none;"><i class="pe-7s-angle-left" style="font-size: 2rem;"></i>Back to Order List</a>
+     </div>
+     <div class="col-12 col-lg-6 col-md-6 col-sm-12">
+       <div class="d-block text-right">
+         @if($order->order_type == 'borneos')
+         <span class="badge badge-warning p-2">{{ $order->order_type }}</span>
+         @elseif($order->order_type == 'bonjek')
+         <span style="background-color: palevioletred" class="badge badge-info p-2">{{ $order->order_type }}</span>
+         @elseif($order->order_type == 'legenda')
+         <span class="badge badge-danger p-2">{{ $order->order_type }}</span>
+         @else
+         <span class="badge badge-secondary p-2">{{ $order->order_type }}</span>
+         @endif
+
+         @if($order->status == 'new')
+         <p class="badge badge-info p-2">Order {{ $order->status }}</p>
+         @elseif($order->status == 'canceled')
+         <p class="badge badge-danger p-2">{{ $order->status }}</p>
+         @else
+         <p class="badge badge-success p-2">{{ $order->status }}</p>
+         @endif
+
+         @if($order->payment_status == 'paid')
+         <p class="badge badge-success p-2">{{ ucfirst($order->payment_status) }}</p>
+         @else
+         <p style="background-color: red" class="badge badge-secondary p-2">{{ ucfirst($order->payment_status) }}</p>
+         @endif
+       </div>
+     </div>
+   </div>
+
+   <div class="main-card mb-3 card" style="border-radius: 1.5em;">
+      <div class="card-body p-4">
+          <div class="row d-flex justify-content-between">
+              <div class="col-12 col-lg-5 col-md-5 col-sm-12">
+                  <h3 class="card-title">Merchant Info</h3>
+                  <table class="table table-borderless table-responsive">
+                      <tr>
+                          <td>Name</td>
+                          <th>{{ $order->merchant_id && $order->merchant->name ? $order->merchant->name : '-' }}</th>
+                      </tr>
+                      <tr>
+                          <td>Phone</td>
+                          <th>{{ $order->merchant_id && $order->merchant->phone ? $order->merchant->phone : '-' }}</th>
+                      </tr>
+                      <tr>
+                          <td>Address</td>
+                          <td>{{ $order->merchant_id && $order->merchant->address ? $order->merchant->address : '-' }}</td>
+                      </tr>
+                  </table>
+              </div>
+              <div class="col-12 col-lg-5 col-md-5 col-sm-12">
+                  <!-- <div style="position:absolute; right: 14px; top: -6px;"> -->
+                  <h3 class="card-title">Customer</h3>
+                  <table class="table table-borderless table-responsive">
+                      <tr>
+                          <td>Name</td>
+                          <th>{{ $order->customer_name }}</th>
+                      </tr>
+                      <tr>
+                          <td>Phone</td>
+                          <th>{{ $order->customer_telp }}</th>
+                      </tr>
+                      <tr>
+                          <td>Address</td>
+                          <td>{{ $order->customer_address }}</td>
+                      </tr>
+                      @if(strlen($order->customer_notes)>1)
+                      <tr>
+                          <td>Notes</td>
+                          <td>{{ $order->customer_notes }}</td>
+                      </tr>
+                      @endif
+                  </table>
+              </div>
+          </div>
       </div>
    </div>
-    <div class="main-card mb-3 card">
-      <div class="card-body">
-        <div style="overflow-x:auto;">
-            <div class="invoice p-3 mb-5">
-                <div class="row">
-                    <div class="col-12">
-                        <h4>
-                        <i class="fas fa-cart-arrow-down"></i> {{ $order->customer_name }}
-                        <small class="float-right">Date: {{ date('d/m/Y', strtotime($order->created_at)); }}</small>
-                        </h4>
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-12 table-responsive">
-                        <table style="font-size: 12px" class="table table-hover table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Product Name</th>
-                                <th>Product Price</th>
-                                <th>Product Discount</th>
-                                <th>Product Discount Type</th>
-                                <th>Product QTY</th>
-                                <th>Product Total Price</th>
-                                <th>Notes</th>      
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($order_details as $order_detail)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $order_detail->product_name }}</td>
-                                    <td>{{ number_format($order_detail->product_price,0,',','.') }}</td>
-                                    <td>{{ $order_detail->product_discount }}</td>
-                                    <td>{{ $order_detail->product_discount_type }}</td>
-                                    <td>{{ $order_detail->product_qty }}</td>
-                                    <td>{{ number_format($order_detail->product_total_price,0,',','.') }}</td>
-                                    <td>{{ $order_detail->notes }}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="8">No order to display</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4">
-                        <p class="lead">Distance</p>
-                        <div class="table-responsive">
-                            <table class="table" style="font-size: 12px">
-                                <tr>
-                                    <th style="width:50%">Distance:</th>
-                                    <td>{{ $order->distance }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Total Distance Price:</th>
-                                    <td>{{ number_format($order->total_distance_price,0,',','.') }}</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <p class="lead">Payment Methods</p>
-                        <div class="table-responsive">
-                            <table class="table" style="font-size: 12px"> 
-                                <tr>
-                                    <th>Payment Type:</th>
-                                    <td>{{ ucfirst($order->payment_type) }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Payment Status:</th>
-                                    <td>{{ ucfirst($order->payment_status) }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Payment Bank Name:</th>
-                                    <td>{{ $order->payment_bank_name }}</td>
-                                </tr>
-                                <tr>
-                                <th>Payment Account Number:</th>
-                                <td>{{ $order->payment_account_number }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Payment Total:</th>
-                                    <td>{{ number_format($order->payment_total,0,',','.') }}</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <p class="lead">Amount</p>
-                        <div class="table-responsive">
-                            <table class="table" style="font-size: 12px">
-                                <tr>
-                                    <th style="width:50%">Total Item:</th>
-                                    <td>{{ $order->total_item }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Total Item Price:</th>
-                                    <td>{{ number_format($order->total_item_price,0,',','.') }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Total Price:</th>
-                                    <td>{{ number_format($order->total_price,0,',','.') }}</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12"><hr>
-                        <table style="font-size: 12px">
-                            <tr>
-                                <td>Courier&nbsp;:&nbsp;<b>{{ ucfirst($order->order_type )}}</b></td><br>
-                            </tr>
-                            <tr>
-                                <td>{{ $order->courier_id ? $order->courier->name : '-' }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+   <div class="main-card mb-3 card" style="border-radius: 1.5em;">
+      <div class="card-body p-4">
+          <div class="invoice">
+              <div class="row">
+                  <div class="col-12 col-lg-6 col-md-6 col-sm-12">
+                    <h3 class="card-title">Products Info</h3>
+                      <!-- <h4>
+                      <i class="fas fa-cart-arrow-down"></i> {{ $order->customer_name }}
+                      <small class="float-right">Date: {{ date('d/m/Y', strtotime($order->created_at)); }}</small>
+                      </h4> -->
+                  </div>
+                  <div class="col-12 col-lg-6 col-md-6 col-sm-12">
+
+                  </div>
+              </div>
+              <div class="row mt-2">
+                  <div class="col-12 table-responsive">
+                      <table class="table table-hover table-striped">
+                      <thead>
+                          <tr>
+                              <th>No.</th>
+                              <th>Name</th>
+                              <th>Price</th>
+                              <th>Discount</th>
+                              <th>Discount Type</th>
+                              <th>Qty.</th>
+                              <th>Total Price</th>
+                              <th>Notes</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          @forelse($order_details as $order_detail)
+                              <tr>
+                                  <td>{{ $loop->iteration }}</td>
+                                  <td>{{ $order_detail->product_name }}</td>
+                                  <td>{{ number_format($order_detail->product_price,0,',','.') }}</td>
+                                  <td>{{ $order_detail->product_discount }}</td>
+                                  <td>{{ $order_detail->product_discount_type }}</td>
+                                  <td>{{ $order_detail->product_qty }}</td>
+                                  <td>{{ number_format($order_detail->product_total_price,0,',','.') }}</td>
+                                  <td>{{ $order_detail->notes }}</td>
+                              </tr>
+                          @empty
+                              <tr>
+                                  <td colspan="8">No order to display</td>
+                              </tr>
+                          @endforelse
+                      </tbody>
+                      </table>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-12 col-lg-4 col-md-4 col-sm-12 mt-2">
+                      <h3 class="card-title">Distance Info</h3>
+                      <table class="table table-borderless table-responsive">
+                          <tr>
+                              <td style="widtd:50%">Distance</td>
+                              <td>{{ $order->distance }} Km.</td>
+                          </tr>
+                          <tr>
+                              <td>Total Distance Price</td>
+                              <td>{{ number_format($order->total_distance_price,0,',','.') }}</td>
+                          </tr>
+                      </table>
+                  </div>
+                  <div class="col-12 col-lg-4 col-md-4 col-sm-12 mt-2">
+                      <h3 class="card-title">Payment Info</h3>
+                      <table class="table table-borderless table-responsive">
+                          <tr>
+                              <td>Payment Type</td>
+                              <td>{{ ucfirst($order->payment_type) }}</td>
+                          </tr>
+                          <tr>
+                              <td>Payment Status</td>
+                              <td>{{ ucfirst($order->payment_status) }}</td>
+                          </tr>
+                          <tr>
+                              <td>Bank Name</td>
+                              <td>{{ $order->payment_bank_name }}</td>
+                          </tr>
+                          <tr>
+                          <td>Bank Account No.</td>
+                          <td>{{ $order->payment_account_number }}</td>
+                          </tr>
+                          <tr>
+                              <td>Payment Total</td>
+                              <td>{{ number_format($order->payment_total,0,',','.') }}</td>
+                          </tr>
+                      </table>
+                  </div>
+                  <div class="col-12 col-lg-4 col-md-4 col-sm-12 mt-2">
+                      <h3 class="card-title">Total</h3>
+                      <table class="table table-borderless table-responsive">
+                          <tr>
+                              <td style="widtd:50%">Total Item:</td>
+                              <th>{{ $order->total_item }}</th>
+                          </tr>
+                          <tr>
+                              <td>Total Item Price:</td>
+                              <th>{{ number_format($order->total_item_price,0,',','.') }}</th>
+                          </tr>
+                          <tr>
+                              <td>Total Price:</td>
+                              <th>{{ number_format($order->total_price,0,',','.') }}</th>
+                          </tr>
+                      </table>
+                  </div>
+              </div>
+          </div>
       </div>
    </div>
+
+   <div class="main-card mb-3 card" style="border-radius: 1.5em;">
+      <div class="card-body p-4">
+          <div class="row">
+              <div class="col-12 col-lg-6 col-md-6 col-sm-12">
+                  <h3 class="card-title">Courier Info</h3>
+                  <table class="table table-borderless table-responsive">
+                      <tr>
+                          <td>Name</td>
+                          <th>{{ $order->courier_id ? $order->courier->name : '-' }}</th>
+                      </tr>
+                      <tr>
+                          <td>Phone</td>
+                          <th>{{ $order->courier_id ? $order->courier->phone : '-' }}</th>
+                      </tr>
+                  </table>
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <div class="main-card mb-3 card" style="border-radius: 1.5em;">
+       <div class="card-body p-4">
+           <div class="row">
+               <div class="col-12 col-lg-6 col-md-6 col-sm-12">
+                   <h3 class="card-title">Status Order</h3>
+
+               </div>
+           </div>
+       </div>
+     </div>
    @include('sweetalert::alert')
  </div>
 @endsection
