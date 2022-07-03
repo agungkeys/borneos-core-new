@@ -57,4 +57,8 @@ class OrderController extends Controller
         }
         return view('admin.orders.index', compact('orders', 'filter'));
     }
+    public function add()
+    {
+        return view('admin.orders.add');
+    }
 }

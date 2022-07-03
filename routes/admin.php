@@ -19,6 +19,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     // orders
     Route::get('/orders/{status}', 'OrderController@index')->name('orders');
     Route::get('/orders', 'OrderController@all')->name('orders.all');
+    Route::get('/order/add', 'OrderController@add')->name('orders.add');
 
     //categories
     Route::get('/master-category', 'CategoryController@master_category_index')->name('master-category');
