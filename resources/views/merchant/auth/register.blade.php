@@ -44,7 +44,6 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="main-card mb-3 card">
-                                {{-- <div class="card-header">Informasi Merchant</div> --}}
                                 <div class="card-body">
                                     @csrf
                                     <div class="form-group">
@@ -142,7 +141,6 @@
                         </div>
                         <div class="col-md-6">
                             <div class="main-card mb-3 card">
-                                {{-- <div class="card-header">Informasi Pemilik</div> --}}
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="f_name">Nama Lengkap</label>

@@ -48,7 +48,7 @@
                         Punya masalah ? <a href="#">Hubungi admin</a>
                     </p>
                     <p class="lead">
-                        <a class="btn btn-primary btn-sm" href="{{ route('merchant.auth.login') }}" role="button">Lanjut ke halaman login</a>
+                        <a class="btn btn-primary btn-sm" href="{{ route('courier.auth.login') }}" role="button">Lanjut ke halaman login</a>
                     </p>
                 </div>
             </div>
