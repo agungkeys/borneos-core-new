@@ -120,4 +120,22 @@ class OrderController extends Controller
         Alert::success('Created', 'Data Created Successfully');
         return redirect('/admin/orders');
     }
+
+    public function edit(Order $order)
+    {
+        return view('admin.orders.edit', [
+            'order'         => $order,
+            'order_details' => OrderDetail::where('order_id', $order->id)->get()
+        ]);
+    }
+    public function update(Order $order)
+    {
+        $order->update([
+            'status'         => request('status'),
+            'payment_status' => request('payment_status'),
+            'status_notes'   => request('status_notes') == null ? null : request('status_notes')
+        ]);
+        Alert::success('Updated', 'Data Order Updated');
+        return redirect('/admin/orders');
+    }
 }

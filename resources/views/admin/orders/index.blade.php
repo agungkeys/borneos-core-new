@@ -114,12 +114,12 @@
                          <td>{{ $order->courier_id && $order->courier->name ? $order->courier->name : '-' }}</td>
                          @if($order->status == 'new')
                          <td><span class="badge badge-pill badge-info">{{ $order->status }}</span></td>
-                         @else
+                         @elseif($order->status)
                          <td><span class="badge badge-pill badge-success">{{ $order->status }}</span></td>
                          @endif
                          <td>
                           <a href="{{ route('admin.orders.detail',$order) }}" class="btn btn-primary btn-sm ion-android-clipboard" title="Details ?"></a>
-                          <a href="#" class="btn btn-warning btn-sm ion-android-create" title="Edit ?"></a>
+                          <a href="{{ route('admin.orders.edit',$order) }}" class="btn btn-warning btn-sm ion-android-create" title="Edit ?"></a>
                           <button type="button" class="btn btn-danger btn-sm icon ion-android-close" title="Cancel ?"></button>   
                          </td>
                      </tr>
