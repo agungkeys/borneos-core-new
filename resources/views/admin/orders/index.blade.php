@@ -14,7 +14,7 @@
             <div>Orders <span class="badge badge-pill badge-primary">{{ number_format($orders->total(), 0, "", ".") }}</span><div class="page-title-subheading">List Orders</div></div>
          </div>
          <div class="page-title-actions">
-             <a href="#" class="btn-shadow btn btn-info btn-lg">Add Order</a>
+             <a href="{{ route('admin.orders.add') }}" class="btn-shadow btn btn-info btn-lg">Add Order</a>
          </div>
       </div>
    </div>
