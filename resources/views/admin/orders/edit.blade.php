@@ -297,17 +297,17 @@
         $(document).ready(function(){
             let orderStatus = '{{ $order->status }}', paymentStatus = '{{ $order->payment_status }}',paymentType = '{{ $order->payment_type }}';
             if(paymentType == 'cash'){
-                alertPaymentStatusOrder('proses');
+                alertPaymentStatusOrder('processing');
                 alertPaymentStatusOrder('paid');
-                $('#status').append("<option value='proses'>Proses</option>");
+                $('#status').append("<option value='processing'>Processing</option>");
                 $('#payment_status').append("<option value='paid'>Paid</option>");
             }else{     
                 if(orderStatus == 'new'){
                     $('#form_courier').hide();
                     alertPaymentStatusOrder('new');
-                    $('#status').append("<option value=''>Choose One!</option><option value='proses'>Proses</option><option value='cancel'>Cancel</option>");
-                }else if(orderStatus == 'proses'){
-                    alertPaymentStatusOrder('proses');
+                    $('#status').append("<option value=''>Choose One!</option><option value='processing'>Processing</option><option value='cancel'>Cancel</option>");
+                }else if(orderStatus == 'processing'){
+                    alertPaymentStatusOrder('processing');
                     $('#status').append("<option value=''>Choose One!</option><option value='otw'>Otw</option><option value='cancel'>Cancel</option>");
                 }else if(orderStatus == 'otw'){
                     alertPaymentStatusOrder('otw');                
@@ -326,16 +326,16 @@
 
                 if(paymentStatus == 'unpaid'){
                     alertPaymentStatusOrder('unpaid');
-                    $('#payment_status').append("<option value=''>Choose One!</option><option value='paid'>Paid</option>");
+                    $('#payment_status').append("<option value=''>Choose One!</option><option value='unpaid'>Unpaid</option><option value='paid'>Paid</option>");
                 }else if(paymentStatus == 'paid'){
                     alertPaymentStatusOrder('paid');
-                    $('#payment_status').append("<option value=''>Choose One!</option><option value='unpaid'>Unpaid</option>");
+                    $('#payment_status').append("<option value=''>Choose One!</option><option value='paid'>Paid</option><option value='unpaid'>Unpaid</option>");
                 }
             }
 
             $('#status').change(function(e){
                 let value = e.target.value;
-                if(value == 'proses'){
+                if(value == 'processing'){
                     $('#form_courier').show();
                 }else if(value == 'cancel'){
                     $('#form_courier').hide();
@@ -348,11 +348,18 @@
                     if(value == 'paid'){
                         $('#form_courier').show();
                         $('#status').empty();
-                        $('#status').append("<option value='proses'>Proses</option>");
-                        alertPaymentStatusOrder('proses');        
+                        $('#status').append("<option value='processing'>Processing</option>");
+                        alertPaymentStatusOrder('processing');        
                     }
                 };
                 alertPaymentStatusOrder(value);
+            });
+            $('#courier').change(function(){
+                if(orderStatus == 'processing'){
+                    alertPaymentStatusOrder('otw');
+                    $('#status').empty();
+                    $('#status').append("<option value='otw'>Otw</option><option value='cancel'>Cancel</option>");
+                }
             });
         });
         function alertPaymentStatusOrder(val){
@@ -377,9 +384,9 @@
             }else if(val == 'refund'){
                 $('#order_status').attr('class','alert alert-success');
                 $('#order_status').html('<b>Refund</b>');
-            }else if(val == 'proses'){
+            }else if(val == 'processing'){
                 $('#order_status').attr('class','alert alert-success');
-                $('#order_status').html('<b>Proses</b>');
+                $('#order_status').html('<b>Processing</b>');
             }
         }
     </script>
