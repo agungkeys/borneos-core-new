@@ -125,16 +125,26 @@ class OrderController extends Controller
     {
         return view('admin.orders.edit', [
             'order'         => $order,
+            'couriers'      => Courier::all(),
             'order_details' => OrderDetail::where('order_id', $order->id)->get()
         ]);
     }
     public function update(Order $order)
     {
-        $order->update([
-            'status'         => request('status'),
-            'payment_status' => request('payment_status'),
-            'status_notes'   => request('status_notes') == null ? null : request('status_notes')
-        ]);
+        if (!request('courier')) {
+            $order->update([
+                'status'         => request('status') !== null ? request('status') : $order->status,
+                'payment_status' => request('payment_status') !== null ? request('payment_status') : $order->payment_status,
+                'status_notes'   => request('status_notes') ?? $order->status_notes
+            ]);
+        } else {
+            $order->update([
+                'status'         => request('status') !== null ? request('status') : $order->status,
+                'payment_status' => request('payment_status') !== null ? request('payment_status') : $order->payment_status,
+                'courier_id'     => request('courier'),
+                'status_notes'   => request('status_notes') ?? $order->status_notes
+            ]);
+        }
         Alert::success('Updated', 'Data Order Updated');
         return redirect('/admin/orders');
     }
