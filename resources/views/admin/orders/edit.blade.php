@@ -245,9 +245,9 @@
                         <div class="form-group">
                             <label for="status">Update Order Status:</label>
                             <select name="status" id="status" class="js-data-example-ajax multiselect-dropdown form-control">
-                                {{-- <option {{ $order->status == 'new' ? 'selected':'' }} value="new">New</option>
+                                <option {{ $order->status == 'new' ? 'selected':'' }} value="new">New</option>
                                 <option {{ $order->status == 'otw' ? 'selected':'' }} value="otw">Otw</option>
-                                <option {{ $order->status == 'canceled' ? 'selected':'' }} value="canceled">Cancel</option> --}}
+                                <option {{ $order->status == 'canceled' ? 'selected':'' }} value="canceled">Cancel</option>
                             </select>
                         </div>
                     </div>
@@ -265,11 +265,12 @@
                         <div class="form-group">
                             <label for="payment_status">Update Payment Status:</label>
                             <select name="payment_status" id="payment_status" class="js-data-example-ajax multiselect-dropdown form-control">
-                                {{-- <option {{ $order->payment_status == 'paid' ? 'selected':'' }} value="paid">Paid</option>
-                                <option {{ $order->payment_status == 'unpaid' ?'selected':'' }} value="unpaid">Unpaid</option> --}}
+                                <!-- <option {{ $order->payment_status == 'paid' ? 'selected':'' }} value="paid">Paid</option>
+                                <option {{ $order->payment_status == 'unpaid' ?'selected':'' }} value="unpaid">Unpaid</option> -->
                             </select>
                         </div>
                     </div>
+                    @if($order->status != 'new')
                     <div class="col-md-5" id="form_courier">
                         <div class="form-group">
                             <label for="courier">Choose Courier:</label>
@@ -281,6 +282,8 @@
                             </select>
                         </div>
                     </div>
+                    @else
+                    @endif
                </div>
                 <div class="text-right mt-2">
                     <a href="/admin/orders" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
@@ -295,36 +298,36 @@
 @section('js')
     <script>
         $(document).ready(function(){
-            let orderStatus = '{{ $order->status }}', paymentStatus = '{{ $order->payment_status }}';  
-                if(orderStatus == 'new'){
-                    $('#form_courier').hide();
-                    alertPaymentStatusOrder('new');
-                    $('#status').append("<option value=''>Choose One!</option><option value='processing'>Processing</option><option value='cancel'>Cancel</option>");
-                }else if(orderStatus == 'processing'){
-                    alertPaymentStatusOrder('processing');
-                    $('#status').append("<option value=''>Choose One!</option><option value='otw'>Otw</option><option value='cancel'>Cancel</option>");
-                }else if(orderStatus == 'otw'){
-                    alertPaymentStatusOrder('otw');                
-                    $('#status').append("<option value=''>Choose One!</option><option value='delivered'>Delivered</option><option value='refund'>Refund</option>");
-                }else if(orderStatus == 'delivered'){
-                    alertPaymentStatusOrder('delivered');
-                    $('#status').append("<option value='delivered'>Delivered</option>");
-                }else if(orderStatus == 'refund'){
-                    alertPaymentStatusOrder('refund');
-                    $('#status').append("<option value='refund'>Refund</option>");
-                }else if(orderStatus == 'cancel'){
-                    $('#form_courier').hide();
-                    alertPaymentStatusOrder('cancel');
-                    $('#status').append("<option value='cancel'>Cancel</option>");
-                };
+            let orderStatus = '{{ $order->status }}', paymentStatus = '{{ $order->payment_status }}';
+            if(orderStatus == 'new'){
+                $('#form_courier').hide();
+                alertPaymentStatusOrder('new');
+                $('#status').append("<option value=''>Choose One!</option><option value='processing'>Processing</option><option value='cancel'>Cancel</option>");
+            }else if(orderStatus == 'processing'){
+                alertPaymentStatusOrder('processing');
+                $('#status').append("<option value=''>Choose One!</option><option value='otw'>Otw</option><option value='cancel'>Cancel</option>");
+            }else if(orderStatus == 'otw'){
+                alertPaymentStatusOrder('otw');
+                $('#status').append("<option value=''>Choose One!</option><option value='delivered'>Delivered</option><option value='refund'>Refund</option>");
+            }else if(orderStatus == 'delivered'){
+                alertPaymentStatusOrder('delivered');
+                $('#status').append("<option value='delivered'>Delivered</option>");
+            }else if(orderStatus == 'refund'){
+                alertPaymentStatusOrder('refund');
+                $('#status').append("<option value='refund'>Refund</option>");
+            }else if(orderStatus == 'cancel'){
+                $('#form_courier').hide();
+                alertPaymentStatusOrder('cancel');
+                $('#status').append("<option value='cancel'>Cancel</option>");
+            };
 
-                if(paymentStatus == 'unpaid'){
-                    alertPaymentStatusOrder('unpaid');
-                    $('#payment_status').append("<option value=''>Choose One!</option><option value='unpaid'>Unpaid</option><option value='paid'>Paid</option>");
-                }else if(paymentStatus == 'paid'){
-                    alertPaymentStatusOrder('paid');
-                    $('#payment_status').append("<option value=''>Choose One!</option><option value='paid'>Paid</option><option value='unpaid'>Unpaid</option>");
-                }
+            if(paymentStatus == 'unpaid'){
+                alertPaymentStatusOrder('unpaid');
+                $('#payment_status').append("<option value=''>Choose One!</option><option value='unpaid'>Unpaid</option><option value='paid'>Paid</option>");
+            }else if(paymentStatus == 'paid'){
+                alertPaymentStatusOrder('paid');
+                $('#payment_status').append("<option value=''>Choose One!</option><option value='paid'>Paid</option><option value='unpaid'>Unpaid</option>");
+            }
 
             $('#status').change(function(e){
                 let value = e.target.value;
@@ -342,7 +345,7 @@
                         $('#form_courier').show();
                         $('#status').empty();
                         $('#status').append("<option value='processing'>Processing</option>");
-                        alertPaymentStatusOrder('processing');        
+                        alertPaymentStatusOrder('processing');
                     }
                 };
                 alertPaymentStatusOrder(value);
