@@ -41,7 +41,7 @@ class LoginController extends Controller
             return redirect()->route('courier.dashboard');
         }
         Alert::toast('Email dan kata sandi tidak cocok ', 'error');
-        return redirect()->back()->withInput($request->only('email', 'remember'));
+        return redirect()->back();
     }
 
     public function logout(Request $request)
