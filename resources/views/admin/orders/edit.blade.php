@@ -295,13 +295,7 @@
 @section('js')
     <script>
         $(document).ready(function(){
-            let orderStatus = '{{ $order->status }}', paymentStatus = '{{ $order->payment_status }}',paymentType = '{{ $order->payment_type }}';
-            if(paymentType == 'cash'){
-                alertPaymentStatusOrder('processing');
-                alertPaymentStatusOrder('paid');
-                $('#status').append("<option value='processing'>Processing</option>");
-                $('#payment_status').append("<option value='paid'>Paid</option>");
-            }else{     
+            let orderStatus = '{{ $order->status }}', paymentStatus = '{{ $order->payment_status }}';  
                 if(orderStatus == 'new'){
                     $('#form_courier').hide();
                     alertPaymentStatusOrder('new');
@@ -331,7 +325,6 @@
                     alertPaymentStatusOrder('paid');
                     $('#payment_status').append("<option value=''>Choose One!</option><option value='paid'>Paid</option><option value='unpaid'>Unpaid</option>");
                 }
-            }
 
             $('#status').change(function(e){
                 let value = e.target.value;
@@ -355,7 +348,8 @@
                 alertPaymentStatusOrder(value);
             });
             $('#courier').change(function(){
-                if(orderStatus == 'processing'){
+                let orderStatusCurrent = $('#status').val();
+                if(orderStatus || orderStatusCurrent == 'processing'){
                     alertPaymentStatusOrder('otw');
                     $('#status').empty();
                     $('#status').append("<option value='otw'>Otw</option><option value='cancel'>Cancel</option>");

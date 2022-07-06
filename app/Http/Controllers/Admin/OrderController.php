@@ -131,7 +131,7 @@ class OrderController extends Controller
     }
     public function update(Order $order)
     {
-        if (!request('courier')) {
+        if (!request('courier') || request('status') == 'cancel') {
             $order->update([
                 'status'         => request('status') !== null ? request('status') : $order->status,
                 'payment_status' => request('payment_status') !== null ? request('payment_status') : $order->payment_status,
