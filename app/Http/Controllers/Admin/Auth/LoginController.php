@@ -29,7 +29,6 @@ class LoginController extends Controller
         if (auth('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
             return redirect()->route('admin.dashboard');
         }
-
         Alert::toast('Credentials does not match.', 'error');
         return redirect()->back();
     }
