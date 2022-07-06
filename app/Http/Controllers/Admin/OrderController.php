@@ -34,7 +34,7 @@ class OrderController extends Controller
         } else {
             $orders = Order::sortable()->where('orders.status', 'like', '%' . $status . '%')->paginate(10);
         }
-        return view('admin.orders.index', compact('orders', 'filter'));
+        return view('admin.orders.index', compact('orders', 'filter', 'status'));
     }
 
     public function all(Request $request)
