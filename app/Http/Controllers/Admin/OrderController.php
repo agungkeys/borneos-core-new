@@ -115,7 +115,7 @@ class OrderController extends Controller
         $order->payment_bank_name = $request->payment_bank_name ?? '';
         $order->payment_account_number = $request->payment_account_number ?? '';
         $order->payment_status = $request->payment_status;
-        $order->status = 'new';
+        $order->status = $request->payment_status == 'paid' ? 'processing' : 'new';
         $order->save();
         Alert::success('Created', 'Data Created Successfully');
         return redirect('/admin/orders');

@@ -261,10 +261,12 @@
         $('#total_distance_price').keyup(function(){    
             let total_price = parseInt($('#total_distance_price').val()) + parseInt($('#total_item_price').val());
             $('#total_price').val(total_price);
+            $('#payment_total').val(total_price);
         });
         $('#total_item_price').keyup(function(){
             let total_price = parseInt($('#total_item_price').val()) + parseInt($('#total_distance_price').val());
             $('#total_price').val(total_price);
+            $('#payment_total').val(total_price);
         });
     });
     function hideMaps(){
