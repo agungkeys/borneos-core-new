@@ -245,9 +245,9 @@
                         <div class="form-group">
                             <label for="status">Update Order Status:</label>
                             <select name="status" id="status" class="js-data-example-ajax multiselect-dropdown form-control">
-                                <option {{ $order->status == 'new' ? 'selected':'' }} value="new">New</option>
+                                {{-- <option {{ $order->status == 'new' ? 'selected':'' }} value="new">New</option>
                                 <option {{ $order->status == 'otw' ? 'selected':'' }} value="otw">Otw</option>
-                                <option {{ $order->status == 'canceled' ? 'selected':'' }} value="canceled">Cancel</option>
+                                <option {{ $order->status == 'canceled' ? 'selected':'' }} value="canceled">Cancel</option> --}}
                             </select>
                         </div>
                     </div>
