@@ -32,7 +32,11 @@ class OrderController extends Controller
                 ->orWhere('orders.status', 'like', '%' . $filter . '%')
                 ->paginate(10);
         } else {
-            $orders = Order::sortable()->where('orders.status', 'like', '%' . $status . '%')->paginate(10);
+            if ($status == 'canceled') {
+                $orders = Order::sortable()->where(['orders.status' => 'cancel'])->orWhere(['orders.status' => 'refund'])->paginate(10);
+            } else {
+                $orders = Order::sortable()->where('orders.status', 'like', '%' . $status . '%')->paginate(10);
+            }
         }
         return view('admin.orders.index', compact('orders', 'filter', 'status'));
     }
