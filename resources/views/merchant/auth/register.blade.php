@@ -181,7 +181,7 @@
                                         @enderror
                                     </div>
                                     <div class="text-right mt-2">
-                                        <a href="{{ route('merchant.auth.login') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Kembali</a>
+                                        <a href="{{ route('merchant.auth.login') }}" onclick="loading()" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Kembali</a>
                                         <button type="submit" id="buttonSubmit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Simpan</button>
                                     </div>
                                 </div>
@@ -275,12 +275,13 @@
 
         $('#main_category_id').change(function(){
         var stateId = $(this).val();
+        $(document).ajaxStart($.blockUI({message: $('.body-block-loading')})).ajaxStop($.unblockUI);
         if(stateId){
             $.ajax({
-            type:"GET",
-            url:"/merchant/auth/get-sub-category/"+stateId,
-            dataType: 'JSON',
-            success:function(res){
+                type:"GET",
+                url:"/merchant/auth/get-sub-category/"+stateId,
+                dataType: 'JSON',
+                success:function(res){
                 if(res){
                     $("#categories_id").empty();
                     $.each(res,function(key,data){

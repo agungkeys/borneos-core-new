@@ -40,17 +40,24 @@
         </div>
         <div class="h-100 d-flex bg-white justify-content-center align-items-center col-md-12 col-lg-8">
             <div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-9" style="min-width: 100%;min-height:100fr">
-                <div class="text-center">
-                    <h1 class="display-3">Thank You!</h1>
-                    <p class="lead"><strong>Tolong cek email anda</strong> untuk mengaktivasi akun anda.</p>
-                    <hr>
-                    <p>
-                        Punya masalah ? <a href="#">Hubungi admin</a>
-                    </p>
-                    <p class="lead">
-                        <a class="btn btn-primary btn-sm" href="{{ route('courier.auth.login') }}" role="button">Lanjut ke halaman login</a>
-                    </p>
-                </div>
+              <div id="step-3" class="tab-pane step-content" style="display: block;">
+                  <div class="no-results">
+                    <div class="swal2-icon swal2-success swal2-animate-success-icon">
+                        <div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+                        <span class="swal2-success-line-tip"></span>
+                        <span class="swal2-success-line-long"></span>
+                        <div class="swal2-success-ring"></div>
+                        <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+                        <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+                    </div>
+                    <div class="results-subtitle mt-4">Registrasi berhasil !</div>
+                    <div class="results-title"><strong>Silahkan hubungi admin</strong> untuk mengaktivasi akun anda.</div>
+                    <div class="mt-3 mb-3"></div>
+                    <div class="text-center">
+                        <a href="{{ route('courier.auth.login') }}" class="btn-shadow btn-wide btn btn-success btn-lg">Finish</a>
+                    </div>
+                  </div>
+              </div>
             </div>
         </div>
       </div>

@@ -60,22 +60,17 @@
                     <div class="position-relative form-group">
                       <label for="email" class="">Email</label>
                       <input name="email" id="email" placeholder="Email here..." type="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required autocomplete="email" autofocus />
-                      @error('email')
-                        <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                        </span>
-                      @enderror
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="position-relative form-group">
                       <label for="password" class="">Password</label>
-                      <input name="password" id="password" placeholder="Password here..." type="password" class="form-control @error('password') is-invalid @enderror" required autocomplete="current-password" />
-                      @error('password')
-                        <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                        </span>
-                      @enderror
+                      <div class="input-group" id="show_hide_password">
+                        <input name="password" id="password" placeholder="Password here..." type="password" class="form-control @error('password') is-invalid @enderror" required autocomplete="current-password" />
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-light" ><i class="fa fa-eye-slash"></i></button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -97,4 +92,38 @@
     </div>
   </div>
 </div>
+@endsection
+@section('js')
+<script>
+    $(document).ready(function() {
+        //toggle password hide
+        $("#show_hide_password button").on('click', function(event) {
+            event.preventDefault();
+            if($('#show_hide_password input').attr("type") == "text"){
+                $('#show_hide_password input').attr('type', 'password');
+                $('#show_hide_password i').addClass( "fa-eye-slash" );
+                $('#show_hide_password i').removeClass( "fa-eye" );
+            }
+            else if($('#show_hide_password input').attr("type") == "password"){
+                $('#show_hide_password input').attr('type', 'text');
+                    $('#show_hide_password i').removeClass( "fa-eye-slash" );
+                    $('#show_hide_password i').addClass( "fa-eye" );
+            }
+        });
+        //toggle confirm password hide
+        $("#show_hide_password_confirm button").on('click', function(event) {
+            event.preventDefault();
+            if($('#show_hide_password_confirm input').attr("type") == "text"){
+                $('#show_hide_password_confirm input').attr('type', 'password');
+                $('#show_hide_password_confirm i').addClass( "fa-eye-slash" );
+                $('#show_hide_password_confirm i').removeClass( "fa-eye" );
+            }
+            else if($('#show_hide_password_confirm input').attr("type") == "password"){
+                $('#show_hide_password_confirm input').attr('type', 'text');
+                $('#show_hide_password_confirm i').removeClass( "fa-eye-slash" );
+                $('#show_hide_password_confirm i').addClass( "fa-eye" );
+            }
+        });
+    });
+</script>
 @endsection
