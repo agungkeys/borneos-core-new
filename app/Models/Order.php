@@ -12,6 +12,14 @@ class Order extends Model
 
     protected $table = 'orders';
 
+    protected $fillable = [
+        'prefix', 'merchant_id', 'customer_name', 'customer_telp', 'order_type', 'customer_address',
+        'customer_address_lat', 'customer_address_lang', 'distance', 'courier_id',
+        'customer_notes', 'total_item', 'total_item_price', 'total_distance_price', 'total_price',
+        'payment_type', 'payment_total', 'payment_bank_name', 'payment_account_number', 'payment_status',
+        'status', 'status_notes'
+    ];
+
     public $sortable = [
         'id', 'merchant_id', 'customer_name', 'customer_telp', 'order_type', 'customer_address',
         'customer_notes', 'total_item', 'total_item_price', 'total_distance_price', 'total_price',

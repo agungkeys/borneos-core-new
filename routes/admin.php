@@ -22,6 +22,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/orders', 'OrderController@all')->name('orders.all');
     Route::get('/order/add', 'OrderController@add')->name('orders.add');
     Route::post('/order/add', 'OrderController@store')->name('orders.store');
+    Route::get('/orders/edit/{order:prefix}', 'OrderController@edit')->name('orders.edit');
+    Route::put('/orders/update/{order:prefix}', 'OrderController@update')->name('orders.update');
 
     //categories
     Route::get('/master-category', 'CategoryController@master_category_index')->name('master-category');

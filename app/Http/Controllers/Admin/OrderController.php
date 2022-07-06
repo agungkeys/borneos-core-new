@@ -32,9 +32,13 @@ class OrderController extends Controller
                 ->orWhere('orders.status', 'like', '%' . $filter . '%')
                 ->paginate(10);
         } else {
-            $orders = Order::sortable()->where('orders.status', 'like', '%' . $status . '%')->paginate(10);
+            if ($status == 'canceled') {
+                $orders = Order::sortable()->where(['orders.status' => 'cancel'])->orWhere(['orders.status' => 'refund'])->paginate(10);
+            } else {
+                $orders = Order::sortable()->where('orders.status', 'like', '%' . $status . '%')->paginate(10);
+            }
         }
-        return view('admin.orders.index', compact('orders', 'filter'));
+        return view('admin.orders.index', compact('orders', 'filter', 'status'));
     }
 
     public function all(Request $request)
@@ -115,9 +119,37 @@ class OrderController extends Controller
         $order->payment_bank_name = $request->payment_bank_name ?? '';
         $order->payment_account_number = $request->payment_account_number ?? '';
         $order->payment_status = $request->payment_status;
-        $order->status = 'new';
+        $order->status = $request->payment_status == 'paid' ? 'processing' : 'new';
         $order->save();
         Alert::success('Created', 'Data Created Successfully');
+        return redirect('/admin/orders');
+    }
+
+    public function edit(Order $order)
+    {
+        return view('admin.orders.edit', [
+            'order'         => $order,
+            'couriers'      => Courier::all(),
+            'order_details' => OrderDetail::where('order_id', $order->id)->get()
+        ]);
+    }
+    public function update(Order $order)
+    {
+        if (!request('courier') || request('status') == 'cancel') {
+            $order->update([
+                'status'         => request('status') !== null ? request('status') : $order->status,
+                'payment_status' => request('payment_status') !== null ? request('payment_status') : $order->payment_status,
+                'status_notes'   => request('status_notes') ?? $order->status_notes
+            ]);
+        } else {
+            $order->update([
+                'status'         => request('status') !== null ? request('status') : $order->status,
+                'payment_status' => request('payment_status') !== null ? request('payment_status') : $order->payment_status,
+                'courier_id'     => request('courier'),
+                'status_notes'   => request('status_notes') ?? $order->status_notes
+            ]);
+        }
+        Alert::success('Updated', 'Data Order Updated');
         return redirect('/admin/orders');
     }
 }

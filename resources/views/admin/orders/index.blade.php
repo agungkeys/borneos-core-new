@@ -11,7 +11,7 @@
             <div class="page-title-icon">
                <i class="pe-7s-news-paper icon-gradient bg-tempting-azure"></i>
             </div>
-            <div>Orders <span class="badge badge-pill badge-primary">{{ number_format($orders->total(), 0, "", ".") }}</span><div class="page-title-subheading">List Orders</div></div>
+            <div><span style="text-transform: capitalize">{{$status ?? 'all'}}</span> Orders <span class="badge badge-pill badge-primary">{{ number_format($orders->total(), 0, "", ".") }}</span><div class="page-title-subheading">List <span style="text-transform: capitalize">{{$status ?? 'all'}} </span>Orders</div></div>
          </div>
          <div class="page-title-actions">
              <a href="{{ route('admin.orders.add') }}" class="btn-shadow btn btn-info btn-lg">Add Order</a>
@@ -114,13 +114,13 @@
                          <td>{{ $order->courier_id && $order->courier->name ? $order->courier->name : '-' }}</td>
                          @if($order->status == 'new')
                          <td><span class="badge badge-pill badge-info">{{ $order->status }}</span></td>
-                         @else
+                         @elseif($order->status)
                          <td><span class="badge badge-pill badge-success">{{ $order->status }}</span></td>
                          @endif
                          <td>
                           <a href="{{ route('admin.orders.detail',$order) }}" class="btn btn-primary btn-sm ion-android-clipboard" title="Details ?"></a>
-                          <a href="#" class="btn btn-warning btn-sm ion-android-create" title="Edit ?"></a>
-                          <button type="button" class="btn btn-danger btn-sm icon ion-android-close" title="Cancel ?"></button>   
+                          <a href="{{ route('admin.orders.edit',$order) }}" class="btn btn-warning btn-sm ion-android-create" title="Edit ?"></a>
+                          <button type="button" class="btn btn-danger btn-sm icon ion-android-close" title="Cancel ?"></button>
                          </td>
                      </tr>
                  @endforeach
