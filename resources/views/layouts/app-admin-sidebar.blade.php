@@ -59,6 +59,10 @@
             <li>
               <a class="coupons {{ count(request()->segments()) > 1 && request()->segments()[1] == 'coupon' ? 'mm-active' : '' }}" href="{{ route('admin.coupon.index') }}"><i class="metismenu-icon pe-7s-ticket"></i>Coupons</a>
             </li>
+            <li class="app-sidebar__heading">Log</li>
+            <li>
+              <a class="bannners {{ count(request()->segments()) > 1 && request()->segments()[1] == 'log' ? 'mm-active' : '' }}" href="{{ route('admin.log.order') }}"><i class="metismenu-icon pe-7s-bookmarks"></i>Log Order</a>
+            </li>
             <li class="app-sidebar__heading">Business</li>
             <li>
               <a class="tacs {{ count(request()->segments()) > 1 && request()->segments()[1] == 'tac' ? 'mm-active' : '' }}" href="{{ route('admin.tac') }}"><i class="metismenu-icon pe-7s-flag"></i>Terms and Conditions</a>
