@@ -20,6 +20,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     // orders
     Route::get('/orders/{status}', 'OrderController@index')->name('orders');
     Route::get('/orders/detail/{order:prefix}', 'OrderController@detail')->name('orders.detail');
+    Route::get('/orders/followUpMerchant/{order:prefix}', 'OrderController@FollowUpMerchant');
     Route::get('/orders', 'OrderController@all')->name('orders.all');
     Route::get('/order/add', 'OrderController@add')->name('orders.add');
     Route::post('/order/add', 'OrderController@store')->name('orders.store');
