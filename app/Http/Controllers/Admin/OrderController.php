@@ -152,4 +152,9 @@ class OrderController extends Controller
         Alert::success('Updated', 'Data Order Updated');
         return redirect('/admin/orders');
     }
+
+    public function FollowUpMerchant(Order $order)
+    {
+        return $this->ResultFollowUpMerchants($order);
+    }
 }
