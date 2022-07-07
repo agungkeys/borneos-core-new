@@ -121,7 +121,11 @@
                           <a href="{{ route('admin.orders.detail',$order) }}" class="btn btn-primary btn-sm ion-android-clipboard" title="Details ?"></a>
                           <a href="{{ route('admin.orders.edit',$order) }}" class="btn btn-warning btn-sm ion-android-create" title="Edit ?"></a>
                           <button type="button" class="btn btn-danger btn-sm icon ion-android-close" title="Cancel ?"></button>
-                         </td>
+                          @if($order->status == 'new')
+                          <button type="button" onclick="followUpMerchant({{ $order }})" class="btn btn-outline-secondary btn-sm icon ion-android-home mt-1" title="Follow up Merchant"></button>
+                          <button type="button" onclick="followUpCustomer({{ $order }})" class="btn btn-outline-warning btn-sm icon ion-android-contact mt-1" title="Follow up Customer"></button>
+                          @endif
+                        </td>
                      </tr>
                  @endforeach
              </tbody>
@@ -139,4 +143,32 @@
    </div>
    @include('sweetalert::alert')
  </div>
+@endsection
+@section('js')
+<script>
+  function followUpMerchant(val){
+    let phone = replacePhone(val.merchant.phone);
+    $.get(`/admin/orders/followUpMerchant/${val.prefix}`,function(res){
+      if(res.total > 0){
+        location.href = `https://wa.me/${phone}/?text=${res.message}`;
+      }else if(res.total == 0){
+        location.href = `https://wa.me/${phone}/?text=${res.message}`;
+      }
+    });
+  }
+  function followUpCustomer(val){
+    let merchantName = val.merchant.name, phone = replacePhone(val.customer_telp);
+    location.href = `https://wa.me/${phone}/?text=Halo%20kak%20kami%20telah%20menerima%20orderan%20untuk%20${merchantName}%20harap%20menunggu%20orderannya%20ya%20kak`;
+  }
+  function replacePhone(phone){
+    let twoDigitFront = phone.substring(0,2);
+    if(twoDigitFront == 08){
+        return "+628"+phone.substring(2,phone.length);
+    }else if(twoDigitFront == 62){
+      return '+'+phone;
+    }else if(twoDigitFront == '+6'){
+      return phone;
+    }
+  }
+</script>
 @endsection
