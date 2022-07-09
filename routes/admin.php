@@ -72,6 +72,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/master-payment/status/{id}/{status}', 'PaymentController@master_payment_status')->name('master-payment.status');
     Route::get('/master-payment/add', 'PaymentController@master_payment_add')->name('master-payment.add');
     Route::post('/master-payment/add', 'PaymentController@master_payment_store')->name('master-payment.store');
+    Route::get('/master-payment/edit/{payment:name}', 'PaymentController@master_payment_edit')->name('master-payment.edit');
+    Route::put('/master-payment/edit/{payment:name}', 'PaymentController@master_payment_update')->name('master-payment.update');
 
     //user admin
     Route::get('/master-user', 'UserController@master_user_index')->name('master-user');

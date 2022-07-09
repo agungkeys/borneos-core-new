@@ -62,4 +62,30 @@ class PaymentController extends Controller
         Alert::success("Success", "Created Successfully");
         return redirect()->route('admin.master-payment');
     }
+    public function master_payment_edit(Payment $payment)
+    {
+        return view('admin.payment.edit', compact('payment'));
+    }
+    public function master_payment_update(MasterPaymentRequest $request, Payment $payment)
+    {
+        if ($request->file('image')) {
+            $image = $this->UpdateImageCloudinary([
+                'image'      => $request->file('image'),
+                'folder'     => 'images/bank',
+                'collection' => $payment
+            ]);
+            $image_url = $image['url'];
+            $additional_image = $image['additional_image'];
+        }
+        $payment->update([
+            'name'             => $request->payment_name,
+            'type'             => $request->payment_type,
+            'account_name'     => $request->account_name,
+            'account_no'       => $request->account_no,
+            'image'            => $image_url ?? $payment->image,
+            'additional_image' => $additional_image ?? $payment->additional_image
+        ]);
+        Alert::success("Success", "Updated Successfully");
+        return redirect()->route('admin.master-payment');
+    }
 }
