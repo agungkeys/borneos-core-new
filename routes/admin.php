@@ -16,7 +16,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
   Route::group(['middleware' => ['auth:admin']], function () {
     //dashboard
     Route::get('/', 'DashboardController@dashboard')->name('dashboard');
-    
+
     // orders
     Route::get('/orders/{status}', 'OrderController@index')->name('orders');
     Route::get('/orders/detail/{order:prefix}', 'OrderController@detail')->name('orders.detail');
@@ -66,6 +66,10 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/master-product/{id}', 'ProductController@master_product_edit')->name('master-product.edit');
     Route::put('/master-product/{id}', 'ProductController@master_product_update')->name('master-product.update');
     Route::delete('/master-product/{id}', 'ProductController@master_product_delete')->name('master-product.delete');
+
+    //payment
+    Route::get('/master-payment', 'PaymentController@master_payment_index')->name('master-payment');
+    Route::get('/master-payment/status/{id}/{status}', 'PaymentController@master_payment_status')->name('master-payment.status');
 
     //user admin
     Route::get('/master-user', 'UserController@master_user_index')->name('master-user');
