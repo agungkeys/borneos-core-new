@@ -70,6 +70,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     //payment
     Route::get('/master-payment', 'PaymentController@master_payment_index')->name('master-payment');
     Route::get('/master-payment/status/{id}/{status}', 'PaymentController@master_payment_status')->name('master-payment.status');
+    Route::get('/master-payment/add', 'PaymentController@master_payment_add')->name('master-payment.add');
+    Route::post('/master-payment/add', 'PaymentController@master_payment_store')->name('master-payment.store');
 
     //user admin
     Route::get('/master-user', 'UserController@master_user_index')->name('master-user');
