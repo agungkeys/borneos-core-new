@@ -11,7 +11,7 @@
             <div>Master Payment <span class="badge badge-pill badge-primary">{{ number_format($payments->total(), 0, "", ".") }}</span><div class="page-title-subheading">List Master Payment</div></div>
          </div>
          <div class="page-title-actions">
-             <a href="#" class="btn-shadow btn btn-info btn-lg">Add Payment</a>
+             <a href="{{ route('admin.master-payment.add') }}" class="btn-shadow btn btn-info btn-lg">Add Payment</a>
          </div>
       </div>
    </div>
