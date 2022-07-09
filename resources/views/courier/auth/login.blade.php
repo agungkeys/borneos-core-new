@@ -45,15 +45,15 @@
               <image src="{{env('PUBLIC_IMAGE')}}/images/logo.svg" />
               <div class="ml-2">
                 <h5 class="mb-0 t-bold">Borneos</h5>
-                <h5 class="mb-0">Merchant</h5>
+                <h5 class="mb-0">Courier</h5>
                 <h5 class="mb-0">Management</h5>
               </div>
             </div>
-            <h4 class="mb-0"><span class="d-block">Hi Selamat Datang,</span><span>Silahkan masuk ke akun merchant anda</span></h4>
+            <h4 class="mb-0"><span class="d-block">Hi Selamat Datang,</span><span>Silahkan masuk ke akun kurir anda</span></h4>
             <!-- <h6 class="mt-3">Tidak memiliki akun? <a href="#" class="text-primary">Daftar Sekarang</a></h6> -->
             <div class="divider row"></div>
             <div>
-              <form class="" method="POST" action="{{route('merchant.auth.login')}}">
+              <form class="" method="POST" action="{{route('courier.auth.login')}}">
                 @csrf
                 <div class="form-row">
                   <div class="col-md-6">
@@ -79,17 +79,12 @@
                     </div>
                   </div>
                 </div>
-                <div class="position-relative form-check">
-                  <!-- <input name="remember" id="remember" type="checkbox" class="form-check-input" {{ old('remember') ? 'checked' : ''}} />
-                  <label class="form-check-label" for="remember" class="form-check-label">Keep me logged in</label> -->
-
-                </div>
                 <div class="divider row"></div>
                 <div class="d-flex align-items-center">
                   <div class="ml-auto">
                     <!-- <a href="javascript:void(0);" class="btn-lg btn btn-link">Hubungi Admin Borneos</a> -->
-                    <button class="btn btn-primary btn-lg" type="submit">Login Merchant</button>
-                    <a href="{{ route('merchant.auth.register') }}" class="ml-2 btn btn-warning btn-lg">Daftar Mitra Merchant</a>
+                    <button class="btn btn-primary btn-lg" type="submit">Masuk</button>
+                    <a class="ml-2 btn btn-secondary btn-lg text-white">Daftar Mitra Kurir</a>
                   </div>
                 </div>
               </form>

@@ -35,6 +35,11 @@ class RedirectIfAuthenticated
         // }
 
         switch ($guard) {
+          case 'courier':
+            if (Auth::guard($guard)->check()) {
+              return redirect()->route('courier.dashboard');
+            }
+            break;
           case 'merchant':
             if (Auth::guard($guard)->check()) {
               return redirect()->route('merchant.dashboard');

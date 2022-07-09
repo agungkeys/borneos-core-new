@@ -7,7 +7,7 @@
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>Borneos Merchant Management - Dari Borneos Untuk UKM Indonesia</title>
+  <title>Borneos Courier Management - Dari Borneos Untuk UKM Indonesia</title>
 
   <!-- Scripts -->
 
@@ -17,9 +17,7 @@
 
   <!-- Styles -->
   <link href="{{asset(env('PUBLIC_ASSETS').'css/base.min.css')}}" rel="stylesheet">
-  <link href="{{asset(env('PUBLIC_ASSETS').'css/borneos.css')}}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
 </head>
 <body>
   <div id="app">

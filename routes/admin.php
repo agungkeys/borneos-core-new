@@ -16,6 +16,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
   Route::group(['middleware' => ['auth:admin']], function () {
     //dashboard
     Route::get('/', 'DashboardController@dashboard')->name('dashboard');
+    
     // orders
     Route::get('/orders/{status}', 'OrderController@index')->name('orders');
     Route::get('/orders/detail/{order:prefix}', 'OrderController@detail')->name('orders.detail');
@@ -35,6 +36,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::delete('/master-category/{id}', 'CategoryController@master_category_delete')->name('master-category.delete');
     Route::get('/master-category/status/{id}/{status}', 'CategoryController@master_category_status')->name('master-category.status');
 
+    //sub category
     Route::get('/master-sub-category', 'CategoryController@master_sub_category_index')->name('master-sub-category');
     Route::get('/master-sub-category/add', 'CategoryController@master_sub_category_add')->name('master-sub-category.add');
     Route::post('/master-sub-category/add', 'CategoryController@master_sub_category_store')->name('master-sub-category.store');
@@ -43,6 +45,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::delete('/master-sub-category/{id}', 'CategoryController@master_sub_category_delete')->name('master-sub-category.delete');
     Route::get('/master-sub-category/status/{id}/{status}', 'CategoryController@master_sub_category_status')->name('master-sub-category.status');
 
+    //sub sub category
     Route::get('/master-sub-sub-category', 'CategoryController@master_sub_sub_category_index')->name('master-sub-sub-category');
     Route::get('/master-sub-sub-category/add', 'CategoryController@master_sub_sub_category_add')->name('master-sub-sub-category.add');
     Route::post('/master-sub-sub-category', 'CategoryController@master_sub_sub_category_store')->name('master-sub-sub-category.store');
@@ -51,6 +54,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::delete('/master-sub-sub-category/{id}', 'CategoryController@master_sub_sub_category_delete')->name('master-sub-sub-category.delete');
     Route::get('/master-sub-sub-category/status/{id}/{status}', 'CategoryController@master_sub_sub_category_status')->name('master-sub-sub-category.status');
 
+    //products
     Route::get('/master-product', 'ProductController@master_product_index')->name('master-product');
     Route::get('/master-product/datasource', 'ProductController@master_product_datasource')->name('master-product-get');
     Route::get('/master-product/status/{id}/{status}', 'ProductController@master_product_status')->name('product.status');
@@ -63,6 +67,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::put('/master-product/{id}', 'ProductController@master_product_update')->name('master-product.update');
     Route::delete('/master-product/{id}', 'ProductController@master_product_delete')->name('master-product.delete');
 
+    //user admin
     Route::get('/master-user', 'UserController@master_user_index')->name('master-user');
     Route::get('/master-user/status/{id}/{status}', 'UserController@master_user_status')->name('master-user.status');
     Route::get('/master-user/add', 'UserController@master_user_add')->name('master-user.add');
@@ -71,6 +76,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::put('/master-user/{id}', 'UserController@master_user_update')->name('master-user.update');
     Route::delete('/master-user/{id}', 'UserController@master_user_delete')->name('master-user.delete');
 
+    //user merchant
     Route::get('/master-merchant', 'MerchantController@master_merchant_index')->name('master-merchant');
     Route::get('/master-merchant/add', 'MerchantController@master_merchant_add')->name('master-merchant.add');
     Route::post('/master-merchant/add', 'MerchantController@master_merchant_store')->name('master-merchant.store');
@@ -88,6 +94,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::post('settings-password', 'SystemController@settings_password_update')->name('settings-password');
     Route::get('/get-restaurant-data', 'SystemController@restaurant_data')->name('get-restaurant-data');
 
+    //banner
     Route::resource('banner', 'BannerController');
     Route::get('/master-banner/status/{id}/{status}', 'BannerController@master_banner_status')->name('banner.status');
     Route::resource('coupon', 'CouponController');
@@ -95,6 +102,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::resource('courier', 'CourierController');
     Route::get('/master-courier/status/{id}/{status}', 'CourierController@master_courier_status')->name('courier.status');
 
+    //tac
     Route::get('tac', 'TACController@tac_index')->name('tac');
     Route::get('tac/status/{id}/{status}', 'TACController@tac_status')->name('tac.status');
     Route::get('tac/create', 'TACController@tac_create')->name('tac.create');
@@ -103,6 +111,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::put('tac/update/{id}', 'TACController@tac_update')->name('tac.update');
     Route::delete('tac/delete/{id}', 'TACController@tac_delete')->name('tac.delete');
 
+    //privacy policy
     Route::get('privacy-policy', 'PrivacyController@privacy_index')->name('privacy-policy');
     Route::get('privacy-policy/status/{id}/{status}', 'PrivacyController@privacy_status')->name('privacy-policy.status');
     Route::get('privacy-policy/create', 'PrivacyController@privacy_create')->name('privacy-policy.create');
@@ -111,6 +120,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::put('privacy-policy/update/{id}', 'PrivacyController@privacy_update')->name('privacy-policy.update');
     Route::delete('privacy-policy/delete/{id}', 'PrivacyController@privacy_delete')->name('privacy-policy.delete');
 
+    //faq
     Route::get('faq', 'FaqController@faq_index')->name('faq');
     Route::get('faq/status/{id}/{status}', 'FaqController@faq_status')->name('faq.status');
     Route::get('faq/create', 'FaqController@faq_create')->name('faq.create');
@@ -119,9 +129,13 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::put('faq/update/{id}', 'FaqController@faq_update')->name('faq.update');
     Route::delete('faq/delete/{id}', 'FaqController@faq_delete')->name('faq.delete');
 
+    //general
     Route::get('general', 'GeneralController@general_index')->name('general');
     Route::get('general/maintenance/{id}/{maintenance_mode}', 'GeneralController@general_maintenance')->name('general.maintenance');
     Route::post('general/store', 'GeneralController@general_store')->name('general.store');
     Route::put('general/update/{id}', 'GeneralController@general_update')->name('general.update');
+
+    //log
+    Route::get('log/order', 'LogOrderController@index')->name('log.order');
   });
 });
