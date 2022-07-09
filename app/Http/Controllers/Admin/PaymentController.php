@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MasterPaymentRequest;
 use App\Http\Traits\CloudinaryImage;
 use App\Models\Payment;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -87,5 +88,14 @@ class PaymentController extends Controller
         ]);
         Alert::success("Success", "Updated Successfully");
         return redirect()->route('admin.master-payment');
+    }
+    public function master_payment_delete(Payment $payment)
+    {
+        if (substr($payment->image, 0, 4) == 'http') {
+            $key = json_decode($payment->additional_image);
+            Cloudinary::destroy($key->public_id);
+        }
+        $payment->delete();
+        return response()->json(['status' => 200]);
     }
 }
