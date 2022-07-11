@@ -40,7 +40,7 @@
           <div class="widget-content">
             <div class="widget-content-wrapper">
               <div class="widget-content-right ml-0 mr-3">
-                <div class="widget-numbers text-primary">96</div>
+                <div class="widget-numbers text-primary">{{ $ordersCount->new }}</div>
               </div>
               <div class="widget-content-left">
                 <div class="widget-heading">New</div>
@@ -54,7 +54,7 @@
           <div class="widget-content">
             <div class="widget-content-wrapper">
               <div class="widget-content-right ml-0 mr-3">
-                <div class="widget-numbers text-info">100</div>
+                <div class="widget-numbers text-info">{{ $ordersCount->processing }}</div>
               </div>
               <div class="widget-content-left">
                 <div class="widget-heading">Process</div>
@@ -68,7 +68,7 @@
           <div class="widget-content">
             <div class="widget-content-wrapper">
               <div class="widget-content-right ml-0 mr-3">
-                <div class="widget-numbers text-dark">34</div>
+                <div class="widget-numbers text-dark">{{ $ordersCount->otw }}</div>
               </div>
               <div class="widget-content-left">
                 <div class="widget-heading">OTW</div>
@@ -82,7 +82,7 @@
           <div class="widget-content">
             <div class="widget-content-wrapper">
               <div class="widget-content-right ml-0 mr-3">
-                <div class="widget-numbers text-success">61</div>
+                <div class="widget-numbers text-success">{{ $ordersCount->delivered }}</div>
               </div>
               <div class="widget-content-left">
                 <div class="widget-heading">Delivered</div>
@@ -96,7 +96,7 @@
           <div class="widget-content">
             <div class="widget-content-wrapper">
               <div class="widget-content-right ml-0 mr-3">
-                <div class="widget-numbers text-danger">4</div>
+                <div class="widget-numbers text-danger">{{ $ordersCount->cancel }}</div>
               </div>
               <div class="widget-content-left">
                 <div class="widget-heading">Canceled</div>
@@ -110,7 +110,7 @@
           <div class="widget-content">
             <div class="widget-content-wrapper">
               <div class="widget-content-right ml-0 mr-3">
-                <div class="widget-numbers text-alternate">400</div>
+                <div class="widget-numbers text-alternate">{{ $ordersCount->all }}</div>
               </div>
               <div class="widget-content-left">
                 <div class="widget-heading">All Orders</div>
