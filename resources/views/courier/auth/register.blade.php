@@ -139,6 +139,7 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroupFileAddon01">Unggah Gambar</span>
+                                            <img id="imgPreviewIdentity" style="max-height:38px;min-width:126.5px;max-width:126.5px;border:1px solid #ced4da" hidden alt=""/>
                                         </div>
                                         <div class="custom-file">
                                             <input type="file" accept="image/*" onchange="previewImageOnIdentity()"" class="custom-file-input" id="identity_image" name="identity_image" aria-describedby="inputGroupFileAddon01">
@@ -149,11 +150,12 @@
                                     <label for="profile_image">Gambar Profil</label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroupFileAddon03">Unggah Gambar</span>
+                                            <span class="input-group-text" id="inputGroupFileAddon02">Unggah Gambar</span>
+                                            <img id="imgPreviewProfile" style="max-height:38px;min-width:126.5px;max-width:126.5px;border:1px solid #ced4da" hidden alt=""/>
                                         </div>
                                         <div class="custom-file">
-                                            <input type="file" accept="image/*" onchange="previewImageOnProfile()"" class="custom-file-input" id="profile_image" name="profile_image" aria-describedby="inputGroupFileAddon01">
-                                            <label class="custom-file-label" for="inputGroupFile03">Pilih File</label>
+                                            <input type="file" accept="image/*" onchange="previewImageOnProfile()"" class="custom-file-input" id="profile_image" name="profile_image" aria-describedby="inputGroupFileAddon02">
+                                            <label class="custom-file-label" for="inputGroupFile02">Pilih File</label>
                                         </div>
                                     </div>
 
@@ -213,10 +215,14 @@
     $('#identity_image').on('change',function(e){
         var fileName = e.target.files[0].name;
         $(this).next('.custom-file-label').html(fileName);
+        document.getElementById('inputGroupFileAddon01').style.display = 'none';
+        imgPreviewIdentity.removeAttribute("hidden");
     })
     $('#profile_image').on('change',function(e){
         var fileName = e.target.files[0].name;
         $(this).next('.custom-file-label').html(fileName);
+        document.getElementById('inputGroupFileAddon02').style.display = 'none';
+        imgPreviewProfile.removeAttribute("hidden");
     })
     function previewImageOnIdentity() {
         imgPreviewIdentity.src=URL.createObjectURL(event.target.files[0])
