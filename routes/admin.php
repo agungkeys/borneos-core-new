@@ -16,10 +16,11 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
   Route::group(['middleware' => ['auth:admin']], function () {
     //dashboard
     Route::get('/', 'DashboardController@dashboard')->name('dashboard');
-    
+
     // orders
     Route::get('/orders/{status}', 'OrderController@index')->name('orders');
     Route::get('/orders/detail/{order:prefix}', 'OrderController@detail')->name('orders.detail');
+    Route::get('/orders/followUpMerchant/{order:prefix}', 'OrderController@FollowUpMerchant');
     Route::get('/orders', 'OrderController@all')->name('orders.all');
     Route::get('/order/add', 'OrderController@add')->name('orders.add');
     Route::post('/order/add', 'OrderController@store')->name('orders.store');
@@ -65,6 +66,15 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/master-product/{id}', 'ProductController@master_product_edit')->name('master-product.edit');
     Route::put('/master-product/{id}', 'ProductController@master_product_update')->name('master-product.update');
     Route::delete('/master-product/{id}', 'ProductController@master_product_delete')->name('master-product.delete');
+
+    //payment
+    Route::get('/master-payment', 'PaymentController@master_payment_index')->name('master-payment');
+    Route::get('/master-payment/status/{id}/{status}', 'PaymentController@master_payment_status')->name('master-payment.status');
+    Route::get('/master-payment/add', 'PaymentController@master_payment_add')->name('master-payment.add');
+    Route::post('/master-payment/add', 'PaymentController@master_payment_store')->name('master-payment.store');
+    Route::get('/master-payment/edit/{payment:name}', 'PaymentController@master_payment_edit')->name('master-payment.edit');
+    Route::put('/master-payment/edit/{payment:name}', 'PaymentController@master_payment_update')->name('master-payment.update');
+    Route::delete('/master-payment/{payment:id}', 'PaymentController@master_payment_delete')->name('master-payment.delete');
 
     //user admin
     Route::get('/master-user', 'UserController@master_user_index')->name('master-user');

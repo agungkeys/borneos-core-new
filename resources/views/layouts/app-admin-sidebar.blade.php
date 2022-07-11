@@ -46,6 +46,9 @@
               <a class="master-product {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-product' ? 'mm-active' : '' }}" href="{{ route('admin.master-product') }}"><i class="metismenu-icon pe-7s-box2"></i>Product</a>
             </li>
             <li>
+              <a class="master-payment {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-payment' ? 'mm-active' : '' }}" href="{{ route('admin.master-payment') }}"><i class="metismenu-icon pe-7s-credit"></i>Payment</a>
+            </li>
+            <li>
               <a class="master-courier {{ count(request()->segments()) > 1 && request()->segments()[1] == 'courier' ? 'mm-active' : '' }}" href="{{ route('admin.courier.index') }}" ><i class="metismenu-icon pe-7s-users"></i>User Courier</a>
             </li>
             <li>
