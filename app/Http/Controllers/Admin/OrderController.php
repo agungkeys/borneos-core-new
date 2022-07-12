@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderAdminRequest;
 use App\Http\Traits\Orders;
-use App\Models\{Courier, Merchant, Order, OrderDetail};
+use App\Models\{Courier, Merchant, Order, OrderDetail, Payment};
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -70,7 +71,8 @@ class OrderController extends Controller
     {
         return view('admin.orders.add', [
             'couriers'  => Courier::all(),
-            'merchants' => Merchant::all()
+            'merchants' => Merchant::all(),
+            'payments'  => Payment::where(['status' => 1])->get()
         ]);
     }
 
@@ -81,23 +83,8 @@ class OrderController extends Controller
             'order_details' => OrderDetail::where('order_id', $order->id)->get()
         ]);
     }
-    public function store(Request $request)
+    public function store(OrderAdminRequest $request)
     {
-        $request->validate([
-            'customer_name'        => 'required',
-            'customer_telp'        => 'required|numeric',
-            'customer_address'     => 'required',
-            'merchant'             => 'required',
-            'order_type'           => 'required',
-            'distance'             => 'required',
-            'total_item'           => 'required|numeric',
-            'latitude'             => 'required',
-            'longitude'            => 'required',
-            'total_distance_price' => 'required|numeric',
-            'total_item_price'     => 'required|numeric',
-            'total_price'          => 'required|numeric',
-            'payment_total'        => 'required|numeric'
-        ]);
         $order = new Order();
         $order->prefix = $this->GeneratePrefix();
         $order->order_type = $request->order_type;
@@ -114,10 +101,10 @@ class OrderController extends Controller
         $order->total_item_price = $request->total_item_price;
         $order->total_distance_price = $request->total_distance_price;
         $order->total_price = $request->total_price;
-        $order->payment_type = $request->payment_type;
+        $order->payment_type = $request->payment_type ?? '';
         $order->payment_total = $request->payment_total;
-        $order->payment_bank_name = $request->payment_bank_name ?? '';
-        $order->payment_account_number = $request->payment_account_number ?? '';
+        $order->payment_bank_name = $request->payment_type == 'cash' ? '' : $request->payment_bank_name ?? '';
+        $order->payment_account_number = $request->payment_type == 'cash' ? '' : $request->payment_account_number ?? '';
         $order->payment_status = $request->payment_status;
         $order->status = $request->payment_status == 'paid' ? 'processing' : 'new';
         $order->save();

@@ -75,6 +75,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/master-payment/edit/{payment:name}', 'PaymentController@master_payment_edit')->name('master-payment.edit');
     Route::put('/master-payment/edit/{payment:name}', 'PaymentController@master_payment_update')->name('master-payment.update');
     Route::delete('/master-payment/{payment:id}', 'PaymentController@master_payment_delete')->name('master-payment.delete');
+    Route::get('/master-payment/{id}', 'PaymentController@master_payment_show');
 
     //user admin
     Route::get('/master-user', 'UserController@master_user_index')->name('master-user');

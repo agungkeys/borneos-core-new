@@ -103,8 +103,10 @@
                          <td><span class="badge badge-pill badge-success">{{ $order->payment_type }}</span></td>
                          @elseif($order->payment_type == 'transfer')
                          <td><span class="badge badge-pill badge-primary">{{ $order->payment_type }}</span></td>
+                         @elseif(!$order->payment_type)
+                         <td> - </td>
                          @else
-                         <td><span class="badge badge-pill badge-secondary">{{ $order->payment_type }}</span></td>
+                        <td><span class="badge badge-pill badge-secondary">{{ $order->payment_type }}</span></td>
                          @endif
                          @if($order->payment_status == 'paid')
                          <td><span class="badge badge-pill badge-success">{{ $order->payment_status }}</span></td>
