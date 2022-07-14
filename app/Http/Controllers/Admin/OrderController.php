@@ -80,6 +80,7 @@ class OrderController extends Controller
     {
         return view('admin.orders.detail', [
             'order'         => $order,
+            'payments'      => Payment::where('status', 1)->get(),
             'order_details' => OrderDetail::where('order_id', $order->id)->get()
         ]);
     }
@@ -138,6 +139,24 @@ class OrderController extends Controller
         }
         Alert::success('Updated', 'Data Order Updated');
         return redirect('/admin/orders');
+    }
+    public function updatePaymentFromPageDetail(Order $order)
+    {
+        if (request('update_payment_status') == 'unpaid') {
+            $order->update(['payment_status' => request('update_payment_status')]);
+        } else {
+            if (request('payment_method') == null) {
+                $order->update(['payment_status' => request('update_payment_status')]);
+            } else {
+                $order->update([
+                    'payment_status' => request('update_payment_status'),
+                    'payment_bank_name' => request('payment_bank_name'),
+                    'payment_account_number' => request('payment_account_number')
+                ]);
+            }
+        }
+        Alert::success('Data Updated', 'success');
+        return back();
     }
 
     public function FollowUpMerchant(Order $order)
