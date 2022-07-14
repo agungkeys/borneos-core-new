@@ -23,7 +23,7 @@ class Order extends Model
     public $sortable = [
         'id', 'merchant_id', 'customer_name', 'customer_telp', 'order_type', 'customer_address',
         'customer_notes', 'total_item', 'total_item_price', 'total_distance_price', 'total_price',
-        'payment_type', 'payment_status'
+        'payment_type', 'payment_status', 'status'
     ];
 
     public function merchant()

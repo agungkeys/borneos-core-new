@@ -7,7 +7,7 @@
             </li>
             <li class="app-sidebar__heading">Orders</li>
             <li>
-              <a class="all" href="#"><i class="metismenu-icon pe-7s-news-paper"></i>All</a>
+              <a class="all {{ count(request()->segments()) == 1 && request()->segments()[0] == 'master-order' ? 'mm-active' : '' }}" href="{{ route('merchant.master-order') }}"><i class="metismenu-icon pe-7s-news-paper"></i>All</a>
             </li>
             <li class="app-sidebar__heading">Master Data</li>
             <li>
