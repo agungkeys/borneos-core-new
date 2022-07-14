@@ -11,6 +11,9 @@ class Vendor extends Authenticatable
 {
     use Notifiable;
 
+    protected $fillable = ['status'];
+
+
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
