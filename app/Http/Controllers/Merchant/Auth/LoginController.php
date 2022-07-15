@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Merchant\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use Illuminate\Http\Request;
 use App\Models\Vendor;
 use App\Models\Merchant;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Mail;
 
 class LoginController extends Controller
 {
@@ -168,14 +169,25 @@ class LoginController extends Controller
         return redirect()->route('merchant.auth.thanks.page');
     }
 
-    public function thanks()
-    {
-        return view('merchant.auth.thanks');
-    }
-
     public function logout(Request $request)
     {
         auth()->guard('merchant')->logout();
+        return redirect()->route('merchant.auth.login');
+    }
+
+    public function verify($id)
+    {
+        $merchant=Vendor::where('auth_token',$id)->first();
+
+        $merchant->update([
+            'status'                => 1,
+            'email_verified_at'     => date('Y-m-d H:i:s')
+        ]);
+        Merchant::where('email',$merchant->email)->update([
+            'status'    => 1,
+            'active'    => 1
+        ]);
+        Alert::success('Email Anda Telah Terverifikasi', 'Silahkan Login');
         return redirect()->route('merchant.auth.login');
     }
 }
