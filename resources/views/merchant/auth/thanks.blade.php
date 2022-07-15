@@ -51,7 +51,7 @@
                         <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
                     </div>
                     <div class="results-subtitle mt-4">Registrasi berhasil !</div>
-                    <div class="results-title"><strong>Tolong cek email anda</strong> untuk mengaktivasi akun anda.</div>
+                    <div class="results-title"><strong>Tolong cek email anda {{ $vendor->email }}</strong> untuk mengaktivasi akun anda.</div>
                     <div class="mt-3 mb-3"></div>
                     <div class="text-center">
                         <a href="{{ route('merchant.auth.login') }}" class="btn-shadow btn-wide btn btn-success btn-lg">Finish</a>
