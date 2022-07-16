@@ -66,5 +66,7 @@ Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
     Route::get('/master-product/{id}', 'ProductController@master_product_edit')->name('master-product.edit');
     Route::put('/master-product/{id}', 'ProductController@master_product_update')->name('master-product.update');
     Route::delete('/master-product/{id}', 'ProductController@master_product_delete')->name('master-product.delete');
+
+    Route::get('/orders/all', 'OrderController@index')->name('master-order');
   });
 });
