@@ -150,7 +150,18 @@ function setCoordinate() {
     document.getElementById("latitude").value = latitudeField;
     document.getElementById("longitude").value = longitudeField;
     document.getElementById("btnCoordinate").innerHTML = "Edit Coordinate";
-    document.getElementById("btnCoordinateRegister").innerHTML = "Edit Coordinate";
+}
+
+function setCoordinate() {
+    const latitudeField = document.getElementById("address-latitude").value;
+    const longitudeField = document.getElementById("address-longitude").value;
+    document.cookie = "lat=" + latitudeField;
+    document.cookie = "lng=" + longitudeField;
+    document.getElementById("address-latitude").value = latitudeField;
+    document.getElementById("address-longitude").value = longitudeField;
+    document.getElementById("latitude").value = latitudeField;
+    document.getElementById("longitude").value = longitudeField;
+    document.getElementById("btnCoordinateRegister").innerHTML = "Ubah Koordinat";
 }
 
 function deleteCoordinate() {
@@ -170,5 +181,5 @@ function deleteCoordinateRegister() {
     document.getElementById("address-longitude").value = "";
     document.getElementById("latitude").value = "";
     document.getElementById("longitude").value = "";
-    document.getElementById("btnCoordinateRegister").innerHTML = "Tambah Coordinate";
+    document.getElementById("btnCoordinateRegister").innerHTML = "Tambah Koordinat";
 }

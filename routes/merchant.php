@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Models\Category;
+use App\Models\Vendor;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 
 Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
   /*authentication*/
@@ -16,7 +19,15 @@ Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
       $course = Category::where('parent_id', $id)->where('position', 1)->get();
       return response()->json($course);
     });
-    Route::get('thanks', 'LoginController@thanks')->name('thanks.page');
+    Route::get('thanks/{id}', function($id){
+        $vendor = Vendor::where('auth_token', $id)->first();
+        $details = [
+            'button' => $vendor->auth_token
+        ];
+        Mail::to($vendor->email)->send(new \App\Mail\SendEmailRegister($details));
+        return view('merchant.auth.thanks',compact('vendor'));
+    });
+    Route::get('/verify/{id}', 'LoginController@verify')->name('verify');
   });
   /*authentication*/
   Route::group(['middleware' => ['auth:merchant']], function () {
