@@ -166,7 +166,7 @@ class LoginController extends Controller
             'pos_system'            => 0,
             'cash_on_delivery'      => 0
         ]);
-        return redirect()->route('merchant.auth.thanks.page');
+        return redirect()->route('merchant.auth.thanks', ['id' => $vendor->id]);
     }
 
     public function logout(Request $request)

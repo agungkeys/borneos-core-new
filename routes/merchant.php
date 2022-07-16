@@ -20,13 +20,13 @@ Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
       return response()->json($course);
     });
     Route::get('thanks/{id}', function($id){
-        $vendor = Vendor::where('auth_token', $id)->first();
+        $vendor = Vendor::where('id', $id)->first();
         $details = [
             'button' => $vendor->auth_token
         ];
         Mail::to($vendor->email)->send(new \App\Mail\SendEmailRegister($details));
         return view('merchant.auth.thanks',compact('vendor'));
-    });
+    })->name('thanks');
     Route::get('/verify/{id}', 'LoginController@verify')->name('verify');
   });
   /*authentication*/
