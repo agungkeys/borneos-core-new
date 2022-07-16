@@ -98,4 +98,10 @@ class PaymentController extends Controller
         $payment->delete();
         return response()->json(['status' => 200]);
     }
+
+    public function master_payment_show($id)
+    {
+        $payment = Payment::where(['id' => $id])->get()[0];
+        return response()->json(compact('payment'));
+    }
 }

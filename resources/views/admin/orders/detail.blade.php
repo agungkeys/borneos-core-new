@@ -225,15 +225,120 @@
     </div>
 
     <div class="main-card mb-3 card" style="border-radius: 1.5em;">
-       <div class="card-body p-4">
+      <div class="card-body p-4">
            <div class="row">
                <div class="col-12 col-lg-6 col-md-6 col-sm-12">
-                   <h3 class="card-title">Status Order</h3>
-
+                   <h3 class="card-title">Payment</h3>
                </div>
            </div>
+           <form action="{{ route('admin.orders.detail.update',$order) }}" method="post">
+                @method('PUT')
+                @csrf
+               <div class="row mt-2">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Payment Status: </label>
+                            <div id="payment_status" style="border-radius: 10px"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="update_payment_status">Update Payment Status:</label>
+                            <select name="update_payment_status" id="update_payment_status" class="js-data-example-ajax multiselect-dropdown form-control">
+                                <option {{ $order->payment_status == 'paid' ? 'selected':'' }} value="paid">Paid</option>
+                                <option {{ $order->payment_status == 'unpaid' ? 'selected':'' }} value="unpaid">Unpaid</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="payment_method">Payment Method</label>
+                        <select name="payment_method" id="payment_method" class="js-data-example-ajax multiselect-dropdown form-control">
+                               <option value="">Choose One!</option>
+                               @foreach ($payments as $payment)
+                                   <option {{ $order->payment_account_number == $payment->account_no ? $order->payment_account_number == '' ? '':'selected':'' }} value="{{ $payment->id }}">{{ $payment->name }}</option>
+                               @endforeach
+                        </select>
+                    </div>
+               </div>
+               <div class="row">
+                    <div class="col-md-3">
+                        <label>Payment Type:</label>
+                        <div id="payment_type" style="border-radius:10px"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="payment_bank_name">Payment Bank Name</label>
+                            <input type="text" name="payment_bank_name" id="payment_bank_name" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="payment_account_number">Payment Account Number</label>
+                            <input type="text" name="payment_account_number" id="payment_account_number" class="form-control" readonly>
+                        </div>
+                    </div>
+                   
+               </div>
+                <div class="text-right mt-2">
+                    <a href="/admin/orders" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
+                    <button type="submit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Update</button>
+                </div>
+           </form>
        </div>
      </div>
    @include('sweetalert::alert')
  </div>
+@endsection
+@section('js')
+    <script type="text/javascript">
+        $(document).ready(function(){
+            let PaymentMethod = $('#payment_method').val();
+            onChangePaymentStatus($('#update_payment_status').val());
+            $('#update_payment_status').change(function(e){
+                onChangePaymentStatus(e.target.value);
+            });
+            $('#payment_method').change(function(e){
+                $.get(`/admin/master-payment/${e.target.value}`,function(res){
+                    onChangePaymentType(res.payment.type,res.payment.name,res.payment.account_no);
+                });
+            });
+            if(PaymentMethod){
+                $.get(`/admin/master-payment/${PaymentMethod}`,function(res){
+                    onChangePaymentType(res.payment.type,res.payment.name,res.payment.account_no);
+                });
+            }
+        });
+        function onChangePaymentType(paymentType,paymentName,paymentAccountNo){
+            if(paymentType == 'cash'){
+                $('#payment_type').attr('class','alert alert-info');
+                $('#payment_type').html(`<b>${capitalize(paymentType)}</b>`);
+                $('#payment_bank_name').val('');
+                $('#payment_account_number').val('');
+            }else{
+                $('#payment_type').attr('class','alert alert-success');
+                $('#payment_type').html(`<b>${capitalize(paymentType)}</b>`);
+                $('#payment_bank_name').val(paymentName);
+                $('#payment_account_number').val(paymentAccountNo);
+            }
+        }
+        function capitalize(s) {
+            return s[0].toUpperCase() + s.substr(1);
+        }
+
+        function onChangePaymentStatus(val){
+             if(val == 'paid'){
+                $('#payment_status').attr('class','alert alert-info');
+                $('#payment_status').html('<b>Paid</b>');
+                $('#payment_method').attr('disabled',false);
+            }else{
+                $('#payment_status').attr('class','alert alert-danger');
+                $('#payment_status').html('<b>Unpaid</b>');
+                $('#payment_method').attr('disabled',true);
+                $('#payment_type').attr('class','');
+                $('#payment_type').text('');
+                $('#payment_bank_name').val('');
+                $('#payment_account_number').val('');
+            }
+        }
+    </script>
 @endsection

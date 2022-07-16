@@ -168,14 +168,9 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="payment_type">Payment Type</label>
-                        <select name="payment_type" id="payment_type" class="js-data-example-ajax multiselect-dropdown form-control">
-                            <option disabled selected value="">Choose One!</option>
-                            <option value="cash">Cash</option>
-                            <option value="transfer">Transfer</option>
-                            <option value="digital">Digital</option>
-                        </select>
-                        @error('payment_type')
+                        <label for="payment_total">Payment Total</label>
+                        <input type="number" name="payment_total" id="payment_total" class="form-control" placeholder="Payment Total">
+                        @error('payment_total')
                             <div class="text-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
@@ -195,9 +190,14 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="payment_total">Payment Total</label>
-                        <input type="number" name="payment_total" id="payment_total" class="form-control" placeholder="Payment Total">
-                        @error('payment_total')
+                        <label for="payment_method">Payment Method</label>
+                        <select name="payment_method" id="payment_method" class="js-data-example-ajax multiselect-dropdown form-control" disabled>
+                            <option disabled selected value="">Choose One!</option>
+                            @foreach ($payments as $payment)
+                                <option value="{{ $payment->id }}">{{ $payment->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('payment_account_number')
                             <div class="text-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
@@ -206,8 +206,17 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
+                        <label for="payment_type">Payment Type</label>
+                        <input type="text" name="payment_type" id="payment_type" class="form-control" readonly>
+                        @error('payment_type')
+                            <div class="text-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
                         <label for="payment_bank_name">Payment Bank Name</label>
-                        <input type="text" name="payment_bank_name" id="payment_bank_name" class="form-control" placeholder="Payment Bank Name">
+                        <input type="text" name="payment_bank_name" id="payment_bank_name" class="form-control" readonly>
                         @error('payment_bank_name')
                             <div class="text-danger mt-2">{{ $message }}</div>
                         @enderror
@@ -216,12 +225,13 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="payment_account_number">Payment Account Number</label>
-                        <input type="number" name="payment_account_number" id="payment_account_number" class="form-control" placeholder="Payment Account Number">
+                        <input type="number" name="payment_account_number" id="payment_account_number" class="form-control" readonly>
                         @error('payment_account_number')
                             <div class="text-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
+             
             </div>
             <div class="text-right mt-2">
                <a href="/admin/orders" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
@@ -267,6 +277,28 @@
             let total_price = parseInt($('#total_item_price').val()) + parseInt($('#total_distance_price').val());
             $('#total_price').val(total_price);
             $('#payment_total').val(total_price);
+        });
+        $('#payment_status').change(function(e){
+            if(e.target.value == 'paid'){
+                $('#payment_method').attr("disabled", false);
+            }else if(e.target.value == 'unpaid'){
+                $('#payment_method').attr("disabled", true);
+                $('#payment_type').val('');
+                $('#payment_bank_name').val('');
+                $('#payment_account_number').val('');
+            }
+        });
+        $('#payment_method').change(function(e){
+            $.get(`/admin/master-payment/${e.target.value}`,function(response){
+                $('#payment_type').val(response.payment.type);
+                if(response.payment.type == 'cash'){
+                    $('#payment_bank_name').val('');
+                    $('#payment_account_number').val('');
+                }else{
+                    $('#payment_bank_name').val(response.payment.name);
+                    $('#payment_account_number').val(response.payment.account_no);
+                }
+            });
         });
     });
     function hideMaps(){
