@@ -116,6 +116,16 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
+                        <label>Favorite</label><br>
+                        <label class="m-auto align-middle" for="favorite">
+                           <input type="checkbox" data-toggle="toggle" data-size="normal" name="favorite" id="favorite" {{ $product->favorite == 1 ? 'checked':''}}>
+                       </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
                         <label for="description">Short Description</label>
                         <textarea type="text" name="description" class="form-control">{{ $product->description }}</textarea>
                     </div>
