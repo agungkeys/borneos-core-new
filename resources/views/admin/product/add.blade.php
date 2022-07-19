@@ -103,26 +103,6 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12 col-md-6">
-                    <div class="form-group">
-                       <label for="attribute">Attribute</label>
-                        <select class="multiselect-dropdown form-control" name="attribute" id="attribute">
-                           <option disabled selected value=""></option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 col-md-6">
-                    <div class="form-group">
-                       <label for="addon">Addon</label>
-                        <select class="multiselect-dropdown form-control" name="addon" id="addon">
-                            <option disabled selected value=""></option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="available_time_starts">Available time starts</label>
@@ -133,6 +113,16 @@
                     <div class="form-group">
                         <label for="available_time_ends">Available time ends</label>
                         <input type="time" name="available_time_ends" class="form-control" id="available_time_ends" placeholder="Ex : 10:30 am" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Favorite</label><br>
+                        <label class="m-auto align-middle" for="favorite">
+                           <input type="checkbox" data-toggle="toggle" data-size="normal" name="favorite" id="favorite">
+                       </label>
                     </div>
                 </div>
             </div>
@@ -161,6 +151,8 @@
          </form>
       </div>
    </div>
+@endsection
+@section('js')
      <script>
         function getMerchantData(id){
             $.get('/admin/get-merchants/'+id,function(response){

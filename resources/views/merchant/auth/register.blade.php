@@ -44,8 +44,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="main-card mb-3 card">
-                                {{-- <div class="card-header">Informasi Merchant</div> --}}
-                                <div class="card-body">
+                                <div class="card-body" style="padding-bottom: 0px">
                                     @csrf
                                     <div class="form-group">
                                         <label for="main_category_id">Kategori Merchant</label>
@@ -82,31 +81,32 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label for="address">Alamat & Kelurahan Merchant</label>
-                                        <div class="input-group">
-                                            <textarea name="address" class="form-control" rows="1"></textarea>
-                                            <select name="district" id="district" class="js-data-example-ajax multiselect-dropdown form-control" required title="Select District" required>
-                                                <option hidden selected value="">Pilih Kelurahan</option>
-                                                <option value="Api - Api">Api - Api</option>
-                                                <option value="Belimbing">Belimbing</option>
-                                                <option value="Berbas Pantai">Berbas Pantai</option>
-                                                <option value="Berbas Tengah">Berbas Tengah</option>
-                                                <option value="Bontang Baru">Bontang Baru</option>
-                                                <option value="Bontang Kuala">Bontang Kuala</option>
-                                                <option value="Bontang Lestari">Bontang Lestari</option>
-                                                <option value="Guntung">Guntung</option>
-                                                <option value="Gunung Elai">Gunung Elai</option>
-                                                <option value="Kanaan">Kanaan</option>
-                                                <option value="Loktuan">Loktuan</option>
-                                                <option value="Satimpo">Satimpo</option>
-                                                <option value="Tanjung Laut">Tanjung Laut</option>
-                                                <option value="Tanjung Laut Indah">Tanjung Laut Indah</option>
-                                                <option value="Telihan">Telihan</option>
-                                            </select>
-                                        </div>
+                                        <label for="address">Alamat Merchant</label>
+                                        <textarea name="address" class="form-control" rows="1"></textarea>
                                         @error('address')
                                             <span class="text-danger mt-2">{{ $message }}</span>
                                         @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="district">Kelurahan Merchant</label>
+                                        <select name="district" id="district" class="js-data-example-ajax multiselect-dropdown form-control" required title="Select District" required>
+                                            <option hidden selected value="">Pilih Kelurahan</option>
+                                            <option value="Api - Api">Api - Api</option>
+                                            <option value="Belimbing">Belimbing</option>
+                                            <option value="Berbas Pantai">Berbas Pantai</option>
+                                            <option value="Berbas Tengah">Berbas Tengah</option>
+                                            <option value="Bontang Baru">Bontang Baru</option>
+                                            <option value="Bontang Kuala">Bontang Kuala</option>
+                                            <option value="Bontang Lestari">Bontang Lestari</option>
+                                            <option value="Guntung">Guntung</option>
+                                            <option value="Gunung Elai">Gunung Elai</option>
+                                            <option value="Kanaan">Kanaan</option>
+                                            <option value="Loktuan">Loktuan</option>
+                                            <option value="Satimpo">Satimpo</option>
+                                            <option value="Tanjung Laut">Tanjung Laut</option>
+                                            <option value="Tanjung Laut Indah">Tanjung Laut Indah</option>
+                                            <option value="Telihan">Telihan</option>
+                                        </select>
                                         @error('district')
                                             <span class="text-danger mt-2">{{ $message }}</span>
                                         @enderror
@@ -127,22 +127,23 @@
                                             <span class="text-danger mt-2">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    <div class="form-group">
-                                        <label for="logo">Logo Merchant</label><small style="color: red"> ( Ratio 1:1 )</small><br>
-                                        <input type="file" id="customFileEg1" name="logo" required>
-                                        <div class="form-group text-center" style="margin-bottom:0%;">
-                                            <img style="height: 100px;border-radius: 10px;min-height:100px" id="viewer" src="" alt="">
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="logo">Logo Merchant</label><small style="color: red"> ( Ratio 1:1 )</small><br>
+                                            <input type="file" id="customFileEg1" name="logo" class="form-control-file" required>
+                                            @error('logo')
+                                                <br><span class="text-danger mt-2">{{ $message }}</span>
+                                            @enderror
                                         </div>
-                                        @error('logo')
-                                            <br><span class="text-danger mt-2">{{ $message }}</span>
-                                        @enderror
+                                        <div class="text-center col-md-6">
+                                            <img style="border-radius: 10px;max-height: 100px;min-height:100px;max-width:100px" id="viewer" src="" alt="">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="main-card mb-3 card">
-                                {{-- <div class="card-header">Informasi Pemilik</div> --}}
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="f_name">Nama Lengkap</label>
@@ -183,7 +184,7 @@
                                         @enderror
                                     </div>
                                     <div class="text-right mt-2">
-                                        <a href="{{ route('merchant.auth.login') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Kembali</a>
+                                        <a href="{{ route('merchant.auth.login') }}"class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Kembali</a>
                                         <button type="submit" id="buttonSubmit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Simpan</button>
                                     </div>
                                 </div>
@@ -214,7 +215,7 @@
                 <div style="width: 100%; height: 400px; display: none;" id="address-map"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg" data-dismiss="modal" onclick="setCoordinate()"><i class="pe-7s-diskette btn-icon-wrapper"></i>Save Coordinate</button>
+                <button type="button" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg" data-dismiss="modal" onclick="setCoordinate()"><i class="pe-7s-diskette btn-icon-wrapper"></i>Simpan Coordinate</button>
             </div>
         </div>
     </div>
@@ -277,12 +278,13 @@
 
         $('#main_category_id').change(function(){
         var stateId = $(this).val();
+        $(document).ajaxStart($.blockUI({message: $('.body-block-loading')})).ajaxStop($.unblockUI);
         if(stateId){
             $.ajax({
-            type:"GET",
-            url:"/merchant/auth/get-sub-category/"+stateId,
-            dataType: 'JSON',
-            success:function(res){
+                type:"GET",
+                url:"/merchant/auth/get-sub-category/"+stateId,
+                dataType: 'JSON',
+                success:function(res){
                 if(res){
                     $("#categories_id").empty();
                     $.each(res,function(key,data){

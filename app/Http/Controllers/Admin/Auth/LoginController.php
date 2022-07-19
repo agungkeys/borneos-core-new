@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class LoginController extends Controller
 {
@@ -16,7 +17,6 @@ class LoginController extends Controller
     public function login()
     {
         return view('admin.auth.login');
-        // return dd('masuk');
     }
 
     public function submit(Request $request)
@@ -29,9 +29,8 @@ class LoginController extends Controller
         if (auth('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
             return redirect()->route('admin.dashboard');
         }
-
-        return redirect()->back()->withInput($request->only('email', 'remember'))
-            ->withErrors(['Credentials does not match.']);
+        Alert::toast('Credentials does not match.', 'error');
+        return redirect()->back();
     }
 
     public function logout(Request $request)
