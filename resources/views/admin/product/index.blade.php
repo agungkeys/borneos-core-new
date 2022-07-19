@@ -28,7 +28,7 @@
                       <i class="fa fa-search fa-w-16 "></i>
                     </div>
                   </div>
-                  <input id="filter" name="filter" value="{{$filter}}" placeholder="Search Product, Price" type="text" class="form-control" style="color: gray;">
+                  <input id="filter" name="filter" value="{{$filter}}" placeholder="Search Product, Price" type="text" class="form-control" style="color: gray;" autocomplete="off">
                   <!-- <div class="input-group-prepend">
                     <button type="submit" class="btn btn-primary btn-md">Search</buttton>
                   </div> -->
@@ -125,38 +125,39 @@
           </div>
       </div>
    </div>
-   <script>
+ </div>
+@endsection
+@section('js')
+  <script>
      function delete_product(id){
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                let _token =  $('meta[name="csrf-token"]').attr('content');
-                $.ajax({
-                    type: "DELETE",
-                    url: "/admin/master-product/"+id,
-                    data: {_token:_token,id:id},
-                    success:function(response){
-                      if(response.status == 200){
-                          Swal.fire(
-                            'Deleted!',
-                            'Your file has been deleted.',
-                            'success'
-                          )
-                          window.location = "/admin/master-product";
-                      }
-                    }
-                });
-              }
-            })
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            let _token = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                type: "DELETE",
+                url: "/admin/master-product/"+id,
+                data: {_token:_token,id:id},
+                success:function(response){
+                  if(response.status == 200){
+                      Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                      )
+                      window.location = "/admin/master-product";
+                  }
+                }
+            });
+          }
+        })
      }
-   </script>
- </div>
-
+  </script>
 @endsection

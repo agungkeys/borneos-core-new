@@ -154,6 +154,8 @@ class ProductController extends Controller
         $product->choice_options = '';
         $product->price = $request->price;
         $product->set_menu = 0;
+        $product->favorite = $request->favorite ? 1 : 0;
+        $product->status = 1;
         $product->available_time_starts = $request->available_time_starts;
         $product->available_time_ends = $request->available_time_ends;
         $product->discount = $request->discount_type == 'amount' ? $request->discount : $request->discount;
@@ -331,6 +333,7 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->available_time_starts = $request->available_time_starts;
         $product->available_time_ends = $request->available_time_ends;
+        $product->favorite = $request->favorite ? 1 : 0;
         $product->discount = $request->discount_type == 'amount' ? $request->discount : $request->discount;
         $product->discount_type = $request->discount_type;
         $product->save();
