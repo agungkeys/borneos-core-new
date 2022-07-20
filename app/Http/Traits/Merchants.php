@@ -2,8 +2,34 @@
 
 namespace App\Http\Traits;
 
+use App\Models\Product;
+
 trait Merchants
 {
+    public function RestProductFavoriteFromMerchant($id)
+    {
+        $products = Product::where('merchant_id', $id)->where('favorite', 1)->get();
+        $results = count($products) == 0 ? null : $products;
+        if ($results == null) {
+            return null;
+        } else {
+            foreach ($results as $result) {
+                $data[] = [
+                    'id'          => $result->id,
+                    'merchant_id' => $result->merchant_id,
+                    'name'        => $result->name,
+                    'description' => $result->description,
+                    'image'       => $result->image ? $result->image : null,
+                    'additional_image' => $result->additional_image ? json_decode($result->additional_image) : null,
+                    'available_time_starts' => substr($result->available_time_starts, 0, 5),
+                    'available_time_ends'   => substr($result->available_time_ends, 0, 5),
+                    'favorite' => $result->favorite,
+                    'status'   => $result->status
+                ];
+            }
+            return $data;
+        }
+    }
     public function get_merchant_list($results)
     {
         foreach ($results as $result) {
@@ -20,10 +46,11 @@ trait Merchants
                 'logo' => $result->logo,
                 'additionalImage' => json_decode($result->additional_image),
                 'address' => $result->address,
-                'openingTime' => $result->opening_time,
-                'closingTime' => $result->closeing_time,
+                'openingTime' => substr($result->opening_time, 0, 5),
+                'closingTime' => substr($result->closeing_time, 0, 5),
                 'status' => $result->status,
                 'merchantFavorite' => $result->merchant_favorite,
+                'productFavorite' => $this->RestProductFavoriteFromMerchant($result->id),
                 'vendor' => [
                     'id' => $result->vendor_id,
                     'name' => $result->vendor->VendorName(),
