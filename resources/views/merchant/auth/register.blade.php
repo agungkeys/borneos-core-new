@@ -44,6 +44,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="main-card mb-3 card">
+                                <div class="card-header" style="height: 2.5rem">Informasi Merchant</div>
                                 <div class="card-body" style="padding-bottom: 0px;padding-top:3px">
                                     @csrf
                                     <div class="form-group">
@@ -148,6 +149,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="main-card mb-3 card">
+                                <div class="card-header" style="height: 2.5rem">Informasi Pemilik</div>
                                 <div class="card-body" style="padding-bottom: 0px;padding-top:3px">
                                     <div class="form-group">
                                         <label for="f_name">Nama Lengkap</label>
