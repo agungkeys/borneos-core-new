@@ -58,6 +58,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     //products
     Route::get('/master-product', 'ProductController@master_product_index')->name('master-product');
     Route::get('/master-product/datasource', 'ProductController@master_product_datasource')->name('master-product-get');
+    Route::get('/master-product/favorite/{id}/{favorite}', 'ProductController@master_product_favorite')->name('product.favorite');
     Route::get('/master-product/status/{id}/{status}', 'ProductController@master_product_status')->name('product.status');
     Route::get('/master-product/add', 'ProductController@master_product_add')->name('master-product.add');
     Route::get('/get-merchants/{id}', 'ProductController@get_merchants');
