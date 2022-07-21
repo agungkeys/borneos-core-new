@@ -77,7 +77,7 @@ class LoginController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-         $category_ids = Category::find($request->main_category_id);
+        $category_ids = Category::find($request->main_category_id);
         $json_category_ids = json_encode(['id' => $category_ids->id, 'slug' => $category_ids->slug]);
         $categories_id = implode(',', $request->categories_id);
         $categories = Category::whereIn('id', $request->categories_id)->get();
