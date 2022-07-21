@@ -54,7 +54,7 @@
             <tbody>
                 @foreach ($master_merchants as $master_merchant)
                     <tr>
-                        <td>{{ $loop->iteration }}.</td>
+                        <td>{{ $master_merchant->id }}.</td>
                         <td>
                             <img src="{{ URL::to($master_merchant->logo) }}" alt="" width="32" height="32">
                         </td>

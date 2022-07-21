@@ -61,11 +61,11 @@
                         <td>{{ $category->id }}</td>
                         @if($category->image)
                         <td>
-                            <img src="{{ URL::to($category->image) }}" alt="" width="32" height="32">
+                            <img src="{{env('PUBLIC_IMAGE_HOST_CLOUDINARY')}}w_32,h_32,c_fill/{{env('PUBLIC_CLOUDINARY_ID')}}{{json_decode($category->additional_image)->public_id}}.webp" alt="" width="32" height="32">
                         </td>
                         @else
                         <td>
-                            <img src="{{ asset('images/default-image.jpg') }}" alt="" width="32" height="32">
+                            <img src="{{ env('PUBLIC_IMAGE_EMPTY') }}" alt="" width="32" height="32">
                         </td>
                         @endif
                         <td>{{ $category->name ? $category->name : '-' }}</td>
