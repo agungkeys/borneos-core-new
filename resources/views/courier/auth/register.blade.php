@@ -74,19 +74,9 @@
                                             <span class="text-danger mt-2">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    {{-- <div class="form-group">
-                                        <label for="address_lat">Address latitude & longitude</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" name="address_lat" id="address_lat">
-                                            <input type="text" class="form-control" name="address_lang" id="address_lang">
-                                        </div>
-                                    </div> --}}
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        {{-- <div class="input-group"> --}}
                                             <input type="email" class="form-control" name="email" id="email" required>
-                                            {{-- <input type="password" class="form-control" style="max-width: 35%" name="password" id="password" required> --}}
-                                        {{-- </div> --}}
                                     </div>
                                     <div class="form-group">
                                         <label for="password">Kata Sandi & Konfirmasi Kata Sandi</label>
@@ -102,16 +92,6 @@
                                             <span class="text-danger mt-2">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    {{-- <div class="text-center my-2">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <img id="imgPreviewIdentity" style="height: 130px;min-height:130px;max-width:100%;" alt=""/>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <img id="imgPreviewProfile" style="height: 130px;min-height:130px;max-width:100%;" alt=""/>
-                                            </div>
-                                        </div>
-                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -154,7 +134,7 @@
                                             <img id="imgPreviewProfile" style="max-height:38px;min-width:126.5px;max-width:126.5px;border:1px solid #ced4da" hidden alt=""/>
                                         </div>
                                         <div class="custom-file">
-                                            <input type="file" accept="image/*" onchange="previewImageOnProfile()"" class="custom-file-input" id="profile_image" name="profile_image" aria-describedby="inputGroupFileAddon02">
+                                            <input type="file" accept="image/*" onchange="previewImageOnProfile()" class="custom-file-input" id="profile_image" name="profile_image" aria-describedby="inputGroupFileAddon02">
                                             <label class="custom-file-label" for="inputGroupFile02">Pilih File</label>
                                         </div>
                                     </div>

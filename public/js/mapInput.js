@@ -1,4 +1,3 @@
-
 function initialize() {
     $("form").on("keyup keypress", function (e) {
         var keyCode = e.keyCode || e.which;
@@ -8,6 +7,7 @@ function initialize() {
         }
     });
     const locationInputs = document.getElementsByClassName("map-input");
+
     const autocompletes = [];
     const geocoder = new google.maps.Geocoder();
     for (let i = 0; i < locationInputs.length; i++) {
@@ -19,54 +19,35 @@ function initialize() {
 
         const latitude =
             parseFloat(document.getElementById(fieldKey + "-latitude").value) ||
-            -33.8688;
+            0.120863;
         const longitude =
             parseFloat(
                 document.getElementById(fieldKey + "-longitude").value
-            ) || 151.2195;
+            ) || 117.4800445;
 
         const map = new google.maps.Map(
             document.getElementById(fieldKey + "-map"),
             {
-                center: { lat: 0.1369281, lng: 117.4354375 },
+                center: { lat: latitude, lng: longitude },
                 zoom: 13,
             }
         );
         const marker = new google.maps.Marker({
             map: map,
-            position: { lat: latitude, lng: longitude },
             draggable: true,
+            position: { lat: latitude, lng: longitude },
         });
+
         marker.setVisible(isEdit);
 
-        const locationButton = document.createElement("button");
+        const options = {
+            componentRestrictions: { country: "id" },
+        };
 
-        locationButton.textContent = "Lokasi saat ini";
-        locationButton.classList.add("custom-map-control-button");
-        locationButton.type = "button";
-
-        map.controls[google.maps.ControlPosition.RIGHT_TOP].push(
-            locationButton
+        const autocomplete = new google.maps.places.Autocomplete(
+            input,
+            options
         );
-        locationButton.addEventListener("click", () => {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position = GeolocationPosition) => {
-                        const pos = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude,
-                        };
-                        map.setCenter(pos);
-                        map.setZoom(17);
-                        marker.setPosition(pos);
-                        $("#address-latitude").val(pos.lat.toFixed(6));
-                        $("#address-longitude").val(pos.lng.toFixed(6));
-                    }
-                );
-            }
-        });
-
-        const autocomplete = new google.maps.places.Autocomplete(input);
         autocomplete.key = fieldKey;
         autocompletes.push({
             input: input,
@@ -86,18 +67,6 @@ function initialize() {
             autocomplete,
             "place_changed",
             function () {
-                google.maps.event.addListener(
-                    marker,
-                    "dragend",
-                    function (evt) {
-                        $("#address-latitude").val(evt.latLng.lat().toFixed(6));
-                        $("#address-longitude").val(
-                            evt.latLng.lng().toFixed(6)
-                        );
-
-                        map.panTo(evt.latLng);
-                    }
-                );
                 marker.setVisible(false);
                 const place = autocomplete.getPlace();
 
@@ -161,7 +130,8 @@ function setCoordinate() {
     document.getElementById("address-longitude").value = longitudeField;
     document.getElementById("latitude").value = latitudeField;
     document.getElementById("longitude").value = longitudeField;
-    document.getElementById("btnCoordinateRegister").innerHTML = "Ubah Koordinat";
+    document.getElementById("btnCoordinateRegister").innerHTML =
+        "Ubah Koordinat";
 }
 
 function deleteCoordinate() {
@@ -181,5 +151,6 @@ function deleteCoordinateRegister() {
     document.getElementById("address-longitude").value = "";
     document.getElementById("latitude").value = "";
     document.getElementById("longitude").value = "";
-    document.getElementById("btnCoordinateRegister").innerHTML = "Tambah Koordinat";
+    document.getElementById("btnCoordinateRegister").innerHTML =
+        "Tambah Koordinat";
 }
