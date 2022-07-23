@@ -33,6 +33,15 @@ class ProductController extends Controller
         return view('admin.product.index', compact('products', 'filter', 'merchants'));
     }
 
+    public function master_product_favorite(Request $request)
+    {
+        $product = Product::withoutGlobalScopes()->find($request->id);
+        $product->favorite = $request->favorite;
+        $product->save();
+        Alert::toast('Favorite Updated', 'success');
+        return redirect('/admin/master-product');
+    }
+
     public function master_product_status(Request $request)
     {
         $product = Product::withoutGlobalScopes()->find($request->id);

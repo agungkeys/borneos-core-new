@@ -502,4 +502,3 @@ class MerchantController extends Controller
         return redirect('/admin/master-merchant');
     }
 }
-?>
