@@ -100,6 +100,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::delete('/master-merchant/{id}', 'MerchantController@master_merchant_delete')->name('master-merchant.delete');
     Route::put('/master-merchant/{id}', 'MerchantController@master_merchant_update')->name('master-merchant.update');
     Route::get('/master-merchant/status/{id}/{status}', 'MerchantController@master_merchant_status')->name('master-merchant.status');
+    Route::get('/master-merchant/favorite/{id}/{favorite}', 'MerchantController@master_merchant_favorite')->name('master-merchant.favorite');
 
     Route::get('settings', 'SystemController@settings')->name('settings');
     Route::post('settings', 'SystemController@settings_update');

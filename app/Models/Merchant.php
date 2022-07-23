@@ -12,7 +12,7 @@ class Merchant extends Model
     use Sortable;
 
     public $sortable = [
-        'id', 'name'
+        'id', 'name', 'phone'
     ];
 
     protected $fillable = [
