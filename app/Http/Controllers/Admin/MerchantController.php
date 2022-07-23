@@ -14,28 +14,29 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class MerchantController extends Controller
 {
-    public function master_merchant_index(Request $request){
+    public function master_merchant_index(Request $request)
+    {
         $filter = $request->query('filter');
         if (!empty($filter)) {
             $master_merchants = Merchant::sortable()
-                                ->join('vendors', 'merchants.vendor_id', '=', 'vendors.id')
-                                ->select('merchants.*','merchants.id AS merchant_id','merchants.status AS merchant_status' ,'vendors.*')
-                                ->where('merchants.name', 'like', '%' . $filter . '%')
-                                ->orWhere('vendors.f_name', 'like', '%' . $filter . '%')
-                                ->paginate(10);
+                ->where('merchants.name', 'like', '%' . $filter . '%')
+                ->orWhere('merchants.phone', 'like', '%' . $filter . '%')
+                ->orWhereHas('vendor', function ($q) use ($filter) {
+                    return $q->where('f_name', 'like', "%{$filter}%")->orWhere('l_name', 'like', "%{$filter}%");
+                })
+                ->paginate(10);
         } else {
-            $master_merchants = Merchant::sortable()
-                                ->join('vendors', 'merchants.vendor_id', '=', 'vendors.id')
-                                ->select('merchants.*','merchants.id AS merchant_id','merchants.status AS merchant_status' ,'vendors.*')
-                                ->paginate(10);
+            $master_merchants = Merchant::sortable()->paginate(10);
         }
-        return view('admin.merchant.index', compact('master_merchants','filter'));
+        return view('admin.merchant.index', compact('master_merchants', 'filter'));
     }
-    public function master_merchant_add(){
-        $main_categories = Category::where(['position' => 0 ])->get();
+    public function master_merchant_add()
+    {
+        $main_categories = Category::where(['position' => 0])->get();
         return view('admin.merchant.add', compact('main_categories'));
     }
-    public function master_merchant_store(Request $request){
+    public function master_merchant_store(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'f_name' => 'required',
             'name' => 'required',
@@ -107,7 +108,7 @@ class MerchantController extends Controller
             $path_name = $request->file('cover_photo')->getRealPath();
             $image_cover = Cloudinary::upload($path_name, ["folder" => "images/merchants/cover", "overwrite" => TRUE, "resource_type" => "image"]);
             $image_url_cover = $image_cover->getSecurePath();
-             $detail_image_cover = [
+            $detail_image_cover = [
                 'public_id' =>  $image_cover->getPublicId(),
                 'file_type' =>  $image_cover->getFileType(),
                 'size'      =>  $image_cover->getReadableSize(),
@@ -118,7 +119,7 @@ class MerchantController extends Controller
             $additional_image_cover = $detail_image_cover;
         } else {
             $image_url_cover = '';
-            $additional_image_cover ='';
+            $additional_image_cover = '';
         };
 
         if ($request->file('seo_image')) {
@@ -189,16 +190,16 @@ class MerchantController extends Controller
             'master_merchant' => Merchant::find($id),
             'master_merchant_vendor' => Vendor::where('id', $master_merchant->vendor_id)->first(),
             'categories_position_0' => Category::where('position', 0)->get(),
-            'categories_position_1' => Category::where('position', 1)->where('parent_id',$master_merchant->category_id)->get()
+            'categories_position_1' => Category::where('position', 1)->where('parent_id', $master_merchant->category_id)->get()
         ]);
     }
     public function master_merchant_update(Request $request, $id)
     {
-        $master_merchant=Merchant::find($id);
+        $master_merchant = Merchant::find($id);
         $validator = Validator::make($request->all(), [
             'f_name' => 'required',
             'name' => 'required',
-            'slug' => 'required|unique:merchants,slug,'. $id,
+            'slug' => 'required|unique:merchants,slug,' . $id,
             'district' => 'required',
             'main_category_id' => 'required',
             'categories_id' => 'required',
@@ -349,7 +350,7 @@ class MerchantController extends Controller
             $image_url_cover = $master_merchant->cover_photo;
         };
 
-          if ($request->file('seo_image')) {
+        if ($request->file('seo_image')) {
             if ($master_merchant->seo_image) {
                 $key = json_decode($master_merchant->additional_seo_image);
                 Cloudinary::destroy($key->public_id);
@@ -466,11 +467,10 @@ class MerchantController extends Controller
     public function master_merchant_delete($id)
     {
         $master_merchant = Merchant::find($id);
-        $check_product = DB::table('products')->where('merchant_id',$master_merchant->id)->count('merchant_id');
-        if ($check_product>0) {
+        $check_product = DB::table('products')->where('merchant_id', $master_merchant->id)->count('merchant_id');
+        if ($check_product > 0) {
             return response()->json(['status' => 201]);
-        }
-        else{
+        } else {
             if ($master_merchant->logo) {
                 $key = json_decode($master_merchant->additional_image);
                 Cloudinary::destroy($key->logo->public_id);
@@ -483,22 +483,29 @@ class MerchantController extends Controller
                 Cloudinary::destroy($key->public_id);
             }
             $master_merchant->delete();
-            $vendor = DB::table('vendors')->where('id',$master_merchant->vendor_id);
+            $vendor = DB::table('vendors')->where('id', $master_merchant->vendor_id);
             $vendor->delete();
             return response()->json(['status' => 200]);
         }
     }
     public function master_merchant_status(Request $request)
     {
-        $master_merchant = Merchant::withoutGlobalScopes()->find($request->id);
-        $master_merchant->status = $request->status;
-        $master_merchant->save();
+        $master_merchant = Merchant::find($request->id);
+        $master_merchant->update(['status' => $request->status]);
 
-        $vendor = Vendor::withoutGlobalScopes()->find($master_merchant->vendor_id);
-        $vendor->status = $request->status;
-        $vendor->save();
+        $vendor = Vendor::find($master_merchant->vendor_id);
+        $vendor->update(['status' => $request->status]);
 
         Alert::toast('Status Updated', 'success');
+        return redirect('/admin/master-merchant');
+    }
+    public function master_merchant_favorite(Request $request)
+    {
+        $master_merchant = Merchant::withoutGlobalScopes()->find($request->id);
+        $master_merchant->merchant_favorite = $request->favorite;
+        $master_merchant->save();
+
+        Alert::toast('Favorite Updated', 'success');
         return redirect('/admin/master-merchant');
     }
 }
