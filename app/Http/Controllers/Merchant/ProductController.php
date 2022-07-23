@@ -35,6 +35,14 @@ class ProductController extends Controller
         Alert::toast('Status Updated', 'success');
         return redirect('/merchant/master-product');
     }
+    public function master_product_favorite(Request $request)
+    {
+        $product = Product::withoutGlobalScopes()->find($request->id);
+        $product->favorite = $request->favorite;
+        $product->save();
+        Alert::toast('Favorite Updated', 'success');
+        return redirect('/merchant/master-product');
+    }
     public function master_product_add()
     {
         $merchant = Merchant::where('vendor_id', auth()->guard('merchant')->user()->id)->get()[0];
