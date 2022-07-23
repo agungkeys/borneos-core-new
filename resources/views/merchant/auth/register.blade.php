@@ -44,14 +44,15 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="main-card mb-3 card">
-                                <div class="card-body" style="padding-bottom: 0px">
+                                <div class="card-header" style="height: 2.5rem">Informasi Merchant</div>
+                                <div class="card-body" style="padding-bottom: 0px;padding-top:3px">
                                     @csrf
                                     <div class="form-group">
                                         <label for="main_category_id">Kategori Merchant</label>
                                         <select name="main_category_id" id="main_category_id" class="form-control" required>
                                             <option hidden disabled value="" selected>Pilih Kategori Merchant</option>
                                             @foreach ($main_categories as $main_category)
-                                                <option value="{{ $main_category['id'] }}">{{ $main_category['name'] }}</option>
+                                                <option value="{{ $main_category['id'] }}" {{ $main_category['id'] == old('main_category_id') ? 'selected' : '' }}>{{ $main_category['name'] }}</option>
                                             @endforeach
                                         </select>
                                         @error('main_category_id')
@@ -70,8 +71,8 @@
                                     <div class="form-group">
                                         <label for="name">Nama & Slug Merchant</label>
                                         <div class="input-group">
-                                            <input type="text" id="name" name="name" class="form-control" autocomplete="none" placeholder="Nama Merchant" required>
-                                            <input type="text" id="slug" name="slug" class="form-control" placeholder="Slug Merchant" required>
+                                            <input type="text" id="name" name="name" value="{{ old('name') }}" class="form-control" autocomplete="none" placeholder="Nama Merchant" required>
+                                            <input type="text" id="slug" name="slug" value="{{ old('slug') }}" class="form-control" placeholder="Slug Merchant" required>
                                         </div>
                                         @error('name')
                                             <span class="text-danger mt-2">{{ $message }}</span>
@@ -82,7 +83,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="address">Alamat Merchant</label>
-                                        <textarea name="address" class="form-control" rows="1"></textarea>
+                                        <textarea name="address" class="form-control" rows="1">{{ old('address') }}</textarea>
                                         @error('address')
                                             <span class="text-danger mt-2">{{ $message }}</span>
                                         @enderror
@@ -91,21 +92,21 @@
                                         <label for="district">Kelurahan Merchant</label>
                                         <select name="district" id="district" class="js-data-example-ajax multiselect-dropdown form-control" required title="Select District" required>
                                             <option hidden selected value="">Pilih Kelurahan</option>
-                                            <option value="Api - Api">Api - Api</option>
-                                            <option value="Belimbing">Belimbing</option>
-                                            <option value="Berbas Pantai">Berbas Pantai</option>
-                                            <option value="Berbas Tengah">Berbas Tengah</option>
-                                            <option value="Bontang Baru">Bontang Baru</option>
-                                            <option value="Bontang Kuala">Bontang Kuala</option>
-                                            <option value="Bontang Lestari">Bontang Lestari</option>
-                                            <option value="Guntung">Guntung</option>
-                                            <option value="Gunung Elai">Gunung Elai</option>
-                                            <option value="Kanaan">Kanaan</option>
-                                            <option value="Loktuan">Loktuan</option>
-                                            <option value="Satimpo">Satimpo</option>
-                                            <option value="Tanjung Laut">Tanjung Laut</option>
-                                            <option value="Tanjung Laut Indah">Tanjung Laut Indah</option>
-                                            <option value="Telihan">Telihan</option>
+                                            <option value="Api - Api" {{ old('district') == 'Api - Api' ? 'selected' : '' }}>Api - Api</option>
+                                            <option value="Belimbing" {{ old('district') == 'Belimbing' ? 'selected' : '' }}>Belimbing</option>
+                                            <option value="Berbas Pantai" {{ old('district') == 'Berbas Pantai' ? 'selected' : '' }}>Berbas Pantai</option>
+                                            <option value="Berbas Tengah" {{ old('district') == 'Berbas Tengah' ? 'selected' : '' }}>Berbas Tengah</option>
+                                            <option value="Bontang Baru" {{ old('district') == 'Bontang Baru' ? 'selected' : '' }}>Bontang Baru</option>
+                                            <option value="Bontang Kuala" {{ old('district') == 'Bontang Kuala' ? 'selected' : '' }}>Bontang Kuala</option>
+                                            <option value="Bontang Lestari" {{ old('district') == 'Bontang Lestari' ? 'selected' : '' }}>Bontang Lestari</option>
+                                            <option value="Guntung" {{ old('district') == 'Guntung' ? 'selected' : '' }}>Guntung</option>
+                                            <option value="Gunung Elai" {{ old('district') == 'Gunung Elai' ? 'selected' : '' }}>Gunung Elai</option>
+                                            <option value="Kanaan" {{ old('district') == 'Kanaan' ? 'selected' : '' }}>Kanaan</option>
+                                            <option value="Loktuan" {{ old('district') == 'Loktuan' ? 'selected' : '' }}>Loktuan</option>
+                                            <option value="Satimpo" {{ old('district') == 'Satimpo' ? 'selected' : '' }}>Satimpo</option>
+                                            <option value="Tanjung Laut" {{ old('district') == 'Tanjung Laut' ? 'selected' : '' }}>Tanjung Laut</option>
+                                            <option value="Tanjung Laut Indah"{{ old('district') == 'Tanjung Laut Indah' ? 'selected' : '' }}>Tanjung Laut Indah</option>
+                                            <option value="Telihan" {{ old('district') == 'Telihan' ? 'selected' : '' }}>Telihan</option>
                                         </select>
                                         @error('district')
                                             <span class="text-danger mt-2">{{ $message }}</span>
@@ -127,29 +128,34 @@
                                             <span class="text-danger mt-2">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-6">
-                                            <label for="logo">Logo Merchant</label><small style="color: red"> ( Ratio 1:1 )</small><br>
-                                            <input type="file" id="customFileEg1" name="logo" class="form-control-file" required>
-                                            @error('logo')
-                                                <br><span class="text-danger mt-2">{{ $message }}</span>
-                                            @enderror
+                                    <div class="form-group ">
+                                        <label for="logo">Logo Merchant</label><small style="color: red"> ( Ratio 1:1 )</small><br>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroupFileAddon02">Unggah Gambar</span>
+                                                <img id="imgPreviewLogo" style="max-height:38px;min-width:126.5px;max-width:126.5px;border:1px solid #ced4da" hidden alt=""/>
+                                            </div>
+                                            <div class="custom-file">
+                                                <input type="file" accept="image/*" onchange="previewImageOnLogo()" class="custom-file-input" id="customFileEg1" name="logo" aria-describedby="inputGroupFileAddon02">
+                                                <label class="custom-file-label" for="inputGroupFile02">Pilih File</label>
+                                            </div>
                                         </div>
-                                        <div class="text-center col-md-6">
-                                            <img style="border-radius: 10px;max-height: 100px;min-height:100px;max-width:100px" id="viewer" src="" alt="">
-                                        </div>
+                                        @error('logo')
+                                            <br><span class="text-danger mt-2">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="main-card mb-3 card">
-                                <div class="card-body">
+                                <div class="card-header" style="height: 2.5rem">Informasi Pemilik</div>
+                                <div class="card-body" style="padding-bottom: 0px;padding-top:3px">
                                     <div class="form-group">
                                         <label for="f_name">Nama Lengkap</label>
                                         <div class="input-group">
-                                            <input type="text" id="f_name" name="f_name" class="form-control" placeholder="Nama Depan" required>
-                                            <input type="text" id="l_name" name="l_name" class="form-control" placeholder="Nama Belakang" required>
+                                            <input type="text" id="f_name" name="f_name" value="{{ old('f_name') }}" class="form-control" placeholder="Nama Depan" required>
+                                            <input type="text" id="l_name" name="l_name" value="{{ old('l_name') }}" class="form-control" placeholder="Nama Belakang" required>
                                         </div>
                                         @error('f_name')
                                             <span class="text-danger mt-2">{{ $message }}</span>
@@ -157,14 +163,14 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="phone">No. Handphone</label>
-                                        <input type="number" min="0" id="phone" name="phone" class="form-control" placeholder="08xxxxxxxxxx" required>
+                                        <input type="number" min="0" id="phone" name="phone" class="form-control" value="{{ old('phone') }}" placeholder="08xxxxxxxxxx" required>
                                         @error('phone')
                                             <span class="text-danger mt-2">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+                                        <input type="email" id="email" name="email"value="{{ old('email') }}" class="form-control" placeholder="Email" required>
                                         @error('email')
                                             <span class="text-danger mt-2">{{ $message }}</span>
                                         @enderror
@@ -172,8 +178,8 @@
                                     <div class="form-group">
                                         <label for="password">Kata Sandi & Konfirmasi Kata Sandi</label>
                                         <div class="input-group" id="show_hide_password">
-                                            <input type="password" onkeyup="checkMatching()" id="password" name="password" class="form-control" placeholder="Kata Sandi" required>
-                                            <input type="password" onkeyup="checkMatching()" id="confirmPassword" name="confirmPassword" class="form-control"  placeholder="" required>
+                                            <input type="password" onkeyup="checkMatching()" value="{{ old('password') }}" id="password" name="password" class="form-control" placeholder="Kata Sandi" required>
+                                            <input type="password" onkeyup="checkMatching()" value="{{ old('confirmPassword') }}" id="confirmPassword" name="confirmPassword" class="form-control"  placeholder="" required>
                                             <div class="input-group-append">
                                                 <button type="button" class="btn btn-light" ><i class="fa fa-eye-slash"></i></button>
                                             </div>
@@ -356,6 +362,17 @@
                 .replace(/-+/g, "-"); // collapse dashes
 
             return str;
+        }
+
+        $('#customFileEg1').on('change',function(e){
+            var fileName = e.target.files[0].name;
+            $(this).next('.custom-file-label').html(fileName);
+            document.getElementById('inputGroupFileAddon02').style.display = 'none';
+            imgPreviewLogo.removeAttribute("hidden");
+        })
+
+        function previewImageOnLogo() {
+            imgPreviewLogo.src=URL.createObjectURL(event.target.files[0])
         }
     </script>
 @endsection
