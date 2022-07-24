@@ -90,7 +90,7 @@
                         <td>{{ $product->id }}</td>
                         @if($product->image)
                         <td>
-                            <img src="{{ URL::to($product->image) }}" alt="" width="32" height="32">
+                            <img src="{{ URL::to($product->compressImage()) }}" alt="" width="32" height="32">
                         </td>
                         @else
                         <td>
