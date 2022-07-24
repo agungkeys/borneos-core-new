@@ -31,4 +31,21 @@ class Merchant extends Model
     {
         return $this->belongsTo(Vendor::class, 'vendor_id');
     }
+    public function compressLogo()
+    {
+        if ($this->additional_image) {
+            $convert = json_decode($this->additional_image);
+            if ($convert->logo) {
+                $public_image_host_cloudinary = env('PUBLIC_IMAGE_HOST_CLOUDINARY');
+                $public_cloudinary_id = env('PUBLIC_CLOUDINARY_ID');
+                $public_id = $convert->logo->public_id;
+                $link = "$public_image_host_cloudinary w_32,h_32,c_fill/ $public_cloudinary_id $public_id.webp";
+                return str_replace(' ', '', $link);
+            } else {
+                return '';
+            }
+        } else {
+            return '';
+        }
+    }
 }
