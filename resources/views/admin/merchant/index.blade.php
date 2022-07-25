@@ -47,28 +47,32 @@
                   <th>@sortablelink('name','Merchant')</th>
                   <th>Owner</th>
                   <th>Phone</th>
+                  <th>Favorite</th>
                   <th>Status</th>
                   <th>Action</th>
                </tr>
             </thead>
             <tbody>
-                @foreach ($master_merchants as $master_merchant)
+                @foreach ($master_merchants as $key => $master_merchant)
                     <tr>
                         <td>{{ $master_merchant->id }}.</td>
-                        <td>
-                            <img src="{{ URL::to($master_merchant->logo) }}" alt="" width="32" height="32">
-                        </td>
+                        <td><img src="{{ URL::to($master_merchant->compressLogo()) }}" alt="" width="32" height="32"></td>
                         <td>{{ $master_merchant->name }}</td>
-                        <td>{{ $master_merchant->f_name }}{{ ' ' }}{{ $master_merchant->l_name }}</td>
+                        <td>{{ $master_merchant->vendor_id && $master_merchant->vendor->f_name ? $master_merchant->vendor->VendorName() : '-' }}</td>
                         <td>{{ $master_merchant->phone }}</td>
                         <td>
-                           <label class="m-auto align-middle" for="statusCheckbox{{$master_merchant->merchant_id}}">
-                              <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.master-merchant.status',[$master_merchant['merchant_id'],$master_merchant->merchant_status?0:1])}}'" id="statusCheckbox{{$master_merchant->merchant_id}}" {{$master_merchant->merchant_status?'checked':''}} >
+                           <label class="m-auto align-middle" for="favoriteCheckbox{{$master_merchant->id}}">
+                              <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.master-merchant.favorite',[$master_merchant['id'],$master_merchant->merchant_favorite?0:1])}}'" id="favoriteCheckbox{{$master_merchant->id}}" {{$master_merchant->merchant_favorite?'checked':''}}>
                             </label>
                         </td>
                         <td>
-                           <a href="{{ route('admin.master-merchant.edit',$master_merchant->merchant_id) }}" class="btn btn-warning btn-sm" title="Edit"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
-                           <button type="button" onclick="delete_master_merchant({{ $master_merchant->merchant_id }})" class="btn btn-danger btn-sm" title="Delete"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
+                           <label class="m-auto align-middle" for="statusCheckbox{{$master_merchant->id}}">
+                              <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.master-merchant.status',[$master_merchant['id'],$master_merchant->status?0:1])}}'" id="statusCheckbox{{$master_merchant->id}}" {{$master_merchant->status?'checked':''}}>
+                            </label>
+                        </td>
+                        <td>
+                           <a href="{{ route('admin.master-merchant.edit',$master_merchant->id) }}" class="btn btn-warning btn-sm" title="Edit"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+                           <button type="button" onclick="delete_master_merchant({{ $master_merchant->id }})" class="btn btn-danger btn-sm" title="Delete"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                         </td>
                     </tr>
                 @endforeach

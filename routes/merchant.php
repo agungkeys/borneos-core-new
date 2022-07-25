@@ -19,13 +19,13 @@ Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
       $course = Category::where('parent_id', $id)->where('position', 1)->get();
       return response()->json($course);
     });
-    Route::get('thanks/{id}', function($id){
-        $vendor = Vendor::where('id', $id)->first();
-        $details = [
-            'button' => $vendor->auth_token
-        ];
-        Mail::to($vendor->email)->send(new \App\Mail\SendEmailRegister($details));
-        return view('merchant.auth.thanks',compact('vendor'));
+    Route::get('thanks/{id}', function ($id) {
+      $vendor = Vendor::where('id', $id)->first();
+      $details = [
+        'button' => $vendor->auth_token
+      ];
+      Mail::to($vendor->email)->send(new \App\Mail\SendEmailRegister($details));
+      return view('merchant.auth.thanks', compact('vendor'));
     })->name('thanks');
     Route::get('/verify/{id}', 'LoginController@verify')->name('verify');
   });
@@ -61,6 +61,7 @@ Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
 
     Route::get('/master-product', 'ProductController@master_product_index')->name('master-product');
     Route::get('/master-product/status/{id}/{status}', 'ProductController@master_product_status')->name('product.status');
+    Route::get('/master-product/favorite/{id}/{favorite}', 'ProductController@master_product_favorite')->name('product.favorite');
     Route::get('/master-product/add', 'ProductController@master_product_add')->name('master-product.add');
     Route::post('/master-product/add', 'ProductController@master_product_store')->name('master-product.store');
     Route::get('/master-product/{id}', 'ProductController@master_product_edit')->name('master-product.edit');

@@ -74,6 +74,7 @@
                   <th>Sub Sub Category</th>
                   <th>@sortablelink('merchant.name', 'Merchant')</th>
                   <th>@sortablelink('price', 'Price')</th>
+                  <th>Favorite</th>
                   <th>Status</th>
                   <th>Action</th>
                </tr>
@@ -89,7 +90,7 @@
                         <td>{{ $product->id }}</td>
                         @if($product->image)
                         <td>
-                            <img src="{{ URL::to($product->image) }}" alt="" width="32" height="32">
+                            <img src="{{ URL::to($product->compressImage()) }}" alt="" width="32" height="32">
                         </td>
                         @else
                         <td>
@@ -102,6 +103,11 @@
                         <td>{{ $product->sub_sub_category_id ? $product->sub_sub_category($product->sub_sub_category_id) : '-' }}</td>
                         <td>{{ $product->merchant && $product->merchant->name ? $product->merchant->name : '-' }}</td>
                         <td>Rp. {{ number_format($product->price,2, ",", ".") }}</td>
+                        <td>
+                           <label class="m-auto align-middle" for="favoriteCheckbox{{$product->id}}">
+                              <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.product.favorite',[$product['id'],$product->favorite?0:1])}}'" id="favoriteCheckbox{{$product->id}}" {{$product->favorite?'checked':''}}>
+                           </label>
+                        </td>
                         <td>
                            <label class="m-auto align-middle" for="statusCheckbox{{$product->id}}">
                               <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.product.status',[$product['id'],$product->status?0:1])}}'" id="statusCheckbox{{$product->id}}" {{$product->status?'checked':''}}>
