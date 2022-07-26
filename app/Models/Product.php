@@ -46,7 +46,7 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'sub_sub_category_id');
     }
-    public function compressImage()
+    public function compressImage($setSize)
     {
         if ($this->additional_image) {
             $convert = json_decode($this->additional_image);
@@ -54,7 +54,7 @@ class Product extends Model
                 $public_image_host_cloudinary = env('PUBLIC_IMAGE_HOST_CLOUDINARY');
                 $public_cloudinary_id = env('PUBLIC_CLOUDINARY_ID');
                 $public_id = $convert->public_id;
-                $link = "$public_image_host_cloudinary w_32,h_32,c_fill/ $public_cloudinary_id $public_id.webp";
+                $link = "$public_image_host_cloudinary $setSize,c_fill/ $public_cloudinary_id $public_id.webp";
                 return str_replace(' ', '', $link);
             } else {
                 return '';

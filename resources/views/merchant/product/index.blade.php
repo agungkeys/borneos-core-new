@@ -67,7 +67,7 @@
                         <td>{{ $products->perPage() * ($products->currentpage() - 1) + $loop->iteration }}</td>
                         @if($product->image)
                         <td>
-                            <img src="{{ URL::to($product->compressImage()) }}" alt="" width="32" height="32">
+                            <img src="{{ URL::to($product->compressImage('w_32,h_32')) }}" alt="" width="32" height="32">
                         </td>
                         @else
                         <td>
