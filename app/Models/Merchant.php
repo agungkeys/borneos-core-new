@@ -42,10 +42,10 @@ class Merchant extends Model
                 $link = "$public_image_host_cloudinary $setSize,c_fill/ $public_cloudinary_id $public_id.webp";
                 return str_replace(' ', '', $link);
             } else {
-                return '';
+                return env('PUBLIC_IMAGE_EMPTY');
             }
         } else {
-            return '';
+            return env('PUBLIC_IMAGE_EMPTY');
         }
     }
     public function compressCover($setSize)
@@ -59,10 +59,10 @@ class Merchant extends Model
                 $link = "$public_image_host_cloudinary $setSize,c_fill/ $public_cloudinary_id $public_id.webp";
                 return str_replace(' ', '', $link);
             } else {
-                return '';
+                return env('PUBLIC_IMAGE_EMPTY');
             }
         } else {
-            return '';
+            return env('PUBLIC_IMAGE_EMPTY');
         }
     }
     public function compressSeoImage($setSize)
@@ -76,10 +76,10 @@ class Merchant extends Model
                 $link = "$public_image_host_cloudinary $setSize,c_fill/ $public_cloudinary_id $public_id.webp";
                 return str_replace(' ', '', $link);
             } else {
-                return '';
+                return env('PUBLIC_IMAGE_EMPTY');
             }
         } else {
-            return '';
+            return env('PUBLIC_IMAGE_EMPTY');
         }
     }
 }
