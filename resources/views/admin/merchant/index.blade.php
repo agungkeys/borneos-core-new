@@ -56,7 +56,7 @@
                 @foreach ($master_merchants as $key => $master_merchant)
                     <tr>
                         <td>{{ $loop->iteration }}.</td>
-                        <td><img src="{{ URL::to($master_merchant->compressLogo()) }}" alt="" width="32" height="32"></td> 
+                        <td><img src="{{ URL::to($master_merchant->compressLogo('w_32,h_32')) }}" alt="" width="32" height="32"></td> 
                         <td>{{ $master_merchant->name }}</td>
                         <td>{{ $master_merchant->vendor_id && $master_merchant->vendor->f_name ? $master_merchant->vendor->VendorName() : '-' }}</td>
                         <td>{{ $master_merchant->phone }}</td>
