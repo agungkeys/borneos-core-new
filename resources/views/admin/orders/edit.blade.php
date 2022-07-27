@@ -287,7 +287,7 @@
                </div>
                 <div class="text-right mt-2">
                     <a href="/admin/orders" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
-                    <button type="submit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Update</button>
+                    <button type="submit" id="btnUpdate" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Update</button>
                 </div>
            </form>
        </div>
@@ -335,6 +335,12 @@
                     $('#form_courier').show();
                 }else if(value == 'cancel'){
                     $('#form_courier').hide();
+                }else if(value == 'otw'){
+                    if($('#courier').val() != ''){
+                        $('#btnUpdate').attr('disabled',false);
+                    }else{
+                        $('#btnUpdate').attr('disabled',true);
+                    }
                 };
                 alertPaymentStatusOrder(value);
             });
@@ -356,6 +362,7 @@
                     alertPaymentStatusOrder('otw');
                     $('#status').empty();
                     $('#status').append("<option value='otw'>Otw</option><option value='cancel'>Cancel</option>");
+                    $('#btnUpdate').attr('disabled',false);
                 }
             });
         });
