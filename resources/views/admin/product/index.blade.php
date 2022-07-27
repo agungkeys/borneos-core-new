@@ -88,15 +88,9 @@
                 @foreach ($products as $product)
                     <tr>
                         <td>{{ $product->id }}</td>
-                        @if($product->image)
                         <td>
                             <img src="{{ URL::to($product->compressImage('w_32,h_32')) }}" alt="" width="32" height="32">
                         </td>
-                        @else
-                        <td>
-                            <img src="{{ asset('images/default-image.jpg') }}" alt="" width="32" height="32">
-                        </td>
-                        @endif
                         <td>{{ $product->name ? $product->name : '-' }}</td>
                         <td>{{ $product->category && $product->category->name ? $product->category->name : '-' }}</td>
                         <td>{{ $product->sub_category_id ? $product->sub_category($product->sub_category_id) : '-' }}</td>
