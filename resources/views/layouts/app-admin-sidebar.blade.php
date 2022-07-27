@@ -22,6 +22,9 @@
               <a class="canceled" href="/admin/orders/canceled"><i class="metismenu-icon pe-7s-close"></i>Canceled</a>
             </li>
             <li>
+              <a class="done" href="/admin/orders/done"><i class="metismenu-icon pe-7s-like2"></i>Done</a>
+            </li>
+            <li>
               <a class="all" href="/admin/orders"><i class="metismenu-icon pe-7s-news-paper"></i>All</a>
             </li>
             <li class="app-sidebar__heading">Master Data</li>
