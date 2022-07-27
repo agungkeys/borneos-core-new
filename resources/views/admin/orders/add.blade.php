@@ -194,7 +194,7 @@
                         <select name="payment_method" id="payment_method" class="js-data-example-ajax multiselect-dropdown form-control" disabled>
                             <option disabled selected value="">Choose One!</option>
                             @foreach ($payments as $payment)
-                                <option value="{{ $payment->id }}">{{ $payment->name }}</option>
+                                <option value="{{ $payment->id }}">{{ ucfirst($payment->account_type) }} - {{ $payment->name }}</option>
                             @endforeach
                         </select>
                         @error('payment_account_number')

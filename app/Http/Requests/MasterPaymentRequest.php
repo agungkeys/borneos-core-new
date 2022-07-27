@@ -26,6 +26,7 @@ class MasterPaymentRequest extends FormRequest
         return [
             'payment_name' => 'required',
             'payment_type' => 'required',
+            'account_type' => 'required',
             'account_name' => 'required',
             'account_no'   => 'required|numeric',
             'image'        => 'image|mimes:jpeg,png,jpg,svg|max:8192'
