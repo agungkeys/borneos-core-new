@@ -100,8 +100,7 @@
                          <td><span class="badge badge-pill badge-success">{{ $order->status }}</span></td>
                          @endif
                          <td>
-                          <a href="#" class="btn btn-primary btn-sm ion-android-clipboard" title="Details ?"></a>
-                          <a href="#" class="btn btn-warning btn-sm ion-android-create" title="Edit ?"></a>
+                          <a href="{{ route('merchant.orders.detail',$order) }}" class="btn btn-primary ion-android-clipboard" title="Detail Order"></a>
                         </td>
                      </tr>
                  @endforeach
