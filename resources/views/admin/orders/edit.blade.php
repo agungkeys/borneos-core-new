@@ -311,7 +311,7 @@
                 $('#status').append("<option value=''>Choose One!</option><option value='delivered'>Delivered</option><option value='refund'>Refund</option>");
             }else if(orderStatus == 'delivered'){
                 alertPaymentStatusOrder('delivered');
-                $('#status').append("<option value='delivered'>Delivered</option>");
+                $('#status').append("<option value=''>Choose One!</option><option value='done'>Done</option>");
             }else if(orderStatus == 'refund'){
                 alertPaymentStatusOrder('refund');
                 $('#status').append("<option value='refund'>Refund</option>");
@@ -319,6 +319,9 @@
                 $('#form_courier').hide();
                 alertPaymentStatusOrder('cancel');
                 $('#status').append("<option value='cancel'>Cancel</option>");
+            }else if(orderStatus == 'done'){
+                alertPaymentStatusOrder('done');
+                $('#status').append("<option value='done'>Done</option>");
             };
 
             if(paymentStatus == 'unpaid'){
@@ -391,6 +394,9 @@
             }else if(val == 'processing'){
                 $('#order_status').attr('class','alert alert-success');
                 $('#order_status').html('<b>Processing</b>');
+            }else if(val == 'done'){
+                $('#order_status').attr('class','alert alert-success');
+                $('#order_status').html('<b>Done</b>');
             }
         }
     </script>
