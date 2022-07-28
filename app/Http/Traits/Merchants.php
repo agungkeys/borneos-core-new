@@ -30,6 +30,10 @@ trait Merchants
             return $data;
         }
     }
+    public function RestTotalProductOnMerchant($id)
+    {
+        return Product::where('merchant_id', $id)->count();
+    }
     public function get_merchant_list($results)
     {
         foreach ($results as $result) {
@@ -51,6 +55,7 @@ trait Merchants
                 'status' => $result->status,
                 'merchantFavorite' => $result->merchant_favorite,
                 'productFavorite' => $this->RestProductFavoriteFromMerchant($result->id),
+                'totalProductOnMerchant' => $this->RestTotalProductOnMerchant($result->id),
                 'vendor' => [
                     'id' => $result->vendor_id,
                     'name' => $result->vendor->VendorName(),
