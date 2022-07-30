@@ -127,6 +127,9 @@
                           <button type="button" onclick="followUpMerchant({{ $order }})" class="btn btn-outline-secondary btn-sm icon ion-android-home mt-1" title="Follow up Merchant"></button>
                           <button type="button" onclick="followUpCustomer({{ $order }})" class="btn btn-outline-warning btn-sm icon ion-android-contact mt-1" title="Follow up Customer"></button>
                           @endif
+                          @if($order->status == 'done')
+                          <button type="button" onclick="followUpCustomerWhenDone({{ $order }})" class="btn btn-secondary btn-sm icon ion-android-call mt-1" title="follow up Customer"></button>
+                          @endif
                         </td>
                      </tr>
                  @endforeach
@@ -148,19 +151,26 @@
 @endsection
 @section('js')
 <script>
+  function followUpCustomerWhenDone(val)
+  {
+    let phone = replacePhone(val.customer_telp);
+    $.get(`/admin/orders/followUpCustomerWhenDone/${val.prefix}`,function(res){
+      if(res.status == 200) return window.open(`https://wa.me/${phone}/?text=${res.message}`);
+    });
+  }
   function followUpMerchant(val){
     let phone = replacePhone(val.merchant.phone);
     $.get(`/admin/orders/followUpMerchant/${val.prefix}`,function(res){
       if(res.total > 0){
-        location.href = `https://wa.me/${phone}/?text=${res.message}`;
+        window.open(`https://wa.me/${phone}/?text=${res.message}`);
       }else if(res.total == 0){
-        location.href = `https://wa.me/${phone}/?text=${res.message}`;
+        window.open(`https://wa.me/${phone}/?text=${res.message}`);
       }
     });
   }
   function followUpCustomer(val){
     let merchantName = val.merchant.name, phone = replacePhone(val.customer_telp);
-    location.href = `https://wa.me/${phone}/?text=Halo%20kak%20kami%20telah%20menerima%20orderan%20untuk%20${merchantName}%20harap%20menunggu%20orderannya%20ya%20kak`;
+    window.open(`https://wa.me/${phone}/?text=Halo%20kak%20kami%20telah%20menerima%20orderan%20untuk%20${merchantName}%20harap%20menunggu%20orderannya%20ya%20kak`);
   }
   function replacePhone(phone){
     let twoDigitFront = phone.substring(0,2);

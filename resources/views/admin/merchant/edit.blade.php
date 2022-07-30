@@ -106,7 +106,7 @@
                             <label for="logo">Merchant Logo</label><small style="color: red"> ( Ratio 1:1 )</small><br>
                             <input type="file" id="customFileEg1" name="logo">
                             <div class="form-group text-center" style="margin-bottom:0%;">
-                                <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="viewer" src="{{ $master_merchant->logo }}" alt="">
+                                <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="viewer" src="{{ $master_merchant->compressLogo('w_100,h_100') }}" alt="">
                             </div>
                             @error('logo')
                                 <br><span class="text-danger mt-2">{{ $message }}</span>
@@ -116,7 +116,7 @@
                             <label for="cover_photo">Cover Photo</label><small style="color: red"> ( Ratio 2:1 )</small><br>
                             <input type="file" id="coverImageUpload" name="cover_photo">
                             <div class="form-group text-center" style="margin-bottom:0%;">
-                                <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="coverImageViewer" src="{{ $master_merchant->cover_photo }}" alt="">
+                                <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="coverImageViewer" src="{{ $master_merchant->compressCover('w_100,h_100') }}" alt="">
                             </div>
                             @error('cover_photo')
                                 <br><span class="text-danger mt-2">{{ $message }}</span>
@@ -126,7 +126,7 @@
                             <label for="seo_image">SEO Image</label><small style="color: red"> ( Ratio 1:1 )</small><br>
                             <input type="file" id="seoImageUpload" name="seo_image">
                             <div class="form-group text-center" style="margin-bottom:0%;">
-                                <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="seoImageViewer" src="{{ $master_merchant->seo_image }}" alt="">
+                                <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="seoImageViewer" src="{{ $master_merchant->compressSeoImage('w_100,h_100') }}" alt="">
                             </div>
                             @error('seo_image')
                                 <br><span class="text-danger mt-2">{{ $message }}</span>

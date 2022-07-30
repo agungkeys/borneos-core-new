@@ -287,7 +287,7 @@
                </div>
                 <div class="text-right mt-2">
                     <a href="/admin/orders" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
-                    <button type="submit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Update</button>
+                    <button type="submit" id="btnUpdate" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Update</button>
                 </div>
            </form>
        </div>
@@ -311,7 +311,7 @@
                 $('#status').append("<option value=''>Choose One!</option><option value='delivered'>Delivered</option><option value='refund'>Refund</option>");
             }else if(orderStatus == 'delivered'){
                 alertPaymentStatusOrder('delivered');
-                $('#status').append("<option value='delivered'>Delivered</option>");
+                $('#status').append("<option value=''>Choose One!</option><option value='done'>Done</option>");
             }else if(orderStatus == 'refund'){
                 alertPaymentStatusOrder('refund');
                 $('#status').append("<option value='refund'>Refund</option>");
@@ -319,6 +319,9 @@
                 $('#form_courier').hide();
                 alertPaymentStatusOrder('cancel');
                 $('#status').append("<option value='cancel'>Cancel</option>");
+            }else if(orderStatus == 'done'){
+                alertPaymentStatusOrder('done');
+                $('#status').append("<option value='done'>Done</option>");
             };
 
             if(paymentStatus == 'unpaid'){
@@ -335,6 +338,12 @@
                     $('#form_courier').show();
                 }else if(value == 'cancel'){
                     $('#form_courier').hide();
+                }else if(value == 'otw'){
+                    if($('#courier').val() != ''){
+                        $('#btnUpdate').attr('disabled',false);
+                    }else{
+                        $('#btnUpdate').attr('disabled',true);
+                    }
                 };
                 alertPaymentStatusOrder(value);
             });
@@ -356,6 +365,7 @@
                     alertPaymentStatusOrder('otw');
                     $('#status').empty();
                     $('#status').append("<option value='otw'>Otw</option><option value='cancel'>Cancel</option>");
+                    $('#btnUpdate').attr('disabled',false);
                 }
             });
         });
@@ -384,6 +394,9 @@
             }else if(val == 'processing'){
                 $('#order_status').attr('class','alert alert-success');
                 $('#order_status').html('<b>Processing</b>');
+            }else if(val == 'done'){
+                $('#order_status').attr('class','alert alert-success');
+                $('#order_status').html('<b>Done</b>');
             }
         }
     </script>

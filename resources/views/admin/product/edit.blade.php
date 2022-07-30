@@ -150,7 +150,7 @@
                @enderror
             </div>
             <div class="form-group text-center" style="margin-bottom:0%;">
-               <img style="width: 25%;border: 0px solid; border-radius: 10px;" id="viewer" src="{{ URL::to($product->image) }}" alt=""/>
+               <img style="width: 25%;border: 0px solid; border-radius: 10px;" id="viewer" src="{{ URL::to($product->compressImage('w_100,h_100')) }}" alt=""/>
             </div>
             <div class="text-right mt-2">
                <a href="{{ route('admin.master-product') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
