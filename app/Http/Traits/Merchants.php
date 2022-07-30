@@ -23,6 +23,7 @@ trait Merchants
                     'additional_image' => $result->additional_image ? json_decode($result->additional_image) : null,
                     'available_time_starts' => substr($result->available_time_starts, 0, 5),
                     'available_time_ends'   => substr($result->available_time_ends, 0, 5),
+                    'price'    => number_format($result->price, 0, ',', ''),
                     'favorite' => $result->favorite,
                     'status'   => $result->status
                 ];

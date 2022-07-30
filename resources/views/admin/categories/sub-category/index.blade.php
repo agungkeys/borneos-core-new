@@ -47,6 +47,7 @@
                   <th>Category Name</th>
                   <th>@sortablelink('name', 'Sub Category Name')</th>
                   <th>@sortablelink('slug', 'Sub Category Slug')</th>
+                  <th>@sortablelink('priority', 'Priority')</th>
                   <th>Status</th>
                   <th>Action</th>
                </tr>
@@ -72,6 +73,7 @@
                         <td>{{ $category->CategoryNameFromSubCategory() }}</td>
                         <td>{{ $category->name ? $category->name : '-' }}</td>
                         <td>{{ $category->slug  }}</td>
+                        <td>{{ $category->priority }}</td>
                         <td>
                            <label class="m-auto align-middle" for="statusCheckbox{{$category->id}}">
                               <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.master-sub-category.status',[$category['id'],$category->status?0:1])}}'" id="statusCheckbox{{$category->id}}" {{$category->status?'checked':''}}>
@@ -95,6 +97,9 @@
           </div>
       </div>
    </div>
+ </div>
+@endsection
+@section('js')
    <script type="text/javascript">
       function delete_sub_category(id)
       {
@@ -128,5 +133,4 @@
             })
       }
    </script>
- </div>
 @endsection
