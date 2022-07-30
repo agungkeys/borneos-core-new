@@ -8,7 +8,11 @@ trait Categories
 {
     public function getCategory($data)
     {
-        $categories = Category::where(['position' => 0, 'status' => $data['status']])->orderBy('id', $data['sort'])->get();
+        if ($data['priority'] == null) {
+            $categories = Category::where(['position' => 0, 'status' => $data['status']])->orderBy('id', $data['sort'])->get();
+        } else {
+            $categories = Category::where(['position' => 0, 'status' => $data['status']])->orderBy('priority', $data['sort'])->get();
+        }
         foreach ($categories as $c) {
             $category[] = [
                 'id'    => $c->id,
