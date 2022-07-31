@@ -255,7 +255,7 @@
                         <select name="payment_method" id="payment_method" class="js-data-example-ajax multiselect-dropdown form-control">
                                <option value="">Choose One!</option>
                                @foreach ($payments as $payment)
-                                   <option {{ $order->payment_account_number == $payment->account_no ? $order->payment_account_number == '' ? '':'selected':'' }} value="{{ $payment->id }}">{{ $payment->name }}</option>
+                                   <option {{ $order->payment_account_number == $payment->account_no ? $order->payment_account_number == '' ? '':'selected':'' }} value="{{ $payment->id }}">{{ ucfirst($payment->account_type) }} - {{ $payment->name }}</option>
                                @endforeach
                         </select>
                     </div>

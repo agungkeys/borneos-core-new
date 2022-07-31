@@ -26,6 +26,16 @@
                   @method('PUT')
                   @csrf
                   <div class="form-group">
+                     <label for="account_type">Account Type</label>
+                     <select name="account_type" id="account_type" class="js-data-example-ajax multiselect-dropdown form-control">
+                            <option {{ $payment->account_type == 'bonjek' ? 'selected':'' }} value="bonjek">Bonjek</option>
+                            <option {{ $payment->account_type == 'borneos' ? 'selected':'' }} value="borneos">Borneos</option>
+                     </select>
+                     @error('account_type')
+                        <span class="text-danger mt-2">{{ $message }}</span>
+                     @enderror
+                  </div>
+                  <div class="form-group">
                      <label for="payment_name">Payment Name</label>
                      <input type="text" id="payment_name" name="payment_name" value="{{ $payment->name }}" class="form-control" placeholder="Payment Name">
                      @error('payment_name')

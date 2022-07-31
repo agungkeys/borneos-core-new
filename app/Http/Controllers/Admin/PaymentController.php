@@ -21,6 +21,7 @@ class PaymentController extends Controller
             $payments = Payment::sortable()
                 ->where('payments.id', 'like', '%' . $filter . '%')
                 ->orWhere('payments.name', 'like', '%' . $filter . '%')
+                ->orWhere('payments.account_type', 'like', '%' . $filter . '%')
                 ->orWhere('payments.account_name', 'like', '%' . $filter . '%')
                 ->orWhere('payments.account_no', 'like', '%' . $filter . '%')
                 ->paginate(10);
@@ -54,6 +55,7 @@ class PaymentController extends Controller
         Payment::create([
             'name'             => $request->payment_name,
             'type'             => $request->payment_type,
+            'account_type'     => $request->account_type,
             'account_name'     => $request->account_name,
             'account_no'       => $request->account_no,
             'image'            => $image_url,
@@ -81,6 +83,7 @@ class PaymentController extends Controller
         $payment->update([
             'name'             => $request->payment_name,
             'type'             => $request->payment_type,
+            'account_type'     => $request->account_type,
             'account_name'     => $request->account_name,
             'account_no'       => $request->account_no,
             'image'            => $image_url ?? $payment->image,

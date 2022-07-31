@@ -69,5 +69,6 @@ Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
     Route::delete('/master-product/{id}', 'ProductController@master_product_delete')->name('master-product.delete');
 
     Route::get('/orders/all', 'OrderController@index')->name('master-order');
+    Route::get('/orders/detail/{order:prefix}', 'OrderController@detail')->name('orders.detail');
   });
 });

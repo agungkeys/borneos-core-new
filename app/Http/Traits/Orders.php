@@ -36,7 +36,7 @@ trait Orders
         }
     }
 
-    public function ResultFollowUpMerchants($order)
+    public function FormatFollowUpMerchant($order)
     {
         //$bold = '%2A';
         $space = '%20';
@@ -1224,5 +1224,24 @@ trait Orders
             $message = "Halo Kak kami dari Borneos ingin memesan di $merchant";
             return response()->json(['message' => $message, 'total' => 0]);
         }
+    }
+    public function FormatFollowUpCustomerWhenDone($order)
+    {
+        $space = '%20';
+        $customerName = $order->customer_name;
+        $merchantName = $order->merchant->name;
+        if ($order->order_type == 'bonjek') {
+            $message = "Halo Kak, Saya minjek$space(admin kurir Bontang ojek). Mau konfirmasi pesanan nya sudah diterima ya? An.$customerName pengantaran dari $merchantName";
+            return response()->json(['status' => 200, 'message' => $message]);
+        } elseif ($order->order_type == 'borneos') {
+            $message = "Halo Kak, Saya minos$space(admin Borneos). Mau konfirmasi pesanan nya sudah diterima ya? An.$customerName pengantaran dari $merchantName";
+            return response()->json(['status' => 200, 'message' => $message]);
+        } elseif ($order->order_type == 'legenda') {
+            $message = "Halo Kak, Saya minda$space(admin geprek legenda). Mau konfirmasi pesanan nya sudah diterima ya? An.$customerName pengantaran dari $merchantName";
+            return response()->json(['status' => 200, 'message' => $message]);
+        } elseif ($order->order_type == 'external') {
+            $message = "Halo Kak, Saya minjek$space(admin kurir Bontang ojek). Mau konfirmasi pesanan nya sudah diterima ya? An.$customerName pengantaran dari $merchantName";
+            return response()->json(['status' => 200, 'message' => $message]);
+        };
     }
 }

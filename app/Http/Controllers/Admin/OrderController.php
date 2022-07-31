@@ -161,6 +161,10 @@ class OrderController extends Controller
 
     public function FollowUpMerchant(Order $order)
     {
-        return $this->ResultFollowUpMerchants($order);
+        return $this->FormatFollowUpMerchant($order);
+    }
+    public function FollowUpCustomerWhenDone(Order $order)
+    {
+        return $this->FormatFollowUpCustomerWhenDone($order);
     }
 }

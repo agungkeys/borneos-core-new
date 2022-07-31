@@ -44,6 +44,7 @@
                <tr>
                   <th>@sortablelink('id', 'ID')</th>
                   <th>@sortablelink('image', 'Image')</th>
+                  <th>@sortablelink('account_type', 'Account Type')</th>
                   <th>@sortablelink('name', 'Payment Name')</th>
                   <th>@sortablelink('type', 'Payment Type')</th>
                   <th>@sortablelink('account_name', 'Account Name')</th>
@@ -61,14 +62,15 @@
                 @foreach ($payments as $payment)
                     <tr>
                         <td>{{ $payment->id }}</td>
-                        @if($payment->image)
                         <td>
-                            <img src="{{ URL::to($payment->image) }}" alt="" width="32" height="32">
+                            <img src="{{ URL::to($payment->compressImage('w_32,h_32')) }}" alt="" width="32" height="32">
                         </td>
+                        @if($payment->account_type == 'borneos')
+                        <td><span class="badge badge-pill badge-warning">{{ $payment->account_type }}</span></td>
+                        @elseif(($payment->account_type == 'bonjek'))
+                        <td><span style="background-color: palevioletred" class="badge badge-pill badge-info">{{ $payment->account_type }}</span></td>
                         @else
-                        <td>
-                            <img src="{{ asset('images/default-image.jpg') }}" alt="" width="32" height="32">
-                        </td>
+                        <td><span class="badge badge-pill badge-secondary">{{ $payment->account_type }}</span></td>
                         @endif
                         <td>{{ $payment->name ? $payment->name : '-' }}</td>
                         <td>{{ $payment->type  }}</td>

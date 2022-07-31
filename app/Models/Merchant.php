@@ -31,7 +31,7 @@ class Merchant extends Model
     {
         return $this->belongsTo(Vendor::class, 'vendor_id');
     }
-    public function compressLogo()
+    public function compressLogo($setSize)
     {
         if ($this->additional_image) {
             $convert = json_decode($this->additional_image);
@@ -39,13 +39,47 @@ class Merchant extends Model
                 $public_image_host_cloudinary = env('PUBLIC_IMAGE_HOST_CLOUDINARY');
                 $public_cloudinary_id = env('PUBLIC_CLOUDINARY_ID');
                 $public_id = $convert->logo->public_id;
-                $link = "$public_image_host_cloudinary w_32,h_32,c_fill/ $public_cloudinary_id $public_id.webp";
+                $link = "$public_image_host_cloudinary $setSize,c_fill/ $public_cloudinary_id $public_id.webp";
                 return str_replace(' ', '', $link);
             } else {
-                return '';
+                return env('PUBLIC_IMAGE_EMPTY');
             }
         } else {
-            return '';
+            return env('PUBLIC_IMAGE_EMPTY');
+        }
+    }
+    public function compressCover($setSize)
+    {
+        if ($this->additional_image) {
+            $convert = json_decode($this->additional_image);
+            if ($convert->cover) {
+                $public_image_host_cloudinary = env('PUBLIC_IMAGE_HOST_CLOUDINARY');
+                $public_cloudinary_id = env('PUBLIC_CLOUDINARY_ID');
+                $public_id = $convert->cover->public_id;
+                $link = "$public_image_host_cloudinary $setSize,c_fill/ $public_cloudinary_id $public_id.webp";
+                return str_replace(' ', '', $link);
+            } else {
+                return env('PUBLIC_IMAGE_EMPTY');
+            }
+        } else {
+            return env('PUBLIC_IMAGE_EMPTY');
+        }
+    }
+    public function compressSeoImage($setSize)
+    {
+        if ($this->additional_seo_image) {
+            $convert = json_decode($this->additional_seo_image);
+            if ($convert->public_id) {
+                $public_image_host_cloudinary = env('PUBLIC_IMAGE_HOST_CLOUDINARY');
+                $public_cloudinary_id = env('PUBLIC_CLOUDINARY_ID');
+                $public_id = $convert->public_id;
+                $link = "$public_image_host_cloudinary $setSize,c_fill/ $public_cloudinary_id $public_id.webp";
+                return str_replace(' ', '', $link);
+            } else {
+                return env('PUBLIC_IMAGE_EMPTY');
+            }
+        } else {
+            return env('PUBLIC_IMAGE_EMPTY');
         }
     }
 }
