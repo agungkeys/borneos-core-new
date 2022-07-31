@@ -47,6 +47,13 @@
                         @enderror
                      </div>
                      <div class="form-group">
+                        <label for="priority">Priority</label>
+                        <input type="number" name="priority" id="priority" class="form-control">
+                        @error('priority')
+                            <span class="text-danger mt-2">{{ $message }}</span>
+                        @enderror
+                     </div>
+                     <div class="form-group">
                         <label for="image">Image</label><br>
                         <input type="file" accept="image/*" id="image" name="image">
                         @error('image')
@@ -65,7 +72,9 @@
          </div>
       </div>
    </div>
-     <script>
+@endsection
+@section('js')
+    <script>
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
