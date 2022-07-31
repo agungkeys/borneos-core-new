@@ -260,6 +260,7 @@
                 <div class="text-right mt-2">
                     <a href="/courier/orders/all" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
                     @if ($order->status == 'delivered')
+
                     @else
                     <button type="submit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Update</button>
                     @endif
