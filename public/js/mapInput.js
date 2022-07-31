@@ -40,6 +40,33 @@ function initialize() {
 
         marker.setVisible(isEdit);
 
+        const locationButton = document.createElement("button");
+
+        locationButton.textContent = "Lokasi saat ini";
+        locationButton.classList.add("custom-map-control-button");
+        locationButton.type = "button";
+
+        map.controls[google.maps.ControlPosition.RIGHT_TOP].push(
+            locationButton
+        );
+        locationButton.addEventListener("click", () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position = GeolocationPosition) => {
+                        const pos = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                        };
+                        map.setCenter(pos);
+                        map.setZoom(17);
+                        marker.setPosition(pos);
+                        $("#address-latitude").val(pos.lat.toFixed(6));
+                        $("#address-longitude").val(pos.lng.toFixed(6));
+                    }
+                );
+            }
+        });
+
         const options = {
             componentRestrictions: { country: "id" },
         };
