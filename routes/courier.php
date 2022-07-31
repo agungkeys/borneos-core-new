@@ -16,5 +16,8 @@ Route::group(['namespace' => 'Courier', 'as' => 'courier.'], function () {
   Route::group(['middleware' => ['auth:courier']], function () {
     //dashboard
     Route::get('/', 'DashboardController@dashboard')->name('dashboard');
+    Route::get('/orders/all', 'OrderController@index')->name('master-order');
+    Route::get('/orders/detail/{order:prefix}', 'OrderController@detail')->name('master-order.detail');
+    Route::put('/order/detail/{order:prefix}', 'OrderController@updateDeliverStatus')->name('master-order.detail.update');
   });
 });
