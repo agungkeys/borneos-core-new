@@ -6,6 +6,26 @@ use App\Models\Product;
 
 trait Merchants
 {
+    public function discountPriceOnProduct($data)
+    {
+        /* payload: $data['price'] $data['discount_type'] $data['discount'] */
+        if ($data['discount_type'] == null) {
+            return null;
+        } else {
+            if ($data['discount'] == null) {
+                return null;
+            } else {
+                if (ucfirst($data['discount_type']) == 'Amount') {
+                    $price = $data['price'] - $data['discount'];
+                    return $price <= 0 ? null : "$price";
+                } else {
+                    $price = ((int)$data['price'] / 100) * $data['discount'];
+                    return $price <= 0 ? null : "$price";
+                }
+            }
+        }
+    }
+
     public function RestProductFavoriteFromMerchant($id)
     {
         $products = Product::where('merchant_id', $id)->where('favorite', 1)->get();
@@ -24,6 +44,13 @@ trait Merchants
                     'available_time_starts' => substr($result->available_time_starts, 0, 5),
                     'available_time_ends'   => substr($result->available_time_ends, 0, 5),
                     'price'    => number_format($result->price, 0, ',', ''),
+                    'discount' => number_format($result->discount, 0, ',', ''),
+                    'discountType' => $result->discount_type,
+                    'discountPrice' => $this->discountPriceOnProduct([
+                        'discount' => $result->discount,
+                        'discount_type' => $result->discount_type,
+                        'price' => number_format($result->price, 0, ',', '')
+                    ]),
                     'favorite' => $result->favorite,
                     'status'   => $result->status
                 ];
