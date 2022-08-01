@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\Merchants;
 use App\Models\Category;
 use App\Models\Merchant;
 use App\Models\Vendor;
@@ -14,21 +15,21 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class MerchantController extends Controller
 {
+    use Merchants;
+
     public function master_merchant_index(Request $request)
     {
-        $filter = $request->query('filter');
-        if (!empty($filter)) {
-            $master_merchants = Merchant::sortable()
-                ->where('merchants.name', 'like', '%' . $filter . '%')
-                ->orWhere('merchants.phone', 'like', '%' . $filter . '%')
-                ->orWhereHas('vendor', function ($q) use ($filter) {
-                    return $q->where('f_name', 'like', "%{$filter}%")->orWhere('l_name', 'like', "%{$filter}%");
-                })
-                ->paginate(10);
-        } else {
-            $master_merchants = Merchant::sortable()->paginate(10);
-        }
-        return view('admin.merchant.index', compact('master_merchants', 'filter'));
+        $search = $this->SearchMerchantList([
+            'filter'   => $request->query('filter'),
+            'favorite' => $request->query('favorite'),
+            'status'   => $request->query('status')
+        ]);
+        return view('admin.merchant.index', [
+            'filter'   => $search['filter'],
+            'favorite' => $search['favorite'],
+            'status'   => $search['status'],
+            'master_merchants' => $search['master_merchants']
+        ]);
     }
     public function master_merchant_add()
     {

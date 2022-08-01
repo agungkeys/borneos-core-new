@@ -2,10 +2,91 @@
 
 namespace App\Http\Traits;
 
-use App\Models\Product;
+use App\Models\{Merchant, Product};
 
 trait Merchants
 {
+    public function SearchMerchantList($data)
+    {
+        $filter   = $data['filter'];
+        $favorite = $data['favorite'];
+        $status   = $data['status'];
+
+        if ($filter == null) {
+            if ($favorite == null) {
+                if ($status == null) {
+                    /* $filter null $favorite null $status null */
+                    $master_merchants = Merchant::sortable()->paginate(10);
+                    return ['filter' => null, 'favorite' => null, 'status' => null, 'master_merchants' => $master_merchants];
+                } else {
+                    /* $filter null $favorite null $status not null */
+                    $master_merchants = Merchant::sortable()->where('merchants.status', 'like', '%' . $status . '%')->paginate(10);
+                    return ['filter' => null, 'favorite' => null, 'status' => $status, 'master_merchants' => $master_merchants];
+                }
+            } else { /* filter null favorite not null */
+                if ($status == null) {
+                    /* filter null favorite not null status null */
+                    $master_merchants = Merchant::sortable()->where('merchants.merchant_favorite', 'like', '%' . $favorite . '%')->paginate(10);
+                    return ['filter' => null, 'favorite' => $favorite, 'status' => null, 'master_merchants' => $master_merchants];
+                } else {
+                    /* filter null favorite not null status not null */
+                    $master_merchants = Merchant::sortable()
+                        ->where('merchants.merchant_favorite', 'like', '%' . $favorite . '%')
+                        ->where('merchants.status', 'like', '%' . $status . '%')
+                        ->paginate(10);
+                    return ['filter' => null, 'favorite' => $favorite, 'status' => $status, 'master_merchants' => $master_merchants];
+                }
+            }
+        } else { /* filter not null */
+            if ($favorite == null) {
+                if ($status == null) {
+                    /* filter not null favorite null status null */
+                    $master_merchants = Merchant::sortable()
+                        ->where('merchants.name', 'like', '%' . $filter . '%')
+                        ->orWhere('merchants.phone', 'like', '%' . $filter . '%')
+                        ->orWhereHas('vendor', function ($q) use ($filter) {
+                            return $q->where('f_name', 'like', "%{$filter}%")->orWhere('l_name', 'like', "%{$filter}%");
+                        })->paginate(10);
+                    return ['filter' => $filter, 'favorite' => null, 'status' => null, 'master_merchants' => $master_merchants];
+                } else {
+                    /* filter not null favorite null status not null */
+                    $master_merchants = Merchant::sortable()
+                        ->where('merchants.status', 'like', '%' . $status . '%')
+                        ->orWhere('merchants.name', 'like', '%' . $filter . '%')
+                        ->orWhere('merchants.phone', 'like', '%' . $filter . '%')
+                        ->orWhereHas('vendor', function ($q) use ($filter) {
+                            return $q->where('f_name', 'like', "%{$filter}%")->orWhere('l_name', 'like', "%{$filter}%");
+                        })->paginate(10);
+                    return ['filter' => $filter, 'favorite' => null, 'status' => $status, 'master_merchants' => $master_merchants];
+                }
+            } else {
+                /* filter not null favorite not null */
+                if ($status == null) {
+                    /* filter not null favorite not null status null */
+                    $master_merchants = Merchant::sortable()
+                        ->where('merchants.merchant_favorite', 'like', '%' . $favorite . '%')
+                        ->orWhere('merchants.name', 'like', '%' . $filter . '%')
+                        ->orWhere('merchants.phone', 'like', '%' . $filter . '%')
+                        ->orWhereHas('vendor', function ($q) use ($filter) {
+                            return $q->where('f_name', 'like', "%{$filter}%")->orWhere('l_name', 'like', "%{$filter}%");
+                        })->paginate(10);
+                    return ['filter' => $filter, 'favorite' => $favorite, 'status' => null, 'master_merchants' => $master_merchants];
+                } else {
+                    /* filter not null favorite not null status not null */
+                    $master_merchants = Merchant::sortable()
+                        ->where('merchants.merchant_favorite', 'like', '%' . $favorite . '%')
+                        ->where('merchants.status', 'like', '%' . $status . '%')
+                        ->orWhere('merchants.name', 'like', '%' . $filter . '%')
+                        ->orWhere('merchants.phone', 'like', '%' . $filter . '%')
+                        ->orWhereHas('vendor', function ($q) use ($filter) {
+                            return $q->where('f_name', 'like', "%{$filter}%")->orWhere('l_name', 'like', "%{$filter}%");
+                        })->paginate(10);
+                    return ['filter' => $filter, 'favorite' => $favorite, 'status' => $status, 'master_merchants' => $master_merchants];
+                }
+            }
+        }
+    }
+
     public function discountPriceOnProduct($data)
     {
         /* payload: $data['price'] $data['discount_type'] $data['discount'] */
