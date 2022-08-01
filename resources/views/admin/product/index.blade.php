@@ -18,51 +18,63 @@
    <div class="main-card mb-3 card">
       <div class="card-body">
         <form method="GET">
-        <div class="row mb-3">
-          <div class="col-12 col-md-3">
-            <div class="d-flex">
-              <div class="form-inline w-100" >
-                <div class="input-group w-100">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">
-                      <i class="fa fa-search fa-w-16 "></i>
+          <div class="row mb-3">
+            <div class="col-12 col-md-3">
+              <div class="d-flex">
+                <div class="form-inline w-100" >
+                  <div class="input-group w-100">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <i class="fa fa-search fa-w-16 "></i>
+                      </div>
                     </div>
+                    <input id="filter" name="filter" value="{{$filter}}" placeholder="Search Product, Price" type="text" class="form-control" style="color: gray;" autocomplete="off">
                   </div>
-                  <input id="filter" name="filter" value="{{$filter}}" placeholder="Search Product, Price" type="text" class="form-control" style="color: gray;" autocomplete="off">
-                  <!-- <div class="input-group-prepend">
-                    <button type="submit" class="btn btn-primary btn-md">Search</buttton>
-                  </div> -->
                 </div>
               </div>
-
             </div>
-          </div>
-          <div class="col-12 col-md-3">
-            <div class="d-flex">
-              <!-- <form class="form-inline w-100" method="GET"> -->
-                <div class="input-group w-100">
-
-                  <select name="merchant" id="merchant" class="js-data-example-ajax multiselect-dropdown form-control" placeholder="Merchant">
-                    <option value="">Select Merchant</option>
-                    @foreach ($merchants as $merchant)
-                      <option value="{{ $merchant->id }}" {{ request()->merchant == $merchant->id ? 'selected' : ''}}>{{ $merchant->name }}</option>
-                    @endforeach
-                  </select>
-                  <div class="input-group-prepend">
-
+            <div class="col-12 col-md-3">
+              <div class="d-flex">
+                  <div class="input-group w-100">
+                    <select name="merchant" id="merchant" class="js-data-example-ajax multiselect-dropdown form-control" placeholder="Merchant">
+                      <option disabled selected>Select Merchant</option>
+                      @foreach ($merchants as $merchant)
+                        <option value="{{ $merchant->id }}" {{ request()->merchant == $merchant->id ? 'selected' : ''}}>{{ $merchant->name }}</option>
+                      @endforeach
+                    </select>
                   </div>
-                </div>
-              <!-- </form> -->
-
+              </div>
+            </div>
+              <div class="col-12 col-md-2">
+              <div class="d-flex">
+                  <div class="input-group w-100">
+                    <select name="favorite" id="favorite" class="form-control">
+                      <option disabled selected>Select Favorite</option>
+                      <option {{ $favorite == 1 ? 'selected':'' }} value="1">Favorite Active</option>
+                      <option {{ $favorite == null ? '': $favorite == 0 ? 'selected':'' }} value="0">Favorite Not Active</option>
+                    </select>
+                  </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-2">
+              <div class="d-flex">
+                  <div class="input-group w-100">
+                    <select name="status" id="status" class="form-control">
+                      <option disabled selected>Select Status</option>
+                      <option {{ $status == 1 ?'selected':'' }} value="1">Status Active</option>
+                      <option {{ $status == null ? '': $status == 0 ? 'selected':'' }} value="0">Status Not Active</option>
+                    </select>
+                  </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-2">
+              <div class="d-flex">
+                <a href="/admin/master-product" class="btn btn-light btn-lg mr-2">Clear</a>
+                <button type="submit" class="btn btn-primary btn-md">Search</button>
+              </div>
             </div>
           </div>
-          <div class="col-12 col-md-3">
-            <div class="d-flex">
-              <a href="/admin/master-product" class="btn btn-light btn-lg mr-2">Clear</a>
-              <button type="submit" class="btn btn-primary btn-md">Search</buttton>
-            </div>
-          </div>
-        </div>
+        </form>
          <table style="width: 100%;" class="table table-hover table-striped table-bordered">
             <thead>
                <tr>
@@ -117,7 +129,7 @@
          </table>
           <div class="row">
             <div class="col-12 col-md-6 flex-1">
-              {!! $products->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter, 'merchant' => request()->merchant])->onEachSide(2)->links() !!}
+              {!! $products->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter, 'merchant' => request()->merchant, 'favorite' => request()->favorite, 'status' => request()->status])->onEachSide(2)->links() !!}
             </div>
             <div class="col-12 col-md-6 w-100 d-flex justify-content-end align-middle">
               <p>Displaying {{$products->count()}} of {{ number_format($products->total(), 0, "", ".") }} product(s).</p>
