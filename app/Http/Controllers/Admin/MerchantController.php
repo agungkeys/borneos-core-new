@@ -26,8 +26,8 @@ class MerchantController extends Controller
         ]);
         return view('admin.merchant.index', [
             'filter'   => $search['filter'],
-            'favorite' => $search['favorite'],
-            'status'   => $search['status'],
+            'favorite' => $search['favorite'] == null ? '' : $search['favorite'],
+            'status'   => $search['status'] == null ? '' : $search['status'],
             'master_merchants' => $search['master_merchants']
         ]);
     }

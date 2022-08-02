@@ -28,8 +28,8 @@ class ProductController extends Controller
             'merchants' => Merchant::all(),
             'filter'    => $search['filter'],
             'merchant'  => $search['merchant'],
-            'favorite'  => $search['favorite'],
-            'status'    => $search['status'],
+            'favorite'  => $search['favorite'] == null ? '' : $search['favorite'],
+            'status'    => $search['status'] == null ? '' : $search['status'],
             'products'  => $search['products']
         ]);
     }
