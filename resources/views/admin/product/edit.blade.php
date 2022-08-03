@@ -102,7 +102,6 @@
                     <div class="form-group">
                        <label for="sub_sub_category">Sub Sub Category</label>
                         <select class="multiselect-dropdown form-control" name="sub_sub_category" id="sub_sub_category">
-                            <option value=""></option>
                             {{-- @foreach ($sub_sub_categories as $sub_sub_category)
                                 <option {{ $sub_sub_category_id == $sub_sub_category->id ?'selected':'' }} value="{{ $sub_sub_category->id }}">{{ $sub_sub_category->name }}</option>
                             @endforeach --}}
@@ -229,20 +228,6 @@
               }
             });
             $('#sub_category').val('{{ $sub_sub_category_id }}').trigger('change');
-
-            $('#sub_category').on('select2:select', function (e) {
-                var data = e.params.data;
-                $("#sub_sub_category").remove();
-                $.get(`/admin/get-sub-sub-category/${data}`,function(response){
-                    $.each(response, function (i, item) {
-                        $('#sub_sub_category').append($("<option>", {
-                            value: item.id,
-                            text : item.name
-                        }));
-                    });
-                });
-            });
-
         });
         function readURL(input) {
             if (input.files && input.files[0]) {
