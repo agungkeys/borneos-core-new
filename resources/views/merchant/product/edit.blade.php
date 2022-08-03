@@ -24,20 +24,26 @@
             @method('PUT')
             @csrf
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label for="merchant_id">Merchant</label>
                         <input type="hidden" id="merchant_id" name="merchant_id" value="{{ $product->merchant->id }}">
                         <input type="text" value="{{$product->merchant->name}}" class="form-control" disabled>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label for="product_name">Product Name</label>
                         <input type="text" id="product_name" name="product_name" value="{{ $product->name }}" class="form-control">
                         @error('product_name')
                             <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Slug</label>
+                        <input type="text" value="{{ $product->slug }}" class="form-control" readonly>
                     </div>
                 </div>
             </div>
