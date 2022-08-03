@@ -3,6 +3,7 @@
 namespace App\Http\Traits;
 
 use App\Models\Product;
+use Illuminate\Support\Str;
 
 trait Products
 {
@@ -243,5 +244,19 @@ trait Products
                 'orderCount' => $product->order_count
             ];
         };
+    }
+    public function processGenerateSlug($data)
+    {
+        $slug = Str::slug($data);
+        return str_replace(' ', '', Str::random(8) . "- $slug");
+    }
+
+    public function GenerateSlugProduct()
+    {
+        $products = Product::all();
+        foreach ($products as $item) {
+            Product::where(['id' => $item->id])->get()[0]->update(['slug' => $this->processGenerateSlug($item->name)]);
+        }
+        return response()->json(['status' => 'success']);
     }
 }
