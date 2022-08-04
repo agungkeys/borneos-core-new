@@ -191,7 +191,7 @@
             });
         };
         function handleSubCategory(id){
-            $("#sub_sub_category").empty();
+            $('#sub_sub_category').empty();
             $.get(`/admin/get-sub-sub-category/${id}`,function(response){
                 $.each(response, function (i, item) {
                     $('#sub_sub_category').append($("<option>", {
@@ -224,11 +224,12 @@
 
             $.get('/admin/get-sub-sub-category/{{ $sub_category_id }}',function(response){
               if(response){
+                $('#sub_sub_category').empty();
                 $.each(response, function (i, item) {
-                  $('#sub_sub_category').append($("<option>", {
-                      value: item.id,
-                      text : item.name
-                  }));
+                    $('#sub_sub_category').append($("<option>", {
+                        value: item.id,
+                        text : item.name
+                    }));
                 });
                 $('#sub_sub_category').val('{{ $sub_sub_category_id }}');
                 $('#sub_sub_category').trigger('change');
@@ -236,6 +237,7 @@
             });
             $('#sub_category').val('{{ $sub_sub_category_id }}').trigger('change');
         });
+
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
