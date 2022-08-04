@@ -151,5 +151,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
     //log
     Route::get('log/order', 'LogOrderController@index')->name('log.order');
+
+    //blog category
+    Route::get('/blog-category', 'BlogCategoryController@master_categoryBlog_index')->name('blog-category.index');
   });
 });
