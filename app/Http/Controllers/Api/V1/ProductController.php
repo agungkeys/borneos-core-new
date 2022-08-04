@@ -42,4 +42,9 @@ class ProductController extends Controller
             return response()->json(['status' => 'error', 'meta' => null, 'data' => null], 401);
         }
     }
+
+    public function generate_slug_products()
+    {
+        return $this->GenerateSlugProduct();
+    }
 }
