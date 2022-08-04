@@ -57,4 +57,33 @@ class BlogCategoryController extends Controller
         Alert::success('Success', 'Data Created Successfully');
         return redirect()->route('admin.blog-category.index');
     }
+    public function master_categoryBlog_edit(CategoryBlog $category)
+    {
+        return view('admin.blog-category.edit', compact('category'));
+    }
+    public function master_categoryBlog_update(Request $request, CategoryBlog $category)
+    {
+        $request->validate([
+            'category_name' => 'required',
+            'category_slug' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,svg|max:8192'
+        ]);
+        if ($request->file('image')) {
+            $image = $this->UpdateImageCloudinary([
+                'image'      => $request->file('image'),
+                'folder'     => 'images/blogs/blog-category',
+                'collection' => $category
+            ]);
+            $image_url = $image['url'];
+            $additional_image = $image['additional_image'];
+        }
+        $category->update([
+            'name' => $request->category_name,
+            'slug' => $request->category_slug,
+            'image' => $image_url ?? $category->image,
+            'additional_image' => $additional_image ?? $category->additional_image
+        ]);
+        Alert::success('Success', 'Data Updated Successfully');
+        return redirect()->route('admin.blog-category.index');
+    }
 }

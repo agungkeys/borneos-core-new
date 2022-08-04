@@ -44,6 +44,8 @@ trait CloudinaryImage
             } else {
                 return $this->UploadImageCloudinary(['image' => $data['image'], 'folder' => $data['folder']]);
             }
+        } else {
+            return $this->UploadImageCloudinary(['image' => $data['image'], 'folder' => $data['folder']]);
         }
     }
 }
