@@ -154,5 +154,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
     //blog category
     Route::get('/blog-category', 'BlogCategoryController@master_categoryBlog_index')->name('blog-category.index');
+    Route::get('/blog-category/add', 'BlogCategoryController@master_categoryBlog_add')->name('blog-category.add');
+    Route::post('/blog-category/add', 'BlogCategoryController@master_categoryBlog_store')->name('blog-category.store');
   });
 });
