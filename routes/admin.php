@@ -156,5 +156,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/blog-category', 'BlogCategoryController@master_categoryBlog_index')->name('blog-category.index');
     Route::get('/blog-category/add', 'BlogCategoryController@master_categoryBlog_add')->name('blog-category.add');
     Route::post('/blog-category/add', 'BlogCategoryController@master_categoryBlog_store')->name('blog-category.store');
+    Route::get('/blog-category/edit/{category:slug}', 'BlogCategoryController@master_categoryBlog_edit')->name('blog-category.edit');
+    Route::put('/blog-category/edit/{category:slug}', 'BlogCategoryController@master_categoryBlog_update')->name('blog-category.update');
   });
 });
