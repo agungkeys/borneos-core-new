@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\Products;
 use App\Models\Category;
 use App\Models\Merchant;
 use App\Models\Product;
@@ -13,24 +14,24 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class ProductController extends Controller
 {
+    use Products;
+
     public function master_product_index(Request $request)
     {
-        $merchants = Merchant::all();
-        $filter = $request->query('filter');
-        $merchant = $request->query('merchant') ? $request->query('merchant') : '';
-        // dd($merchant);
-        if (!empty($filter)) {
-            $products = Product::sortable()
-                ->where('products.name', 'like', '%' . $filter . '%')
-                ->orWhere('products.price', 'like', '%' . $filter . '%')
-                ->orWhere('products.merchant_id', '=', $merchant)
-                ->paginate(10);
-        } elseif (!empty($merchant)) {
-            $products = Product::sortable()->where('products.merchant_id', '=', $merchant)->paginate(10);
-        } else {
-            $products = Product::sortable()->paginate(10);
-        }
-        return view('admin.product.index', compact('products', 'filter', 'merchants'));
+        $search = $this->SearchProductList([
+            'filter' => $request->query('filter'),
+            'merchant' => $request->query('merchant'),
+            'favorite' => $request->query('favorite'),
+            'status' => $request->query('status')
+        ]);
+        return view('admin.product.index', [
+            'merchants' => Merchant::all(),
+            'filter'    => $search['filter'],
+            'merchant'  => $search['merchant'],
+            'favorite'  => $search['favorite'] == null ? '' : $search['favorite'],
+            'status'    => $search['status'] == null ? '' : $search['status'],
+            'products'  => $search['products']
+        ]);
     }
 
     public function master_product_favorite(Request $request)

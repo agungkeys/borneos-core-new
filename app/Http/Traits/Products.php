@@ -3,9 +3,160 @@
 namespace App\Http\Traits;
 
 use App\Models\Product;
+use Illuminate\Support\Str;
 
 trait Products
 {
+    public function SearchProductList($data)
+    {
+        $filter   = $data['filter'];
+        $merchant = $data['merchant'];
+        $favorite = $data['favorite'];
+        $status   = $data['status'];
+
+        if ($filter == null) {
+            if ($merchant == null) { /* filter null merchant null */
+                if ($favorite == null) { /* filter null merchant null favorite null */
+                    if ($status == null) {
+                        /* filter null merchant null favorite null status null */
+                        $products = Product::sortable()->paginate(10);
+                        return compact('filter', 'merchant', 'favorite', 'status', 'products');
+                    } else {
+                        /* filter null merchant null favorite null status not null */
+                        $products = Product::sortable()->where('products.status', 'like', '%' . $status . '%')->paginate(10);
+                        return compact('filter', 'merchant', 'favorite', 'status', 'products');
+                    }
+                } else { /* filter null merchant null favorite not null */
+                    if ($status == null) {
+                        /* filter null merchant null favorite not null status null */
+                        $products = Product::sortable()->where('products.favorite', '=', $favorite)->paginate(10);
+                        return compact('filter', 'merchant', 'favorite', 'status', 'products');
+                    } else {
+                        /* filter null merchant null favorite not null status not null */
+                        $products = Product::sortable()
+                            ->where('products.favorite', '=', $favorite)
+                            ->where('products.status', '=', $status)
+                            ->paginate(10);
+                        return compact('filter', 'merchant', 'favorite', 'status', 'products');
+                    }
+                }
+            } else { /* filter null merchant not null */
+                if ($favorite == null) { /* filter null merchant not null favorite null */
+                    if ($status == null) {
+                        /* filter null merchant not null favorite null status null */
+                        $products = Product::sortable()->where('products.merchant_id', '=', $merchant)->paginate(10);
+                        return compact('filter', 'merchant', 'favorite', 'status', 'products');
+                    } else {
+                        /* filter null merchant not null favorite null status not null */
+                        $products = Product::sortable()->where('products.merchant_id', '=', $merchant)
+                            ->where('products.status', '=', $status)
+                            ->paginate(10);
+                        return compact('filter', 'merchant', 'favorite', 'status', 'products');
+                    }
+                } else { /* filter null merchant not null favorite not null */
+                    if ($status == null) {
+                        /* filter null merchant not null favorite not null status null */
+                        $products = Product::sortable()
+                            ->where('products.merchant_id', '=', $merchant)
+                            ->where('products.favorite', '=', $favorite)
+                            ->paginate(10);
+                        return compact('filter', 'merchant', 'favorite', 'status', 'products');
+                    } else {
+                        /* filter null merchant not null favorite not null status not null */
+                        $products = Product::sortable()
+                            ->where('products.merchant_id', '=', $merchant)
+                            ->where('products.favorite', '=', $favorite)
+                            ->where('products.status', '=', $status)
+                            ->paginate(10);
+                        return compact('filter', 'merchant', 'favorite', 'status', 'products');
+                    }
+                }
+            }
+        } else { /* filter not null */
+            if ($merchant == null) {
+                if ($favorite == null) { /* filter not null merchant null favorite null */
+                    if ($status == null) {
+                        /* filter not null merchant null favorite null status null */
+                        $products = Product::sortable()
+                            ->where('products.name', 'like', '%' . $filter . '%')
+                            ->orWhere('products.price', 'like', '%' . $filter . '%')
+                            ->paginate(10);
+                        return compact('filter', 'merchant', 'favorite', 'status', 'products');
+                    } else {
+                        /* filter not null merchant null favorite null status not null */
+                        $products = Product::sortable()
+                            ->where('products.status', '=', $status)
+                            ->orWhere('products.name', 'like', '%' . $filter . '%')
+                            ->orWhere('products.price', 'like', '%' . $filter . '%')
+                            ->paginate(10);
+                        return compact('filter', 'merchant', 'favorite', 'status', 'products');
+                    }
+                } else { /* filter not null merchant null favorite not null */
+                    if ($status == null) {
+                        /* filter not null merchant null favorite not null status null */
+                        $products = Product::sortable()
+                            ->where('products.favorite', '=', $favorite)
+                            ->orWhere('products.name', 'like', '%' . $filter . '%')
+                            ->orWhere('products.price', 'like', '%' . $filter . '%')
+                            ->paginate(10);
+                        return compact('filter', 'merchant', 'favorite', 'status', 'products');
+                    } else {
+                        /* filter not null merchant null favorite not null status not null */
+                        $products = Product::sortable()
+                            ->where('products.favorite', '=', $favorite)
+                            ->where('products.status', '=', $status)
+                            ->orWhere('products.name', 'like', '%' . $filter . '%')
+                            ->orWhere('products.price', 'like', '%' . $filter . '%')
+                            ->paginate(10);
+                        return compact('filter', 'merchant', 'favorite', 'status', 'products');
+                    }
+                }
+            } else { /* filter not null merchant not null */
+                if ($favorite == null) {
+                    if ($status == null) {
+                        /* filter not null merchant not null favorite null status null */
+                        $products = Product::sortable()
+                            ->where('products.merchant_id', '=', $merchant)
+                            ->orWhere('products.name', 'like', '%' . $filter . '%')
+                            ->orWhere('products.price', 'like', '%' . $filter . '%')
+                            ->paginate(10);
+                        return compact('filter', 'merchant', 'favorite', 'status', 'products');
+                    } else {
+                        /* filter not null merchant not null favorite null status not null */
+                        $products = Product::sortable()
+                            ->where('products.merchant_id', '=', $merchant)
+                            ->where('products.status', '=', $status)
+                            ->orWhere('products.name', 'like', '%' . $filter . '%')
+                            ->orWhere('products.price', 'like', '%' . $filter . '%')
+                            ->paginate(10);
+                        return compact('filter', 'merchant', 'favorite', 'status', 'products');
+                    }
+                } else { /* filter not null merchant not null favorite not null */
+                    if ($status == null) {
+                        /* filter not null merchant not null favorite not null status null */
+                        $products = Product::sortable()
+                            ->where('products.merchant_id', '=', $merchant)
+                            ->where('products.favorite', '=', $favorite)
+                            ->orWhere('products.name', 'like', '%' . $filter . '%')
+                            ->orWhere('products.price', 'like', '%' . $filter . '%')
+                            ->paginate(10);
+                        return compact('filter', 'merchant', 'favorite', 'status', 'products');
+                    } else {
+                        /* filter not null merchant not null favorite not null status not null */
+                        $products = Product::sortable()
+                            ->where('products.merchant_id', '=', $merchant)
+                            ->where('products.favorite', '=', $favorite)
+                            ->where('products.status', '=', $status)
+                            ->orWhere('products.name', 'like', '%' . $filter . '%')
+                            ->orWhere('products.price', 'like', '%' . $filter . '%')
+                            ->paginate(10);
+                        return compact('filter', 'merchant', 'favorite', 'status', 'products');
+                    }
+                }
+            }
+        }
+    }
+
     public function get_product_list($data)
     {
         if ($data['category'] == 0) {
@@ -93,5 +244,19 @@ trait Products
                 'orderCount' => $product->order_count
             ];
         };
+    }
+    public function processGenerateSlug($data)
+    {
+        $slug = Str::slug($data);
+        return str_replace(' ', '', Str::random(8) . "- $slug");
+    }
+
+    public function GenerateSlugProduct()
+    {
+        $products = Product::all();
+        foreach ($products as $item) {
+            Product::where(['id' => $item->id])->get()[0]->update(['slug' => $this->processGenerateSlug($item->name)]);
+        }
+        return response()->json(['status' => 'success']);
     }
 }

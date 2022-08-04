@@ -18,6 +18,7 @@ class CategoryController extends Controller
                 ->where(['position' => 0])
                 ->where('categories.name', 'like', '%' . $filter . '%')
                 ->orWhere('categories.slug', 'like', '%' . $filter . '%')
+                ->orWhere('categories.priority', 'like', '%' . $filter . '%')
                 ->paginate(10);
         } else {
             $master_categories = Category::sortable()->where(['position' => 0])->paginate(10);
@@ -31,9 +32,10 @@ class CategoryController extends Controller
     public function master_category_store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'slug' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:8192'
+            'name'     => 'required',
+            'slug'     => 'required',
+            'priority' => 'required|numeric',
+            'image'    => 'required|image|mimes:jpeg,png,jpg,svg|max:8192'
         ]);
         if ($request->file('image')) {
             $path_name = $request->file('image')->getRealPath();
@@ -74,7 +76,7 @@ class CategoryController extends Controller
             'additional_image' => $additional_image,
             'parent_id' => $parent_id,
             'position'  => 0,
-            'priority'  => 0,
+            'priority'  => request('priority'),
             'status'    => 1
         ]);
         Alert::success('Success', 'Data Created Successfully');
@@ -91,9 +93,10 @@ class CategoryController extends Controller
     public function master_category_update(Request $request, $id)
     {
         $request->validate([
-            'name'  => 'required',
-            'slug'  => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,svg|max:8192'
+            'name'     => 'required',
+            'slug'     => 'required',
+            'priority' => 'required|numeric',
+            'image'    => 'image|mimes:jpeg,png,jpg,svg|max:8192'
         ]);
         $category = Category::findOrFail($id);
         if ($request->file('image')) {
@@ -162,6 +165,7 @@ class CategoryController extends Controller
             'slug'              => request('slug'),
             'image'             => $image_url,
             'position'          => $category->position,
+            'priority'          => request('priority'),
             'additional_image'  => $additional_image
         ]);
         Alert::success('Updated', 'Data Updated Successfully');
@@ -194,6 +198,7 @@ class CategoryController extends Controller
                 ->where(['position' => 1])
                 ->where('categories.name', 'like', '%' . $filter . '%')
                 ->orWhere('categories.slug', 'like', '%' . $filter . '%')
+                ->orWhere('categories.priority', 'like', '%' . $filter . '%')
                 ->paginate(10);
         } else {
             $master_sub_categories = Category::sortable()->where(['position' => 1])->paginate(10);
@@ -211,6 +216,7 @@ class CategoryController extends Controller
             'category'          => 'required',
             'sub-category-name' => 'required',
             'sub-category-slug' => 'required',
+            'priority'          => 'required|numeric',
             'image'             => 'image|mimes:jpeg,png,jpg,svg|max:8192'
         ]);
         if ($request->file('image')) {
@@ -251,7 +257,7 @@ class CategoryController extends Controller
             'additional_image' => $additional_image,
             'parent_id' => request('category'),
             'position'  => 1,
-            'priority'  => 0,
+            'priority'  => request('priority'),
             'status'    => 1
         ]);
         Alert::success('Success', 'Data Created Successfully');
@@ -270,6 +276,7 @@ class CategoryController extends Controller
             'category'          => 'required',
             'sub-category-name' => 'required',
             'sub-category-slug' => 'required',
+            'priority'          => 'required|numeric',
             'image'             => 'image|mimes:jpeg,png,jpg,svg|max:8192'
         ]);
         $category = Category::findOrFail($id);
@@ -339,7 +346,8 @@ class CategoryController extends Controller
             'slug' => request('sub-category-slug'),
             'image' => $image_url,
             'additional_image' => $additional_image,
-            'parent_id' => request('category')
+            'parent_id' => request('category'),
+            'priority'  => request('priority')
         ]);
         Alert::success('Updated', 'Data Updated Successfully');
         return redirect()->route('admin.master-sub-category');
@@ -370,6 +378,7 @@ class CategoryController extends Controller
                 ->where(['position' => 2])
                 ->where('categories.name', 'like', '%' . $filter . '%')
                 ->orWhere('categories.slug', 'like', '%' . $filter . '%')
+                ->orWhere('categories.priority', 'like', '%' . $filter . '%')
                 ->paginate(10);
         } else {
             $master_sub_sub_categories = Category::sortable()->where(['position' => 2])->paginate(10);
@@ -388,6 +397,7 @@ class CategoryController extends Controller
             'sub-category'          => 'required',
             'sub-sub-category-name' => 'required',
             'sub-sub-category-slug' => 'required',
+            'priority'              => 'required|numeric',
             'image'                 => 'image|mimes:jpeg,png,jpg,svg|max:8192'
         ]);
         if ($request->file('image')) {
@@ -428,7 +438,7 @@ class CategoryController extends Controller
             'additional_image' => $additional_image,
             'parent_id' => request('sub-category'),
             'position'  => 2,
-            'priority'  => 0,
+            'priority'  => request('priority'),
             'status'    => 1
         ]);
         Alert::success('Success', 'Data Created Successfully');
@@ -447,6 +457,7 @@ class CategoryController extends Controller
             'sub-category'          => 'required',
             'sub-sub-category-name' => 'required',
             'sub-sub-category-slug' => 'required',
+            'priority'              => 'required|numeric',
             'image'                 => 'image|mimes:jpeg,png,jpg,svg|max:8192'
         ]);
         $category = Category::findOrFail($id);
@@ -516,7 +527,8 @@ class CategoryController extends Controller
             'slug' => request('sub-sub-category-slug'),
             'image' => $image_url,
             'additional_image' => $additional_image,
-            'parent_id' => request('sub-category')
+            'parent_id' => request('sub-category'),
+            'priority'  => request('priority')
         ]);
         Alert::success('Updated', 'Data Updated Successfully');
         return redirect()->route('admin.master-sub-sub-category');

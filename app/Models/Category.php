@@ -12,7 +12,7 @@ class Category extends Model
     use Sortable;
 
     public $sortable = [
-        'id', 'name', 'slug'
+        'id', 'name', 'slug', 'priority'
     ];
     protected $fillable = [
         'name', 'slug', 'image', 'additional_image', 'parent_id', 'position', 'priority', 'status'

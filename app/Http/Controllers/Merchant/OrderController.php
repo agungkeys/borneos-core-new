@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Merchant;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Merchant, Order};
+use App\Models\{Merchant, Order, OrderDetail, Payment};
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -26,5 +26,12 @@ class OrderController extends Controller
             $orders = Order::sortable()->where([['merchant_id', $merchant->id], ['status', '!=', 'new']])->paginate(10);
         }
         return view('merchant.order.index', compact('orders', 'filter'));
+    }
+    public function detail(Order $order)
+    {
+        return view('merchant.order.detail', [
+            'order'         => $order,
+            'order_details' => OrderDetail::where('order_id', $order->id)->get()
+        ]);
     }
 }

@@ -33,7 +33,7 @@ class LoginController extends Controller
         {
             if($courier->status == 0)
             {
-                Alert::toast('Akun anda belum di aktivasi, silahkan cek email atau hubungi admin', 'warning');
+                Alert::toast('Akun anda belum di aktivasi, silahkan hubungi admin', 'warning');
                 return redirect()->back();
             }
         }

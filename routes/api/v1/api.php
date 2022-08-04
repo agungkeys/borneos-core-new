@@ -19,4 +19,5 @@ Route::group(['namespace' => 'Api\V1'], function () {
   Route::group(['prefix' => 'orders'], function () {
     Route::post('/', 'OrderController@order_store');
   });
+  Route::get('/generate-slug-product', 'ProductController@generate_slug_products');
 });

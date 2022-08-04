@@ -1,4 +1,4 @@
-@extends('layouts.app-admin')
+@extends('layouts.app-courier')
 
 @section('content')
 <div class="app-main__inner">
@@ -14,7 +14,7 @@
    </div>
    <div class="row">
      <div class="col-12 col-lg-6 col-md-6 col-sm-12">
-       <a href="/admin/orders{{$order->status ? '/'.$order->status : ''}}" class="text-secondary mb-3" style="display: flex; align-items: center; text-decoration: none;"><i class="pe-7s-angle-left" style="font-size: 2rem;"></i>Back to Order List</a>
+       <a href="/courier/orders/all" class="text-secondary mb-3" style="display: flex; align-items: center; text-decoration: none;"><i class="pe-7s-angle-left" style="font-size: 2rem;"></i>Kembali ke List Pesanan</a>
      </div>
      <div class="col-12 col-lg-6 col-md-6 col-sm-12">
        <div class="d-block text-right">
@@ -32,14 +32,16 @@
          <p class="badge badge-info p-2">Order {{ $order->status }}</p>
          @elseif($order->status == 'canceled')
          <p class="badge badge-danger p-2">{{ $order->status }}</p>
+         @elseif($order->status == 'processing')
+         <p class="badge badge-success p-2">Sedang Diproses</p>
          @else
-         <p class="badge badge-success p-2">{{ $order->status }}</p>
+         <p class="badge badge-success p-2">Terkirim</p>
          @endif
 
          @if($order->payment_status == 'paid')
-         <p class="badge badge-success p-2">{{ ucfirst($order->payment_status) }}</p>
+         <p class="badge badge-success p-2">Terbayar</p>
          @else
-         <p style="background-color: red" class="badge badge-secondary p-2">{{ ucfirst($order->payment_status) }}</p>
+         <p style="background-color: red" class="badge badge-secondary p-2">Belum Dibayar</p>
          @endif
        </div>
      </div>
@@ -49,18 +51,18 @@
       <div class="card-body p-4">
           <div class="row d-flex justify-content-between">
               <div class="col-12 col-lg-5 col-md-5 col-sm-12">
-                  <h3 class="card-title">Merchant Info</h3>
+                  <h3 class="card-title">Informasi Merchant</h3>
                   <table class="table table-borderless table-responsive">
                       <tr>
-                          <td>Name</td>
+                          <td>Nama</td>
                           <th>{{ $order->merchant_id && $order->merchant->name ? $order->merchant->name : '-' }}</th>
                       </tr>
                       <tr>
-                          <td>Phone</td>
+                          <td>Telepon</td>
                           <th>{{ $order->merchant_id && $order->merchant->phone ? $order->merchant->phone : '-' }}</th>
                       </tr>
                       <tr>
-                          <td>Address</td>
+                          <td>Alamat</td>
                           <td>{{ $order->merchant_id && $order->merchant->address ? $order->merchant->address : '-' }}</td>
                       </tr>
                   </table>
@@ -70,15 +72,15 @@
                   <h3 class="card-title">Customer</h3>
                   <table class="table table-borderless table-responsive">
                       <tr>
-                          <td>Name</td>
+                          <td>Nama</td>
                           <th>{{ $order->customer_name }}</th>
                       </tr>
                       <tr>
-                          <td>Phone</td>
+                          <td>Telepon</td>
                           <th>{{ $order->customer_telp }}</th>
                       </tr>
                       <tr>
-                          <td>Address</td>
+                          <td>Alamat</td>
                           <td>{{ $order->customer_address }}</td>
                       </tr>
                       @if(strlen($order->customer_notes)>1)
@@ -97,11 +99,7 @@
           <div class="invoice">
               <div class="row">
                   <div class="col-12 col-lg-6 col-md-6 col-sm-12">
-                    <h3 class="card-title">Products Info</h3>
-                      <!-- <h4>
-                      <i class="fas fa-cart-arrow-down"></i> {{ $order->customer_name }}
-                      <small class="float-right">Date: {{ date('d/m/Y', strtotime($order->created_at)); }}</small>
-                      </h4> -->
+                    <h3 class="card-title">Informasi Produk</h3>
                   </div>
                   <div class="col-12 col-lg-6 col-md-6 col-sm-12">
 
@@ -113,13 +111,13 @@
                       <thead>
                           <tr>
                               <th>No.</th>
-                              <th>Name</th>
-                              <th>Price</th>
-                              <th>Discount</th>
-                              <th>Discount Type</th>
-                              <th>Qty.</th>
-                              <th>Total Price</th>
-                              <th>Notes</th>
+                              <th>Nama</th>
+                              <th>Harga</th>
+                              <th>Diskin</th>
+                              <th>Tipe Diskon</th>
+                              <th>Qty</th>
+                              <th>Total Harga</th>
+                              <th>Catatan</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -145,39 +143,39 @@
               </div>
               <div class="row">
                   <div class="col-12 col-lg-4 col-md-4 col-sm-12 mt-2">
-                      <h3 class="card-title">Distance Info</h3>
+                      <h3 class="card-title">Ongkir</h3>
                       <table class="table table-borderless table-responsive">
                           <tr>
-                              <td style="widtd:50%">Distance</td>
+                              <td style="widtd:50%">Jarak</td>
                               <td>{{ $order->distance }} Km.</td>
                           </tr>
                           <tr>
-                              <td>Total Distance Price</td>
+                              <td>Total Ongkir</td>
                               <td>{{ number_format($order->total_distance_price,0,',','.') }}</td>
                           </tr>
                       </table>
                   </div>
                   <div class="col-12 col-lg-4 col-md-4 col-sm-12 mt-2">
-                      <h3 class="card-title">Payment Info</h3>
+                      <h3 class="card-title">Informasi Pembayaran</h3>
                       <table class="table table-borderless table-responsive">
                           <tr>
-                              <td>Payment Type</td>
+                              <td>Tipe Pembayaran</td>
                               <td>{{ ucfirst($order->payment_type) }}</td>
                           </tr>
                           <tr>
-                              <td>Payment Status</td>
+                              <td>Status Pembayaran</td>
                               <td>{{ ucfirst($order->payment_status) }}</td>
                           </tr>
                           <tr>
-                              <td>Bank Name</td>
+                              <td>Nama Bank</td>
                               <td>{{ $order->payment_bank_name }}</td>
                           </tr>
                           <tr>
-                          <td>Bank Account No.</td>
-                          <td>{{ $order->payment_account_number }}</td>
+                              <td>No Rekening Bank</td>
+                              <td>{{ $order->payment_account_number }}</td>
                           </tr>
                           <tr>
-                              <td>Payment Total</td>
+                              <td>Total Pembayaran</td>
                               <td>{{ number_format($order->payment_total,0,',','.') }}</td>
                           </tr>
                       </table>
@@ -186,15 +184,15 @@
                       <h3 class="card-title">Total</h3>
                       <table class="table table-borderless table-responsive">
                           <tr>
-                              <td style="widtd:50%">Total Item:</td>
+                              <td style="widtd:50%">Total Qty :</td>
                               <th>{{ $order->total_item }}</th>
                           </tr>
                           <tr>
-                              <td>Total Item Price:</td>
+                              <td>Total Harga Item :</td>
                               <th>{{ number_format($order->total_item_price,0,',','.') }}</th>
                           </tr>
                           <tr>
-                              <td>Total Price:</td>
+                              <td>Total Akhir :</td>
                               <th>{{ number_format($order->total_price,0,',','.') }}</th>
                           </tr>
                       </table>
@@ -208,14 +206,14 @@
       <div class="card-body p-4">
           <div class="row">
               <div class="col-12 col-lg-6 col-md-6 col-sm-12">
-                  <h3 class="card-title">Courier Info</h3>
+                  <h3 class="card-title">Informasi Kurir</h3>
                   <table class="table table-borderless table-responsive">
                       <tr>
-                          <td>Name</td>
+                          <td>Nama</td>
                           <th>{{ $order->courier_id ? $order->courier->name : '-' }}</th>
                       </tr>
                       <tr>
-                          <td>Phone</td>
+                          <td>Telepon</td>
                           <th>{{ $order->courier_id ? $order->courier->phone : '-' }}</th>
                       </tr>
                   </table>
@@ -228,60 +226,44 @@
       <div class="card-body p-4">
            <div class="row">
                <div class="col-12 col-lg-6 col-md-6 col-sm-12">
-                   <h3 class="card-title">Payment</h3>
+                   <h3 class="card-title">Status Pesanan</h3>
                </div>
            </div>
-           <form action="{{ route('admin.orders.detail.update',$order) }}" method="post">
-                @method('PUT')
-                @csrf
+           <form action="{{ route('courier.master-order.detail.update',$order) }}" method="post">
+               @method('PUT')
+               @csrf
                <div class="row mt-2">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label>Payment Status: </label>
-                            <div id="payment_status" style="border-radius: 10px"></div>
+                            <label>Status </label>
+                            @if ($order->status == 'delivered')
+                            <div class="alert alert-success" style="border-radius: 10px"><b>Terkirim</b></div>
+                            @else
+                            <div class="alert alert-info" style="border-radius: 10px"><b>Sedang Proses</b></div>
+                            @endif
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="update_payment_status">Update Payment Status:</label>
-                            <select name="update_payment_status" id="update_payment_status" class="js-data-example-ajax multiselect-dropdown form-control">
-                                <option {{ $order->payment_status == 'paid' ? 'selected':'' }} value="paid">Paid</option>
-                                <option {{ $order->payment_status == 'unpaid' ? 'selected':'' }} value="unpaid">Unpaid</option>
-                            </select>
+                    @if ($order->status == 'delivered')
+                    @else
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="deliver_status">Update Status Pesanan</label>
+                                <select name="deliver_status" id="deliver_status" class="form-control">
+                                    <option disabled>Pilih Status Pesanan</option>
+                                    <option {{ $order->status == 'proccesing' ? 'selected':'' }} value="processing">Sedang Proses</option>
+                                    <option {{ $order->status == 'delivered' ? 'selected':'' }} value="delivered">Terkirim</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-5">
-                        <label for="payment_method">Payment Method</label>
-                        <select name="payment_method" id="payment_method" class="js-data-example-ajax multiselect-dropdown form-control">
-                               <option value="">Choose One!</option>
-                               @foreach ($payments as $payment)
-                                   <option {{ $order->payment_account_number == $payment->account_no ? $order->payment_account_number == '' ? '':'selected':'' }} value="{{ $payment->id }}">{{ ucfirst($payment->account_type) }} - {{ $payment->name }}</option>
-                               @endforeach
-                        </select>
-                    </div>
-               </div>
-               <div class="row">
-                    <div class="col-md-3">
-                        <label>Payment Type:</label>
-                        <div id="payment_type" style="border-radius:10px"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="payment_bank_name">Payment Bank Name</label>
-                            <input type="text" name="payment_bank_name" id="payment_bank_name" class="form-control" readonly>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <label for="payment_account_number">Payment Account Number</label>
-                            <input type="text" name="payment_account_number" id="payment_account_number" class="form-control" readonly>
-                        </div>
-                    </div>
-                   
+                    @endif
                </div>
                 <div class="text-right mt-2">
-                    <a href="/admin/orders" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
+                    <a href="/courier/orders/all" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
+                    @if ($order->status == 'delivered')
+
+                    @else
                     <button type="submit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Update</button>
+                    @endif
                 </div>
            </form>
        </div>
@@ -292,52 +274,22 @@
 @section('js')
     <script type="text/javascript">
         $(document).ready(function(){
-            let PaymentMethod = $('#payment_method').val();
-            onChangePaymentStatus($('#update_payment_status').val());
-            $('#update_payment_status').change(function(e){
+            let PaymentMethod = $('#status').val();
+            onChangePaymentStatus($('#deliver_status').val());
+            $('#deliver_status').change(function(e){
                 onChangePaymentStatus(e.target.value);
             });
-            $('#payment_method').change(function(e){
-                $.get(`/admin/master-payment/${e.target.value}`,function(res){
-                    onChangePaymentType(res.payment.type,res.payment.name,res.payment.account_no);
-                });
-            });
-            if(PaymentMethod){
-                $.get(`/admin/master-payment/${PaymentMethod}`,function(res){
-                    onChangePaymentType(res.payment.type,res.payment.name,res.payment.account_no);
-                });
-            }
         });
-        function onChangePaymentType(paymentType,paymentName,paymentAccountNo){
-            if(paymentType == 'cash'){
-                $('#payment_type').attr('class','alert alert-info');
-                $('#payment_type').html(`<b>${capitalize(paymentType)}</b>`);
-                $('#payment_bank_name').val('');
-                $('#payment_account_number').val('');
-            }else{
-                $('#payment_type').attr('class','alert alert-success');
-                $('#payment_type').html(`<b>${capitalize(paymentType)}</b>`);
-                $('#payment_bank_name').val(paymentName);
-                $('#payment_account_number').val(paymentAccountNo);
-            }
-        }
         function capitalize(s) {
             return s[0].toUpperCase() + s.substr(1);
         }
-
         function onChangePaymentStatus(val){
-             if(val == 'paid'){
-                $('#payment_status').attr('class','alert alert-info');
-                $('#payment_status').html('<b>Paid</b>');
-                $('#payment_method').attr('disabled',false);
+             if(val == 'delivered'){
+                $('#status').attr('class','alert alert-success');
+                $('#status').html('<b>Terkirim</b>');
             }else{
-                $('#payment_status').attr('class','alert alert-danger');
-                $('#payment_status').html('<b>Unpaid</b>');
-                $('#payment_method').attr('disabled',true);
-                $('#payment_type').attr('class','');
-                $('#payment_type').text('');
-                $('#payment_bank_name').val('');
-                $('#payment_account_number').val('');
+                $('#status').attr('class','alert alert-info');
+                $('#status').html('<b>Sedang Proses</b>');
             }
         }
     </script>

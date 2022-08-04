@@ -22,6 +22,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/orders/detail/{order:prefix}', 'OrderController@detail')->name('orders.detail');
     Route::put('/order/detail/{order:prefix}', 'OrderController@updatePaymentFromPageDetail')->name('orders.detail.update');
     Route::get('/orders/followUpMerchant/{order:prefix}', 'OrderController@FollowUpMerchant');
+    Route::get('/orders/followUpCustomerWhenDone/{order:prefix}', 'OrderController@FollowUpCustomerWhenDone');
     Route::get('/orders', 'OrderController@all')->name('orders.all');
     Route::get('/order/add', 'OrderController@add')->name('orders.add');
     Route::post('/order/add', 'OrderController@store')->name('orders.store');
@@ -150,5 +151,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
     //log
     Route::get('log/order', 'LogOrderController@index')->name('log.order');
+
+    //blog category
+    Route::get('/blog-category', 'BlogCategoryController@master_categoryBlog_index')->name('blog-category.index');
   });
 });

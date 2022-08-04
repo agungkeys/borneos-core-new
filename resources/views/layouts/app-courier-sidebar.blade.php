@@ -3,10 +3,10 @@
         <ul class="vertical-nav-menu">
             <li class="app-sidebar__heading">Menu</li>
             <li>
-              <a href="/merchant" class="admin {{ count(request()->segments()) == 1 && request()->segments()[0] == 'admin' ? 'mm-active' : '' }}"><i class="metismenu-icon pe-7s-rocket"></i>Dashboards</a>
+              <a href="/courier" class="admin {{ count(request()->segments()) == 1 && request()->segments()[0] == 'admin' ? 'mm-active' : '' }}"><i class="metismenu-icon pe-7s-rocket"></i>Dashboards</a>
             </li>
             <li>
-              <a class="all" href="#"><i class="metismenu-icon pe-7s-news-paper"></i>Pesanan</a>
+              <a href="/courier/orders/all" class="admin {{ count(request()->segments()) == 1 && request()->segments()[0] == 'admin' ? 'mm-active' : '' }}" href="#"><i class="metismenu-icon pe-7s-news-paper"></i>Pesanan</a>
             </li>
             <li>
               <a class="all" href="#"><i class="metismenu-icon pe-7s-user"></i>Profil Saya</a>

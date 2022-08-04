@@ -1,4 +1,4 @@
-@extends('layouts.app-merchant')
+@extends('layouts.app-courier')
 
 @section('content')
 <div class="app-main__inner">
@@ -42,18 +42,18 @@
             <thead>
               <tr>
                   <th style="min-width: 50px;">@sortablelink('id', 'ID')</th>
-                  <th style="min-width: 60px;">@sortablelink('order_type', 'Type')</th>
+                  <th style="min-width: 60px;">@sortablelink('order_type', 'Tipe')</th>
                   <th style="min-width: 140px;">Merchant</th>
+                  <th style="min-width: 120px;">Telp Merchant</th>
                   <th style="min-width: 120px;">@sortablelink('customer_name', 'Customer')</th>
-                  <th style="min-width: 120px;">@sortablelink('total_item', 'Total Item')</th>
-                  <th style="min-width: 150px;">@sortablelink('total_item_price', 'Total Item Price')</th>
-                  <th style="min-width: 150px;">@sortablelink('payment_type', 'Payment Type')</th>
-                  <th style="min-width: 150px;">@sortablelink('payment_status', 'Payment Status')</th>
-                  <th style="min-width: 120px;">Courier Name</th>
-                  <th style="min-width: 100px;">@sortablelink('status', 'Status')</th>
-                  <th style="min-width: 100px;">Action</th>
+                  <th style="min-width: 60px;">@sortablelink('total_item', 'Pcs')</th>
+                  <th style="min-width: 120px;">@sortablelink('total_item_price', 'Total Harga')</th>
+                  <th style="min-width: 150px;">@sortablelink('payment_type', 'Tipe Pembayaran')</th>
+                  <th style="min-width: 160px;">@sortablelink('payment_status', 'Status Pembayaran')</th>
+                  <th style="min-width: 60px;">@sortablelink('status', 'Status')</th>
+                  <th style="min-width: 100px;">Aksi</th>
               </tr>
-              
+
             </thead>
              <tbody>
                @if ($orders->count() == 0)
@@ -74,11 +74,12 @@
                          <td><span class="badge badge-pill badge-secondary">{{ $order->order_type }}</span></td>
                          @endif
                          <td><span>{{ $order->merchant_id && $order->merchant->name ? $order->merchant->name : '-' }}</span></td>
+                         <td><span>{{ $order->merchant_id && $order->merchant->phone ? $order->merchant->phone : '-' }}</span></td>
                          <td>
                            <small style="font-weight: bold;" title="{{ $order->customer_name }}">{{ $order->customer_name ? \Str::limit($order->customer_name, 13, '..') : '-' }}</small>
                          </td>
                          <td>{{ $order->total_item }}</td>
-                         <td>{{ number_format($order->total_item_price,0, ",",".") }}</td>
+                         <td>{{ number_format($order->total_price,0, ",",".") }}</td>
                          @if($order->payment_type == 'cash')
                          <td><span class="badge badge-pill badge-success">{{ $order->payment_type }}</span></td>
                          @elseif($order->payment_type == 'transfer')
@@ -89,18 +90,22 @@
                         <td><span class="badge badge-pill badge-secondary">{{ $order->payment_type }}</span></td>
                          @endif
                          @if($order->payment_status == 'paid')
-                         <td><span class="badge badge-pill badge-success">{{ $order->payment_status }}</span></td>
+                         <td><span class="badge badge-pill badge-success">Terbayar</span></td>
                          @else
-                         <td><span class="badge badge-pill badge-danger">{{ $order->payment_status }}</span></td>
+                         <td><span class="badge badge-pill badge-danger">Belum Dibayar</span></td>
                          @endif
-                         <td>{{ $order->courier_id && $order->courier->name ? $order->courier->name : '-' }}</td>
-                         @if($order->status == 'cancel')
-                         <td><span class="badge badge-pill badge-danger">{{ $order->status }}</span></td>
+                         @if($order->status == 'new')
+                         <td> <span class="badge badge-pill badge-info p-2">Order {{ $order->status }}</span></td>
+                         @elseif($order->status == 'canceled')
+                         <td> <span class="badge badge-pill badge-danger p-2">{{ $order->status }}</span></td>
+                         @elseif($order->status == 'processing')
+                         <td> <span class="badge badge-pill badge-success p-2">Sedang Diproses</span></td>
                          @else
-                         <td><span class="badge badge-pill badge-success">{{ $order->status }}</span></td>
+                         <td> <span class="badge badge-pill badge-success p-2">Terkirim</span></td>
                          @endif
                          <td>
-                          <a href="{{ route('merchant.orders.detail',$order) }}" class="btn btn-primary ion-android-clipboard" title="Detail Order"></a>
+                          <a href="{{ route('courier.master-order.detail',$order) }}" class="btn btn-primary btn-sm ion-android-clipboard" title="Details ?"></a>
+                          {{-- <a href="#" class="btn btn-warning btn-sm ion-android-create" title="Edit ?"></a> --}}
                         </td>
                      </tr>
                  @endforeach

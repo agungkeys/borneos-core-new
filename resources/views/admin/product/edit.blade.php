@@ -24,7 +24,7 @@
             @method('PUT')
             @csrf
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label for="merchant_id">Merchant</label>
                         <select name="merchant_id" id="merchant_id" class="js-data-example-ajax multiselect-dropdown form-control"
@@ -36,13 +36,19 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label for="product_name">Product Name</label>
                         <input type="text" id="product_name" name="product_name" value="{{ $product->name }}" class="form-control">
                         @error('product_name')
                             <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
+                    </div>
+                </div>
+                 <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Slug</label>
+                        <input type="text" value="{{ $product->slug }}" class="form-control" readonly>
                     </div>
                 </div>
             </div>
@@ -102,7 +108,6 @@
                     <div class="form-group">
                        <label for="sub_sub_category">Sub Sub Category</label>
                         <select class="multiselect-dropdown form-control" name="sub_sub_category" id="sub_sub_category">
-                            <option value=""></option>
                             {{-- @foreach ($sub_sub_categories as $sub_sub_category)
                                 <option {{ $sub_sub_category_id == $sub_sub_category->id ?'selected':'' }} value="{{ $sub_sub_category->id }}">{{ $sub_sub_category->name }}</option>
                             @endforeach --}}
@@ -150,7 +155,7 @@
                @enderror
             </div>
             <div class="form-group text-center" style="margin-bottom:0%;">
-               <img style="width: 25%;border: 0px solid; border-radius: 10px;" id="viewer" src="{{ URL::to($product->image) }}" alt=""/>
+               <img style="width: 25%;border: 0px solid; border-radius: 10px;" id="viewer" src="{{ URL::to($product->compressImage('w_100,h_100')) }}" alt=""/>
             </div>
             <div class="text-right mt-2">
                <a href="{{ route('admin.master-product') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
@@ -229,20 +234,6 @@
               }
             });
             $('#sub_category').val('{{ $sub_sub_category_id }}').trigger('change');
-
-            $('#sub_category').on('select2:select', function (e) {
-                var data = e.params.data;
-                $("#sub_sub_category").remove();
-                $.get(`/admin/get-sub-sub-category/${data}`,function(response){
-                    $.each(response, function (i, item) {
-                        $('#sub_sub_category').append($("<option>", {
-                            value: item.id,
-                            text : item.name
-                        }));
-                    });
-                });
-            });
-
         });
         function readURL(input) {
             if (input.files && input.files[0]) {
