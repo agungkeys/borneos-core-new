@@ -226,7 +226,7 @@ class MerchantController extends Controller
         }
 
         if ($request->file('logo')) {
-            if ($master_merchant->logo) {
+            if (substr($master_merchant->logo, 0, 4) == 'http') {
                 $key = json_decode($master_merchant->additional_image);
                 Cloudinary::destroy($key->logo->public_id);
                 $path_name = $request->file('logo')->getRealPath();
@@ -289,7 +289,7 @@ class MerchantController extends Controller
         };
 
         if ($request->file('cover_photo')) {
-            if ($master_merchant->cover_photo) {
+            if (substr($master_merchant->cover_photo, 0, 4) == 'http') {
                 $key = json_decode($master_merchant->additional_image);
                 Cloudinary::destroy($key->cover->public_id);
                 $path_name = $request->file('cover_photo')->getRealPath();
@@ -352,7 +352,7 @@ class MerchantController extends Controller
         };
 
         if ($request->file('seo_image')) {
-            if ($master_merchant->seo_image) {
+            if (substr($master_merchant->seo_image, 0, 4) == 'http') {
                 $key = json_decode($master_merchant->additional_seo_image);
                 Cloudinary::destroy($key->public_id);
                 $path_name = $request->file('seo_image')->getRealPath();

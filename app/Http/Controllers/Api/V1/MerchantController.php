@@ -21,6 +21,7 @@ class MerchantController extends Controller
             $perPage = $request->perPage ? $request->perPage : 10;
             $sort = $request->sort ?? 'desc';
             $request_q = $request->q ?? '';
+
             if ($category_id == 0) {
                 if ($categories_id == 0) {
                     if ($merchant_favorite == null) {
@@ -42,32 +43,32 @@ class MerchantController extends Controller
                 } elseif ($categories_id !== 0) {
                     if ($merchant_favorite == null) {
                         $query = Merchant::where([
-                              ['categories_id', 'like', "%{$categories_id['id']}%"],
-                              ['status', '=', $status],
-                              ['name', 'like', '%' . $request_q . '%'],
-                            ])
+                            ['categories_id', 'like', "%{$categories_id['id']}%"],
+                            ['status', '=', $status],
+                            ['name', 'like', "%{$request_q}%"],
+                        ])
                             ->orderBy('id', $sort)
                             ->paginate($perPage);
                     } else {
                         $query = Merchant::where([
-                          ['categories_id', 'like', "%{$categories_id['id']}%"],
-                          ['status', '=', $status],
-                          ['merchant_favorite', '=', $merchant_favorite],
-                          ['name', 'like', '%' . $request_q . '%'],
+                            ['categories_id', 'like', "%{$categories_id['id']}%"],
+                            ['merchant_favorite', '=', $merchant_favorite],
+                            ['status', '=', $status],
+                            ['name', 'like', "%{$request_q}%"],
                         ])
-                        ->orderBy('id', $sort)
-                        ->paginate($perPage);
+                            ->orderBy('id', $sort)
+                            ->paginate($perPage);
                     }
                 }
             } elseif ($category_id > 0) {
                 if ($categories_id !== 0) {
                     if ($merchant_favorite == null) {
                         $query = Merchant::where([
-                              ['category_id', '=', $category_id],
-                              ['categories_id', 'like', "%{$categories_id['id']}%"],
-                              ['status', '=', $status],
-                              ['name', 'like', '%' . $request_q . '%'],
-                            ])
+                            ['category_id', '=', $category_id],
+                            ['categories_id', 'like', "%{$categories_id['id']}%"],
+                            ['status', '=', $status],
+                            ['name', 'like', "%{$request_q}%"],
+                        ])
                             ->orderBy('id', $sort)
                             ->paginate($perPage);
                     } else {
@@ -84,22 +85,22 @@ class MerchantController extends Controller
                 } elseif ($categories_id == 0) {
                     if ($merchant_favorite == null) {
                         $query = Merchant::where([
-                              ['category_id', '=', $category_id],
-                              ['name', 'like', '%' . $request_q . '%'],
-                            ])
+                            ['category_id', '=', $category_id],
+                            ['status', '=', $status],
+                            ['name', 'like', "%{$request_q}%"],
+                        ])
                             ->orderBy('id', $sort)
                             ->paginate($perPage);
                     } else {
                         $query = Merchant::where([
-                          ['category_id', '=', $category_id],
-                          ['categories_id', 'like', "%{$categories_id['id']}%"],
-                          ['status', '=', $status],
-                          ['merchant_favorite', '=', $merchant_favorite],
-                          ['name', 'like', '%' . $request_q . '%'],
+                            ['category_id', '=', $category_id],
+                            ['merchant_favorite', '=', $merchant_favorite],
+                            ['status', '=', $status],
+                            ['name', 'like', "%{$request_q}%"],
                         ])
-                        ->orderBy('id', $sort)
-                        ->paginate($perPage);
-                    }
+                            ->orderBy('id', $sort)
+                            ->paginate($perPage);
+                    } 
                 }
             }
             if ($query->count()) {

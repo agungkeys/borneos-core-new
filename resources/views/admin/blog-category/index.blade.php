@@ -11,7 +11,7 @@
             <div>Master Blog Category <span class="badge badge-pill badge-primary">{{ number_format($master_category_blog->total(), 0, "", ".") }}</span><div class="page-title-subheading">List Master Blog Category</div></div>
          </div>
          <div class="page-title-actions">
-             <a href="#" class="btn-shadow btn btn-info btn-lg">Add Blog Category</a>
+             <a href="{{ route('admin.blog-category.add') }}" class="btn-shadow btn btn-info btn-lg">Add Blog Category</a>
          </div>
       </div>
    </div>
@@ -70,7 +70,7 @@
                         <td>{{ $item->name ? $item->name : '-' }}</td>
                         <td>{{ $item->slug ? $item->slug : '-' }}</td>
                         <td>
-                           <a href="#" class="btn btn-warning btn-sm" title="Edit ?"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+                           <a href="{{ route('admin.blog-category.edit',$item) }}" class="btn btn-warning btn-sm" title="Edit ?"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
                            <button type="button"  class="btn btn-danger btn-sm" title="Delete ?"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                         </td>
                     </tr>
