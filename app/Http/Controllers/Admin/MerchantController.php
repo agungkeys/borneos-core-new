@@ -347,8 +347,8 @@ class MerchantController extends Controller
             }
         } else {
             $key = json_decode($master_merchant->additional_image);
-            $additional_image_cover = $key->cover ? $key->cover : '';
-            $image_url_cover = $master_merchant->cover_photo ? $master_merchant->cover_photo : '';
+            $additional_image_cover = $key->cover ? $key->cover : null;
+            $image_url_cover = $master_merchant->cover_photo ? $master_merchant->cover_photo : null;
         };
 
         if ($request->file('seo_image')) {
