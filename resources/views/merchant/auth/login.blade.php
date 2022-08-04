@@ -79,14 +79,14 @@
                   <label class="form-check-label" for="remember" class="form-check-label">Keep me logged in</label> -->
 
                 </div>
-                <div class="divider row"></div>
                 <div class="d-flex align-items-center">
-                  <div class="ml-auto">
-                    <!-- <a href="javascript:void(0);" class="btn-lg btn btn-link">Hubungi Admin Borneos</a> -->
-                    <button class="btn btn-primary btn-lg" type="submit">Login Merchant</button>
-                    <a href="{{ route('merchant.auth.register') }}" onclick="loading()" class="ml-2 btn btn-warning btn-lg">Daftar Mitra Merchant</a>
-                  </div>
+                    <div class="ml-auto">
+                        <!-- <a href="javascript:void(0);" class="btn-lg btn btn-link">Hubungi Admin Borneos</a> -->
+                        <button class="btn btn-primary btn-lg" type="submit">Login Merchant</button>
+                    </div>
                 </div>
+                <div class="divider row"></div>
+                Belum memiliki akun ? <a href="{{ route('merchant.auth.register') }}" onclick="loading()" class="ml-2 btn btn-warning btn-lg">Daftar Mitra Merchant</a>
               </form>
             </div>
           </div>
