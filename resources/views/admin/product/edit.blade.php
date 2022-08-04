@@ -209,6 +209,7 @@
 
             $.get('/admin/get-sub-category/{{ $category_id }}',function(response){
               if(response){
+                $('#sub_category').empty();
                 $.each(response, function (i, item) {
                   $('#sub_category').append($("<option>", {
                       value: item.id,
