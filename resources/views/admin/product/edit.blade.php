@@ -48,7 +48,7 @@
                  <div class="col-md-4">
                     <div class="form-group">
                         <label>Slug</label>
-                        <input type="text" value="{{ $product->slug }}" class="form-control" readonly>
+                        <input type="text" id="slug" name="slug" value="{{ $product->slug }}" class="form-control" readonly>
                     </div>
                 </div>
             </div>
@@ -250,5 +250,41 @@
         $("#image").change(function () {
             readURL(this);
         });
+
+        document.getElementById("product_name").addEventListener("input", function () {
+            let theSlug = string_to_slug(this.value);
+            let slug = $("#slug").val();
+            if (slug === '') {
+              document.getElementById("slug").value = theSlug;
+            }
+
+        });
+        function string_to_slug(str) {
+            str = str.replace(/^\s+|\s+$/g, ""); // trim
+            str = str.toLowerCase();
+
+            // remove accents, swap ñ for n, etc
+            var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+            var to = "aaaaeeeeiiiioooouuuunc------";
+            for (var i = 0, l = from.length; i < l; i++) {
+                str = str.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
+            }
+
+            str = str
+                .replace(/[^a-z0-9 -]/g, "") // remove invalid chars
+                .replace(/\s+/g, "-") // collapse whitespace and replace by -
+                .replace(/-+/g, "-"); // collapse dashes
+            str = str+`-`+makeid(10);
+            return str;
+        }
+        function makeid(length) {
+          var result           = '';
+          var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+          var charactersLength = characters.length;
+          for ( var i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+          }
+          return result;
+        }
     </script>
 @endsection
