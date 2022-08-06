@@ -16,7 +16,12 @@ class Merchant extends Model
     ];
 
     protected $fillable = [
-        'category_id', 'category_ids', 'categories_id', 'categories_ids', 'merchant_type', 'name', 'slug', 'phone', 'email', 'logo', 'additional_image', 'latitude', 'longitude', 'district', 'address', 'footer_text', 'minimum_order', 'comission', 'schedule_order', 'opening_time', 'closeing_time', 'status', 'vendor_id', 'free_delivery', 'rating', 'cover_photo', 'delivery', 'delivery_time', 'take_away', 'food_section', 'tax', 'review_section', 'active', 'off_day', 'gst', 'self_delivery_system', 'pos_system', 'cash_on_delivery', 'seo_image', 'additional_seo_image'
+        'category_id', 'category_ids', 'categories_id', 'categories_ids', 'merchant_type', 'paid_partnership',
+        'name', 'slug', 'phone', 'email', 'logo', 'additional_image', 'latitude', 'longitude', 'district',
+        'address', 'footer_text', 'minimum_order', 'comission', 'schedule_order', 'opening_time', 'closeing_time',
+        'status', 'vendor_id', 'free_delivery', 'rating', 'cover_photo', 'delivery', 'delivery_time', 'take_away',
+        'food_section', 'tax', 'review_section', 'active', 'off_day', 'gst', 'self_delivery_system', 'pos_system',
+        'cash_on_delivery', 'seo_image', 'additional_seo_image'
     ];
 
     public function category()
@@ -35,7 +40,7 @@ class Merchant extends Model
     {
         if ($this->additional_image) {
             $convert = json_decode($this->additional_image);
-            if ($convert->logo) {
+            if ($convert && $convert->logo) {
                 $public_image_host_cloudinary = env('PUBLIC_IMAGE_HOST_CLOUDINARY');
                 $public_cloudinary_id = env('PUBLIC_CLOUDINARY_ID');
                 $public_id = $convert->logo->public_id;
@@ -52,7 +57,7 @@ class Merchant extends Model
     {
         if ($this->additional_image) {
             $convert = json_decode($this->additional_image);
-            if ($convert->cover) {
+            if ($convert && $convert->cover) {
                 $public_image_host_cloudinary = env('PUBLIC_IMAGE_HOST_CLOUDINARY');
                 $public_cloudinary_id = env('PUBLIC_CLOUDINARY_ID');
                 $public_id = $convert->cover->public_id;
@@ -69,7 +74,7 @@ class Merchant extends Model
     {
         if ($this->additional_seo_image) {
             $convert = json_decode($this->additional_seo_image);
-            if ($convert->public_id) {
+            if ($convert && $convert->public_id) {
                 $public_image_host_cloudinary = env('PUBLIC_IMAGE_HOST_CLOUDINARY');
                 $public_cloudinary_id = env('PUBLIC_CLOUDINARY_ID');
                 $public_id = $convert->public_id;

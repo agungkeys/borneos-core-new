@@ -102,6 +102,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::put('/master-merchant/{id}', 'MerchantController@master_merchant_update')->name('master-merchant.update');
     Route::get('/master-merchant/status/{id}/{status}', 'MerchantController@master_merchant_status')->name('master-merchant.status');
     Route::get('/master-merchant/favorite/{id}/{favorite}', 'MerchantController@master_merchant_favorite')->name('master-merchant.favorite');
+    Route::get('/master-merchant/paidPartnership/{id}/{paidPartnership}', 'MerchantController@master_merchant_paidPartnership')->name('master-merchant.paid-partnership');
 
     Route::get('settings', 'SystemController@settings')->name('settings');
     Route::post('settings', 'SystemController@settings_update');
