@@ -164,6 +164,7 @@ trait Merchants
                 'closingTime' => substr($result->closeing_time, 0, 5),
                 'status' => $result->status,
                 'merchantFavorite' => $result->merchant_favorite,
+                'paidPartnership' => $result->paid_partnership,
                 'productFavorite' => $this->RestProductFavoriteFromMerchant($result->id),
                 'totalProductOnMerchant' => $this->RestTotalProductOnMerchant($result->id),
                 'vendor' => [

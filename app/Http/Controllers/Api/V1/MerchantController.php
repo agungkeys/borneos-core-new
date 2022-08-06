@@ -14,6 +14,7 @@ class MerchantController extends Controller
     public function get_merchants(Request $request)
     {
         if ($request->header('tokenb') === env('tokenb')) {
+            /* Payload params */
             $status = $request->status ?? 1;
             $merchant_favorite = $request->merchantFavorite ?? null;
             $category_id = $request->category ? $this->getCategoryId(['category' => $request->category]) : 0;
@@ -21,22 +22,25 @@ class MerchantController extends Controller
             $perPage = $request->perPage ? $request->perPage : 10;
             $sort = $request->sort ?? 'desc';
             $request_q = $request->q ?? '';
+            $paid_partnership = $request->paidPartnership ?? '';
 
             if ($category_id == 0) {
                 if ($categories_id == 0) {
                     if ($merchant_favorite == null) {
                         $query = Merchant::where([
-                              ['status', '=', $status],
-                              ['name', 'like', '%' . $request_q . '%'],
-                            ])
+                            ['status', '=', $status],
+                            ['name', 'like', '%' . $request_q . '%'],
+                            ['paid_partnership', '=', $paid_partnership],
+                        ])
                             ->orderBy('id', $sort)
                             ->paginate($perPage);
                     } else {
                         $query = Merchant::where([
-                              ['status', '=', $status],
-                              ['merchant_favorite', '=', $merchant_favorite],
-                              ['name', 'like', '%' . $request_q . '%'],
-                            ])
+                            ['status', '=', $status],
+                            ['merchant_favorite', '=', $merchant_favorite],
+                            ['name', 'like', '%' . $request_q . '%'],
+                            ['paid_partnership', '=', $paid_partnership],
+                        ])
                             ->orderBy('id', $sort)
                             ->paginate($perPage);
                     }
@@ -46,6 +50,7 @@ class MerchantController extends Controller
                             ['categories_id', 'like', "%{$categories_id['id']}%"],
                             ['status', '=', $status],
                             ['name', 'like', "%{$request_q}%"],
+                            ['paid_partnership', '=', $paid_partnership],
                         ])
                             ->orderBy('id', $sort)
                             ->paginate($perPage);
@@ -55,6 +60,7 @@ class MerchantController extends Controller
                             ['merchant_favorite', '=', $merchant_favorite],
                             ['status', '=', $status],
                             ['name', 'like', "%{$request_q}%"],
+                            ['paid_partnership', '=', $paid_partnership],
                         ])
                             ->orderBy('id', $sort)
                             ->paginate($perPage);
@@ -68,19 +74,21 @@ class MerchantController extends Controller
                             ['categories_id', 'like', "%{$categories_id['id']}%"],
                             ['status', '=', $status],
                             ['name', 'like', "%{$request_q}%"],
+                            ['paid_partnership', '=', $paid_partnership],
                         ])
                             ->orderBy('id', $sort)
                             ->paginate($perPage);
                     } else {
                         $query = Merchant::where([
-                          ['category_id', '=', $category_id],
-                          ['categories_id', 'like', "%{$categories_id['id']}%"],
-                          ['status', '=', $status],
-                          ['merchant_favorite', '=', $merchant_favorite],
-                          ['name', 'like', '%' . $request_q . '%'],
+                            ['category_id', '=', $category_id],
+                            ['categories_id', 'like', "%{$categories_id['id']}%"],
+                            ['status', '=', $status],
+                            ['merchant_favorite', '=', $merchant_favorite],
+                            ['name', 'like', '%' . $request_q . '%'],
+                            ['paid_partnership', '=', $paid_partnership],
                         ])
-                        ->orderBy('id', $sort)
-                        ->paginate($perPage);
+                            ->orderBy('id', $sort)
+                            ->paginate($perPage);
                     }
                 } elseif ($categories_id == 0) {
                     if ($merchant_favorite == null) {
@@ -88,6 +96,7 @@ class MerchantController extends Controller
                             ['category_id', '=', $category_id],
                             ['status', '=', $status],
                             ['name', 'like', "%{$request_q}%"],
+                            ['paid_partnership', '=', $paid_partnership],
                         ])
                             ->orderBy('id', $sort)
                             ->paginate($perPage);
@@ -97,10 +106,11 @@ class MerchantController extends Controller
                             ['merchant_favorite', '=', $merchant_favorite],
                             ['status', '=', $status],
                             ['name', 'like', "%{$request_q}%"],
+                            ['paid_partnership', '=', $paid_partnership],
                         ])
                             ->orderBy('id', $sort)
                             ->paginate($perPage);
-                    } 
+                    }
                 }
             }
             if ($query->count()) {
