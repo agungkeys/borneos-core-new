@@ -151,6 +151,7 @@ class ProductController extends Controller
         $product = new Product;
         $product->merchant_id = $request->merchant_id;
         $product->name = $request->product_name;
+        $product->slug = $request->slug;
         $product->description = $request->description == null ? '' : $request->description;
         $product->image = $image_url;
         $product->additional_image = $additional_image;
