@@ -153,6 +153,10 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     //log
     Route::get('log/order', 'LogOrderController@index')->name('log.order');
 
+    //blog
+    Route::get('/master-blog', 'BlogController@master_blog_index')->name('blog.index');
+    Route::get('/master-blog/status/{id}/{status}', 'BlogController@master_blog_status')->name('master-blog.status');
+
     //blog category
     Route::get('/blog-category', 'BlogCategoryController@master_categoryBlog_index')->name('blog-category.index');
     Route::get('/blog-category/add', 'BlogCategoryController@master_categoryBlog_add')->name('blog-category.add');
