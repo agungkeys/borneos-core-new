@@ -165,6 +165,10 @@
                 $('#category').val(response.category);
                 $('#category_name').val(response.category_name);
                 $("#sub_category").empty();
+                $('#available_time_starts').val('');
+                $('#available_time_ends').val('');
+                $('#available_time_starts').val(response.open_time);
+                $('#available_time_ends').val(response.closing_time);
                 $.each(response.sub_categories, function (i, item) {
                     $('#sub_category').append($('<option>', {
                         value: item.id,

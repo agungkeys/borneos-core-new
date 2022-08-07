@@ -85,6 +85,7 @@ class MerchantController extends Controller
         $vendor->email = $request->email;
         $vendor->phone = $request->phone;
         $vendor->password = bcrypt($request->password);
+        $vendor->status = 1;
         $vendor->save();
 
         if ($request->file('logo')) {
@@ -148,7 +149,7 @@ class MerchantController extends Controller
         $additional_image_json = json_encode($additional_image);
         $additional_image_seo_json = json_encode($additional_image_seo);
 
-        $merchant = Merchant::create([
+        Merchant::create([
             'category_id'           => $request->main_category_id,
             'category_ids'          => $json_category_ids,
             'categories_id'         => $categories_id,
@@ -163,6 +164,8 @@ class MerchantController extends Controller
             'longitude'             => $request->longitude,
             'district'              => $request->district,
             'address'               => $request->address,
+            'status'                => 1,
+            'paid_partnership'      => 0,
             'minimum_order'         => 0,
             'comission'             => 0,
             'schedule_order'        => 0,
@@ -507,6 +510,16 @@ class MerchantController extends Controller
         $master_merchant->save();
 
         Alert::toast('Favorite Updated', 'success');
+        return redirect('/admin/master-merchant');
+    }
+
+    public function master_merchant_paidPartnership(Request $request)
+    {
+        $master_merchant = Merchant::withoutGlobalScopes()->find($request->id);
+        $master_merchant->paid_partnership = $request->paidPartnership;
+        $master_merchant->save();
+
+        Alert::toast('Paid Partnership Updated', 'success');
         return redirect('/admin/master-merchant');
     }
 }

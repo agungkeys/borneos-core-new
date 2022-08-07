@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\{Categories, Products, FormatMeta};
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -40,6 +41,21 @@ class ProductController extends Controller
             }
         } else {
             return response()->json(['status' => 'error', 'meta' => null, 'data' => null], 401);
+        }
+    }
+
+    public function get_product_detail(Request $request)
+    {
+        if ($request->header('tokenb') === env('tokenb')) {
+            $slug = $request->slug ? $request->slug : '';
+            $product = Product::where('slug', 'like', "%{$slug}%")->get();
+            if ($product->count() == 0) {
+                return response()->json(['status' => 'error', 'data' => null]);
+            } else {
+                return response()->json(['status' => 'success', 'data' => $this->result_product_list($product)]);
+            }
+        } else {
+            return response()->json(['status' => 'error', 'data' => null], 401);
         }
     }
 
