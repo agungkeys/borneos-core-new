@@ -22,7 +22,7 @@ class MerchantController extends Controller
             $perPage = $request->perPage ? $request->perPage : 10;
             $sort = $request->sort ?? 'desc';
             $request_q = $request->q ?? '';
-            $paid_partnership = $request->paidPartnership ?? '';
+            $paid_partnership = $request->paidPartnership ?? null;
 
             if ($category_id == 0) {
                 if ($categories_id == 0) {
