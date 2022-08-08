@@ -11,7 +11,7 @@
             <div>Master Blog<span class="badge badge-pill badge-primary">{{ number_format($master_blog->total(), 0, "", ".") }}</span><div class="page-title-subheading">List Master Blog</div></div>
          </div>
          <div class="page-title-actions">
-             <a href="#" class="btn-shadow btn btn-info btn-lg">Add Blog</a>
+             <a href="{{ route('admin.blog.add') }}" class="btn-shadow btn btn-info btn-lg">Add Blog</a>
          </div>
       </div>
    </div>
@@ -63,15 +63,9 @@
                 @foreach ($master_blog as $item)
                     <tr>
                         <td>{{ $item->id }}</td>
-                        @if($item->image)
                         <td>
-                            <img src="{{ URL::to($item->image) }}" alt="" width="32" height="32">
+                            <img src="{{ URL::to($item->compressImage('w_32,h_32')) }}" alt="" width="32" height="32">
                         </td>
-                        @else
-                        <td>
-                            <img src="{{ asset('images/default-image.jpg') }}" alt="" width="32" height="32">
-                        </td>
-                        @endif
                         <td>{{ $item->blog_category_id && $item->blog_category->name ? $item->blog_category->name :'-' }}</td>
                         <td>{{ $item->title ? $item->title : '-' }}</td>
                         <td>{{ $item->slug ? $item->slug : '-' }}</td>

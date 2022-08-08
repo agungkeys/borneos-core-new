@@ -156,6 +156,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     //blog
     Route::get('/master-blog', 'BlogController@master_blog_index')->name('blog.index');
     Route::get('/master-blog/status/{id}/{status}', 'BlogController@master_blog_status')->name('master-blog.status');
+    Route::get('/master-blog/add', 'BlogController@master_blog_add')->name('blog.add');
+    Route::post('/master-blog/add', 'BlogController@master_blog_store')->name('blog.store');
 
     //blog category
     Route::get('/blog-category', 'BlogCategoryController@master_categoryBlog_index')->name('blog-category.index');
