@@ -158,6 +158,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('/master-blog/status/{id}/{status}', 'BlogController@master_blog_status')->name('master-blog.status');
     Route::get('/master-blog/add', 'BlogController@master_blog_add')->name('blog.add');
     Route::post('/master-blog/add', 'BlogController@master_blog_store')->name('blog.store');
+    Route::get('/master-blog/edit/{blog:slug}', 'BlogController@master_blog_edit')->name('blog.edit');
+    Route::put('/master-blog/edit/{blog:slug}', 'BlogController@master_blog_update')->name('blog.update');
 
     //blog category
     Route::get('/blog-category', 'BlogCategoryController@master_categoryBlog_index')->name('blog-category.index');
