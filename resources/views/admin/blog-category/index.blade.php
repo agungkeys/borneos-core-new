@@ -58,15 +58,7 @@
                 @foreach ($master_category_blog as $item)
                     <tr>
                         <td>{{ $item->id }}</td>
-                        @if($item->image)
-                        <td>
-                            <img src="{{ URL::to($item->image) }}" alt="" width="32" height="32">
-                        </td>
-                        @else
-                        <td>
-                            <img src="{{ asset('images/default-image.jpg') }}" alt="" width="32" height="32">
-                        </td>
-                        @endif
+                        <td><img src="{{ URL::to($item->compressImage('w_32,h_32')) }}" alt="" width="32" height="32"></td>
                         <td>{{ $item->name ? $item->name : '-' }}</td>
                         <td>{{ $item->slug ? $item->slug : '-' }}</td>
                         <td>

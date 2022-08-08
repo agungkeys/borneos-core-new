@@ -79,4 +79,42 @@ class BlogController extends Controller
         Alert::success('Success', 'Created Successfully');
         return redirect()->route('admin.blog.index');
     }
+    public function master_blog_edit(Blog $blog)
+    {
+        return view('admin.blog.edit', [
+            'blog'       => $blog,
+            'categories' => CategoryBlog::all()
+        ]);
+    }
+    public function master_blog_update(Request $request, Blog $blog)
+    {
+        $request->validate([
+            'title'    => 'required',
+            'category' => 'required',
+            'image'    => 'image|mimes:jpeg,png,jpg,svg|max:8192'
+        ]);
+
+        if ($request->file('image')) {
+            $image = $this->UpdateImageCloudinary([
+                'image'      => $request->file('image'),
+                'folder'     => 'images/blogs/blog',
+                'collection' => $blog
+            ]);
+            $image_url = $image['url'];
+            $additional_image = $image['additional_image'];
+        }
+
+        $blog->update([
+            'blog_category_id' => $request->category,
+            'user_id'          => auth()->guard('admin')->user()->id,
+            'title'            => $request->title,
+            'slug'             => $this->processGenerateSlug($request->title),
+            'short_details'    => $request->short_details ?? '-',
+            'details'          => $request->details ?? '-',
+            'image'            => $image_url ?? $blog->image,
+            'additional_image' => $additional_image ?? $blog->additional_image
+        ]);
+        Alert::success('Success', 'Updated Successfully');
+        return redirect()->route('admin.blog.index');
+    }
 }
