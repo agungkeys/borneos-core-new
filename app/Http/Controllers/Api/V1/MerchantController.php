@@ -30,7 +30,7 @@ class MerchantController extends Controller
                         $query = Merchant::where([
                             ['status', '=', $status],
                             ['name', 'like', '%' . $request_q . '%'],
-                            ['paid_partnership', '=', $paid_partnership],
+                            ['paid_partnership', 'like', "%{$paid_partnership}%"],
                         ])
                             ->orderBy('id', $sort)
                             ->paginate($perPage);
@@ -39,7 +39,7 @@ class MerchantController extends Controller
                             ['status', '=', $status],
                             ['merchant_favorite', '=', $merchant_favorite],
                             ['name', 'like', '%' . $request_q . '%'],
-                            ['paid_partnership', '=', $paid_partnership],
+                            ['paid_partnership', 'like', "%{$paid_partnership}%"],
                         ])
                             ->orderBy('id', $sort)
                             ->paginate($perPage);
@@ -50,7 +50,7 @@ class MerchantController extends Controller
                             ['categories_id', 'like', "%{$categories_id['id']}%"],
                             ['status', '=', $status],
                             ['name', 'like', "%{$request_q}%"],
-                            ['paid_partnership', '=', $paid_partnership],
+                            ['paid_partnership', 'like', "%{$paid_partnership}%"],
                         ])
                             ->orderBy('id', $sort)
                             ->paginate($perPage);
@@ -60,7 +60,7 @@ class MerchantController extends Controller
                             ['merchant_favorite', '=', $merchant_favorite],
                             ['status', '=', $status],
                             ['name', 'like', "%{$request_q}%"],
-                            ['paid_partnership', '=', $paid_partnership],
+                            ['paid_partnership', 'like', "%{$paid_partnership}%"],
                         ])
                             ->orderBy('id', $sort)
                             ->paginate($perPage);
@@ -74,7 +74,7 @@ class MerchantController extends Controller
                             ['categories_id', 'like', "%{$categories_id['id']}%"],
                             ['status', '=', $status],
                             ['name', 'like', "%{$request_q}%"],
-                            ['paid_partnership', '=', $paid_partnership],
+                            ['paid_partnership', 'like', "%{$paid_partnership}%"],
                         ])
                             ->orderBy('id', $sort)
                             ->paginate($perPage);
@@ -85,7 +85,7 @@ class MerchantController extends Controller
                             ['status', '=', $status],
                             ['merchant_favorite', '=', $merchant_favorite],
                             ['name', 'like', '%' . $request_q . '%'],
-                            ['paid_partnership', '=', $paid_partnership],
+                            ['paid_partnership', 'like', "%{$paid_partnership}%"],
                         ])
                             ->orderBy('id', $sort)
                             ->paginate($perPage);
@@ -96,7 +96,7 @@ class MerchantController extends Controller
                             ['category_id', '=', $category_id],
                             ['status', '=', $status],
                             ['name', 'like', "%{$request_q}%"],
-                            ['paid_partnership', '=', $paid_partnership],
+                            ['paid_partnership', 'like', "%{$paid_partnership}%"],
                         ])
                             ->orderBy('id', $sort)
                             ->paginate($perPage);
@@ -106,7 +106,7 @@ class MerchantController extends Controller
                             ['merchant_favorite', '=', $merchant_favorite],
                             ['status', '=', $status],
                             ['name', 'like', "%{$request_q}%"],
-                            ['paid_partnership', '=', $paid_partnership],
+                            ['paid_partnership', 'like', "%{$paid_partnership}%"],
                         ])
                             ->orderBy('id', $sort)
                             ->paginate($perPage);
