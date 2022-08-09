@@ -19,26 +19,37 @@
       <div class="card-body">
         <form method="GET" autocomplete="off">
         <div class="row mb-3">
-          <div class="col-12 col-md-6">
-            <div class="d-flex">
-              <div class="form-inline w-100" >
-                <div class="input-group w-100">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">
-                      <i class="fa fa-search fa-w-16 "></i>
+           <div class="col-12 col-md-3">
+              <div class="d-flex">
+                <div class="form-inline w-100" >
+                  <div class="input-group w-100">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <i class="fa fa-search fa-w-16 "></i>
+                      </div>
                     </div>
-                  </div>
-                  <input id="filter" name="filter" value="{{$filter}}" placeholder="Search Product, Price" type="text" class="form-control" style="color: gray;">
-                  <div class="input-group-prepend">
-                      <button type="submit" class="btn btn-primary btn-md">Search</button>
-                  </div>
-                  <div class="ml-2">
-                    <a href="{{ route('merchant.master-product') }}" class="btn btn-light btn-lg mr-2">Clear</a>
+                    <input id="filter" name="filter" value="{{$filter}}" placeholder="Search Product, Price" type="text" class="form-control" style="color: gray;" autocomplete="off">
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+            <div class="col-12 col-md-3">
+              <div class="d-flex">
+                  <div class="input-group w-100">
+                    <select name="favorite" id="favorite" class="form-control">
+                      <option disabled selected>Pilih Favorit</option>
+                      <option {{ $favorite == 1 ? 'selected':'' }} value="1">Favorit Aktif</option>
+                      <option {{ $favorite == 0 ? 'selected':'' }} value="0">Favorit Tidak Aktif</option>
+                    </select>
+                  </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-2">
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-primary btn-md mr-2">Search</button>
+                    <a href="/merchant/master-product" class="btn btn-light btn-lg">Clear</a>
+                </div>
+            </div>
         </div>
          <table style="width: 100%;" class="table table-hover table-striped table-bordered">
             <thead>
