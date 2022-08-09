@@ -15,9 +15,11 @@ class ProductController extends Controller
     public function master_product_index(Request $request)
     {
         $filter = $request->query('filter');
+        $favorite = $request->query('favorite');
         $merchant = Merchant::where(['vendor_id' => auth()->guard('merchant')->user()->id])->get();
         if (!empty($filter)) {
             $products = Product::sortable()
+                ->where([['products.favorite', '=', $favorite], ['merchant_id', '=', $merchant[0]->id]])
                 ->where([['products.name', 'like', '%' . $filter . '%'], ['merchant_id', '=', $merchant[0]->id]])
                 ->orWhere([['products.price', 'like', '%' . $filter . '%'], ['merchant_id', '=', $merchant[0]->id]])
                 ->latest()
@@ -25,7 +27,7 @@ class ProductController extends Controller
         } else {
             $products = Product::sortable()->where('products.merchant_id', '=', $merchant[0]->id)->latest()->paginate(10);
         }
-        return view('merchant.product.index', compact('products', 'filter'));
+        return view('merchant.product.index', compact('products', 'filter', 'favorite'));
     }
     public function master_product_status(Request $request)
     {
