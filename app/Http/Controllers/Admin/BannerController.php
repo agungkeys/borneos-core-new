@@ -4,28 +4,31 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Banner;
-use App\Models\Merchant;
+use App\Http\Traits\CloudinaryImage;
+use App\Models\{Banner, Merchant};
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
-use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
 
 class BannerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    use CloudinaryImage;
+
     public function index(Request $request)
     {
         $filter = $request->query('filter');
-        if (!empty($filter)){
+        if (!empty($filter)) {
             $banners = Banner::sortable()
-            ->where('banners.title', 'like', '%'. $filter . '%')
-            ->orWhere('banners.url', 'like', '%' .$filter. '%')
-            ->paginate(10);
+                ->where('banners.title', 'like', '%' . $filter . '%')
+                ->orWhere('banners.url', 'like', '%' . $filter . '%')
+                ->orWhere('banners.type', 'like', '%' . $filter . '%')
+                ->orWhereHas('merchant', function ($q) use ($filter) {
+                    return $q->where('name', 'like', "%{$filter}%");
+                })
+                ->orWhereHas('admin', function ($q) use ($filter) {
+                    return $q->where('f_name', 'like', "%{$filter}%")->orWhere('l_name', 'like', "%{$filter}%");
+                })
+                ->paginate(10);
         } else {
             $banners = Banner::sortable()->paginate(10);
         }
@@ -33,183 +36,99 @@ class BannerController extends Controller
         return view('admin.banner.index', compact('banners', 'filter'));
     }
 
-    public function master_banner_status(Request $request){
+    public function master_banner_status(Request $request)
+    {
         $banner = Banner::withoutGlobalScopes()->find($request->id);
-
         $banner->status = $request->status;
         $banner->save();
-
-        Alert::toast('Status updated!', 'success');
+        Alert::success('Success', 'Data Created Successfully');
         return redirect()->route('admin.banner.index');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        $merchants = Merchant::all();
         return view('admin.banner.add', [
-            'merchants' => $merchants
+            'merchants' => Merchant::all()
         ]);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required',
             'type' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:8192',
-            'url' => 'nullable',
-            'merchant_id' => 'nullable',
-            'admin_id' => 'nullable'
+            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:8192'
         ]);
 
         if ($request->file('image')) {
-            $path_name = $request->file('image')->getRealPath();
-            $image = Cloudinary::upload($path_name, ["folder" => "images/banners", "overwrite" => TRUE, "resource_type" => "image"]);
-            $image_url = $image->getSecurePath();
-            $ext = substr($image_url, -3);
-            $ext_jpeg = substr($image_url, -4);
-
-            if ($ext == "jpg") {
-                $image_url_webp = substr($image_url, 0, -3) . "webp";
-            } else if ($ext == "png") {
-                $image_url_webp = substr($image_url, 0, -3) . "webp";
-            } elseif ($ext == "svg") {
-                $image_url_webp = substr($image_url, 0, -3) . "webp";
-            } elseif ($ext_jpeg == "jpeg") {
-                $image_url_webp = substr($image_url, 0, -4) . "webp";
-            };
-
-            $detail_image = [
-                'public_id' =>  $image->getPublicId(),
-                'file_type' =>  $image->getFileType(),
-                'size'      =>  $image->getReadableSize(),
-                'width'     =>  $image->getWidth(),
-                'height'    =>  $image->getHeight(),
-                'extension' =>  $image->getExtension(),
-                'webp'      =>  $image_url_webp
-            ];
+            $image = $this->UploadImageCloudinary(['image' => $request->file('image'), 'folder' => 'images/banners']);
+            $image_url = $image['url'];
+            $additional_image = $image['additional_image'];
         } else {
             $image_url = '';
+            $additional_image = '';
         };
 
-        $banner = new Banner();
-        $banner->title = $request->title;
-        $banner->type = $request->type;
-        $banner->image = $image_url;
-        $banner->url = $request->url;
-        $banner->status = 1;
-        $banner->merchant_id = $request->merchant_id;
-        $banner->admin_id = Auth::guard('admin')->user()->id;
+        Banner::create([
+            'title'            => $request->title,
+            'type'             => $request->type,
+            'image'            => $image_url,
+            'url'              => $request->url ?? '',
+            'status'           => 1,
+            'merchant_id'      => $request->merchant_id ?? null,
+            'admin_id'         => auth()->guard('admin')->user()->id,
+            'additional_image' => $additional_image
+        ]);
 
-        $banner->save();
         Alert::success('Success', 'Data saved succesfully!');
         return redirect()->route('admin.banner.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function edit(Banner $banner)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-        $banner = Banner::where('id', $id)->first();
-        $merchants = Merchant::all();
         return view('admin.banner.edit', [
-            'banner' => $banner,
-            'merchants' => $merchants
+            'banner'    => $banner,
+            'merchants' => Merchant::all()
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, Banner $banner)
     {
-        //
-        $banner = Banner::findOrFail($id);
+        $request->validate([
+            'title' => 'required',
+            'type'  => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,svg|max:8192'
+        ]);
 
         if ($request->file('image')) {
-            $path_name = $request->file('image')->getRealPath();
-            $image = Cloudinary::upload($path_name, ["folder" => "images/banners", "overwrite" => TRUE, "resource_type" => "image"]);
-            $image_url = $image->getSecurePath();
-            $ext = substr($image_url, -3);
-            $ext_jpeg = substr($image_url, -4);
+            $image = $this->UpdateImageCloudinary([
+                'image'      => $request->file('image'),
+                'folder'     => 'images/banners',
+                'collection' => $banner
+            ]);
+            $image_url = $image['url'];
+            $additional_image = $image['additional_image'];
+        }
 
-            if ($ext == "jpg") {
-                $image_url_webp = substr($image_url, 0, -3) . "webp";
-            } else if ($ext == "png") {
-                $image_url_webp = substr($image_url, 0, -3) . "webp";
-            } elseif ($ext == "svg") {
-                $image_url_webp = substr($image_url, 0, -3) . "webp";
-            } elseif ($ext_jpeg == "jpeg") {
-                $image_url_webp = substr($image_url, 0, -4) . "webp";
-            };
+        $banner->update([
+            'title'            => $request->title,
+            'type'             => $request->type,
+            'image'            => $image_url ?? $banner->image,
+            'url'              => $request->url ?? '',
+            'merchant_id'      => $request->merchant_id ?? null,
+            'admin_id'         => auth()->guard('admin')->user()->id,
+            'additional_image' => $additional_image ?? $banner->additional_image
+        ]);
 
-            $detail_image = [
-                'public_id' =>  $image->getPublicId(),
-                'file_type' =>  $image->getFileType(),
-                'size'      =>  $image->getReadableSize(),
-                'width'     =>  $image->getWidth(),
-                'height'    =>  $image->getHeight(),
-                'extension' =>  $image->getExtension(),
-                'webp'      =>  $image_url_webp
-            ];
-            $additional_image = json_encode($detail_image);
-        } else {
-            $image_url = $banner->image;
-        };
-
-        $banner->title = $request->title;
-        $banner->type = $request->type;
-        $banner->image = $image_url;
-        $banner->url = $request->url;
-        $banner->merchant_id = $request->merchant_id;
-        $banner->admin_id = $banner->admin_id;
-
-        $banner->save();
-        Alert::success('Success', 'Data updated succesfully!');
+        Alert::success('Success', 'Updated succesfully');
         return redirect()->route('admin.banner.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $banner = Banner::findOrFail($id);
-
+        if ($banner->image && $banner->additional_image) {
+            $key = json_decode($banner->additional_image);
+            Cloudinary::destroy($key->public_id);
+        }
         $banner->delete();
         return response()->json(['status' => 200]);
     }
