@@ -8,7 +8,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <title>Borneos Courier Management - Dari Borneos Untuk UKM Indonesia</title>
-  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset(env('PUBLIC_ASSETS').'favicon.ico') }}">
 
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
