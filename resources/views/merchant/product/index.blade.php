@@ -28,7 +28,7 @@
                         <i class="fa fa-search fa-w-16 "></i>
                       </div>
                     </div>
-                    <input id="filter" name="filter" value="{{$filter}}" placeholder="Search Product, Price" type="text" class="form-control" style="color: gray;" autocomplete="off">
+                    <input id="filter" name="filter" value="{{$filter}}" placeholder="Cari Produk" type="text" class="form-control" style="color: gray;" autocomplete="off">
                   </div>
                 </div>
               </div>
@@ -40,6 +40,17 @@
                       <option disabled selected>Pilih Favorit</option>
                       <option {{ $favorite == 1 ? 'selected':'' }} value="1">Favorit Aktif</option>
                       <option {{ $favorite == 0 ? 'selected':'' }} value="0">Favorit Tidak Aktif</option>
+                    </select>
+                  </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-3">
+              <div class="d-flex">
+                  <div class="input-group w-100">
+                    <select name="status" id="status" class="form-control">
+                      <option disabled selected>Pilih Status</option>
+                      <option {{ $status == 1 ? 'selected':'' }} value="1">Status Aktif</option>
+                      <option {{ $status == 0 ? 'selected':'' }} value="0">Status Tidak Aktif</option>
                     </select>
                   </div>
               </div>
