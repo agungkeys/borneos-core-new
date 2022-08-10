@@ -168,5 +168,6 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::post('/blog-category/add', 'BlogCategoryController@master_categoryBlog_store')->name('blog-category.store');
     Route::get('/blog-category/edit/{category:slug}', 'BlogCategoryController@master_categoryBlog_edit')->name('blog-category.edit');
     Route::put('/blog-category/edit/{category:slug}', 'BlogCategoryController@master_categoryBlog_update')->name('blog-category.update');
+    Route::delete('/blog-category/{category:id}', 'BlogCategoryController@master_categoryBlog_delete')->name('blog-category.delete');
   });
 });
