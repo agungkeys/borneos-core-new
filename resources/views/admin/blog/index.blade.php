@@ -79,7 +79,7 @@
                         </td>
                         <td>
                            <a href="{{ route('admin.blog.edit',$item) }}" class="btn btn-warning btn-sm" title="Edit ?"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
-                           <button type="button" class="btn btn-danger btn-sm" title="Delete ?"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
+                           <button type="button" onclick="delete_blog({{$item->id}})" class="btn btn-danger btn-sm" title="Delete ?"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                         </td>
                     </tr>
                 @endforeach
@@ -96,4 +96,39 @@
       </div>
    </div>
  </div>
+@endsection
+@section('js')
+   <script type="text/javascript">
+      function delete_blog(id)
+      {
+         Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                let _token =  $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    type: "DELETE",
+                    url: "/admin/master-blog/"+id,
+                    data: {_token:_token,id:id},
+                    success:function(response){
+                      if(response.status == 200){
+                          Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                          )
+                          window.location = "/admin/master-blog";
+                      }
+                    }
+                });
+              }
+            })
+      }
+   </script>
 @endsection
