@@ -28,9 +28,9 @@
                                         <i class="fa fa-search fa-w-16 "></i>
                                         </div>
                                     </div>
-                                    <input id="filter" name="filter" value="{{ $filter }}" placeholder="Search Title" type="text" class="form-control" style="color: gray;">
+                                    <input id="filter" name="filter" value="{{ $filter }}" placeholder="Search" type="text" class="form-control" style="color: gray;" autocomplete="off">
                                     <div class="input-group-prepend">
-                                        <button type="submit" class="btn btn-primary btn-md">Search</buttton>
+                                        <button type="submit" class="btn btn-primary btn-md">Search</button>
                                     </div>
                                 </div>
                             </form>
@@ -45,13 +45,13 @@
                         <thead>
                             <tr>
                                 <th>@sortablelink('id', 'No')</th>
-                                <th>@sortablelink('title', 'Title')</th>
+                                <th>Image</th>
                                 <th>Type</th>
                                 <th>Merchant Name</th>
-                                <th>Image</th>
+                                <th>@sortablelink('title', 'Title')</th>
                                 <th>@sortablelink('url', 'URL')</th>
+                                <th>Admin</th>
                                 <th>Status</th>
-                                <th>Admin ID</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -66,24 +66,19 @@
                             @foreach ($banners as $banner )
                                 <tr>
                                     <td>{{ $banner->id }}</td>
+                                    <td><img src="{{ URL::to($banner->compressImage('w_60,h_60')) }}"  alt="" width="60"></td>
+                                    <td>{{ $banner->type ? str_replace('_',' ',ucfirst($banner->type)) : "-" }}</td>
+                                    <td>{{ $banner->merchant_id && $banner->merchant->name ? $banner->merchant->name : '-' }}</td>
                                     <td>{{ $banner->title ? $banner->title : "-" }}</td>
-                                    <td>{{ $banner->type ? $banner->type : "-" }}</td>
-                                    <td>{{ $banner->merchantName($banner->merchant_id) }}</td>
-
-                                    @if ($banner->image)
-                                        <td> <img src="{{ $banner->image }}"  alt="" width="100"> </td>
-                                    @else
-                                        <td> <img src="{{ asset('images/default-image.jpg') }}"  alt="" width="100"> </td>
-                                    @endif
                                     <td>{{ $banner->url ? $banner->url : "-" }}</td>
+                                    <td>{{ $banner->admin_id && $banner->admin->f_name ? $banner->admin->adminName() : "-" }}</td>
                                     <td>
                                         <label class="m-auto align-middle" for="statusCheckbox{{$banner->id}}">
                                             <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.banner.status',[$banner['id'],$banner->status ? 0 : 1])}}'" id="statusCheckbox{{$banner->id}}" {{$banner->status? 'checked' : ''}}>
                                         </label>
                                     </td>
-                                    <td>{{ $banner->admin_id ? $banner->admin_id : "-" }}</td>
                                     <td>
-                                         <a href="{{ route('admin.banner.edit',$banner->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
+                                         <a href="{{ route('admin.banner.edit',$banner) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
                                         <button type="button" onclick="delete_banner({{$banner->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                                     </td>
                                 </tr>
@@ -107,13 +102,6 @@
 
 @section('js')
 <script>
-    // render function index banner ======<<<<<
-
-    function handleSubmit() {
-
-
-    }
-
     function delete_banner(id)
     {
         Swal.fire({
@@ -125,24 +113,24 @@
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
-            if (result.isConfirmed) {
-            let _token =  $('meta[name="csrf-token"]').attr('content');
-            $.ajax({
-                type: "DELETE",
-                url: "/admin/banner/"+id,
-                data: {_token:_token,id:id},
-                success:function(response){
-                    if(response.status == 200){
-                        Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                        )
-                        window.location = "{{ route('admin.banner.index') }}";
-                    }
+                if (result.isConfirmed) {
+                    let _token =  $('meta[name="csrf-token"]').attr('content');
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/admin/banner/"+id,
+                        data: {_token:_token,id:id},
+                        success:function(response){
+                            if(response.status == 200){
+                                Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                                )
+                                window.location = "{{ route('admin.banner.index') }}";
+                            }
+                        }
+                    });
                 }
-            });
-            }
             })
     }
 </script>

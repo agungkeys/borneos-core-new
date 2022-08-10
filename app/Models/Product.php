@@ -20,6 +20,11 @@ class Product extends Model
         'favorite',
         'status'
     ];
+    protected $fillable = [
+        'merchant_id', 'name', 'slug', 'description', 'image', 'additional_image', 'category_id', 'sub_category_id',
+        'sub_sub_category_id', 'category_ids', 'variations', 'add_ons', 'attributes', 'choice_options', 'price', 'tax',
+        'tax_type', 'discount', 'discount_type', 'available_time_starts', 'available_time_ends', 'set_menu', 'favorite', 'status', 'order_count'
+    ];
 
     public function category()
     {

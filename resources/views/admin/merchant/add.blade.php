@@ -231,7 +231,7 @@
                 <div style="width: 100%; height: 400px; display: none;" id="address-map"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg" data-dismiss="modal" onclick="Coordinate()"><i class="pe-7s-diskette btn-icon-wrapper"></i>Save Coordinate</button>
+                <button type="button" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg" data-dismiss="modal" onclick="setCoordinate()"><i class="pe-7s-diskette btn-icon-wrapper"></i>Save Coordinate</button>
             </div>
         </div>
     </div>

@@ -28,7 +28,7 @@
                         <i class="fa fa-search fa-w-16 "></i>
                       </div>
                     </div>
-                    <input id="filter" name="filter" value="{{$filter}}" placeholder="Search Merchant, Owner" type="text" class="form-control" style="color: gray;" autocomplete="off">
+                    <input id="filter" name="filter" value="{{$filter}}" placeholder="Search Merchant, Owner" type="text" class="form-control" style="color: gray; font-size:12px" autocomplete="off">
                   </div>
                 </div>
               </div>
@@ -36,7 +36,7 @@
             <div class="col-12 col-md-4">
               <div class="d-flex">
                   <div class="input-group">
-                    <select name="favorite" id="favorite" class="form-control">
+                    <select name="favorite" id="favorite" class="form-control" style="font-size: 12px">
                       <option disabled selected>Filter Favorite</option>
                       <option {{ $favorite == 1 ? 'selected':'' }} value="1">Favorite Active</option>
                       <option {{ $favorite == 0 ? 'selected':'' }} value="0">Favorite Not Active</option>
@@ -45,7 +45,7 @@
                     </div>
                   </div>
                   <div class="input-group ml-2">
-                    <select name="status" id="status" class="form-control">
+                    <select name="status" id="status" class="form-control" style="font-size: 12px">
                       <option disabled selected>Filter Status</option>
                       <option {{ $status == 1 ? 'selected':'' }} value="1">Status Active</option>
                       <option {{ $status == 0 ? 'selected':'' }} value="0">Status Not Active</option>
@@ -71,6 +71,7 @@
                   <th>@sortablelink('name','Merchant')</th>
                   <th>Owner</th>
                   <th>Phone</th>
+                  <th>Paid Partnership</th>
                   <th>Favorite</th>
                   <th>Status</th>
                   <th>Action</th>
@@ -79,11 +80,16 @@
             <tbody>
                 @foreach ($master_merchants as $key => $master_merchant)
                     <tr>
-                        <td>{{ $loop->iteration }}.</td>
-                        <td><img src="{{ URL::to($master_merchant->compressLogo('w_32,h_32')) }}" alt="" width="32" height="32"></td> 
+                        <td>{{ $master_merchant->id }}.</td>
+                        <td><img src="{{ URL::to($master_merchant->compressLogo('w_32,h_32')) }}" alt="" width="32" height="32"></td>
                         <td>{{ $master_merchant->name }}</td>
                         <td>{{ $master_merchant->vendor_id && $master_merchant->vendor->f_name ? $master_merchant->vendor->VendorName() : '-' }}</td>
                         <td>{{ $master_merchant->phone }}</td>
+                        <td>
+                           <label class="m-auto align-middle" for="paidPartnershipCheckbox{{$master_merchant->id}}">
+                              <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.master-merchant.paid-partnership',[$master_merchant['id'],$master_merchant->paid_partnership?0:1])}}'" id="paidPartnershipCheckbox{{$master_merchant->id}}" {{$master_merchant->paid_partnership?'checked':''}}>
+                            </label>
+                        </td>
                         <td>
                            <label class="m-auto align-middle" for="favoriteCheckbox{{$master_merchant->id}}">
                               <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.master-merchant.favorite',[$master_merchant['id'],$master_merchant->merchant_favorite?0:1])}}'" id="favoriteCheckbox{{$master_merchant->id}}" {{$master_merchant->merchant_favorite?'checked':''}}>

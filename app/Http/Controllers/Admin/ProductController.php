@@ -64,7 +64,9 @@ class ProductController extends Controller
         return response()->json([
             'category'       => $category->id,
             'category_name'  => $category->name,
-            'sub_categories' => $sub_category
+            'sub_categories' => $sub_category,
+            'open_time'      => $merchant->opening_time,
+            'closing_time'   => $merchant->closeing_time
         ]);
     }
     public function get_sub_category($id)
@@ -151,6 +153,7 @@ class ProductController extends Controller
         $product = new Product;
         $product->merchant_id = $request->merchant_id;
         $product->name = $request->product_name;
+        $product->slug = $request->slug;
         $product->description = $request->description == null ? '' : $request->description;
         $product->image = $image_url;
         $product->additional_image = $additional_image;

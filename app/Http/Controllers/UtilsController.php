@@ -15,7 +15,9 @@ class UtilsController extends Controller
         return response()->json([
             'category'       => $category->id,
             'category_name'  => $category->name,
-            'sub_categories' => $sub_category
+            'sub_categories' => $sub_category,
+            'open_time'      => $merchant->opening_time,
+            'closing_time'   => $merchant->closeing_time
         ]);
     }
     public function get_sub_category($id)

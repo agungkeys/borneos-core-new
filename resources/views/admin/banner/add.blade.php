@@ -39,6 +39,7 @@
                              <div class="form-group">
                                 <label for="merchant_id">Merchant</label>
                                 <select name="merchant_id" id="merchant_id" class="multiselect-dropdown form-control" disabled>
+                                    <option disabled selected></option>
                                     @foreach ($merchants as $merchant)
                                         <option value="{{ $merchant->id }}"> {{ $merchant->name }} </option>
                                     @endforeach

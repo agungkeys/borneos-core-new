@@ -6,29 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
 
-class Banner extends Model
+class CategoryBlog extends Model
 {
-    use HasFactory;
-    use Sortable;
-
-    protected $table = 'banners';
-
-    protected $fillable = [
-        'title', 'type', 'image', 'additional_image', 'url', 'status', 'merchant_id', 'admin_id'
-    ];
-
+    use HasFactory, Sortable;
+    protected $table = 'category_blog';
     public $sortable = [
-        'title', 'type', 'url'
+        'name', 'slug'
     ];
-
-    public function merchant()
-    {
-        return $this->belongsTo(Merchant::class, 'merchant_id');
-    }
-    public function admin()
-    {
-        return $this->belongsTo(Admin::class, 'admin_id');
-    }
+    protected $fillable = [
+        'name', 'slug', 'image', 'additional_image', 'status'
+    ];
 
     public function compressImage($setSize)
     {

@@ -158,11 +158,13 @@ trait Merchants
                 'email' => $result->email,
                 'logo' => $result->logo,
                 'additionalImage' => json_decode($result->additional_image),
+                'district' => $result->district,
                 'address' => $result->address,
                 'openingTime' => substr($result->opening_time, 0, 5),
                 'closingTime' => substr($result->closeing_time, 0, 5),
                 'status' => $result->status,
                 'merchantFavorite' => $result->merchant_favorite,
+                'paidPartnership' => $result->paid_partnership,
                 'productFavorite' => $this->RestProductFavoriteFromMerchant($result->id),
                 'totalProductOnMerchant' => $this->RestTotalProductOnMerchant($result->id),
                 'vendor' => [

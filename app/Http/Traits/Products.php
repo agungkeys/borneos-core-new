@@ -3,9 +3,12 @@
 namespace App\Http\Traits;
 
 use App\Models\Product;
+use Illuminate\Support\Str;
 
 trait Products
 {
+    use Merchants;
+
     public function SearchProductList($data)
     {
         $filter   = $data['filter'];
@@ -214,9 +217,10 @@ trait Products
                     'slug' => $product->merchant->slug
                 ],
                 'name' => $product->name,
+                'slug' => $product->slug,
                 'description' => $product->description,
                 'image' => $product->image,
-                'adiitionalImage' => json_decode($product->additional_image),
+                'additionalImage' => json_decode($product->additional_image),
                 'categoryId' => [
                     'id' => $product->category_id,
                     'name' => $product->category_id ? $product->category->name : '',
@@ -236,6 +240,11 @@ trait Products
                 'taxType' => $product->tax_type,
                 'discount' => $product->discount,
                 'discountType' => $product->discount_type,
+                'discountPrice' => $this->discountPriceOnProduct([
+                    'discount' => $product->discount,
+                    'discount_type' => $product->discount_type,
+                    'price' => number_format($product->price, 0, ',', '')
+                ]),
                 'availableTimeStarts' => $product->available_time_starts,
                 'availableTimeEnds' => $product->available_time_ends,
                 'setMenu' => $product->set_menu,
@@ -243,5 +252,19 @@ trait Products
                 'orderCount' => $product->order_count
             ];
         };
+    }
+    public function processGenerateSlug($data)
+    {
+        $slug = Str::slug($data);
+        return str_replace(' ', '', Str::random(8) . "- $slug");
+    }
+
+    public function GenerateSlugProduct()
+    {
+        $products = Product::all();
+        foreach ($products as $item) {
+            Product::where(['id' => $item->id])->get()[0]->update(['slug' => $this->processGenerateSlug($item->name)]);
+        }
+        return response()->json(['status' => 'success']);
     }
 }

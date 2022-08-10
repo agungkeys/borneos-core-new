@@ -24,7 +24,7 @@
             @method('PUT')
             @csrf
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label for="merchant_id">Merchant</label>
                         <select name="merchant_id" id="merchant_id" class="js-data-example-ajax multiselect-dropdown form-control"
@@ -36,13 +36,19 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label for="product_name">Product Name</label>
                         <input type="text" id="product_name" name="product_name" value="{{ $product->name }}" class="form-control">
                         @error('product_name')
                             <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
+                    </div>
+                </div>
+                 <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Slug</label>
+                        <input type="text" id="slug" name="slug" value="{{ $product->slug }}" class="form-control" readonly>
                     </div>
                 </div>
             </div>
@@ -102,7 +108,6 @@
                     <div class="form-group">
                        <label for="sub_sub_category">Sub Sub Category</label>
                         <select class="multiselect-dropdown form-control" name="sub_sub_category" id="sub_sub_category">
-                            <option value=""></option>
                             {{-- @foreach ($sub_sub_categories as $sub_sub_category)
                                 <option {{ $sub_sub_category_id == $sub_sub_category->id ?'selected':'' }} value="{{ $sub_sub_category->id }}">{{ $sub_sub_category->name }}</option>
                             @endforeach --}}
@@ -167,6 +172,10 @@
                 $('#category').val(response.category);
                 $('#category_name').val(response.category_name);
                 $("#sub_category").empty();
+                $('#available_time_starts').val('');
+                $('#available_time_ends').val('');
+                $('#available_time_starts').val(response.open_time);
+                $('#available_time_ends').val(response.closing_time);
                 $.each(response.sub_categories, function (i, item) {
                     $('#sub_category').append($('<option>', {
                         value: item.id,
@@ -186,7 +195,7 @@
             });
         };
         function handleSubCategory(id){
-            $("#sub_sub_category").empty();
+            $('#sub_sub_category').empty();
             $.get(`/admin/get-sub-sub-category/${id}`,function(response){
                 $.each(response, function (i, item) {
                     $('#sub_sub_category').append($("<option>", {
@@ -204,6 +213,7 @@
 
             $.get('/admin/get-sub-category/{{ $category_id }}',function(response){
               if(response){
+                $('#sub_category').empty();
                 $.each(response, function (i, item) {
                   $('#sub_category').append($("<option>", {
                       value: item.id,
@@ -218,32 +228,20 @@
 
             $.get('/admin/get-sub-sub-category/{{ $sub_category_id }}',function(response){
               if(response){
+                $('#sub_sub_category').empty();
                 $.each(response, function (i, item) {
-                  $('#sub_sub_category').append($("<option>", {
-                      value: item.id,
-                      text : item.name
-                  }));
+                    $('#sub_sub_category').append($("<option>", {
+                        value: item.id,
+                        text : item.name
+                    }));
                 });
                 $('#sub_sub_category').val('{{ $sub_sub_category_id }}');
                 $('#sub_sub_category').trigger('change');
               }
             });
             $('#sub_category').val('{{ $sub_sub_category_id }}').trigger('change');
-
-            $('#sub_category').on('select2:select', function (e) {
-                var data = e.params.data;
-                $("#sub_sub_category").remove();
-                $.get(`/admin/get-sub-sub-category/${data}`,function(response){
-                    $.each(response, function (i, item) {
-                        $('#sub_sub_category').append($("<option>", {
-                            value: item.id,
-                            text : item.name
-                        }));
-                    });
-                });
-            });
-
         });
+
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -256,5 +254,41 @@
         $("#image").change(function () {
             readURL(this);
         });
+
+        document.getElementById("product_name").addEventListener("input", function () {
+            let theSlug = string_to_slug(this.value);
+            let slug = $("#slug").val();
+            if (slug === '') {
+              document.getElementById("slug").value = theSlug;
+            }
+
+        });
+        function string_to_slug(str) {
+            str = str.replace(/^\s+|\s+$/g, ""); // trim
+            str = str.toLowerCase();
+
+            // remove accents, swap ñ for n, etc
+            var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+            var to = "aaaaeeeeiiiioooouuuunc------";
+            for (var i = 0, l = from.length; i < l; i++) {
+                str = str.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
+            }
+
+            str = str
+                .replace(/[^a-z0-9 -]/g, "") // remove invalid chars
+                .replace(/\s+/g, "-") // collapse whitespace and replace by -
+                .replace(/-+/g, "-"); // collapse dashes
+            str = str+`-`+makeid(10);
+            return str;
+        }
+        function makeid(length) {
+          var result           = '';
+          var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+          var charactersLength = characters.length;
+          for ( var i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+          }
+          return result;
+        }
     </script>
 @endsection

@@ -22,7 +22,7 @@ class CategoryController extends Controller
                     'meta'   => $this->MetaCategory(),
                     'data'   => $this->getCategory(['status' => 1, 'sort' => $sort, 'priority' => $priority])
                 ], 200);
-            } elseif ($status == 1) {
+            } else {
                 return response()->json([
                     'status' => 'success',
                     'meta'   => $this->MetaCategory(),

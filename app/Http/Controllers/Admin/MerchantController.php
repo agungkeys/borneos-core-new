@@ -85,6 +85,7 @@ class MerchantController extends Controller
         $vendor->email = $request->email;
         $vendor->phone = $request->phone;
         $vendor->password = bcrypt($request->password);
+        $vendor->status = 1;
         $vendor->save();
 
         if ($request->file('logo')) {
@@ -148,7 +149,7 @@ class MerchantController extends Controller
         $additional_image_json = json_encode($additional_image);
         $additional_image_seo_json = json_encode($additional_image_seo);
 
-        $merchant = Merchant::create([
+        Merchant::create([
             'category_id'           => $request->main_category_id,
             'category_ids'          => $json_category_ids,
             'categories_id'         => $categories_id,
@@ -163,6 +164,8 @@ class MerchantController extends Controller
             'longitude'             => $request->longitude,
             'district'              => $request->district,
             'address'               => $request->address,
+            'status'                => 1,
+            'paid_partnership'      => 0,
             'minimum_order'         => 0,
             'comission'             => 0,
             'schedule_order'        => 0,
@@ -226,7 +229,7 @@ class MerchantController extends Controller
         }
 
         if ($request->file('logo')) {
-            if ($master_merchant->logo) {
+            if (substr($master_merchant->logo, 0, 4) == 'http') {
                 $key = json_decode($master_merchant->additional_image);
                 Cloudinary::destroy($key->logo->public_id);
                 $path_name = $request->file('logo')->getRealPath();
@@ -284,12 +287,12 @@ class MerchantController extends Controller
             }
         } else {
             $key = json_decode($master_merchant->additional_image);
-            $additional_image_logo = $key->logo;
-            $image_url_logo = $master_merchant->logo;
+            $additional_image_logo = $key->logo ?? '';
+            $image_url_logo = $master_merchant->logo ?? '';
         };
 
         if ($request->file('cover_photo')) {
-            if ($master_merchant->cover_photo) {
+            if (substr($master_merchant->cover_photo, 0, 4) == 'http') {
                 $key = json_decode($master_merchant->additional_image);
                 Cloudinary::destroy($key->cover->public_id);
                 $path_name = $request->file('cover_photo')->getRealPath();
@@ -347,12 +350,12 @@ class MerchantController extends Controller
             }
         } else {
             $key = json_decode($master_merchant->additional_image);
-            $additional_image_cover = $key->cover;
-            $image_url_cover = $master_merchant->cover_photo;
+            $additional_image_cover = $key->cover ?? '';
+            $image_url_cover = $master_merchant->cover_photo ?? '';
         };
 
         if ($request->file('seo_image')) {
-            if ($master_merchant->seo_image) {
+            if (substr($master_merchant->seo_image, 0, 4) == 'http') {
                 $key = json_decode($master_merchant->additional_seo_image);
                 Cloudinary::destroy($key->public_id);
                 $path_name = $request->file('seo_image')->getRealPath();
@@ -507,6 +510,16 @@ class MerchantController extends Controller
         $master_merchant->save();
 
         Alert::toast('Favorite Updated', 'success');
+        return redirect('/admin/master-merchant');
+    }
+
+    public function master_merchant_paidPartnership(Request $request)
+    {
+        $master_merchant = Merchant::withoutGlobalScopes()->find($request->id);
+        $master_merchant->paid_partnership = $request->paidPartnership;
+        $master_merchant->save();
+
+        Alert::toast('Paid Partnership Updated', 'success');
         return redirect('/admin/master-merchant');
     }
 }
