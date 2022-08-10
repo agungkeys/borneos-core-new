@@ -287,8 +287,8 @@ class MerchantController extends Controller
             }
         } else {
             $key = json_decode($master_merchant->additional_image);
-            $additional_image_logo = $key->logo ? $key->logo : '';
-            $image_url_logo = $master_merchant->logo ? $master_merchant->logo : '';
+            $additional_image_logo = $key->logo ?? '';
+            $image_url_logo = $master_merchant->logo ?? '';
         };
 
         if ($request->file('cover_photo')) {
@@ -350,8 +350,8 @@ class MerchantController extends Controller
             }
         } else {
             $key = json_decode($master_merchant->additional_image);
-            $additional_image_cover = $key ? $key->cover : '';
-            $image_url_cover = $master_merchant->cover_photo ? $master_merchant->cover_photo : '';
+            $additional_image_cover = $key->cover ?? '';
+            $image_url_cover = $master_merchant->cover_photo ?? '';
         };
 
         if ($request->file('seo_image')) {
