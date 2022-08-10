@@ -160,6 +160,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::post('/master-blog/add', 'BlogController@master_blog_store')->name('blog.store');
     Route::get('/master-blog/edit/{blog:slug}', 'BlogController@master_blog_edit')->name('blog.edit');
     Route::put('/master-blog/edit/{blog:slug}', 'BlogController@master_blog_update')->name('blog.update');
+    Route::delete('/master-blog/{blog:id}', 'BlogController@master_blog_delete')->name('blog.delete');
 
     //blog category
     Route::get('/blog-category', 'BlogCategoryController@master_categoryBlog_index')->name('blog-category.index');
