@@ -21,10 +21,10 @@ class ProductController extends Controller
         $favorite = $request->query('favorite');
         $status = $request->query('status');
         $merchant = Merchant::where(['vendor_id' => auth()->guard('merchant')->user()->id])->get();
-        if (!empty($filter) || !empty($favorite) || !empty($status)) {
+        if (!empty($favorite) || !empty($status)) {
             $products = Product::sortable()
-                ->where([['products.favorite', '=', $favorite], ['merchant_id', '=', $merchant[0]->id]])
-                ->where([['products.status', '=', $status], ['merchant_id', '=', $merchant[0]->id]])
+                ->where('products.favorite', '=', $favorite)
+                ->where('products.status', '=', $status)
                 ->where([['products.name', 'like', '%' . $filter . '%'], ['merchant_id', '=', $merchant[0]->id]])
                 ->latest()
                 ->paginate(10);
