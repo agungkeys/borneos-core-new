@@ -153,11 +153,21 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     //log
     Route::get('log/order', 'LogOrderController@index')->name('log.order');
 
+    //blog
+    Route::get('/master-blog', 'BlogController@master_blog_index')->name('blog.index');
+    Route::get('/master-blog/status/{id}/{status}', 'BlogController@master_blog_status')->name('master-blog.status');
+    Route::get('/master-blog/add', 'BlogController@master_blog_add')->name('blog.add');
+    Route::post('/master-blog/add', 'BlogController@master_blog_store')->name('blog.store');
+    Route::get('/master-blog/edit/{blog:slug}', 'BlogController@master_blog_edit')->name('blog.edit');
+    Route::put('/master-blog/edit/{blog:slug}', 'BlogController@master_blog_update')->name('blog.update');
+    Route::delete('/master-blog/{blog:id}', 'BlogController@master_blog_delete')->name('blog.delete');
+
     //blog category
     Route::get('/blog-category', 'BlogCategoryController@master_categoryBlog_index')->name('blog-category.index');
     Route::get('/blog-category/add', 'BlogCategoryController@master_categoryBlog_add')->name('blog-category.add');
     Route::post('/blog-category/add', 'BlogCategoryController@master_categoryBlog_store')->name('blog-category.store');
     Route::get('/blog-category/edit/{category:slug}', 'BlogCategoryController@master_categoryBlog_edit')->name('blog-category.edit');
     Route::put('/blog-category/edit/{category:slug}', 'BlogCategoryController@master_categoryBlog_update')->name('blog-category.update');
+    Route::delete('/blog-category/{category:id}', 'BlogCategoryController@master_categoryBlog_delete')->name('blog-category.delete');
   });
 });

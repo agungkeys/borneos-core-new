@@ -22,33 +22,32 @@
             <div class="col-md-6 col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('admin.banner.update', $banner->id) }}" method="POST" enctype="multipart/form-data">
-                            @csrf
+                        <form action="{{ route('admin.banner.update', $banner) }}" method="POST" enctype="multipart/form-data">
                             @method('PUT')
+                            @csrf
                             <div class="form-group">
                                 <label for="title">Title</label>
-                                <input type="text" class="form-control" name="title" id="title" value=" {{ $banner->title }} ">
+                                <input type="text" class="form-control" name="title" id="title" value="{{ $banner->title }}">
+                                @error('title')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="type">Type</label>
-
-                                <select name="type" id="type" class="form-control" required >
-
-                                    @if ($banner->type === 'banner_merchant')
-                                        <option value="{{ $banner->type }}"> Banner Merchant </option>
-                                        <option value="banner"> Banner </option>
-                                    @else
-                                        <option value="{{ $banner->type }}"> Banner </option>
-                                        <option value="banner_merchant"> Banner Merchant </option>
-                                    @endif
+                                <select name="type" id="type" class="multiselect-dropdown form-control form-control" required>
+                                    <option {{ $banner->type == 'banner_merchant' ? 'selected':'' }} value="banner_merchant">Banner Merchant</option>
+                                    <option {{ $banner->type == 'banner' ? 'selected':'' }} value="banner">Banner</option>
                                 </select>
+                                @error('type')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
                             </div>
-
                             <div class="form-group">
                                 <label for="merchant_id">Merchant</label>
                                 <select name="merchant_id" id="merchant_id" class="multiselect-dropdown form-control form-control" disabled>
+                                    <option disabled selected></option>
                                     @foreach ($merchants as $merchant)
-                                        <option value="{{ $merchant->id }}" @if(old('merchant') == $merchant->id || $merchant->id == $banner->merchant_id) selected @endif  > {{ $merchant->name }} </option>
+                                        <option {{ $banner->merchant_id == $merchant->id ? 'selected':'' }} value="{{ $merchant->id }}">{{ $merchant->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -70,7 +69,7 @@
 
                             <div class="form-group">
                                 <label for="url">URL</label>
-                                <input type="text" class="form-control" name="url" id="url" value=" {{ $banner->url }} ">
+                                <input type="text" class="form-control" name="url" id="url" value="{{ $banner->url }}">
                             </div>
 
                             <div class="text-right mt-2">
@@ -93,6 +92,7 @@
             if (selectedTypeBanner == 'banner_merchant'){
                 $('#merchant_id').prop('disabled', false)
             }else{
+                $('#merchant_id').append("<option disabled selected></option>");
                 $('#merchant_id').prop('disabled', true)
             }
         })

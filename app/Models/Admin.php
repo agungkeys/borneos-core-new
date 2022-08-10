@@ -22,4 +22,9 @@ class Admin extends Authenticatable
     {
         return $this->belongsTo(AdminRole::class, 'role_id');
     }
+
+    public function AdminName()
+    {
+        return "$this->f_name $this->l_name";
+    }
 }

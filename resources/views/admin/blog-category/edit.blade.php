@@ -73,5 +73,11 @@
         $("#image").change(function () {
             readURL(this);
         });
+        $('#category_name').keyup(function(e){
+            $('#category_slug').val(convertToSlug(e.target.value));
+        });
+        function convertToSlug(Text) {
+            return Text.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+         }
     </script>
 @endsection
