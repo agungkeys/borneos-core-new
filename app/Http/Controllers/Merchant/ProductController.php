@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Merchant;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\Products;
 use App\Models\{Merchant, Product};
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
@@ -12,20 +13,25 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class ProductController extends Controller
 {
+    use Products;
+
     public function master_product_index(Request $request)
     {
         $filter = $request->query('filter');
+        $favorite = $request->query('favorite');
+        $status = $request->query('status');
         $merchant = Merchant::where(['vendor_id' => auth()->guard('merchant')->user()->id])->get();
-        if (!empty($filter)) {
+        if (!empty($favorite) || !empty($status)) {
             $products = Product::sortable()
+                ->where('products.favorite', '=', $favorite)
+                ->where('products.status', '=', $status)
                 ->where([['products.name', 'like', '%' . $filter . '%'], ['merchant_id', '=', $merchant[0]->id]])
-                ->orWhere([['products.price', 'like', '%' . $filter . '%'], ['merchant_id', '=', $merchant[0]->id]])
                 ->latest()
                 ->paginate(10);
         } else {
             $products = Product::sortable()->where('products.merchant_id', '=', $merchant[0]->id)->latest()->paginate(10);
         }
-        return view('merchant.product.index', compact('products', 'filter'));
+        return view('merchant.product.index', compact('products', 'filter', 'favorite', 'status'));
     }
     public function master_product_status(Request $request)
     {

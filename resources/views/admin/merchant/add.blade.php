@@ -60,7 +60,24 @@
                         </div>
                         <div class="form-group">
                             <label for="district">Merchant District</label>
-                            <input type="text" id="district" name="district" class="form-control">
+                            <select name="district" id="district" class="js-data-example-ajax multiselect-dropdown form-control" required title="Select District" required>
+                                <option hidden selected value="">Select District</option>
+                                <option value="Api - Api">Api - Api</option>
+                                <option value="Belimbing">Belimbing</option>
+                                <option value="Berbas Pantai">Berbas Pantai</option>
+                                <option value="Berbas Tengah">Berbas Tengah</option>
+                                <option value="Bontang Baru">Bontang Baru</option>
+                                <option value="Bontang Kuala">Bontang Kuala</option>
+                                <option value="Bontang Lestari">Bontang Lestari</option>
+                                <option value="Guntung">Guntung</option>
+                                <option value="Gunung Elai">Gunung Elai</option>
+                                <option value="Kanaan">Kanaan</option>
+                                <option value="Loktuan">Loktuan</option>
+                                <option value="Satimpo">Satimpo</option>
+                                <option value="Tanjung Laut">Tanjung Laut</option>
+                                <option value="Tanjung Laut Indah">Tanjung Laut Indah</option>
+                                <option value="Telihan">Telihan</option>
+                            </select>
                             @error('district')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
