@@ -119,6 +119,7 @@ trait Merchants
                     'id'          => $result->id,
                     'merchant_id' => $result->merchant_id,
                     'name'        => $result->name,
+                    'slug'        => $result->slug ? $result->slug : '',
                     'description' => $result->description,
                     'image'       => $result->image ? $result->image : null,
                     'additional_image' => $result->additional_image ? json_decode($result->additional_image) : null,
