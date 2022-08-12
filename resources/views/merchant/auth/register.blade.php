@@ -72,7 +72,7 @@
                                         <label for="name">Nama & Slug Merchant</label>
                                         <div class="input-group">
                                             <input type="text" id="name" name="name" value="{{ old('name') }}" class="form-control" autocomplete="none" placeholder="Nama Merchant" required>
-                                            <input type="text" id="slug" name="slug" value="{{ old('slug') }}" class="form-control" placeholder="Slug Merchant" required>
+                                            <input type="text" id="slug" name="slug" value="{{ old('slug') }}" class="form-control" placeholder="Slug Merchant" required readonly>
                                         </div>
                                         @error('name')
                                             <span class="text-danger mt-2">{{ $message }}</span>
@@ -191,7 +191,7 @@
                                     </div>
                                     <div class="text-right mt-2">
                                         <a href="{{ route('merchant.auth.login') }}"class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Kembali</a>
-                                        <button type="submit" id="buttonSubmit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Simpan</button>
+                                        <button type="submit" id="buttonSubmit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Daftar Sekarang</button>
                                     </div>
                                 </div>
                             </div>
@@ -341,8 +341,18 @@
 
         //autoSlug
         document.getElementById("name").addEventListener("input", function () {
+            function makeid(length) {
+                var result           = '';
+                var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                var charactersLength = characters.length;
+                for ( var i = 0; i < length; i++ ) {
+                    result += characters.charAt(Math.floor(Math.random() *
+                charactersLength));
+                }
+            return result;
+            }
             let theSlug = string_to_slug(this.value);
-            document.getElementById("slug").value = theSlug;
+            document.getElementById("slug").value = theSlug+"-"+makeid(10);
         });
 
         function string_to_slug(str) {
