@@ -18,7 +18,7 @@ class MerchantController extends Controller
           if ($merchant->count() == 0) {
               return response()->json(['status' => 'error', 'data' => null]);
           } else {
-              return response()->json(['status' => 'success', 'data' => $merchant]);
+              return response()->json(['status' => 'success', 'data' => $merchant[0]]);
           }
       } else {
           return response()->json(['status' => 'error', 'data' => null], 401);
