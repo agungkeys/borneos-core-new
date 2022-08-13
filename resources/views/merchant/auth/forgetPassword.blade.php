@@ -40,7 +40,6 @@
         </div>
         <div class="h-100 d-flex bg-white justify-content-center align-items-center col-md-12 col-lg-8">
           <div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-9">
-            <!-- <div class="app-logo">Merchant Management</div> -->
             <div class="d-flex mb-3">
               <image src="{{env('PUBLIC_IMAGE')}}/images/logo.svg" />
               <div class="ml-2">
@@ -49,46 +48,32 @@
                 <h5 class="mb-0">Management</h5>
               </div>
             </div>
-            <h4 class="mb-0"><span class="d-block">Hi Selamat Datang,</span><span>Silahkan masuk ke akun merchant anda</span></h4>
-            <!-- <h6 class="mt-3">Tidak memiliki akun? <a href="#" class="text-primary">Daftar Sekarang</a></h6> -->
+            <h4 class="mb-0"><span><b>Setel ulang kata sandi anda</b></span></h4>
             <div class="divider row"></div>
             <div>
-              <form class="" method="POST" action="{{route('merchant.auth.login')}}">
-                @csrf
-                <div class="form-row">
-                  <div class="col-md-6">
-                    <div class="position-relative form-group">
-                      <label for="email" class="">Email</label>
-                      <input name="email" id="email" placeholder="Email here..." type="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required autocomplete="email" autofocus />
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="position-relative form-group">
-                      <label for="password" class="">Password</label>
-                      <div class="input-group" id="show_hide_password">
-                        <input name="password" id="password" placeholder="Password here..." type="password" class="form-control @error('password') is-invalid @enderror" required autocomplete="current-password" />
-                        <div class="input-group-append">
-                            <button type="button" class="btn btn-light" ><i class="fa fa-eye-slash"></i></button>
+                <form class="" method="POST" action="{{route('merchant.auth.forget.newpassword')}}">
+                    @csrf
+                    <input type="hidden" name="auth_token" value="{{ $auth_token }}">
+                    <div class="form-group">
+                        <label for="password">Masukkan Kata Sandi Baru Anda</label>
+                        <div class="input-group" id="show_hide_password">
+                            <input type="password" onkeyup="checkMatching()" value="{{ old('password') }}" id="password" name="password" class="form-control" placeholder="Kata Sandi" required>
+                            <input type="password" onkeyup="checkMatching()" value="{{ old('confirmPassword') }}" id="confirmPassword" name="confirmPassword" class="form-control"  placeholder="Konfirmasi Kata Sandi" required>
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-light" ><i class="fa fa-eye-slash"></i></button>
+                            </div>
                         </div>
-                      </div>
+                        <span class="text-danger mt-2" id="messageMatching"></span>
+                        @error('password')
+                            <span class="text-danger mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
-                  </div>
-                </div>
-                <div class="position-relative form-check">
-                  <!-- <input name="remember" id="remember" type="checkbox" class="form-check-input" {{ old('remember') ? 'checked' : ''}} />
-                  <label class="form-check-label" for="remember" class="form-check-label">Keep me logged in</label> -->
-                </div>
-                <div class="d-flex align-items-center">
-                    <div class="ml-auto">
-                        <!-- <a href="javascript:void(0);" class="btn-lg btn btn-link">Hubungi Admin Borneos</a> -->
-                        <a href="{{ route('merchant.auth.forget') }}">Lupa Password</a> &nbsp
-                        <button class="btn btn-primary btn-lg" type="submit">Login Merchant</button>
+                    <div class="text-right">
+                        <button class="btn btn-primary btn-lg" id="buttonSubmit" type="submit">Ubah</button>
                     </div>
-                </div>
-                <div class="divider row"></div>
-                Belum memiliki akun ? <a href="{{ route('merchant.auth.register') }}" onclick="loading()" class="ml-2 btn btn-warning btn-lg">Daftar Mitra Merchant</a>
-              </form>
+                </form>
             </div>
+            <div class="divider row"></div>
           </div>
         </div>
       </div>
@@ -106,11 +91,10 @@
                 $('#show_hide_password input').attr('type', 'password');
                 $('#show_hide_password i').addClass( "fa-eye-slash" );
                 $('#show_hide_password i').removeClass( "fa-eye" );
-            }
-            else if($('#show_hide_password input').attr("type") == "password"){
+            }else if($('#show_hide_password input').attr("type") == "password"){
                 $('#show_hide_password input').attr('type', 'text');
-                    $('#show_hide_password i').removeClass( "fa-eye-slash" );
-                    $('#show_hide_password i').addClass( "fa-eye" );
+                $('#show_hide_password i').removeClass( "fa-eye-slash" );
+                $('#show_hide_password i').addClass( "fa-eye" );
             }
         });
         //toggle confirm password hide
@@ -120,13 +104,22 @@
                 $('#show_hide_password_confirm input').attr('type', 'password');
                 $('#show_hide_password_confirm i').addClass( "fa-eye-slash" );
                 $('#show_hide_password_confirm i').removeClass( "fa-eye" );
-            }
-            else if($('#show_hide_password_confirm input').attr("type") == "password"){
+            }else if($('#show_hide_password_confirm input').attr("type") == "password"){
                 $('#show_hide_password_confirm input').attr('type', 'text');
                 $('#show_hide_password_confirm i').removeClass( "fa-eye-slash" );
                 $('#show_hide_password_confirm i').addClass( "fa-eye" );
             }
         });
     });
+
+    function checkMatching() {
+        if (document.getElementById('password').value === document.getElementById('confirmPassword').value) {
+            document.getElementById('messageMatching').innerHTML = '';
+            document.getElementById('buttonSubmit').disabled = false;
+        } else {
+            document.getElementById('messageMatching').innerHTML = 'Password does not match';
+            document.getElementById('buttonSubmit').disabled = true;
+        }
+    }
 </script>
 @endsection
