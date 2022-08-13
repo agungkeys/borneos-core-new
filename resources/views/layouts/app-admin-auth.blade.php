@@ -8,6 +8,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <title>Borneos Admin Management - Dari Borneos Untuk UKM Indonesia</title>
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset(env('PUBLIC_ASSETS').'favicon.ico') }}">
 
   <!-- Scripts -->
 

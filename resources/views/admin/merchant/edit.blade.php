@@ -67,7 +67,25 @@
                         </div>
                         <div class="form-group">
                             <label for="district">Merchant District</label>
-                            <input type="text" id="district" name="district" value="{{ $master_merchant->district }}" class="form-control">
+                            {{-- <input type="text" id="district" name="district" value="{{ $master_merchant->district }}" class="form-control"> --}}
+                            <select name="district" id="district" class="js-data-example-ajax multiselect-dropdown form-control" required title="Select District" required>
+                                <option hidden selected value="">Pilih Kelurahan</option>
+                                <option value="Api - Api" {{ $master_merchant->district == 'Api - Api' ? 'selected' : '' }}>Api - Api</option>
+                                <option value="Belimbing" {{ $master_merchant->district == 'Belimbing' ? 'selected' : '' }}>Belimbing</option>
+                                <option value="Berbas Pantai" {{ $master_merchant->district == 'Berbas Pantai' ? 'selected' : '' }}>Berbas Pantai</option>
+                                <option value="Berbas Tengah" {{ $master_merchant->district == 'Berbas Tengah' ? 'selected' : '' }}>Berbas Tengah</option>
+                                <option value="Bontang Baru" {{ $master_merchant->district == 'Bontang Baru' ? 'selected' : '' }}>Bontang Baru</option>
+                                <option value="Bontang Kuala" {{ $master_merchant->district == 'Bontang Kuala' ? 'selected' : '' }}>Bontang Kuala</option>
+                                <option value="Bontang Lestari" {{ $master_merchant->district == 'Bontang Lestari' ? 'selected' : '' }}>Bontang Lestari</option>
+                                <option value="Guntung" {{ $master_merchant->district == 'Guntung' ? 'selected' : '' }}>Guntung</option>
+                                <option value="Gunung Elai" {{ $master_merchant->district == 'Gunung Elai' ? 'selected' : '' }}>Gunung Elai</option>
+                                <option value="Kanaan" {{ $master_merchant->district == 'Kanaan' ? 'selected' : '' }}>Kanaan</option>
+                                <option value="Loktuan" {{ $master_merchant->district == 'Loktuan' ? 'selected' : '' }}>Loktuan</option>
+                                <option value="Satimpo" {{ $master_merchant->district == 'Satimpo' ? 'selected' : '' }}>Satimpo</option>
+                                <option value="Tanjung Laut" {{ $master_merchant->district == 'Tanjung Laut' ? 'selected' : '' }}>Tanjung Laut</option>
+                                <option value="Tanjung Laut Indah"{{ $master_merchant->district == 'Tanjung Laut Indah' ? 'selected' : '' }}>Tanjung Laut Indah</option>
+                                <option value="Telihan" {{ $master_merchant->district == 'Telihan' ? 'selected' : '' }}>Telihan</option>
+                            </select>
                             @error('district')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
