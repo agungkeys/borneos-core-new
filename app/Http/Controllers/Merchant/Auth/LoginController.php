@@ -9,6 +9,7 @@ use App\Models\Merchant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Mail;
 
@@ -188,6 +189,29 @@ class LoginController extends Controller
             'active'    => 1
         ]);
         Alert::success('Email Anda Telah Terverifikasi', 'Silahkan Login');
+        return redirect()->route('merchant.auth.login');
+    }
+
+    public function forget(Request $request){
+        $vendor = Vendor::where('email',$request->email)->first();
+        if ($vendor) {
+            $merchant = Merchant::where('vendor_id',$vendor->id)->first();
+            $details = [
+                'button' => $vendor->auth_token,
+                'merchant' => $merchant->name
+            ];
+            Mail::to($vendor->email)->send(new \App\Mail\SendEmailForget($details));
+            return view('merchant.auth.thanksForget',compact('vendor'));
+        }
+        else{
+            Alert::error('Tidak Ditemukan!', 'Email Anda Tidak Terdaftar');
+            return redirect()->back();
+        }
+    }
+
+    public function forgetNewPassword(Request $request){
+        $update = DB::table('vendors')->where('auth_token',$request->auth_token)->update(['password'=>bcrypt($request->password)]);
+        Alert::toast('Kata sandi berhasil di ubah, silahkan login', 'success');
         return redirect()->route('merchant.auth.login');
     }
 }
