@@ -288,6 +288,7 @@ trait Products
                     'id' => $item->id,
                     'name' => $item->name,
                     'slug' => $item->slug,
+                    'description' => $item->description ?? null,
                     'price' => number_format($item->price, 0, ',', ''),
                     'priceDiscount' => $this->discountPriceOnProduct([
                         'discount' => $item->discount,
