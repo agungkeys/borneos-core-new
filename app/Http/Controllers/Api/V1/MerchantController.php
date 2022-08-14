@@ -13,16 +13,16 @@ class MerchantController extends Controller
 
     public function get_merchant(Request $request, $slug)
     {
-      if ($request->header('tokenb') === env('tokenb')) {
-          $merchant = Merchant::where('slug', '=', "{$slug}")->get();
-          if ($merchant->count() == 0) {
-              return response()->json(['status' => 'error', 'data' => null]);
-          } else {
-              return response()->json(['status' => 'success', 'data' => $merchant[0]]);
-          }
-      } else {
-          return response()->json(['status' => 'error', 'data' => null], 401);
-      }
+        if ($request->header('tokenb') === env('tokenb')) {
+            $merchant = Merchant::where('slug', '=', $slug)->get()[0];
+            if ($merchant->count() == 0) {
+                return response()->json(['status' => 'error', 'data' => null]);
+            } else {
+                return response()->json(['status' => 'success', 'data' => $this->merchantListBySlug($merchant)]);
+            }
+        } else {
+            return response()->json(['status' => 'error', 'data' => null], 401);
+        }
     }
     public function get_merchants(Request $request)
     {

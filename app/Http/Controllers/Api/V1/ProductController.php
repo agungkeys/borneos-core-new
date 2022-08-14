@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\{Categories, Products, FormatMeta};
+use App\Models\Merchant;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -53,6 +54,24 @@ class ProductController extends Controller
                 return response()->json(['status' => 'error', 'data' => null]);
             } else {
                 return response()->json(['status' => 'success', 'data' => $this->result_product_list($product)]);
+            }
+        } else {
+            return response()->json(['status' => 'error', 'data' => null], 401);
+        }
+    }
+    public function get_product_list_merchant_landing(Request $request)
+    {
+        if ($request->header('tokenb') === env('tokenb')) {
+            if (Merchant::where('slug', '=', $request->slug ?? '')->count() == 0) {
+                return response()->json(['status' => 'error', 'data' => null]);
+            } else {
+                $merchant = Merchant::where('slug', '=', $request->slug)->get()[0];
+                $product  = Product::where([['merchant_id', '=', $merchant->id], ['sub_category_id', '!=', null || 0]])->get();
+                if ($product->count() == 0) {
+                    return response()->json(['status' => 'error', 'data' => null]);
+                } else {
+                    return response()->json(['status' => 'success', 'data' => $this->productListMerchantLanding($merchant->id)]);
+                }
             }
         } else {
             return response()->json(['status' => 'error', 'data' => null], 401);

@@ -267,4 +267,55 @@ trait Products
         }
         return response()->json(['status' => 'success']);
     }
+
+    public function groupByFromSubCategoryId($data)
+    {
+        $query = Product::select('sub_category_id')
+            ->where([['merchant_id', '=', $data], ['sub_category_id', '!=', null || 0]])
+            ->groupBy('sub_category_id')
+            ->get();
+        return $query;
+    }
+
+    public function collectProductBySubCategoryId($data)
+    {
+        $query = Product::where([['merchant_id', '=', $data['merchant_id']], ['sub_category_id', '=', $data['sub_category_id']]])->limit(10)->get();
+        if ($query->count() == 0) {
+            return null;
+        } else {
+            foreach ($query as $item) {
+                $result[] = [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'slug' => $item->slug,
+                    'description' => $item->description ?? null,
+                    'price' => number_format($item->price, 0, ',', ''),
+                    'priceDiscount' => $this->discountPriceOnProduct([
+                        'discount' => $item->discount,
+                        'discount_type' => $item->discount_type,
+                        'price' => number_format($item->price, 0, ',', '')
+                    ]),
+                    'discountType' => $item->discount_type,
+                    'discount' => $item->discount,
+                    'image' => $item->image ? $item->image : null,
+                    'additional_image' => $item->additional_image ? json_decode($item->additional_image) : null
+                ];
+            }
+            return $result;
+        }
+    }
+
+    public function productListMerchantLanding($data)
+    {
+        foreach ($this->groupByFromSubCategoryId($data) as $key => $item) {
+            $result[] = [
+                'id' => $key + 1,
+                'subCategoryId'   => $item->sub_category_id,
+                'subCategoryName' => $item->SubCategory->name ?? '',
+                'subCategorySlug' => $item->SubCategory->slug ?? '',
+                'product' => $this->collectProductBySubCategoryId(['merchant_id' => $data, 'sub_category_id' => $item->sub_category_id])
+            ];
+        };
+        return $result;
+    }
 }
