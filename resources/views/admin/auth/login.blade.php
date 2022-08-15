@@ -53,7 +53,7 @@
             <!-- <h6 class="mt-3">Tidak memiliki akun? <a href="#" class="text-primary">Daftar Sekarang</a></h6> -->
             <div class="divider row"></div>
             <div>
-              <form class="" method="POST" action="{{route('admin.auth.login')}}">
+              <form method="POST" id="form" action="{{route('admin.auth.login')}}">
                 @csrf
                 <div class="form-row">
                   <div class="col-md-6">
@@ -81,7 +81,7 @@
                 <div class="divider row"></div>
                 <div class="d-flex align-items-center">
                   <div class="ml-auto">
-                    <button class="btn btn-primary btn-lg" type="submit">Login Admin</button>
+                    <button id="buttonSubmit" class="btn btn-primary btn-lg" type="submit">Login Admin</button>
                   </div>
                 </div>
               </form>
@@ -125,5 +125,11 @@
             }
         });
     });
+    document.getElementById('body').onkeyup = function(e) {
+        if (e.keyCode === 13) {
+            document.getElementById('form').submit();
+        }
+    return true;
+    }
 </script>
 @endsection
