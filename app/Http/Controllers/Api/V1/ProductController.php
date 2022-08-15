@@ -26,7 +26,7 @@ class ProductController extends Controller
             );
             if ($product->count() == 0) {
                 return response()->json(['status' => 'error', 'meta' => null, 'data' => null]);
-            } elseif ($product->count() > 0) {
+            } else {
                 $decision_category = $this->DesicionCategoryForListProduct(
                     compact('category', 'sub_category', 'sub_sub_category')
                 );

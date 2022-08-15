@@ -209,7 +209,7 @@ trait Products
     public function result_product_list($data)
     {
         foreach ($data as $product) {
-            return [
+            $result[] = [
                 'id' => $product->id,
                 'merchantId' => [
                     'id' => $product->merchant->id,
@@ -252,6 +252,7 @@ trait Products
                 'orderCount' => $product->order_count
             ];
         };
+        return $result;
     }
     public function processGenerateSlug($data)
     {
