@@ -38,7 +38,8 @@
             </div>
           </div>
         </div>
-        <div class="h-100 d-flex bg-white justify-content-center align-items-center col-md-12 col-lg-8">
+        {{-- <div class="h-100 d-flex bg-white justify-content-center align-items-center col-md-12 col-lg-8"> --}}
+        <div class="d-flex bg-white justify-content-center align-items-center col-md-12 col-lg-8 add-merchant">
             <div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-9" style="min-width: 100%">
                 <form id="form" action="{{ route('merchant.auth.register.submit') }}" method="POST" enctype="multipart/form-data">
                     <div class="row">
@@ -90,7 +91,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="district">Kelurahan Merchant</label>
-                                        <select name="district" id="district" class="js-data-example-ajax multiselect-dropdown form-control" required title="Select District" required>
+                                        <select name="district" id="district" class="js-data-example-ajax multiselect-dropdown form-control col-12" required title="Select District" required>
                                             <option hidden selected value="">Pilih Kelurahan</option>
                                             <option value="Api - Api" {{ old('district') == 'Api - Api' ? 'selected' : '' }}>Api - Api</option>
                                             <option value="Belimbing" {{ old('district') == 'Belimbing' ? 'selected' : '' }}>Belimbing</option>
