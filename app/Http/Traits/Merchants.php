@@ -183,7 +183,7 @@ trait Merchants
     }
     public function merchantListBySlug($result)
     {
-        $data[] = [
+        $data = [
             'id' => $result->id,
             'categoryId' => $result->category_id ? $result->category->name : $result->category_id,
             'categoryIds' => json_decode($result->category_ids),
