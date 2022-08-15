@@ -16,6 +16,7 @@ trait banners
                     'title'  => $banner->title,
                     'type'   => $banner->type,
                     'image'  => $banner->image,
+                    'additional_image' => $banner->additional_image ? json_decode($banner->additional_image) : null,
                     'url'    => $banner->url,
                     'status' => $banner->status,
                     'merchant_id' => [
@@ -38,6 +39,7 @@ trait banners
                     'title'  => $banner->title,
                     'type'   => $banner->type,
                     'image'  => $banner->image,
+                    'additional_image' => $banner->additional_image ? json_decode($banner->additional_image) : null,
                     'url'    => $banner->url,
                     'status' => $banner->status,
                     'merchant_id' => [

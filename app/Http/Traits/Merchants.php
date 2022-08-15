@@ -119,6 +119,7 @@ trait Merchants
                     'id'          => $result->id,
                     'merchant_id' => $result->merchant_id,
                     'name'        => $result->name,
+                    'slug'        => $result->slug ? $result->slug : '',
                     'description' => $result->description,
                     'image'       => $result->image ? $result->image : null,
                     'additional_image' => $result->additional_image ? json_decode($result->additional_image) : null,
@@ -178,6 +179,41 @@ trait Merchants
                 'takeAway' => $result->take_away
             ];
         }
+        return $data;
+    }
+    public function merchantListBySlug($result)
+    {
+        $data = [
+            'id' => $result->id,
+            'categoryId' => $result->category_id ? $result->category->name : $result->category_id,
+            'categoryIds' => json_decode($result->category_ids),
+            'categoriesId' => $result->categories_id,
+            'categoriesIds' => json_decode($result->categories_ids),
+            'name' => $result->name,
+            'slug' => $result->slug,
+            'phone' => $result->phone,
+            'email' => $result->email,
+            'logo' => $result->logo,
+            'additionalImage' => $result->additional_image ? json_decode($result->additional_image) : null,
+            'district' => $result->district,
+            'address' => $result->address,
+            'openingTime' => substr($result->opening_time, 0, 5),
+            'closingTime' => substr($result->closeing_time, 0, 5),
+            'status' => $result->status,
+            'merchantFavorite' => $result->merchant_favorite,
+            'paidPartnership' => $result->paid_partnership,
+            'productFavorite' => $this->RestProductFavoriteFromMerchant($result->id),
+            'totalProductOnMerchant' => $this->RestTotalProductOnMerchant($result->id),
+            'vendor' => [
+                'id' => $result->vendor_id,
+                'name' => $result->vendor->VendorName(),
+                'phone' => $result->vendor->phone,
+                'email' => $result->vendor->email
+            ],
+            'coverPhoto' => $result->cover_photo,
+            'delivery' => $result->delivery,
+            'takeAway' => $result->take_away
+        ];
         return $data;
     }
 }
