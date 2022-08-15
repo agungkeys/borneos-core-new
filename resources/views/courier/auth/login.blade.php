@@ -53,7 +53,7 @@
             <!-- <h6 class="mt-3">Tidak memiliki akun? <a href="#" class="text-primary">Daftar Sekarang</a></h6> -->
             <div class="divider row"></div>
             <div>
-              <form class="" method="POST" action="{{route('courier.auth.login')}}">
+              <form id="form" class="" method="POST" action="{{route('courier.auth.login')}}">
                 @csrf
                 <div class="form-row">
                   <div class="col-md-6">
@@ -83,7 +83,7 @@
                 <div class="d-flex align-items-center">
                   <div class="ml-auto">
                     <!-- <a href="javascript:void(0);" class="btn-lg btn btn-link">Hubungi Admin Borneos</a> -->
-                    <button class="btn btn-primary btn-lg" type="submit">Masuk</button>
+                    <button id="buttonSubmit" class="btn btn-primary btn-lg" type="submit">Masuk</button>
                     <a href="{{ route('courier.auth.register') }}" class="ml-2 btn btn-secondary btn-lg text-white">Daftar Mitra Kurir</a>
                   </div>
                 </div>
@@ -95,4 +95,15 @@
     </div>
   </div>
 </div>
+@endsection
+@section('js')
+<script>
+    //submit key enter
+    document.getElementById('form').onkeyup = function(e) {
+        if (e.keyCode === 13) {
+            document.getElementById('buttonSubmit').click();
+        }
+        return true;
+    }
+</script>
 @endsection
