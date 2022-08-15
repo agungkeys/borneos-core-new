@@ -390,10 +390,11 @@ trait Products
     {
         $result_1[] = [
             'id' => 0,
-            'merchantName' => 'Favorite',
-            'merchantSlug' => 'favorite',
+            'subCategoryId' => 0,
+            'subCategoryName' => 'Favorite',
+            'subCategorySlug' => 'favorite',
             'favorite' => 1,
-            'product'  => $this->RestProductFavoriteFromMerchant($data)
+            'products'  => $this->RestProductFavoriteFromMerchant($data)
         ];
         foreach ($this->groupByFromSubCategoryId($data) as $key => $item) {
             $result_2[] = [
@@ -401,7 +402,7 @@ trait Products
                 'subCategoryId'   => $item->sub_category_id,
                 'subCategoryName' => $item->SubCategory->name ?? '',
                 'subCategorySlug' => $item->SubCategory->slug ?? '',
-                'product' => $this->collectProductBySubCategoryId(['merchant_id' => $data, 'sub_category_id' => $item->sub_category_id])
+                'products' => $this->collectProductBySubCategoryId(['merchant_id' => $data, 'sub_category_id' => $item->sub_category_id])
             ];
         };
         return array_merge($result_1, $result_2);
