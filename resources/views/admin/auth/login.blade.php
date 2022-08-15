@@ -42,7 +42,7 @@
           <div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-9">
             <!-- <div class="app-logo">Merchant Management</div> -->
             <div class="d-flex mb-3">
-              <image src="{{env('PUBLIC_IMAGES')}}/images/logo.svg" />
+              <img src="{{env('PUBLIC_IMAGES')}}/images/logo.svg" />
               <div class="ml-2">
                 <h5 class="mb-0 t-bold">Borneos</h5>
                 <h5 class="mb-0">Merchant</h5>
@@ -125,9 +125,11 @@
             }
         });
     });
-    document.getElementById('body').onkeyup = function(e) {
+
+    //submit key enter
+    document.getElementById('form').onkeyup = function(e) {
         if (e.keyCode === 13) {
-            document.getElementById('form').submit();
+            document.getElementById('buttonSubmit').click();
         }
     return true;
     }

@@ -40,7 +40,7 @@
         </div>
         <div class="h-100 d-flex bg-white justify-content-center align-items-center col-md-12 col-lg-8">
             <div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-9" style="min-width: 100%">
-                <form action="{{ route('merchant.auth.register.submit') }}" method="POST" enctype="multipart/form-data">
+                <form id="form" action="{{ route('merchant.auth.register.submit') }}" method="POST" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="main-card mb-3 card">
@@ -83,7 +83,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="address">Alamat Merchant</label>
-                                        <textarea name="address" class="form-control" rows="1">{{ old('address') }}</textarea>
+                                        <textarea name="address" class="form-control" rows="1" required>{{ old('address') }}</textarea>
                                         @error('address')
                                             <span class="text-danger mt-2">{{ $message }}</span>
                                         @enderror
@@ -383,6 +383,14 @@
 
         function previewImageOnLogo() {
             imgPreviewLogo.src=URL.createObjectURL(event.target.files[0])
+        }
+
+        //submit key enter
+        document.getElementById('form').onkeyup = function(e) {
+            if (e.keyCode === 13) {
+                document.getElementById('buttonSubmit').click();
+            }
+        return true;
         }
     </script>
 @endsection
