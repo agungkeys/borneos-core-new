@@ -42,7 +42,7 @@
           <div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-9">
             <!-- <div class="app-logo">Merchant Management</div> -->
             <div class="d-flex mb-3">
-              <image src="{{env('PUBLIC_IMAGE')}}/images/logo.svg" />
+              <img src="{{env('PUBLIC_IMAGE')}}/images/logo.svg" />
               <div class="ml-2">
                 <h5 class="mb-0 t-bold">Borneos</h5>
                 <h5 class="mb-0">Merchant</h5>
@@ -53,7 +53,7 @@
             <!-- <h6 class="mt-3">Tidak memiliki akun? <a href="#" class="text-primary">Daftar Sekarang</a></h6> -->
             <div class="divider row"></div>
             <div>
-              <form class="" method="POST" action="{{route('merchant.auth.login')}}">
+              <form id="form" method="POST" action="{{route('merchant.auth.login')}}">
                 @csrf
                 <div class="form-row">
                   <div class="col-md-6">
@@ -77,12 +77,12 @@
                 <div class="position-relative form-check">
                   <!-- <input name="remember" id="remember" type="checkbox" class="form-check-input" {{ old('remember') ? 'checked' : ''}} />
                   <label class="form-check-label" for="remember" class="form-check-label">Keep me logged in</label> -->
-
                 </div>
                 <div class="d-flex align-items-center">
                     <div class="ml-auto">
                         <!-- <a href="javascript:void(0);" class="btn-lg btn btn-link">Hubungi Admin Borneos</a> -->
-                        <button class="btn btn-primary btn-lg" type="submit">Login Merchant</button>
+                        <a href="{{ route('merchant.auth.forget') }}">Lupa Password</a> &nbsp
+                        <button id="buttonSubmit" class="btn btn-primary btn-lg" type="submit">Login Merchant</button>
                     </div>
                 </div>
                 <div class="divider row"></div>
@@ -128,5 +128,13 @@
             }
         });
     });
+
+    //submit key enter
+    document.getElementById('form').onkeyup = function(e) {
+        if (e.keyCode === 13) {
+            document.getElementById('buttonSubmit').click();
+        }
+    return true;
+    }
 </script>
 @endsection

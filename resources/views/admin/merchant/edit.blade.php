@@ -67,7 +67,6 @@
                         </div>
                         <div class="form-group">
                             <label for="district">Merchant District</label>
-                            {{-- <input type="text" id="district" name="district" value="{{ $master_merchant->district }}" class="form-control"> --}}
                             <select name="district" id="district" class="js-data-example-ajax multiselect-dropdown form-control" required title="Select District" required>
                                 <option hidden selected value="">Pilih Kelurahan</option>
                                 <option value="Api - Api" {{ $master_merchant->district == 'Api - Api' ? 'selected' : '' }}>Api - Api</option>

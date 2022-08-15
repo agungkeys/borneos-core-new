@@ -55,7 +55,6 @@
       $('form').submit(function() {
         $.blockUI({message: $('.body-block-loading')});
       })
-
     })
     function loading(){
         $.blockUI({message: $('.body-block-loading')});
