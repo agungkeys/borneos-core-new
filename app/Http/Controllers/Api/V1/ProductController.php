@@ -21,8 +21,9 @@ class ProductController extends Controller
             $sub_sub_category = $request->sub_sub_category ? $this->getCategoryIdPositionParentId($request->sub_sub_category) : 0;
             $sort = $request->sort ?? 'desc';
             $perPage = $request->perPage ? $request->perPage : 10;
+            $merchant = $request->merchant ?? null;
             $product = $this->get_product_list(
-                compact('status', 'category', 'sub_category', 'sub_sub_category', 'sort', 'perPage')
+                compact('status', 'category', 'sub_category', 'sub_sub_category', 'sort', 'perPage', 'merchant')
             );
             if ($product->count() == 0) {
                 return response()->json(['status' => 'error', 'meta' => null, 'data' => null]);
@@ -38,7 +39,12 @@ class ProductController extends Controller
                     'perPage' => $perPage,
                     'product_count' => $product->total()
                 ]);
-                return response()->json(['status' => 'success', 'meta' => $meta, 'data' => $this->result_product_list($product)]);
+                if ($merchant == null) {
+                    $result = $this->result_product_list($product);
+                } else {
+                    $result = $this->resultProductListBySlugMerchant(Merchant::where('slug', '=', $request->merchant ?? '')->get('id')[0]->id ?? 0);
+                }
+                return response()->json(['status' => $result == 0 ? 'error' : 'success', 'meta' => $result == 0 ? null : $meta, 'data' => $result]);
             }
         } else {
             return response()->json(['status' => 'error', 'meta' => null, 'data' => null], 401);
