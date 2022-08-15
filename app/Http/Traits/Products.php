@@ -175,16 +175,26 @@ trait Products
                         return Product::where('status', $data['status'])
                             ->orderBy('id', $data['sort'])->paginate($data['perPage']);
                     } else {
-                        return Product::where([['status', '=', $data['status']], ['merchant_id', '=', $merchant_id]])
-                            ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        if ($data['product_favorite'] == null) {
+                            return Product::where([['status', '=', $data['status']], ['merchant_id', '=', $merchant_id]])
+                                ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        } else {
+                            return Product::where([['status', '=', $data['status']], ['merchant_id', '=', $merchant_id], ['favorite', '=', $data['product_favorite']]])
+                                ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        }
                     }
                 } elseif ($data['sub_sub_category'] !== 0) {
                     if ($merchant_id == null) {
                         return Product::where([['sub_sub_category_id', '=', $data['sub_sub_category']], ['status', '=', $data['status']]])
                             ->orderBy('id', $data['sort'])->paginate($data['perPage']);
                     } else {
-                        return Product::where([['sub_sub_category_id', '=', $data['sub_sub_category']], ['status', '=', $data['status']], ['merchant_id', '=', $merchant_id]])
-                            ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        if ($data['product_favorite'] == null) {
+                            return Product::where([['sub_sub_category_id', '=', $data['sub_sub_category']], ['status', '=', $data['status']], ['merchant_id', '=', $merchant_id]])
+                                ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        } else {
+                            return Product::where([['sub_sub_category_id', '=', $data['sub_sub_category']], ['status', '=', $data['status']], ['merchant_id', '=', $merchant_id], ['favorite', '=', $data['product_favorite']]])
+                                ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        }
                     }
                 }
             } elseif ($data['sub_category'] !== 0) {
@@ -193,16 +203,26 @@ trait Products
                         return Product::where([['sub_category_id', '=', $data['sub_category']], ['status', '=', $data['status']]])
                             ->orderBy('id', $data['sort'])->paginate($data['perPage']);
                     } else {
-                        return Product::where([['sub_category_id', '=', $data['sub_category']], ['status', '=', $data['status']], ['merchant_id', '=', $merchant_id]])
-                            ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        if ($data['product_favorite'] == null) {
+                            return Product::where([['sub_category_id', '=', $data['sub_category']], ['status', '=', $data['status']], ['merchant_id', '=', $merchant_id]])
+                                ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        } else {
+                            return Product::where([['sub_category_id', '=', $data['sub_category']], ['status', '=', $data['status']], ['merchant_id', '=', $merchant_id], ['favorite', '=', $data['product_favorite']]])
+                                ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        }
                     }
                 } elseif ($data['sub_sub_category'] !== 0) {
                     if ($merchant_id == null) {
                         return Product::where([['sub_category_id', '=', $data['sub_category']], ['sub_sub_category_id', '=', $data['sub_sub_category']], ['status', '=', $data['status']]])
                             ->orderBy('id', $data['sort'])->paginate($data['perPage']);
                     } else {
-                        return Product::where([['sub_category_id', '=', $data['sub_category']], ['sub_sub_category_id', '=', $data['sub_sub_category']], ['status', '=', $data['status']]])
-                            ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        if ($data['product_favorite'] == null) {
+                            return Product::where([['sub_category_id', '=', $data['sub_category']], ['sub_sub_category_id', '=', $data['sub_sub_category']], ['status', '=', $data['status']]])
+                                ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        } else {
+                            return Product::where([['sub_category_id', '=', $data['sub_category']], ['sub_sub_category_id', '=', $data['sub_sub_category']], ['status', '=', $data['status']], ['favorite', '=', $data['product_favorite']]])
+                                ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        }
                     }
                 }
             }
@@ -213,16 +233,26 @@ trait Products
                         return Product::where([['category_id', '=', $data['category']], ['status', '=', $data['status']]])
                             ->orderBy('id', $data['sort'])->paginate($data['perPage']);
                     } else {
-                        return Product::where([['category_id', '=', $data['category']], ['status', '=', $data['status']], ['merchant_id', '=', $merchant_id]])
-                            ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        if ($data['product_favorite'] == null) {
+                            return Product::where([['category_id', '=', $data['category']], ['status', '=', $data['status']], ['merchant_id', '=', $merchant_id]])
+                                ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        } else {
+                            return Product::where([['category_id', '=', $data['category']], ['status', '=', $data['status']], ['merchant_id', '=', $merchant_id], ['favorite', '=', $data['product_favorite']]])
+                                ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        }
                     }
                 } elseif ($data['sub_sub_category'] !== 0) {
                     if ($merchant_id == null) {
                         return Product::where([['category_id', '=', $data['category']], ['sub_sub_category_id', '=', $data['sub_sub_category']], ['status', '=', $data['status']]])
                             ->orderBy('id', $data['sort'])->paginate($data['perPage']);
                     } else {
-                        return Product::where([['category_id', '=', $data['category']], ['sub_sub_category_id', '=', $data['sub_sub_category']], ['status', '=', $data['status']], ['merchant_id', '=', $merchant_id]])
-                            ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        if ($data['product_favorite'] == null) {
+                            return Product::where([['category_id', '=', $data['category']], ['sub_sub_category_id', '=', $data['sub_sub_category']], ['status', '=', $data['status']], ['merchant_id', '=', $merchant_id]])
+                                ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        } else {
+                            return Product::where([['category_id', '=', $data['category']], ['sub_sub_category_id', '=', $data['sub_sub_category']], ['status', '=', $data['status']], ['merchant_id', '=', $merchant_id], ['favorite', '=', $data['product_favorite']]])
+                                ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        }
                     }
                 }
             } elseif ($data['sub_category'] !== 0) {
@@ -231,16 +261,26 @@ trait Products
                         return Product::where([['category_id', '=', $data['category']], ['sub_category_id', '=', $data['sub_category']], ['status', '=', $data['status']]])
                             ->orderBy('id', $data['sort'])->paginate($data['perPage']);
                     } else {
-                        return Product::where([['category_id', '=', $data['category']], ['sub_category_id', '=', $data['sub_category']], ['status', '=', $data['status']], ['merchant_id', '=', $merchant_id]])
-                            ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        if ($data['product_favorite'] == null) {
+                            return Product::where([['category_id', '=', $data['category']], ['sub_category_id', '=', $data['sub_category']], ['status', '=', $data['status']], ['merchant_id', '=', $merchant_id]])
+                                ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        } else {
+                            return Product::where([['category_id', '=', $data['category']], ['sub_category_id', '=', $data['sub_category']], ['status', '=', $data['status']], ['merchant_id', '=', $merchant_id], ['favorite', '=', $data['product_favorite']]])
+                                ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        }
                     }
                 } elseif ($data['sub_sub_category'] !== 0) {
                     if ($merchant_id == null) {
                         return Product::where([['category_id', '=', $data['category']], ['sub_category_id', '=', $data['sub_category']], ['sub_sub_category_id', '=', $data['sub_sub_category']], ['status', '=', $data['status']]])
                             ->orderBy('id', $data['sort'])->paginate($data['perPage']);
                     } else {
-                        return Product::where([['category_id', '=', $data['category']], ['sub_category_id', '=', $data['sub_category']], ['sub_sub_category_id', '=', $data['sub_sub_category']], ['status', '=', $data['status']], ['merchant_id', '=', $merchant_id]])
-                            ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        if ($data['product_favorite'] == null) {
+                            return Product::where([['category_id', '=', $data['category']], ['sub_category_id', '=', $data['sub_category']], ['sub_sub_category_id', '=', $data['sub_sub_category']], ['status', '=', $data['status']], ['merchant_id', '=', $merchant_id]])
+                                ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        } else {
+                            return Product::where([['category_id', '=', $data['category']], ['sub_category_id', '=', $data['sub_category']], ['sub_sub_category_id', '=', $data['sub_sub_category']], ['status', '=', $data['status']], ['merchant_id', '=', $merchant_id], ['favorite', '=', $data['product_favorite']]])
+                                ->orderBy('id', $data['sort'])->paginate($data['perPage']);
+                        }
                     }
                 }
             }
@@ -300,32 +340,6 @@ trait Products
         return str_replace(' ', '', Str::random(8) . "- $slug");
     }
 
-    public function resultProductListBySlugMerchant($data)
-    {
-        if ($data == 0) {
-            return null;
-        } else {
-            $merchant = Merchant::find($data);
-            $result_1[] = [
-                'id' => 0,
-                'merchantName' => $merchant->name,
-                'merchantSlug' => $merchant->slug,
-                'favorite' => 1,
-                'product'  => $this->RestProductFavoriteFromMerchant($data)
-            ];
-            foreach ($this->groupByFromSubCategoryId($data) as $key => $item) {
-                $result_2[] = [
-                    'id' => $key + 1,
-                    'subCategoryId'   => $item->sub_category_id,
-                    'subCategoryName' => $item->SubCategory->name ?? '',
-                    'subCategorySlug' => $item->SubCategory->slug ?? '',
-                    'product' => $this->collectProductBySubCategoryId(['merchant_id' => $data, 'sub_category_id' => $item->sub_category_id])
-                ];
-            };
-            return array_merge($result_1, $result_2);
-        }
-    }
-
     public function GenerateSlugProduct()
     {
         $products = Product::all();
@@ -374,8 +388,15 @@ trait Products
 
     public function productListMerchantLanding($data)
     {
+        $result_1[] = [
+            'id' => 0,
+            'merchantName' => 'Favorite',
+            'merchantSlug' => 'favorite',
+            'favorite' => 1,
+            'product'  => $this->RestProductFavoriteFromMerchant($data)
+        ];
         foreach ($this->groupByFromSubCategoryId($data) as $key => $item) {
-            $result[] = [
+            $result_2[] = [
                 'id' => $key + 1,
                 'subCategoryId'   => $item->sub_category_id,
                 'subCategoryName' => $item->SubCategory->name ?? '',
@@ -383,6 +404,6 @@ trait Products
                 'product' => $this->collectProductBySubCategoryId(['merchant_id' => $data, 'sub_category_id' => $item->sub_category_id])
             ];
         };
-        return $result;
+        return array_merge($result_1, $result_2);
     }
 }

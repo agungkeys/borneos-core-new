@@ -22,8 +22,9 @@ class ProductController extends Controller
             $sort = $request->sort ?? 'desc';
             $perPage = $request->perPage ? $request->perPage : 10;
             $merchant = $request->merchant ?? null;
+            $product_favorite = $request->favorite ?? null;
             $product = $this->get_product_list(
-                compact('status', 'category', 'sub_category', 'sub_sub_category', 'sort', 'perPage', 'merchant')
+                compact('status', 'category', 'sub_category', 'sub_sub_category', 'sort', 'perPage', 'merchant', 'product_favorite')
             );
             if ($product->count() == 0) {
                 return response()->json(['status' => 'error', 'meta' => null, 'data' => null]);
@@ -39,12 +40,7 @@ class ProductController extends Controller
                     'perPage' => $perPage,
                     'product_count' => $product->total()
                 ]);
-                if ($merchant == null) {
-                    $result = $this->result_product_list($product);
-                } else {
-                    $result = $this->resultProductListBySlugMerchant(Merchant::where('slug', '=', $request->merchant ?? '')->get('id')[0]->id ?? 0);
-                }
-                return response()->json(['status' => $result == 0 ? 'error' : 'success', 'meta' => $result == 0 ? null : $meta, 'data' => $result]);
+                return response()->json(['status' => 'success', 'meta' => $meta, 'data' => $this->result_product_list($product)]);
             }
         } else {
             return response()->json(['status' => 'error', 'meta' => null, 'data' => null], 401);
@@ -68,7 +64,7 @@ class ProductController extends Controller
     public function get_product_list_merchant_landing(Request $request)
     {
         if ($request->header('tokenb') === env('tokenb')) {
-            if (Merchant::where('slug', '=', $request->slug ?? '')->count() == 0) {
+            if (Merchant::where('slug', '=', $request->slug ?? 0)->doesntExist()) {
                 return response()->json(['status' => 'error', 'data' => null]);
             } else {
                 $merchant = Merchant::where('slug', '=', $request->slug)->get()[0];
