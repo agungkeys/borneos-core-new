@@ -61,10 +61,7 @@
                         <div class="form-group">
                             <label for="name">Nama Merchant</label>
                             <div class="input-group">
-                                <input type="text" id="name" name="name" value="{{ $master_merchant->name }}" class="form-control" readonly>
-                                <div class="input-group-append">
-                                    <button type="button" class="btn btn-light" data-toggle="tooltip-light" title="Hubungi Admin Untuk Mengubah Nama Merchant"><i class="fa fa-question"></i></button>
-                                </div>
+                                <input type="text" id="name" name="name" value="{{ $master_merchant->name }}" class="form-control" required>
                             </div>
                             @error('name')
                                 <span class="text-danger mt-2">{{ $message }}</span>
@@ -72,12 +69,7 @@
                         </div>
                         <div class="form-group">
                             <label for="slug">Slug Merchant</label>
-                            <div class="input-group">
                                 <input type="text" id="slug" name="slug" value="{{ $master_merchant->slug }}" class="form-control" readonly>
-                                    <div class="input-group-append">
-                                        <button type="button" class="btn btn-light" data-toggle="tooltip-light" title="Hubungi Admin Untuk Mengubah Slug Merchant"><i class="fa fa-question"></i></button>
-                                    </div>
-                            </div>
                             @error('slug')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror

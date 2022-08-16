@@ -17,8 +17,8 @@ class ProductController extends Controller
         if ($request->header('tokenb') === env('tokenb')) {
             $status = $request->status ?? 1;
             $category = $request->category ? $this->getCategoryIdPositionParentId($request->category) : 0;
-            $sub_category = $request->sub_category ? $this->getCategoryIdPositionParentId($request->sub_category) : 0;
-            $sub_sub_category = $request->sub_sub_category ? $this->getCategoryIdPositionParentId($request->sub_sub_category) : 0;
+            $sub_category = $request->subCategory ? $this->getCategoryIdPositionParentId($request->subCategory) : 0;
+            $sub_sub_category = $request->subSubCategory ? $this->getCategoryIdPositionParentId($request->subSubCategory) : 0;
             $sort = $request->sort ?? 'desc';
             $perPage = $request->perPage ? $request->perPage : 10;
             $merchant = $request->merchant ?? null;

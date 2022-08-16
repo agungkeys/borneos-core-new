@@ -28,6 +28,18 @@ Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
       return view('merchant.auth.thanks', compact('vendor'));
     })->name('thanks');
     Route::get('/verify/{id}', 'LoginController@verify')->name('verify');
+    Route::get('/forget', function(){
+        return view('merchant.auth.forget');
+    })->name('forget');
+    Route::post('forget-submit', 'LoginController@forget')->name('forget.submit');
+    Route::post('forget-submit-newpassword', 'LoginController@forgetNewPassword')->name('forget.newpassword');
+    Route::get('/forgetThanks', function(){
+        return view('merchant.auth.thanksForget');
+    })->name('forget.thanks');
+    Route::get('/forget/{id}', function($id){
+        $auth_token = $id;
+        return view('merchant.auth.forgetPassword',compact('auth_token'));
+    })->name('forget.password');
   });
   /*authentication*/
   Route::group(['middleware' => ['auth:merchant']], function () {

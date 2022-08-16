@@ -40,7 +40,7 @@
         </div>
         <div class="h-100 d-flex bg-white justify-content-center align-items-center col-md-12 col-lg-8">
             <div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-9" style="min-width: 100%">
-                <form action="{{ route('courier.auth.register.submit') }}" method="POST" enctype="multipart/form-data">
+                <form id="form" action="{{ route('courier.auth.register.submit') }}" method="POST" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="main-card mb-3 card">
@@ -281,6 +281,14 @@
             document.getElementById('messageMatching').innerHTML = 'Password does not match';
             document.getElementById('buttonSubmit').disabled = true;
         }
+    }
+
+    //submit key enter
+    document.getElementById('form').onkeyup = function(e) {
+        if (e.keyCode === 13) {
+            document.getElementById('buttonSubmit').click();
+        }
+        return true;
     }
 </script>
 @endsection

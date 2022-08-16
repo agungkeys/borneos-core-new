@@ -133,6 +133,7 @@
 <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js" crossorigin="anonymous"></script>
 
+<script src="https://cdn.ckeditor.com/4.19.1/standard-all/ckeditor.js"></script>
 <!--Bootstrap Tables-->
 <script src="{{env('PUBLIC_ASSETS').'js/arch/vendors/tables.js'}}"></script>
 
