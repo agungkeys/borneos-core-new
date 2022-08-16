@@ -95,5 +95,9 @@
         $("#image").change(function () {
             readURL(this);
         });
+        CKEDITOR.replace('details', {
+          height: 300,
+          removeButtons: 'PasteFromWord'
+        });
     </script>
 @endsection
