@@ -79,6 +79,35 @@ class ProductController extends Controller
             return response()->json(['status' => 'error', 'data' => null], 401);
         }
     }
+    public function get_product_recomendation(Request $request)
+    {
+        if ($request->header('tokenb') === env('tokenb')) {
+            $perPage  = $request->perPage ?? 6;
+            $merchant = $request->merchant ?? 'null';
+            $sort = $request->sort ?? 'desc';
+            $favorite = $request->favorite ?? 'null';
+            if ($merchant == 'null') {
+                return response()->json(['status' => 'error', 'meta' => null, 'data' => null]);
+            } else {
+                $product = $this->getProductRecomendation(compact('perPage', 'merchant', 'sort', 'favorite'));
+                if ($product->count() == 0) {
+                    return response()->json(['status' => 'error', 'meta' => null, 'data' => null]);
+                } else {
+                    $meta = $this->metaGetProductRecomendation([
+                        'page' => $request->page == null ? 1 : $request->page,
+                        'perPage' => $perPage,
+                        'product_count' => $product->total(),
+                        'sort' => $sort,
+                        'merchant' => $merchant,
+                        'favorite' => $favorite
+                    ]);
+                    return response()->json(['status' => 'success', 'meta' => $meta, 'data' => $this->result_product_list($product)]);
+                }
+            }
+        } else {
+            return response()->json(['status' => 'error', 'meta' => null, 'data' => null], 401);
+        }
+    }
 
     public function generate_slug_products()
     {
