@@ -180,4 +180,14 @@ trait FormatMeta
             ]
         ];
     }
+    public function metaListBlogCategory($data)
+    {
+        return [
+            'pagination' => [
+                'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                'perPage' => (int)$data['perPage'],
+                'total' => $data['blogCategoryCount']
+            ],
+        ];
+    }
 }
