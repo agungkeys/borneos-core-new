@@ -407,4 +407,22 @@ trait Products
         };
         return array_merge($result_1, $result_2);
     }
+    public function getProductRecomendation($data)
+    {
+        $merchant = $data['merchant'];
+        if ($data['favorite'] == 'null') {
+            return Product::whereHas('merchant', function ($q) use ($merchant) {
+                return $q->where('slug', '=', $merchant);
+            })
+                ->orderBy('id', $data['sort'])
+                ->paginate($data['perPage']);
+        } else {
+            return Product::whereHas('merchant', function ($q) use ($merchant) {
+                return $q->where('slug', '=', $merchant);
+            })
+                ->where('favorite', '=', $data['favorite'])
+                ->orderBy('id', $data['sort'])
+                ->paginate($data['perPage']);
+        }
+    }
 }
