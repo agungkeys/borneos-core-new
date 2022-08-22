@@ -38,9 +38,10 @@
             </div>
           </div>
         </div>
-        <div class="h-100 d-flex bg-white justify-content-center align-items-center col-md-12 col-lg-8">
+        {{-- <div class="h-100 d-flex bg-white justify-content-center align-items-center col-md-12 col-lg-8"> --}}
+        <div class="d-flex bg-white justify-content-center align-items-center col-md-12 col-lg-8 add-merchant">
             <div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-9" style="min-width: 100%">
-                <form action="{{ route('merchant.auth.register.submit') }}" method="POST" enctype="multipart/form-data">
+                <form id="form" action="{{ route('merchant.auth.register.submit') }}" method="POST" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="main-card mb-3 card">
@@ -72,7 +73,7 @@
                                         <label for="name">Nama & Slug Merchant</label>
                                         <div class="input-group">
                                             <input type="text" id="name" name="name" value="{{ old('name') }}" class="form-control" autocomplete="none" placeholder="Nama Merchant" required>
-                                            <input type="text" id="slug" name="slug" value="{{ old('slug') }}" class="form-control" placeholder="Slug Merchant" required>
+                                            <input type="text" id="slug" name="slug" value="{{ old('slug') }}" class="form-control" placeholder="Slug Merchant" required readonly>
                                         </div>
                                         @error('name')
                                             <span class="text-danger mt-2">{{ $message }}</span>
@@ -83,14 +84,14 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="address">Alamat Merchant</label>
-                                        <textarea name="address" class="form-control" rows="1">{{ old('address') }}</textarea>
+                                        <textarea name="address" class="form-control" rows="1" required>{{ old('address') }}</textarea>
                                         @error('address')
                                             <span class="text-danger mt-2">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="district">Kelurahan Merchant</label>
-                                        <select name="district" id="district" class="js-data-example-ajax multiselect-dropdown form-control" required title="Select District" required>
+                                        <select name="district" id="district" class="js-data-example-ajax multiselect-dropdown form-control col-12" required title="Select District" required>
                                             <option hidden selected value="">Pilih Kelurahan</option>
                                             <option value="Api - Api" {{ old('district') == 'Api - Api' ? 'selected' : '' }}>Api - Api</option>
                                             <option value="Belimbing" {{ old('district') == 'Belimbing' ? 'selected' : '' }}>Belimbing</option>
@@ -191,7 +192,7 @@
                                     </div>
                                     <div class="text-right mt-2">
                                         <a href="{{ route('merchant.auth.login') }}"class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Kembali</a>
-                                        <button type="submit" id="buttonSubmit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Simpan</button>
+                                        <button type="submit" id="buttonSubmit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Daftar Sekarang</button>
                                     </div>
                                 </div>
                             </div>
@@ -341,8 +342,18 @@
 
         //autoSlug
         document.getElementById("name").addEventListener("input", function () {
+            function makeid(length) {
+                var result           = '';
+                var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                var charactersLength = characters.length;
+                for ( var i = 0; i < length; i++ ) {
+                    result += characters.charAt(Math.floor(Math.random() *
+                charactersLength));
+                }
+            return result;
+            }
             let theSlug = string_to_slug(this.value);
-            document.getElementById("slug").value = theSlug;
+            document.getElementById("slug").value = theSlug+"-"+makeid(10);
         });
 
         function string_to_slug(str) {
@@ -373,6 +384,14 @@
 
         function previewImageOnLogo() {
             imgPreviewLogo.src=URL.createObjectURL(event.target.files[0])
+        }
+
+        //submit key enter
+        document.getElementById('form').onkeyup = function(e) {
+            if (e.keyCode === 13) {
+                document.getElementById('buttonSubmit').click();
+            }
+        return true;
         }
     </script>
 @endsection
