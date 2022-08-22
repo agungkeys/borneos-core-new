@@ -124,7 +124,15 @@ class ProductController extends Controller
             return response()->json([
                 'status'   => 'success',
                 'meta'     => (object)[],
-                'merchant' => (object)['id' => $merchant->id, 'name' => $merchant->name, 'slug' => $merchant->slug, 'status' => $merchant->status],
+                'merchant' => (object)[
+                    'id' => $merchant->id,
+                    'name' => $merchant->name,
+                    'slug' => $merchant->slug,
+                    'status' => $merchant->status,
+                    'logo' => $merchant->logo ? $merchant->logo : null,
+                    'coverPhoto' => $merchant->cover_photo ? $merchant->cover_photo : null,
+                    'additionalImage' => $merchant->additional_image ? json_decode($merchant->additional_image) : null
+                ],
                 'products' => $this->cartValidation($requestProducts)
             ]);
         } else {
