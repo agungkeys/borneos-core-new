@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Traits\{Categories, Products, FormatMeta};
+use App\Http\Traits\{Cart, Categories, Products, FormatMeta};
 use App\Models\Merchant;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    use Categories, Products, FormatMeta;
+    use Categories, Products, FormatMeta, Cart;
 
     public function get_products(Request $request)
     {
@@ -106,6 +106,37 @@ class ProductController extends Controller
             }
         } else {
             return response()->json(['status' => 'error', 'meta' => null, 'data' => null], 401);
+        }
+    }
+
+    public function cart_validation(Request $request)
+    {
+        if ($request->header('tokenb') === env('tokenb')) {
+            $merchantId = $request->merchantId ?? 'null';
+            // $merchantSlug = $request->merchantSlug ?? 'null';
+            $requestProducts = $request->products ?? 'null';
+
+            if ($merchantId == 'null') {
+                return response()->json(['status' => 'error', 'meta' => null, 'merchant' => null, 'products' => null]);
+            } else {
+                $merchant = Merchant::find($merchantId);
+            }
+            return response()->json([
+                'status'   => 'success',
+                'meta'     => (object)[],
+                'merchant' => (object)[
+                    'id' => $merchant->id,
+                    'name' => $merchant->name,
+                    'slug' => $merchant->slug,
+                    'status' => $merchant->status,
+                    'logo' => $merchant->logo ? $merchant->logo : null,
+                    'coverPhoto' => $merchant->cover_photo ? $merchant->cover_photo : null,
+                    'additionalImage' => $merchant->additional_image ? json_decode($merchant->additional_image) : null
+                ],
+                'products' => $this->cartValidation($requestProducts)
+            ]);
+        } else {
+            return response()->json(['status' => 'error', 'meta' => null, 'merchant' => null, 'products' => null], 401);
         }
     }
 
