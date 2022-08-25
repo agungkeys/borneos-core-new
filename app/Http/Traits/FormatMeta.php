@@ -190,4 +190,14 @@ trait FormatMeta
             ],
         ];
     }
+    public function MetaPaymentList($data)
+    {
+        return [
+            'pagination' => [
+                'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                'perPage' => (int)$data['perPage'],
+                'total' => $data['payment_count']
+            ],
+        ];
+    }
 }

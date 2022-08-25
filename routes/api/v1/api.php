@@ -23,7 +23,11 @@ Route::group(['namespace' => 'Api\V1'], function () {
   Route::group(['prefix' => 'blog-categories'], function () {
     Route::get('/', 'BlogCategoryController@get_blog_categories');
   });
+  Route::group(['prefix' => 'payments'], function () {
+    Route::get('/', 'PaymentController@get_payments');
+  });
   Route::get('/generate-slug-product', 'ProductController@generate_slug_products');
   Route::get('/product-list-merchant-landing/{slug}', 'ProductController@get_product_list_merchant_landing');
   Route::get('/product-recomendations', 'ProductController@get_product_recomendation');
   Route::post('/cart-validation', 'ProductController@cart_validation');
+});
