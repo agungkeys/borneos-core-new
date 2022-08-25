@@ -364,7 +364,7 @@ trait Products
                     'name' => $product->sub_sub_category_id ? $product->SubSubCategory->name : '',
                     'slug' => $product->sub_sub_category_id ? $product->SubSubCategory->slug : ''
                 ],
-                'price' => number_format($product->price, 2, ",", "."),
+                'price' => $product->price,
                 'taxType' => $product->tax_type,
                 'discount' => $product->discount,
                 'discountType' => $product->discount_type,
