@@ -55,7 +55,7 @@ class ProductController extends Controller
             if ($product->count() == 0) {
                 return response()->json(['status' => 'error', 'data' => null]);
             } else {
-                return response()->json(['status' => 'success', 'data' => $this->result_product_list($product)]);
+                return response()->json(['status' => 'success', 'data' => $this->result_product_detail($product)]);
             }
         } else {
             return response()->json(['status' => 'error', 'data' => null], 401);
