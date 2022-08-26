@@ -117,14 +117,14 @@ trait Merchants
             foreach ($results as $result) {
                 $data[] = [
                     'id'          => $result->id,
-                    'merchant_id' => $result->merchant_id,
+                    'merchantId' => $result->merchant_id,
                     'name'        => $result->name,
                     'slug'        => $result->slug ? $result->slug : '',
                     'description' => $result->description,
                     'image'       => $result->image ? $result->image : null,
-                    'additional_image' => $result->additional_image ? json_decode($result->additional_image) : null,
-                    'available_time_starts' => substr($result->available_time_starts, 0, 5),
-                    'available_time_ends'   => substr($result->available_time_ends, 0, 5),
+                    'additionalImage' => $result->additional_image ? json_decode($result->additional_image) : null,
+                    'availableTimeStarts' => substr($result->available_time_starts, 0, 5),
+                    'availableTimeEnds'   => substr($result->available_time_ends, 0, 5),
                     'price'    => number_format($result->price, 0, ',', ''),
                     'discount' => number_format($result->discount, 0, ',', ''),
                     'discountType' => $result->discount_type,
