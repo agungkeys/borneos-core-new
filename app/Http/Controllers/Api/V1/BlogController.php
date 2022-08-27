@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Blog as TraitsBlog;
 use App\Http\Traits\FormatMeta;
+use App\Models\Blog;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -32,6 +33,19 @@ class BlogController extends Controller
             }
         } else {
             return response()->json(['status' => 'error', 'meta' => null, 'data' => null], 401);
+        }
+    }
+    public function get_blog_detail(Request $request)
+    {
+        if ($request->header('tokenb') === env('tokenb')) {
+            if (Blog::where([['slug', '=', $request->slug ?? ''], ['status', '=', 1]])->doesntExist()) {
+                return response()->json(['status' => 'error', 'meta' => null, 'data' => null]);
+            } else {
+                $blog = Blog::where([['slug', '=', $request->slug], ['status', '=', 1]])->get();
+                return response()->json(['status' => 'success', 'meta' => (object)[], 'data' => $this->resultBlogDetail($blog)]);
+            }
+        } else {
+            return response()->json(['status' => 'error', 'data' => null], 401);
         }
     }
 }
