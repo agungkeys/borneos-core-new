@@ -190,6 +190,17 @@ trait FormatMeta
             ],
         ];
     }
+    public function metaListBlog($data)
+    {
+        return [
+            'pagination' => [
+                'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                'perPage' => (int)$data['perPage'],
+                'total' => $data['blogCount']
+            ],
+        ];
+    }
+
     public function MetaPaymentList($data)
     {
         return [
