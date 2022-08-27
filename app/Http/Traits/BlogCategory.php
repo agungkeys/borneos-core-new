@@ -12,7 +12,7 @@ trait BlogCategory
                 'name' => $result->name,
                 'slug' => $result->slug,
                 'image' => $result->image ? $result->image : null,
-                'additional_image' => $result->additional_image ? json_decode($result->additional_image) : null
+                'additionalImage' => $result->additional_image ? json_decode($result->additional_image) : null
             ];
         }
         return $results;
