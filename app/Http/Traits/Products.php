@@ -473,4 +473,55 @@ trait Products
                 ->paginate($data['perPage']);
         }
     }
+    public function result_product_recomendation_list($data)
+    {
+        foreach ($data as $product) {
+            $result[] = [
+                'id' => $product->id,
+                'merchant' => [
+                    'id' => $product->merchant->id,
+                    'name' => $product->merchant->name,
+                    'slug' => $product->merchant->slug,
+                    'additionalImage' => $product->merchant->additional_image ? json_decode($product->merchant->additional_image) : null,
+                    'address' => $product->merchant->address ? $product->merchant->address : null,
+
+                ],
+                'name' => $product->name,
+                'slug' => $product->slug,
+                'description' => $product->description,
+                'image' => $product->image,
+                'additionalImage' => json_decode($product->additional_image),
+                'categoryId' => [
+                    'id' => $product->category_id,
+                    'name' => $product->category_id ? $product->category->name : '',
+                    'slug' => $product->category_id ? $product->category->slug : ''
+                ],
+                'subCategoryId' => [
+                    'id' => $product->sub_category_id,
+                    'name' => $product->sub_category_id ? $product->SubCategory->name : '',
+                    'slug' => $product->sub_category_id ? $product->SubCategory->slug : ''
+                ],
+                'subSubCategoryId' => [
+                    'id' => $product->sub_sub_category_id,
+                    'name' => $product->sub_sub_category_id ? $product->SubSubCategory->name : '',
+                    'slug' => $product->sub_sub_category_id ? $product->SubSubCategory->slug : ''
+                ],
+                'price' => number_format($product->price, 2, ",", "."),
+                'taxType' => $product->tax_type,
+                'discount' => $product->discount,
+                'discountType' => $product->discount_type,
+                'discountPrice' => $this->discountPriceOnProduct([
+                    'discount' => $product->discount,
+                    'discount_type' => $product->discount_type,
+                    'price' => number_format($product->price, 0, ',', '')
+                ]),
+                'availableTimeStarts' => $product->available_time_starts,
+                'availableTimeEnds' => $product->available_time_ends,
+                'setMenu' => $product->set_menu,
+                'status' => $product->status,
+                'orderCount' => $product->order_count
+            ];
+        };
+        return $result;
+    }
 }
