@@ -101,7 +101,7 @@ class ProductController extends Controller
                         'merchant' => $merchant,
                         'favorite' => $favorite
                     ]);
-                    return response()->json(['status' => 'success', 'meta' => $meta, 'data' => $this->result_product_list($product)]);
+                    return response()->json(['status' => 'success', 'meta' => $meta, 'data' => $this->result_product_recomendation_list($product)]);
                 }
             }
         } else {
