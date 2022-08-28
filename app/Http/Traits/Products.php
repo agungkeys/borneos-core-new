@@ -291,10 +291,15 @@ trait Products
         foreach ($data as $product) {
             $result[] = [
                 'id' => $product->id,
-                'merchantId' => [
+                'merchant' => [
                     'id' => $product->merchant->id,
                     'name' => $product->merchant->name,
-                    'slug' => $product->merchant->slug
+                    'slug' => $product->merchant->slug,
+                    'additionalImage' => $product->merchant->additional_image ? json_decode($product->merchant->additional_image) : null,
+                    'address' => $product->merchant->address ? $product->merchant->address : null,
+                    'district' => $product->merchant->district ? $product->merchant->district : null,
+                    'openingTime' => substr($product->merchant->opening_time, 0, 5),
+                    'closingTime' => substr($product->merchant->closeing_time, 0, 5)
                 ],
                 'name' => $product->name,
                 'slug' => $product->slug,
