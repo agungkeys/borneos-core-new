@@ -23,6 +23,10 @@ Route::group(['namespace' => 'Api\V1'], function () {
   Route::group(['prefix' => 'blog-categories'], function () {
     Route::get('/', 'BlogCategoryController@get_blog_categories');
   });
+  Route::group(['prefix' => 'blogs'], function () {
+    Route::get('/', 'BlogController@get_blogs');
+    Route::get('/{slug}', 'BlogController@get_blog_detail');
+  });
   Route::group(['prefix' => 'payments'], function () {
     Route::get('/', 'PaymentController@get_payments');
   });

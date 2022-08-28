@@ -70,7 +70,7 @@
                         <td>{{ $item->title ? $item->title : '-' }}</td>
                         <td>{{ $item->slug ? $item->slug : '-' }}</td>
                         <td title="{{ $item->short_details }}">{{ \Str::limit($item->short_details, 30, ' .')  }}</td>
-                        <td title="{{ $item->details }}">{{ \Str::limit($item->details, 30, ' .') }}</td>
+                        <td>{!! $item->details ? \Str::limit($item->details, 30, ' .') : '-' !!}</td>
                         <td>{{ $item->user_id && $item->admin->f_name ? $item->admin->AdminName() : '-' }}</td>
                         <td>
                            <label class="m-auto align-middle" for="statusCheckbox{{$item->id}}">
