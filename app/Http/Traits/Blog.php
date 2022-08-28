@@ -32,6 +32,31 @@ trait Blog
         }
         return $results;
     }
+    public function resultBlogDetail($data)
+    {
+        foreach ($data as $result) {
+            return [
+                'id'   => $result->id,
+                'categoryBlog' => [
+                    'id' => $result->blog_category_id,
+                    'name' => $result->blog_category_id && $result->blog_category->name ? $result->blog_category->name : null,
+                    'slug' => $result->blog_category_id && $result->blog_category->slug ? $result->blog_category->slug : null,
+                ],
+                'title' => $result->title,
+                'slug' => $result->slug,
+                'image' => $result->image ? $result->image : null,
+                'additionalImage' => $result->additional_image ? json_decode($result->additional_image) : null,
+                'shortDetails' => $result->short_details ? $result->short_details : null,
+                'details' => $result->details ? $result->details : null,
+                'userId' => [
+                    'id' => $result->user_id,
+                    'name' => $result->user_id && $result->admin->f_name ? $result->admin->AdminName() : null,
+                    'status' => $result->user_id && $result->admin->role->status ? $result->admin->role->status : null
+                ],
+                'status' => $result->status
+            ];
+        }
+    }
 
     public function queryBlogList($data)
     {
