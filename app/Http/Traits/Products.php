@@ -427,7 +427,7 @@ trait Products
                     'discountType' => $item->discount_type,
                     'discount' => $item->discount,
                     'image' => $item->image ? $item->image : null,
-                    'additional_image' => $item->additional_image ? json_decode($item->additional_image) : null
+                    'additionalImage' => $item->additional_image ? json_decode($item->additional_image) : null
                 ];
             }
             return $result;
