@@ -116,8 +116,17 @@ trait Merchants
         } else {
             foreach ($results as $result) {
                 $data[] = [
-                    'id'          => $result->id,
-                    'merchantId' => $result->merchant_id,
+                    'id' => $result->id,
+                    'merchant' => [
+                        'id' => $result->merchant->id,
+                        'name' => $result->merchant->name,
+                        'slug' => $result->merchant->slug,
+                        'additionalImage' => $result->merchant->additional_image ? json_decode($result->merchant->additional_image) : null,
+                        'address' => $result->merchant->address ? $result->merchant->address : null,
+                        'district' => $result->merchant->district ? $result->merchant->district : null,
+                        'openingTime' => substr($result->merchant->opening_time, 0, 5),
+                        'closingTime' => substr($result->merchant->closeing_time, 0, 5)
+                    ],
                     'name'        => $result->name,
                     'slug'        => $result->slug ? $result->slug : '',
                     'description' => $result->description,

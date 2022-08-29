@@ -425,6 +425,16 @@ trait Products
             foreach ($query as $item) {
                 $result[] = [
                     'id' => $item->id,
+                    'merchant' => [
+                        'id' => $item->merchant->id,
+                        'name' => $item->merchant->name,
+                        'slug' => $item->merchant->slug,
+                        'additionalImage' => $item->merchant->additional_image ? json_decode($item->merchant->additional_image) : null,
+                        'address' => $item->merchant->address ? $item->merchant->address : null,
+                        'district' => $item->merchant->district ? $item->merchant->district : null,
+                        'openingTime' => substr($item->merchant->opening_time, 0, 5),
+                        'closingTime' => substr($item->merchant->closeing_time, 0, 5)
+                    ],
                     'name' => $item->name,
                     'slug' => $item->slug,
                     'description' => $item->description ?? null,
