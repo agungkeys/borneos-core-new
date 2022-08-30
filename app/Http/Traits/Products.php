@@ -321,7 +321,7 @@ trait Products
                     'name' => $product->sub_sub_category_id ? $product->SubSubCategory->name : '',
                     'slug' => $product->sub_sub_category_id ? $product->SubSubCategory->slug : ''
                 ],
-                'price' => number_format($product->price, 2, ",", "."),
+                'price' => number_format($product->price, 0, "", ""),
                 'taxType' => $product->tax_type,
                 'discount' => $product->discount,
                 'discountType' => $product->discount_type,
@@ -374,7 +374,7 @@ trait Products
                     'name' => $product->sub_sub_category_id ? $product->SubSubCategory->name : '',
                     'slug' => $product->sub_sub_category_id ? $product->SubSubCategory->slug : ''
                 ],
-                'price' => $product->price,
+                'price' => number_format($product->price, 0, "", ""),
                 'taxType' => $product->tax_type,
                 'discount' => $product->discount,
                 'discountType' => $product->discount_type,
@@ -438,7 +438,7 @@ trait Products
                     'name' => $item->name,
                     'slug' => $item->slug,
                     'description' => $item->description ?? null,
-                    'price' => number_format($item->price, 0, ',', ''),
+                    'price' => number_format($item->price, 0, '', ''),
                     'priceDiscount' => $this->discountPriceOnProduct([
                         'discount' => $item->discount,
                         'discount_type' => $item->discount_type,
@@ -528,7 +528,7 @@ trait Products
                     'name' => $product->sub_sub_category_id ? $product->SubSubCategory->name : '',
                     'slug' => $product->sub_sub_category_id ? $product->SubSubCategory->slug : ''
                 ],
-                'price' => number_format($product->price, 2, ",", "."),
+                'price' => number_format($product->price, 0, "", ""),
                 'taxType' => $product->tax_type,
                 'discount' => $product->discount,
                 'discountType' => $product->discount_type,
