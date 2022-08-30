@@ -93,7 +93,7 @@ trait Cart
                 return $product->order_count;
                 break;
             case 'price':
-                return $product->price;
+                return number_format($product->price, 0, "", "");
                 break;
             case 'setMenu':
                 return $product->set_menu;
