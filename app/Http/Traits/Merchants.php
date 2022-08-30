@@ -134,7 +134,7 @@ trait Merchants
                     'additionalImage' => $result->additional_image ? json_decode($result->additional_image) : null,
                     'availableTimeStarts' => substr($result->available_time_starts, 0, 5),
                     'availableTimeEnds'   => substr($result->available_time_ends, 0, 5),
-                    'price'    => number_format($result->price, 0, ',', ''),
+                    'price'    => number_format($result->price, 0, '', ''),
                     'discount' => number_format($result->discount, 0, ',', ''),
                     'discountType' => $result->discount_type,
                     'discountPrice' => $this->discountPriceOnProduct([
