@@ -7,7 +7,7 @@
       <div class="app-page-title">
         <div class="page-title-wrapper">
           <div class="page-title-heading">
-            <div class="page-title-icon"><i class="pe-7s-umbrella icon-gradient bg-sunny-morning"></i></div>
+            <div class="page-title-icon"><i class="pe-7s-rocket icon-gradient bg-primary"></i></div>
             <div>Dashboard<div class="page-title-subheading">Dashboard Admin Borneos</div></div>
           </div>
           <div class="page-title-actions">
@@ -203,41 +203,19 @@
                   <div class="col-sm-6">
                     <div class="widget-chart widget-chart-hover">
                       <div class="icon-wrapper rounded-circle">
-                        <div class="icon-wrapper-bg bg-primary"></div><i class="lnr-cog text-primary"></i>
+                        <div class="icon-wrapper-bg bg-info"></div><i class="lnr-home text-primary"></i>
                       </div>
-                      <div class="widget-numbers">45.8k</div>
-                      <div class="widget-subheading">Total Views</div>
-                      <div class="widget-description text-success"><i class="fa fa-angle-up"></i><span class="pl-1">175.5%</span></div>
+                      <div class="widget-numbers">{{ DB::table('merchants')->count() }}</div>
+                      <div class="widget-subheading">Total Merchants</div>
                     </div>
                   </div>
                   <div class="col-sm-6">
                     <div class="widget-chart widget-chart-hover">
                       <div class="icon-wrapper rounded-circle">
-                        <div class="icon-wrapper-bg bg-info"></div><i class="lnr-graduation-hat text-info"></i>
+                        <div class="icon-wrapper-bg bg-info"></div><i class="lnr-diamond text-primary"></i>
                       </div>
-                      <div class="widget-numbers">63.2k</div>
-                      <div class="widget-subheading">Bugs Fixed</div>
-                      <div class="widget-description text-info"><i class="fa fa-arrow-right"></i><span class="pl-1">175.5%</span></div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6">
-                    <div class="widget-chart widget-chart-hover">
-                      <div class="icon-wrapper rounded-circle">
-                        <div class="icon-wrapper-bg bg-danger"></div><i class="lnr-laptop-phone text-danger"></i>
-                      </div>
-                      <div class="widget-numbers">5.82k</div>
-                      <div class="widget-subheading">Reports Submitted</div>
-                      <div class="widget-description text-primary"><span class="pr-1">54.1%</span><i class="fa fa-angle-up"></i></div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6">
-                    <div class="widget-chart widget-chart-hover br-br">
-                      <div class="icon-wrapper rounded-circle">
-                        <div class="icon-wrapper-bg bg-success"></div><i class="lnr-screen"></i>
-                      </div>
-                      <div class="widget-numbers">17.2k</div>
-                      <div class="widget-subheading">Profiles</div>
-                      <div class="widget-description text-warning"><span class="pr-1">175.5%</span><i class="fa fa-arrow-left"></i></div>
+                      <div class="widget-numbers">{{ DB::table('products')->count() }}</div>
+                      <div class="widget-subheading">Total Products</div>
                     </div>
                   </div>
                 </div>
