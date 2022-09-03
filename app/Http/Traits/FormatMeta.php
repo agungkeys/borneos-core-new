@@ -3,6 +3,7 @@
 namespace App\Http\Traits;
 
 use App\Models\Category;
+use App\Models\Merchant;
 
 trait FormatMeta
 {
@@ -161,6 +162,53 @@ trait FormatMeta
             'statusNotes'   => $data['request']['statusNotes'] ?? null,
             'createdAt'     => date('d/m/Y'),
             'updatedAt'     => date('d/m/Y')
+        ];
+    }
+    public function metaGetProductRecomendation($data)
+    {
+        return [
+            'pagination' => [
+                'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                'perPage' => (int)$data['perPage'],
+                'total' => $data['product_count']
+            ],
+            'filter' => [
+                'merchant' => $data['merchant'],
+                'favorite' => $data['favorite'] == 'null' ? 'all' : (int)$data['favorite'],
+                'sort' => $data['sort']
+
+            ]
+        ];
+    }
+    public function metaListBlogCategory($data)
+    {
+        return [
+            'pagination' => [
+                'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                'perPage' => (int)$data['perPage'],
+                'total' => $data['blogCategoryCount']
+            ],
+        ];
+    }
+    public function metaListBlog($data)
+    {
+        return [
+            'pagination' => [
+                'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                'perPage' => (int)$data['perPage'],
+                'total' => $data['blogCount']
+            ],
+        ];
+    }
+
+    public function MetaPaymentList($data)
+    {
+        return [
+            'pagination' => [
+                'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                'perPage' => (int)$data['perPage'],
+                'total' => $data['payment_count']
+            ],
         ];
     }
 }

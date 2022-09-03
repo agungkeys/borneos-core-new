@@ -116,16 +116,25 @@ trait Merchants
         } else {
             foreach ($results as $result) {
                 $data[] = [
-                    'id'          => $result->id,
-                    'merchant_id' => $result->merchant_id,
+                    'id' => $result->id,
+                    'merchant' => [
+                        'id' => $result->merchant->id,
+                        'name' => $result->merchant->name,
+                        'slug' => $result->merchant->slug,
+                        'additionalImage' => $result->merchant->additional_image ? json_decode($result->merchant->additional_image) : null,
+                        'address' => $result->merchant->address ? $result->merchant->address : null,
+                        'district' => $result->merchant->district ? $result->merchant->district : null,
+                        'openingTime' => substr($result->merchant->opening_time, 0, 5),
+                        'closingTime' => substr($result->merchant->closeing_time, 0, 5)
+                    ],
                     'name'        => $result->name,
                     'slug'        => $result->slug ? $result->slug : '',
                     'description' => $result->description,
                     'image'       => $result->image ? $result->image : null,
-                    'additional_image' => $result->additional_image ? json_decode($result->additional_image) : null,
-                    'available_time_starts' => substr($result->available_time_starts, 0, 5),
-                    'available_time_ends'   => substr($result->available_time_ends, 0, 5),
-                    'price'    => number_format($result->price, 0, ',', ''),
+                    'additionalImage' => $result->additional_image ? json_decode($result->additional_image) : null,
+                    'availableTimeStarts' => substr($result->available_time_starts, 0, 5),
+                    'availableTimeEnds'   => substr($result->available_time_ends, 0, 5),
+                    'price'    => number_format($result->price, 0, '', ''),
                     'discount' => number_format($result->discount, 0, ',', ''),
                     'discountType' => $result->discount_type,
                     'discountPrice' => $this->discountPriceOnProduct([

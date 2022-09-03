@@ -291,10 +291,15 @@ trait Products
         foreach ($data as $product) {
             $result[] = [
                 'id' => $product->id,
-                'merchantId' => [
+                'merchant' => [
                     'id' => $product->merchant->id,
                     'name' => $product->merchant->name,
-                    'slug' => $product->merchant->slug
+                    'slug' => $product->merchant->slug,
+                    'additionalImage' => $product->merchant->additional_image ? json_decode($product->merchant->additional_image) : null,
+                    'address' => $product->merchant->address ? $product->merchant->address : null,
+                    'district' => $product->merchant->district ? $product->merchant->district : null,
+                    'openingTime' => substr($product->merchant->opening_time, 0, 5),
+                    'closingTime' => substr($product->merchant->closeing_time, 0, 5)
                 ],
                 'name' => $product->name,
                 'slug' => $product->slug,
@@ -316,7 +321,7 @@ trait Products
                     'name' => $product->sub_sub_category_id ? $product->SubSubCategory->name : '',
                     'slug' => $product->sub_sub_category_id ? $product->SubSubCategory->slug : ''
                 ],
-                'price' => number_format($product->price, 2, ",", "."),
+                'price' => number_format($product->price, 0, "", ""),
                 'taxType' => $product->tax_type,
                 'discount' => $product->discount,
                 'discountType' => $product->discount_type,
@@ -334,6 +339,59 @@ trait Products
         };
         return $result;
     }
+    public function result_product_detail($data)
+    {
+        foreach ($data as $product) {
+            return  [
+                'id' => $product->id,
+                'merchant' => [
+                    'id' => $product->merchant->id,
+                    'name' => $product->merchant->name,
+                    'slug' => $product->merchant->slug,
+                    'additionalImage' => $product->merchant->additional_image ? json_decode($product->merchant->additional_image) : null,
+                    'address' => $product->merchant->address ? $product->merchant->address : null,
+                    'district' => $product->merchant->district ? $product->merchant->district : null,
+                    'openingTime' => substr($product->merchant->opening_time, 0, 5),
+                    'closingTime' => substr($product->merchant->closeing_time, 0, 5)
+                ],
+                'name' => $product->name,
+                'slug' => $product->slug,
+                'description' => $product->description,
+                'image' => $product->image,
+                'additionalImage' => $product->additional_image ? json_decode($product->additional_image) : null,
+                'categoryId' => [
+                    'id' => $product->category_id,
+                    'name' => $product->category_id ? $product->category->name : '',
+                    'slug' => $product->category_id ? $product->category->slug : ''
+                ],
+                'subCategoryId' => [
+                    'id' => $product->sub_category_id,
+                    'name' => $product->sub_category_id ? $product->SubCategory->name : '',
+                    'slug' => $product->sub_category_id ? $product->SubCategory->slug : ''
+                ],
+                'subSubCategoryId' => [
+                    'id' => $product->sub_sub_category_id,
+                    'name' => $product->sub_sub_category_id ? $product->SubSubCategory->name : '',
+                    'slug' => $product->sub_sub_category_id ? $product->SubSubCategory->slug : ''
+                ],
+                'price' => number_format($product->price, 0, "", ""),
+                'taxType' => $product->tax_type,
+                'discount' => $product->discount,
+                'discountType' => $product->discount_type,
+                'discountPrice' => $this->discountPriceOnProduct([
+                    'discount' => $product->discount,
+                    'discount_type' => $product->discount_type,
+                    'price' => number_format($product->price, 0, ',', '')
+                ]),
+                'availableTimeStarts' => $product->available_time_starts,
+                'availableTimeEnds' => $product->available_time_ends,
+                'setMenu' => $product->set_menu,
+                'status' => $product->status,
+                'orderCount' => $product->order_count
+            ];
+        };
+    }
+
     public function processGenerateSlug($data)
     {
         $slug = Str::slug($data);
@@ -367,10 +425,20 @@ trait Products
             foreach ($query as $item) {
                 $result[] = [
                     'id' => $item->id,
+                    'merchant' => [
+                        'id' => $item->merchant->id,
+                        'name' => $item->merchant->name,
+                        'slug' => $item->merchant->slug,
+                        'additionalImage' => $item->merchant->additional_image ? json_decode($item->merchant->additional_image) : null,
+                        'address' => $item->merchant->address ? $item->merchant->address : null,
+                        'district' => $item->merchant->district ? $item->merchant->district : null,
+                        'openingTime' => substr($item->merchant->opening_time, 0, 5),
+                        'closingTime' => substr($item->merchant->closeing_time, 0, 5)
+                    ],
                     'name' => $item->name,
                     'slug' => $item->slug,
                     'description' => $item->description ?? null,
-                    'price' => number_format($item->price, 0, ',', ''),
+                    'price' => number_format($item->price, 0, '', ''),
                     'priceDiscount' => $this->discountPriceOnProduct([
                         'discount' => $item->discount,
                         'discount_type' => $item->discount_type,
@@ -379,7 +447,7 @@ trait Products
                     'discountType' => $item->discount_type,
                     'discount' => $item->discount,
                     'image' => $item->image ? $item->image : null,
-                    'additional_image' => $item->additional_image ? json_decode($item->additional_image) : null
+                    'additionalImage' => $item->additional_image ? json_decode($item->additional_image) : null
                 ];
             }
             return $result;
@@ -406,5 +474,76 @@ trait Products
             ];
         };
         return array_merge($result_1, $result_2);
+    }
+    public function getProductRecomendation($data)
+    {
+        $merchant = $data['merchant'];
+        if ($data['favorite'] == 'null') {
+            return Product::whereHas('merchant', function ($q) use ($merchant) {
+                return $q->where('slug', '=', $merchant);
+            })
+                ->orderBy('id', $data['sort'])
+                ->paginate($data['perPage']);
+        } else {
+            return Product::whereHas('merchant', function ($q) use ($merchant) {
+                return $q->where('slug', '=', $merchant);
+            })
+                ->where('favorite', '=', $data['favorite'])
+                ->orderBy('id', $data['sort'])
+                ->paginate($data['perPage']);
+        }
+    }
+    public function result_product_recomendation_list($data)
+    {
+        foreach ($data as $product) {
+            $result[] = [
+                'id' => $product->id,
+                'merchant' => [
+                    'id' => $product->merchant->id,
+                    'name' => $product->merchant->name,
+                    'slug' => $product->merchant->slug,
+                    'additionalImage' => $product->merchant->additional_image ? json_decode($product->merchant->additional_image) : null,
+                    'address' => $product->merchant->address ? $product->merchant->address : null,
+                    'district' => $product->merchant->district ? $product->merchant->district : null,
+                    'openingTime' => substr($product->merchant->opening_time, 0, 5),
+                    'closingTime' => substr($product->merchant->closeing_time, 0, 5)
+                ],
+                'name' => $product->name,
+                'slug' => $product->slug,
+                'description' => $product->description,
+                'image' => $product->image,
+                'additionalImage' => json_decode($product->additional_image),
+                'categoryId' => [
+                    'id' => $product->category_id,
+                    'name' => $product->category_id ? $product->category->name : '',
+                    'slug' => $product->category_id ? $product->category->slug : ''
+                ],
+                'subCategoryId' => [
+                    'id' => $product->sub_category_id,
+                    'name' => $product->sub_category_id ? $product->SubCategory->name : '',
+                    'slug' => $product->sub_category_id ? $product->SubCategory->slug : ''
+                ],
+                'subSubCategoryId' => [
+                    'id' => $product->sub_sub_category_id,
+                    'name' => $product->sub_sub_category_id ? $product->SubSubCategory->name : '',
+                    'slug' => $product->sub_sub_category_id ? $product->SubSubCategory->slug : ''
+                ],
+                'price' => number_format($product->price, 0, "", ""),
+                'taxType' => $product->tax_type,
+                'discount' => $product->discount,
+                'discountType' => $product->discount_type,
+                'discountPrice' => $this->discountPriceOnProduct([
+                    'discount' => $product->discount,
+                    'discount_type' => $product->discount_type,
+                    'price' => number_format($product->price, 0, ',', '')
+                ]),
+                'availableTimeStarts' => $product->available_time_starts,
+                'availableTimeEnds' => $product->available_time_ends,
+                'setMenu' => $product->set_menu,
+                'status' => $product->status,
+                'orderCount' => $product->order_count
+            ];
+        };
+        return $result;
     }
 }

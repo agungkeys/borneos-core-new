@@ -13,21 +13,16 @@ class BannerController extends Controller
     public function get_banners(Request $request)
     {
         if ($request->header('tokenb') === env('tokenb')) {
-            $status = $request->status ?? null;
+            $status = $request->status ?? 1;
             $type  =  $request->type ?? null;
+            $merchant = $request->merchant ?? null; //slug merchant or merchant id
             $sort  = $request->sort ?? 'desc';
-            if ($status == null) {
-                return response()->json([
-                    'status' => 'success',
-                    'meta' => $this->MetaBanner(),
-                    'data' => $this->get_banners_list(['status' => 1, 'type' => $type, 'sort' => $sort])
-                ], 200);
-            } elseif ($status == 1) {
-                return response()->json([
-                    'status' => 'success',
-                    'meta' => $this->MetaBanner(),
-                    'data' => $this->get_banners_list(compact('status', 'type', 'sort'))
-                ], 200);
+
+            $banners = $this->QueryBannerList(compact('status', 'type', 'sort', 'merchant'));
+            if ($banners->count() == 0) {
+                return response()->json(['status' => 'error', 'meta' => null, 'data' => null]);
+            } else {
+                return response()->json(['status' => 'success', 'meta' => $this->MetaBanner(), 'data' => $this->get_banners_list($banners)]);
             }
         } else {
             return response()->json(['status' => 'error', 'meta' => null, 'data' => null], 401);
