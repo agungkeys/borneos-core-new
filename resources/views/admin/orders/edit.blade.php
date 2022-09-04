@@ -120,6 +120,7 @@
                               <th>Qty.</th>
                               <th>Total Price</th>
                               <th>Notes</th>
+                              <th>Action</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -133,10 +134,14 @@
                                   <td>{{ $order_detail->product_qty }}</td>
                                   <td>{{ number_format($order_detail->product_total_price,0,',','.') }}</td>
                                   <td>{{ $order_detail->notes }}</td>
+                                  <td>
+                                    <button type="button" onclick="editProductOrderDetail({{$order_detail}})" class="btn btn-warning btn-sm ion-android-create mt-1" title="Edit"></button>
+                                    <button type="button" onclick="deleteProductOrderDetail({{$order_detail->id}})" class="btn btn-danger btn-sm icon ion-android-close mt-1" title="Delete"></button>
+                                  </td>
                               </tr>
                           @empty
                               <tr>
-                                  <td colspan="8">No order to display</td>
+                                  <td colspan="9">No order to display</td>
                               </tr>
                           @endforelse
                       </tbody>
@@ -149,7 +154,8 @@
                       <table class="table table-borderless table-responsive">
                           <tr>
                               <td style="widtd:50%">Distance</td>
-                              <td>{{ $order->distance }} Km.</td>
+                              <td>{{ $order->distance }} KM.</td>
+                              <td><button type="button" onclick="editDistanceOrderDetail({{$order}})" class="btn btn-outline-warning btn-sm ion-android-create mt-1" title="Edit Distance"></button></td>
                           </tr>
                           <tr>
                               <td>Total Distance Price</td>
@@ -198,6 +204,9 @@
                               <th>{{ number_format($order->total_price,0,',','.') }}</th>
                           </tr>
                       </table>
+                  </div>
+                  <div class="col-md-12">
+                    <button type="button" onclick="OrderDetailConfirmation({{$order}})" style="float:right" class="btn btn-success mt-1">Konfirmasi Pesanan</button>
                   </div>
               </div>
           </div>
@@ -296,6 +305,99 @@
  </div>
 @endsection
 @section('js')
+    <!-- Modal Edit Order Detail -->
+    <div class="modal fade" id="ModalEditOrderDetail" tabindex="-1" aria-labelledby="ModalEditOrderDetail" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalEditOrderDetailLabel">Edit Order Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('admin.order.detail.update-product') }}" method="post" autocomplete="off">
+                        @method('PUT')
+                        @csrf
+                        <input type="hidden" id="id_order_detail" name="id_order_detail">
+                        <input type="hidden" id="id_order" name="id_order">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" name="name" id="name" class="form-control" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Price</label>
+                            <input type="number" name="price" id="price" class="form-control" required>
+                            @error('price')
+                                <span class="text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label>Quantity (Qty)</label>
+                            <input type="number" name="qty" id="qty" class="form-control" required>
+                            @error('qty')
+                                <span class="text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label>Total Price</label>
+                            <input type="number" name="total_price" id="total_price" class="form-control" required>
+                            @error('total_price')
+                                <span class="text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label>Notes</label>
+                            <textarea name="notes" id="notes" class="form-control"></textarea>
+                        </div>
+                        <div class="mt-2 mb-2" style="float:right">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit Distance Info Order Detail -->
+    <div class="modal fade" id="ModalEditDistanceInfoOrderDetail" tabindex="-1" aria-labelledby="ModalEditDistanceInfoOrderDetail" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalEditDistanceInfoOrderDetailLabel">Edit Distance</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('admin.order.detail.update-distance') }}" method="post" autocomplete="off">
+                        @method('PUT')
+                        @csrf
+                        <input type="hidden" id="idOrderDistanceInfo" name="id_order">
+                        <div class="form-group">
+                            <label>Distance</label>
+                            <input type="text" name="distance" id="distance" class="form-control" required>
+                            @error('distance')
+                                <span class="text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label>Total Distance Price</label>
+                            <input type="number" name="total_distance_price" id="total_distance_price" class="form-control" required>
+                            @error('total_distance_price')
+                                <span class="text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="mt-2 mb-2" style="float:right">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         $(document).ready(function(){
             let orderStatus = '{{ $order->status }}', paymentStatus = '{{ $order->payment_status }}';
@@ -397,6 +499,72 @@
             }else if(val == 'done'){
                 $('#order_status').attr('class','alert alert-success');
                 $('#order_status').html('<b>Done</b>');
+            }
+        }
+        function editProductOrderDetail(val){
+            $('#ModalEditOrderDetail').modal('show');
+            $('#id_order_detail').val(val.id);
+            $('#id_order').val(val.order_id);
+            $('#name').val(val.product_name);
+            $('#price').val(val.product_price);
+            $('#qty').val(val.product_qty);
+            $('#total_price').val(val.product_total_price);
+            $('#notes').val(val.notes);
+        }
+        $('#price').keyup(function(e){
+            $('#total_price').val(parseInt($('#qty').val()) * parseInt(e.target.value));
+        });
+        $('#qty').keyup(function(e){
+            $('#total_price').val(parseInt(e.target.value) * parseInt($('#price').val()));
+        });
+        function deleteProductOrderDetail(id){
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let _token =  $('meta[name="csrf-token"]').attr('content');
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/admin/order-detail/delete-product/"+id,
+                        data: {_token:_token,id:id},
+                        success:function(response){
+                            if(response.status == 200){
+                                Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                                )
+                                window.location = "/admin/orders/edit/"+response.prefix;
+                            }
+                        }
+                    });
+                }
+            })
+        }
+        function editDistanceOrderDetail(val){
+            $('#ModalEditDistanceInfoOrderDetail').modal('show');
+            $('#idOrderDistanceInfo').val(val.id);
+            $('#distance').val(val.distance);
+            $('#total_distance_price').val(val.total_distance_price);
+        }
+        function OrderDetailConfirmation(val){
+            let customerTelp = replacePhone(val.customer_telp), merchantName = val.merchant.name, orderPrefix = val.prefix;
+            window.open(`https://wa.me/${customerTelp}/?text=Pesanan%20anda%20berhasil%20kami%20konfirmasi%20ke%20mitra%20${merchantName}%0ASilahkan%20lanjutkan%20proses%20pesanan%20anda%20dengan%20klik%20link%20dibawah%20ini%3A%0A%0Ahttps%3A%2F%2Fwww.borneos.co%2Fcart%2F${orderPrefix}`);
+        };
+        function replacePhone(phone){
+            let twoDigitFront = phone.substring(0,2);
+            if(twoDigitFront == 08){
+                return "+628"+phone.substring(2,phone.length);
+            }else if(twoDigitFront == 62){
+                return '+'+phone;
+            }else if(twoDigitFront == '+6'){
+                return phone;
             }
         }
     </script>
