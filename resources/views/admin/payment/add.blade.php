@@ -49,6 +49,7 @@
                         <option value="cash">Cash</option>
                         <option value="transfer">Transfer</option>
                         <option value="digital">Digital</option>
+                        <option value="voucher">Voucher</option>
                     </select>
                      @error('payment_type')
                         <span class="text-danger mt-2">{{ $message }}</span>
