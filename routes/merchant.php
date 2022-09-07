@@ -60,7 +60,11 @@ Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
     Route::delete('master-banner/{id}', 'BannerController@master_banner_delete')->name('master-banner.delete');
 
     Route::get('master-coupon', 'CouponController@master_coupon_index')->name('master-coupon');
+    Route::get('comming-soon', function() {
+        return view('merchant.coupon.soon');
+    })->name('comming-soon');
     Route::get('master-coupon-status/{id}/{status}', 'CouponController@master_coupon_status')->name('master-coupon.status');
+    Route::get('master-coupon/create', 'CouponController@master_coupon_create')->name('master-coupon.create');
     Route::get('master-coupon/create', 'CouponController@master_coupon_create')->name('master-coupon.create');
     Route::post('master-coupon/store', 'CouponController@master_coupon_store')->name('master-coupon.store');
     Route::get('master-coupon/{id}', 'CouponController@master_coupon_edit')->name('master-coupon.edit');
