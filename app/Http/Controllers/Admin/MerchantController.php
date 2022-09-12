@@ -182,7 +182,8 @@ class MerchantController extends Controller
             'pos_system'            => 0,
             'cash_on_delivery'      => 0,
             'seo_image'             => $image_url_seo,
-            'additional_seo_image'  => $additional_image_seo_json
+            'additional_seo_image'  => $additional_image_seo_json,
+            'merchant_special'      => $request->merchant_special ?? ''
         ]);
         Alert::success('Success', 'Data Created Successfully');
         return redirect()->route('admin.master-merchant');
@@ -462,7 +463,8 @@ class MerchantController extends Controller
             'cover_photo'           => $image_url_cover,
             'tax'                   => $request->tax,
             'seo_image'             => $image_url_seo,
-            'additional_seo_image'  => $additional_seo_image
+            'additional_seo_image'  => $additional_seo_image,
+            'merchant_special'      => $request->merchant_special ?? ''
         ]);
 
         Alert::success('Updated', 'Data Updated Successfully');

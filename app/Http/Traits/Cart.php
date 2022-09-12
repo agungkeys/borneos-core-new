@@ -31,7 +31,7 @@ trait Cart
                     'quantity'            => $item['quantity'],
                     'setMenu'             => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'setMenu']),
                     'slug'                => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'slug']),
-                    'status'              => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'status']),
+                    'status'              => (int)$this->refreshProductCart(['id' => $item['id'], 'refresh' => 'status']),
                     'subCategoryId'       => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'subCategoryId']),
                     'subSubCategoryId'    => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'subSubCategoryId']),
                     'taxType'             => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'taxType']),
