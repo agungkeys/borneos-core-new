@@ -35,7 +35,7 @@ trait Cart
                     'subCategoryId'       => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'subCategoryId']),
                     'subSubCategoryId'    => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'subSubCategoryId']),
                     'taxType'             => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'taxType']),
-                    'note'                => $item['note'] ? $item['note'] : $item[''],
+                    'note'                => $item['note'],
                 ];
             };
             return $results;
