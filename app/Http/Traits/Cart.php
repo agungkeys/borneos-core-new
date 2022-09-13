@@ -24,7 +24,6 @@ trait Cart
                     'id'                  => $item['id'],
                     'image'               => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'image']),
                     'itemTotal'           => $item['quantity'],
-                    'note'                => $item['note'] ? $item['note'] : "",
                     'merchantId'          => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'merchantId']),
                     'name'                => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'name']),
                     'orderCount'          => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'orderCount']),
@@ -35,7 +34,8 @@ trait Cart
                     'status'              => (int)$this->refreshProductCart(['id' => $item['id'], 'refresh' => 'status']),
                     'subCategoryId'       => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'subCategoryId']),
                     'subSubCategoryId'    => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'subSubCategoryId']),
-                    'taxType'             => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'taxType'])
+                    'taxType'             => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'taxType']),
+                    'note'                => $item['note'] ? $item['note'] : ''
                 ];
             };
             return $results;
