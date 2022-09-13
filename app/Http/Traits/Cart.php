@@ -12,6 +12,7 @@ trait Cart
             return response()->json(['status' => 'error', 'meta' => null, 'merchant' => null, 'products' => null]);
         } else {
             foreach ($data as $item) {
+                dd($item);
                 $results[] = [
                     'additionalImage'     => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'additionalImage']),
                     'availableTimeEnds'   => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'availableTimeEnds']),
