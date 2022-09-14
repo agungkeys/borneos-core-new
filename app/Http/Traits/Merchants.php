@@ -190,6 +190,8 @@ trait Merchants
                 'address' => $result->address,
                 'openingTime' => substr($result->opening_time, 0, 5),
                 'closingTime' => substr($result->closeing_time, 0, 5),
+                'lat'  => $result->latitude,
+                'lang' => $result->longitude, 
                 'status' => $result->status,
                 'merchantFavorite' => $result->merchant_favorite,
                 'merchantSpecial' => $result->merchant_special ? $result->merchant_special : null,
