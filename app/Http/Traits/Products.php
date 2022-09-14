@@ -355,7 +355,10 @@ trait Products
                     'address' => $product->merchant->address ? $product->merchant->address : null,
                     'district' => $product->merchant->district ? $product->merchant->district : null,
                     'openingTime' => substr($product->merchant->opening_time, 0, 5),
-                    'closingTime' => substr($product->merchant->closeing_time, 0, 5)
+                    'closingTime' => substr($product->merchant->closeing_time, 0, 5),
+                    'lat' => $this->getAttributeMerchant(['id'=> $product->merchant->id,'field'=> 'lat']),
+                    'lang' => $this->getAttributeMerchant(['id'=> $product->merchant->id,'field'=> 'lang']),
+                    'merchantSpecial' => $this->getAttributeMerchant(['id'=> $product->merchant->id,'field'=> 'merchantSpecial'])
                 ],
                 'name' => $product->name,
                 'slug' => $product->slug,
