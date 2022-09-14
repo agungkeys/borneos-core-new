@@ -65,7 +65,6 @@ Route::group(['namespace' => 'Merchant', 'as' => 'merchant.'], function () {
     })->name('comming-soon');
     Route::get('master-coupon-status/{id}/{status}', 'CouponController@master_coupon_status')->name('master-coupon.status');
     Route::get('master-coupon/create', 'CouponController@master_coupon_create')->name('master-coupon.create');
-    Route::get('master-coupon/create', 'CouponController@master_coupon_create')->name('master-coupon.create');
     Route::post('master-coupon/store', 'CouponController@master_coupon_store')->name('master-coupon.store');
     Route::get('master-coupon/{id}', 'CouponController@master_coupon_edit')->name('master-coupon.edit');
     Route::put('master-coupon/{id}', 'CouponController@master_coupon_update')->name('master-coupon.update');

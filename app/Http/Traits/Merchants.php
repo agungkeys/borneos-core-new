@@ -142,7 +142,7 @@ trait Merchants
                         'openingTime' => substr($result->merchant->opening_time, 0, 5),
                         'closingTime' => substr($result->merchant->closeing_time, 0, 5),
                         'lat' => $this->getAttributeMerchant(['id'=> $result->merchant->id,'field'=> 'lat']),
-                        'lang' => $this->getAttributeMerchant(['id'=> $result->merchant->id,'field'=> 'lang']),
+                        'lng' => $this->getAttributeMerchant(['id'=> $result->merchant->id,'field'=> 'lang']),
                         'merchantSpecial' => $this->getAttributeMerchant(['id'=> $result->merchant->id,'field'=> 'merchantSpecial'])
                     ],
                     'name'        => $result->name,
@@ -191,7 +191,7 @@ trait Merchants
                 'openingTime' => substr($result->opening_time, 0, 5),
                 'closingTime' => substr($result->closeing_time, 0, 5),
                 'lat'  => $result->latitude,
-                'lang' => $result->longitude, 
+                'lng' => $result->longitude, 
                 'status' => $result->status,
                 'merchantFavorite' => $result->merchant_favorite,
                 'merchantSpecial' => $result->merchant_special ? $result->merchant_special : null,
