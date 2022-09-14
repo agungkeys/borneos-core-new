@@ -106,6 +106,21 @@ trait Merchants
             }
         }
     }
+    public function getAttributeMerchant($data)
+    {
+        $merchant = Merchant::findOrFail($data['id']);
+        switch ($data['field']) {
+            case 'lat':
+                return $merchant->latitude;
+                break;
+            case 'lang':
+                return $merchant->longitude;
+                break;
+            case 'merchantSpecial':
+                return $merchant->merchant_special ? $merchant->merchant_special : null;
+                break;
+        };
+    }
 
     public function RestProductFavoriteFromMerchant($id)
     {
@@ -125,7 +140,10 @@ trait Merchants
                         'address' => $result->merchant->address ? $result->merchant->address : null,
                         'district' => $result->merchant->district ? $result->merchant->district : null,
                         'openingTime' => substr($result->merchant->opening_time, 0, 5),
-                        'closingTime' => substr($result->merchant->closeing_time, 0, 5)
+                        'closingTime' => substr($result->merchant->closeing_time, 0, 5),
+                        'lat' => $this->getAttributeMerchant(['id'=> $result->merchant->id,'field'=> 'lat']),
+                        'lang' => $this->getAttributeMerchant(['id'=> $result->merchant->id,'field'=> 'lang']),
+                        'merchantSpecial' => $this->getAttributeMerchant(['id'=> $result->merchant->id,'field'=> 'merchantSpecial'])
                     ],
                     'name'        => $result->name,
                     'slug'        => $result->slug ? $result->slug : '',
