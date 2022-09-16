@@ -27,31 +27,32 @@ class OrderController extends Controller
             $orders->customer_address_lat = $request->customerAddressLat;
             $orders->customer_address_lang = $request->customerAddressLng;
             $orders->customer_notes = $request->customerNotes ?? '';
-            $orders->distance = $request->distance;
+            $orders->distance = $request->distance ?? '';
             $orders->total_item = $request->totalItem;
             $orders->total_item_price = $request->totalItemPrice;
-            $orders->total_distance_price = $request->totalDistancePrice;
+            $orders->total_distance_price = $request->totalDistancePrice ?? 0;
             $orders->total_price = $request->totalPrice;
             $orders->payment_type = $request->paymentType;
-            $orders->payment_total = $request->paymentTotal;
-            $orders->payment_bank_name = $request->paymentBankName;
-            $orders->payment_account_number = $request->paymentAccountNumber;
+            $orders->payment_total = $request->paymentTotal ?? 0;
+            $orders->payment_bank_name = $request->paymentBankName ?? '';
+            $orders->payment_account_number = $request->paymentAccountNumber ?? 0;
             $orders->payment_status = $request->paymentStatus;
             $orders->status = $request->status ?? 'new';
             $orders->status_notes = $request->statusNotes ?? '';
             $orders->save();
             $order_id = Order::get('id')->max('id') ?? 1;
+            $orderId = $order_id;
             if ($request->data) {
                 foreach ($request->data as $data) {
                     OrderDetail::create([
-                        'order_id'                 => $order_id,
+                        'order_id'                 => $orderId,
                         'product_id'               => $data['productId'],
                         'product_name'             => $data['productName'],
                         'product_price'            => $data['productPrice'],
                         'product_discount'         => $data['productDiscount'] == null ? 0 : $data['productDiscount'],
                         'product_discount_type'    => $data['productDiscountType'] == null ? '' : $data['productDiscountType'],
-                        'product_image'            => $data['productImage'],
-                        'product_image_additional' => $data['productImageAdditional'],
+                        'product_image'            => $data['productImage'] ? $data['productImage'] : '',
+                        'product_image_additional' => $data['productImageAdditional'] ? json_encode($data['productImageAdditional']): '',
                         'product_qty'              => $data['productQty'],
                         'product_total_price'      => $data['productTotalPrice'],
                         'notes'                    => $data['notes'] == null ? '' : $data['notes']
