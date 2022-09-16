@@ -24,17 +24,18 @@ trait Cart
                     'id'                  => $item['id'],
                     'image'               => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'image']),
                     'itemTotal'           => $item['quantity'],
-                    'merchantId'          => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'merchantId']),
+                    'merchant'            => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'merchant']),
                     'name'                => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'name']),
                     'orderCount'          => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'orderCount']),
                     'price'               => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'price']),
                     'quantity'            => $item['quantity'],
                     'setMenu'             => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'setMenu']),
                     'slug'                => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'slug']),
-                    'status'              => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'status']),
+                    'status'              => (int)$this->refreshProductCart(['id' => $item['id'], 'refresh' => 'status']),
                     'subCategoryId'       => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'subCategoryId']),
                     'subSubCategoryId'    => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'subSubCategoryId']),
                     'taxType'             => $this->refreshProductCart(['id' => $item['id'], 'refresh' => 'taxType']),
+                    'note'                => $item['note'] ? $item['note'] : ''
                 ];
             };
             return $results;
@@ -79,11 +80,19 @@ trait Cart
             case 'image':
                 return $product->image ? $product->image : null;
                 break;
-            case 'merchantId':
+            case 'merchant':
                 return (object)[
                     'id'   => $product->merchant_id,
                     'name' => $product->merchant_id && $product->merchant->name ? $product->merchant->name : null,
-                    'slug' => $product->merchant_id && $product->merchant->slug ? $product->merchant->slug : null
+                    'slug' => $product->merchant_id && $product->merchant->slug ? $product->merchant->slug : null,
+                    'additionalImage' => $product->merchant_id && $product->merchant->additional_image ? json_decode($product->merchant->additional_image) : null,
+                    'district'  => $product->merchant_id && $product->merchant->district ? $product->merchant->district : null,
+                    'address'   => $product->merchant_id && $product->merchant->address ? $product->merchant->address : null,
+                    'timeOpen'  => $product->merchant_id && $product->merchant->opening_time ? substr($product->merchant->opening_time, 0, 5) : null,
+                    'timeClose' => $product->merchant_id && $product->merchant->closeing_time ? substr($product->merchant->closeing_time, 0, 5) : null,
+                    'lat'  => $product->merchant_id && $product->merchant->latitude ? $product->merchant->latitude : null,
+                    'lng'  => $product->merchant_id && $product->merchant->longitude ? $product->merchant->longitude : null,
+                    'merchantSpecial' => $product->merchant_id && $product->merchant->merchant_special ? $product->merchant->merchant_special : null
                 ];
                 break;
             case 'name':

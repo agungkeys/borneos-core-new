@@ -299,7 +299,10 @@ trait Products
                     'address' => $product->merchant->address ? $product->merchant->address : null,
                     'district' => $product->merchant->district ? $product->merchant->district : null,
                     'openingTime' => substr($product->merchant->opening_time, 0, 5),
-                    'closingTime' => substr($product->merchant->closeing_time, 0, 5)
+                    'closingTime' => substr($product->merchant->closeing_time, 0, 5),
+                    'lat' => $this->getAttributeMerchant(['id'=> $product->merchant->id,'field'=> 'lat']),
+                    'lng' => $this->getAttributeMerchant(['id'=> $product->merchant->id,'field'=> 'lang']),
+                    'merchantSpecial' => $this->getAttributeMerchant(['id'=> $product->merchant->id,'field'=> 'merchantSpecial'])
                 ],
                 'name' => $product->name,
                 'slug' => $product->slug,
@@ -352,7 +355,10 @@ trait Products
                     'address' => $product->merchant->address ? $product->merchant->address : null,
                     'district' => $product->merchant->district ? $product->merchant->district : null,
                     'openingTime' => substr($product->merchant->opening_time, 0, 5),
-                    'closingTime' => substr($product->merchant->closeing_time, 0, 5)
+                    'closingTime' => substr($product->merchant->closeing_time, 0, 5),
+                    'lat' => $this->getAttributeMerchant(['id'=> $product->merchant->id,'field'=> 'lat']),
+                    'lng' => $this->getAttributeMerchant(['id'=> $product->merchant->id,'field'=> 'lang']),
+                    'merchantSpecial' => $this->getAttributeMerchant(['id'=> $product->merchant->id,'field'=> 'merchantSpecial'])
                 ],
                 'name' => $product->name,
                 'slug' => $product->slug,
@@ -433,7 +439,10 @@ trait Products
                         'address' => $item->merchant->address ? $item->merchant->address : null,
                         'district' => $item->merchant->district ? $item->merchant->district : null,
                         'openingTime' => substr($item->merchant->opening_time, 0, 5),
-                        'closingTime' => substr($item->merchant->closeing_time, 0, 5)
+                        'closingTime' => substr($item->merchant->closeing_time, 0, 5),
+                        'lat' => $this->getAttributeMerchant(['id'=> $item->merchant->id,'field'=> 'lat']),
+                        'lng' => $this->getAttributeMerchant(['id'=> $item->merchant->id,'field'=> 'lang']),
+                        'merchantSpecial' => $this->getAttributeMerchant(['id'=> $item->merchant->id,'field'=> 'merchantSpecial'])
                     ],
                     'name' => $item->name,
                     'slug' => $item->slug,
@@ -506,7 +515,10 @@ trait Products
                     'address' => $product->merchant->address ? $product->merchant->address : null,
                     'district' => $product->merchant->district ? $product->merchant->district : null,
                     'openingTime' => substr($product->merchant->opening_time, 0, 5),
-                    'closingTime' => substr($product->merchant->closeing_time, 0, 5)
+                    'closingTime' => substr($product->merchant->closeing_time, 0, 5),
+                    'lat' => $this->getAttributeMerchant(['id'=> $product->merchant->id,'field'=> 'lat']),
+                    'lng' => $this->getAttributeMerchant(['id'=> $product->merchant->id,'field'=> 'lang']),
+                    'merchantSpecial' => $this->getAttributeMerchant(['id'=> $product->merchant->id,'field'=> 'merchantSpecial'])
                 ],
                 'name' => $product->name,
                 'slug' => $product->slug,
