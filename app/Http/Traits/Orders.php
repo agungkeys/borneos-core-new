@@ -8,6 +8,56 @@ use Illuminate\Support\Str;
 
 trait Orders
 {
+    public function resultOrderDetail($order)
+    {
+        $orderDetail = OrderDetail::where('order_id','=',$order->id)->get();
+        if($orderDetail->count() == 0){
+            $resultOrderDetail = null;
+        }else{
+            foreach($orderDetail as $item){
+                $resultOrderDetail[] = [
+                    'id' => $item->id,
+                    'orderId' => $item->order_id,
+                    'productId' => $item->product_id,
+                    'productName' => $item->product_name,
+                    'productPrice' => $item->product_price,
+                    'productDiscount' => $item->product_discount ? $item->product_discount : 0,
+                    'productDiscountType' => $item->product_discount_type ? $item->product_discount_type : '',
+                    'productImage' => $item->product_image ? $item->product_image : '',
+                    'productImageAdditional' => $item->product_image_additional ? json_decode($item->product_image_additional): '',
+                    'productQty' => $item->product_qty,
+                    'productTotalPrice' => $item->product_total_price,
+                    'notes' => $item->notes ? $item->notes : '',
+                ];
+            };
+            return (object)[
+                'id' => $order->id,
+                'prefix' => $order->prefix,
+                'orderType' => $order->order_type,
+                'merchantId' => $order->merchant_id,
+                'courierId' => $order->courier_id,
+                'customerName' => $order->customer_name,
+                'customerTelp' => $order->customer_telp,
+                'customerAddress' => $order->customer_address,
+                'customerAddressLat' => $order->customer_address_lat,
+                'customerAddressLng' => $order->customer_address_lang,
+                'customerNotes' => $order->customer_notes,
+                'distance' => $order->distance,
+                'totalItem' => $order->total_item,
+                'totalItemPrice' => $order->total_item_price,
+                'totalDistancePrice' => $order->total_distance_price,
+                'totalPrice' => $order->total_price,
+                'paymentType' => $order->payment_type,
+                'paymentTotal' => $order->payment_total,
+                'paymentBankName' => $order->payment_bank_name,
+                'paymentAccountNumber' => $order->payment_account_number,
+                'paymentStatus' => $order->payment_status,
+                'status' => $order->status,
+                'statusNotes' => $order->status_notes,
+                'products' => $resultOrderDetail
+            ];
+        }
+    }
     public function countPrefix($prefix)
     {
         return Order::where('prefix', $prefix)->count();

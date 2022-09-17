@@ -5,12 +5,28 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderRequest;
 use App\Http\Traits\FormatMeta;
+use App\Http\Traits\Orders;
 use App\Models\{Order, OrderDetail};
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
-    use FormatMeta;
+    use FormatMeta,Orders;
+
+    public function get_order_detail(Request $request)
+    {
+         if ($request->header('tokenb') === env('tokenb')) {
+            if (Order::where('prefix', '=', $request->prefix ?? '')->doesntExist()) {
+                return response()->json(['status' => 'error','data' => null]);
+            } else {
+                $order = Order::where('prefix','=',$request->prefix)->get()[0];
+                return response()->json(['status' => 'success','data' => $this->resultOrderDetail($order)]);
+            }
+        } else {
+            return response()->json(['status' => 'error', 'data' => null], 401);
+        }
+    }
 
     public function order_store(OrderRequest $request)
     {
