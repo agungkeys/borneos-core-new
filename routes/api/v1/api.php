@@ -20,6 +20,7 @@ Route::group(['namespace' => 'Api\V1'], function () {
   Route::group(['prefix' => 'orders'], function () {
     Route::post('/', 'OrderController@order_store');
     Route::get('/{prefix}','OrderController@get_order_detail');
+    Route::put('/{prefix}','OrderController@update_order');
   });
   Route::group(['prefix' => 'blog-categories'], function () {
     Route::get('/', 'BlogCategoryController@get_blog_categories');
