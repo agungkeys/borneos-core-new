@@ -126,6 +126,7 @@
                           @if($order->status == 'new')
                           <button type="button" onclick="followUpMerchant({{ $order }})" class="btn btn-outline-secondary btn-sm icon ion-android-home mt-1" title="Follow up Merchant"></button>
                           <button type="button" onclick="followUpCustomer({{ $order }})" class="btn btn-outline-warning btn-sm icon ion-android-contact mt-1" title="Follow up Customer"></button>
+                          <button type="button" onclick="followUpOrderConfirmation({{ $order }})" class="btn btn-outline-success btn-sm icon ion-android-checkbox mt-1" title="Konfirmasi Pesanan"></button>
                           @endif
                           @if($order->status == 'done')
                           <button type="button" onclick="followUpCustomerWhenDone({{ $order }})" class="btn btn-secondary btn-sm icon ion-android-call mt-1" title="follow up Customer"></button>
@@ -171,6 +172,10 @@
   function followUpCustomer(val){
     let merchantName = val.merchant.name, phone = replacePhone(val.customer_telp);
     window.open(`https://wa.me/${phone}/?text=Halo%20kak%2C%20kami%20telah%20menerima%20pesanannya.%20Mohon%20menunggu%20sebentar%20untuk%20kami%20konfirmasi%20pesanan%20kakak%20ke%20${merchantName}.%20Terima%20kasih.`);
+  }
+  function followUpOrderConfirmation(val){
+    let merchantName = val.merchant.name, orderPrefix = val.prefix, customerTelp = replacePhone(val.customer_telp);
+    window.open(`https://wa.me/${customerTelp}/?text=Terima%20kasih%20telah%20menunggu.%20Pesanan%20kakak%20di%20${merchantName}%20telah%20kami%20konfirmasi.%20Selanjutnya%20silahkan%20tap%2Fclick%20link%20berikut%20ini%20ya%20kak.%20%0A%0Ahttps%3A%2F%2Fwww.borneos.co%2Fcart%2F${orderPrefix}`);
   }
   function replacePhone(phone){
     let twoDigitFront = phone.substring(0,2);
