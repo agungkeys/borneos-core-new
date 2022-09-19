@@ -167,4 +167,57 @@ class OrderController extends Controller
     {
         return $this->FormatFollowUpCustomerWhenDone($order);
     }
+    public function updateProductOrderDetail(Request $request)
+    {
+        $request->validate([
+            'price'       => 'required|numeric',
+            'qty'         => 'required|numeric',
+            'total_price' => 'required|numeric'
+        ]);
+        $orderDetail = OrderDetail::find($request->id_order_detail);
+        $orderDetail->update([
+            'product_price'       => $request->price,
+            'product_qty'         => $request->qty,
+            'product_total_price' => $request->total_price,
+            'notes'               => $request->notes
+        ]);
+        $productQty = OrderDetail::where('order_id','=',$request->id_order)->get('product_qty')->sum('product_qty');
+        $productTotalPrice = OrderDetail::where('order_id','=',$request->id_order)->get('product_total_price')->sum('product_total_price');
+        $order = Order::find($request->id_order);
+        $order->update([
+            'total_item' => $productQty,
+            'total_item_price' => $productTotalPrice,
+            'total_price' => $productTotalPrice + $order->total_distance_price
+        ]);
+        Alert::toast('Updated', 'success');
+        return redirect()->back();
+    }
+    public function deleteProductOrderDetail(OrderDetail $orderDetail)
+    {
+        $productQty = OrderDetail::where([['order_id','=',$orderDetail->order_id],['id','!=',$orderDetail->id]])->get('product_qty')->sum('product_qty') ?? 0;
+        $productTotalPrice = OrderDetail::where([['order_id','=',$orderDetail->order_id],['id','!=',$orderDetail->id]])->get('product_total_price')->sum('product_total_price') ?? 0;
+        $order = Order::find($orderDetail->order_id);
+        $order->update([
+            'total_item' => $productQty,
+            'total_item_price' => $productTotalPrice,
+            'total_price' => $productTotalPrice + $order->total_distance_price
+        ]);
+        $orderDetail->delete();
+        return response()->json(['prefix' => $order->prefix,'status' => 200]);
+    }
+    public function updateDistanceOrderDetail(Request $request)
+    {
+        $request->validate([
+            'distance' => 'required',
+            'total_distance_price' => 'required|numeric'
+        ]);
+        $order = Order::find($request->id_order);
+        $order->update([
+            'distance' => $request->distance,
+            'total_distance_price' => $request->total_distance_price,
+            'total_price' => $order->total_item_price + $request->total_distance_price
+        ]);
+        Alert::toast('Updated', 'success');
+        return redirect()->back();
+    }
 }

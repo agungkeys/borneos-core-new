@@ -89,6 +89,13 @@
                             @enderror
                         </div>
                         <div class="form-group">
+                            <label for="merchant_special">Merchant Special</label>
+                            <textarea name="merchant_special" class="form-control">{{ $master_merchant->merchant_special }}</textarea>
+                            @error('merchant_special')
+                                <span class="text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
                             <label for="coordinate">Titik Koordinat</label>
                             <div class="input-group">
                                 <input type="text" id="latitude" name="latitude" value="{{ $master_merchant->latitude }}" class="form-control" placeholder="Latitude" readonly>
