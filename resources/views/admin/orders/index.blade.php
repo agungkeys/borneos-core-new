@@ -170,7 +170,7 @@
   }
   function followUpCustomer(val){
     let merchantName = val.merchant.name, phone = replacePhone(val.customer_telp);
-    window.open(`https://wa.me/${phone}/?text=Halo%20kak%20kami%20telah%20menerima%20orderan%20untuk%20${merchantName}%20harap%20menunggu%20orderannya%20ya%20kak`);
+    window.open(`https://wa.me/${phone}/?text=Halo%20kak%2C%20kami%20telah%20menerima%20pesanannya.%20Mohon%20menunggu%20sebentar%20untuk%20kami%20konfirmasi%20pesanan%20kakak%20ke%20${merchantName}.%20Terima%20kasih.`);
   }
   function replacePhone(phone){
     let twoDigitFront = phone.substring(0,2);
