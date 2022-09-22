@@ -48,10 +48,10 @@ class OrderController extends Controller
             $orders->total_item_price = $request->totalItemPrice;
             $orders->total_distance_price = $request->totalDistancePrice ?? 0;
             $orders->total_price = $request->totalPrice;
-            $orders->payment_type = $request->paymentType;
+            $orders->payment_type = $request->paymentType ?? '';
             $orders->payment_total = $request->paymentTotal ?? 0;
             $orders->payment_bank_name = $request->paymentBankName ?? '';
-            $orders->payment_account_number = $request->paymentAccountNumber ?? 0;
+            $orders->payment_account_number = $request->paymentAccountNumber ?? '';
             $orders->payment_status = $request->paymentStatus;
             $orders->status = $request->status ?? 'new';
             $orders->status_notes = $request->statusNotes ?? '';
