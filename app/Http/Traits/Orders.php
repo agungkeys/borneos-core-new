@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 
 trait Orders
 {
+    use Merchants;
+
     public function resultOrderDetail($order)
     {
         $orderDetail = OrderDetail::where('order_id','=',$order->id)->get();
@@ -54,7 +56,20 @@ trait Orders
                 'paymentStatus' => $order->payment_status,
                 'status' => $order->status,
                 'statusNotes' => $order->status_notes,
-                'products' => $resultOrderDetail
+                'products' => $resultOrderDetail,
+                'merchant' => [
+                    'id' => $order->merchant->id,
+                    'name' => $order->merchant->name,
+                    'slug' => $order->merchant->slug ? $order->merchant->slug : '',
+                    'additionalImage' => $order->merchant->additional_image ? json_decode($order->merchant->additional_image) : null,
+                    'address' => $order->merchant->address ? $order->merchant->address : null,
+                    'district' => $order->merchant->district ? $order->merchant->district : null,
+                    'openingTime' => substr($order->merchant->opening_time, 0, 5),
+                    'closingTime' => substr($order->merchant->closeing_time, 0, 5),
+                    'lat' => $this->getAttributeMerchant(['id'=> $order->merchant->id,'field'=> 'lat']),
+                    'lng' => $this->getAttributeMerchant(['id'=> $order->merchant->id,'field'=> 'lang']),
+                    'merchantSpecial' => $this->getAttributeMerchant(['id'=> $order->merchant->id,'field'=> 'merchantSpecial'])
+                ]
             ];
         }
     }
