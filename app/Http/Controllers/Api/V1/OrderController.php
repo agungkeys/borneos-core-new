@@ -5,12 +5,28 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderRequest;
 use App\Http\Traits\FormatMeta;
+use App\Http\Traits\Orders;
 use App\Models\{Order, OrderDetail};
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
-    use FormatMeta;
+    use FormatMeta,Orders;
+
+    public function get_order_detail(Request $request)
+    {
+        if ($request->header('tokenb') === env('tokenb')) {
+            if (Order::where('prefix', '=', $request->prefix ?? '')->doesntExist()) {
+                return response()->json(['status' => 'error','data' => null]);
+            } else {
+                $order = Order::where('prefix','=',$request->prefix)->get()[0];
+                return response()->json(['status' => 'success','data' => $this->resultOrderDetail($order)]);
+            }
+        } else {
+            return response()->json(['status' => 'error', 'data' => null], 401);
+        }
+    }
 
     public function order_store(OrderRequest $request)
     {
@@ -32,10 +48,10 @@ class OrderController extends Controller
             $orders->total_item_price = $request->totalItemPrice;
             $orders->total_distance_price = $request->totalDistancePrice ?? 0;
             $orders->total_price = $request->totalPrice;
-            $orders->payment_type = $request->paymentType;
+            $orders->payment_type = $request->paymentType ?? '';
             $orders->payment_total = $request->paymentTotal ?? 0;
             $orders->payment_bank_name = $request->paymentBankName ?? '';
-            $orders->payment_account_number = $request->paymentAccountNumber ?? 0;
+            $orders->payment_account_number = $request->paymentAccountNumber ?? '';
             $orders->payment_status = $request->paymentStatus;
             $orders->status = $request->status ?? 'new';
             $orders->status_notes = $request->statusNotes ?? '';
@@ -61,6 +77,25 @@ class OrderController extends Controller
             }
             $result = $this->MetaOrderStore(['request' => $request->all(), 'prefix' => $prefix, 'order_id' => $order_id]);
             return response()->json($result);
+        } else {
+            return response()->json(['status' => 'error', 'data' => null], 401);
+        }
+    }
+    public function update_order(Request $request)
+    {
+        if ($request->header('tokenb') === env('tokenb')) {
+            if (Order::where('prefix', '=', $request->prefix ?? '')->doesntExist()) {
+                return response()->json(['status' => 'error','data' => null]);
+            } else {
+                $order = Order::where('prefix','=',$request->prefix)->get()[0];
+                $order->update([
+                    'payment_type' => $request->paymentType ? $request->paymentType : $order->payment_type,
+                    'payment_bank_name' => $request->paymentBankName ? $request->paymentBankName : $order->payment_bank_name,
+                    'payment_account_number' => $request->paymentAccountNumber ? $request->paymentAccountNumber : $order->payment_account_number,
+                    'payment_status' => $request->paymentStatus ? $request->paymentStatus : $order->payment_status
+                ]);
+                return response()->json(['status' => 'success','data' => $this->resultOrderDetail($order)]);
+            }
         } else {
             return response()->json(['status' => 'error', 'data' => null], 401);
         }

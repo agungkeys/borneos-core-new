@@ -8,6 +8,71 @@ use Illuminate\Support\Str;
 
 trait Orders
 {
+    use Merchants;
+
+    public function resultOrderDetail($order)
+    {
+        $orderDetail = OrderDetail::where('order_id','=',$order->id)->get();
+        if($orderDetail->count() == 0){
+            $resultOrderDetail = null;
+        }else{
+            foreach($orderDetail as $item){
+                $resultOrderDetail[] = [
+                    'id' => $item->id,
+                    'orderId' => $item->order_id,
+                    'productId' => $item->product_id,
+                    'productName' => $item->product_name,
+                    'productPrice' => $item->product_price,
+                    'productDiscount' => $item->product_discount ? $item->product_discount : 0,
+                    'productDiscountType' => $item->product_discount_type ? $item->product_discount_type : '',
+                    'productImage' => $item->product_image ? $item->product_image : '',
+                    'productImageAdditional' => $item->product_image_additional ? json_decode($item->product_image_additional): '',
+                    'productQty' => $item->product_qty,
+                    'productTotalPrice' => $item->product_total_price,
+                    'notes' => $item->notes ? $item->notes : '',
+                ];
+            };
+            return (object)[
+                'id' => $order->id,
+                'prefix' => $order->prefix,
+                'orderType' => $order->order_type,
+                'merchantId' => $order->merchant_id,
+                'courierId' => $order->courier_id,
+                'customerName' => $order->customer_name,
+                'customerTelp' => $order->customer_telp,
+                'customerAddress' => $order->customer_address,
+                'customerAddressLat' => $order->customer_address_lat,
+                'customerAddressLng' => $order->customer_address_lang,
+                'customerNotes' => $order->customer_notes,
+                'distance' => $order->distance,
+                'totalItem' => $order->total_item,
+                'totalItemPrice' => $order->total_item_price,
+                'totalDistancePrice' => $order->total_distance_price,
+                'totalPrice' => $order->total_price,
+                'paymentType' => $order->payment_type,
+                'paymentTotal' => $order->payment_total,
+                'paymentBankName' => $order->payment_bank_name,
+                'paymentAccountNumber' => $order->payment_account_number,
+                'paymentStatus' => $order->payment_status,
+                'status' => $order->status,
+                'statusNotes' => $order->status_notes,
+                'products' => $resultOrderDetail,
+                'merchant' => [
+                    'id' => $order->merchant->id,
+                    'name' => $order->merchant->name,
+                    'slug' => $order->merchant->slug ? $order->merchant->slug : '',
+                    'additionalImage' => $order->merchant->additional_image ? json_decode($order->merchant->additional_image) : null,
+                    'address' => $order->merchant->address ? $order->merchant->address : null,
+                    'district' => $order->merchant->district ? $order->merchant->district : null,
+                    'openingTime' => substr($order->merchant->opening_time, 0, 5),
+                    'closingTime' => substr($order->merchant->closeing_time, 0, 5),
+                    'lat' => $this->getAttributeMerchant(['id'=> $order->merchant->id,'field'=> 'lat']),
+                    'lng' => $this->getAttributeMerchant(['id'=> $order->merchant->id,'field'=> 'lang']),
+                    'merchantSpecial' => $this->getAttributeMerchant(['id'=> $order->merchant->id,'field'=> 'merchantSpecial'])
+                ]
+            ];
+        }
+    }
     public function countPrefix($prefix)
     {
         return Order::where('prefix', $prefix)->count();
@@ -48,11 +113,11 @@ trait Orders
                 $d1_product_price = number_format($d1->product_price, 0, ',', '.');
                 $d1_product_total_price = number_format($d1->product_total_price, 0, ',', '.');
                 $notes = $d1->notes ? $d1->notes : '-';
-                $message = "Halo Kak kami dari Borneos ingin memesan orderan : $enter $enter %2A1. $d1->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
-                $enter Quantity ( @ ) : $d1->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d1_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes
+                $message = "Halo kak kami dari Borneos ingin memesan : $enter $enter %2A1. $d1->product_name%2A 
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d1->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d1_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes
                 $enter$enter Total Harga Pesanan : Rp. $d1_product_total_price";
                 return response()->json(['message' => $message, 'total' => 1]);
             } elseif ($orderDetail->count() == 2) {
@@ -65,17 +130,16 @@ trait Orders
                 $d2_product_total_price = number_format($d2->product_total_price, 0, ',', '.');
                 $notes_2 = $d2->notes ? $d2->notes : '-';
                 $grand_total = number_format($d1->product_total_price + $d2->product_total_price, 0, ',', '.');
-                $message = "Halo Kak kami dari Borneos ingin memesan orderan : 
-                $enter $enter %2A1. $d1->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
-                $enter Quantity ( @ ) : $d1->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d1_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_1
+                $message = "Halo kak kami dari Borneos ingin memesan : $enter $enter %2A1. $d1->product_name%2A 
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d1->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d1_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_1    
                 $enter $enter %2A2. $d2->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
-                $enter Quantity ( @ ) : $d2->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d2_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_2
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d2->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d2_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_2
                 $enter$enter Total Harga Pesanan : Rp. $grand_total";
                 return response()->json(['message' => $message, 'total' => 2]);
             } elseif ($orderDetail->count() == 3) {
@@ -92,22 +156,21 @@ trait Orders
                 $d3_product_total_price = number_format($d3->product_total_price, 0, ',', '.');
                 $notes_3 = $d3->notes ? $d3->notes : '-';
                 $grand_total = number_format($d1->product_total_price + $d2->product_total_price + $d3->product_total_price, 0, ',', '.');
-                $message = "Halo Kak kami dari Borneos ingin memesan orderan : 
-                $enter $enter %2A1. $d1->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
-                $enter Quantity ( @ ) : $d1->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d1_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_1
+                $message = "Halo kak kami dari Borneos ingin memesan : $enter $enter %2A1. $d1->product_name%2A 
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d1->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d1_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_1    
                 $enter $enter %2A2. $d2->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
-                $enter Quantity ( @ ) : $d2->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d2_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_2
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d2->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d2_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_2           
                 $enter $enter %2A3. $d3->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
-                $enter Quantity ( @ ) : $d3->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d3_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_3
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d3->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d3_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_3
                 $enter$enter Total Harga Pesanan : Rp. $grand_total";
                 return response()->json(['message' => $message, 'total' => 3]);
             } elseif ($orderDetail->count() == 4) {
@@ -128,27 +191,26 @@ trait Orders
                 $d4_product_total_price = number_format($d4->product_total_price, 0, ',', '.');
                 $notes_4 = $d4->notes ? $d4->notes : '-';
                 $grand_total = number_format($d1->product_total_price + $d2->product_total_price + $d3->product_total_price + $d4->product_total_price, 0, ',', '.');
-                $message = "Halo Kak kami dari Borneos ingin memesan orderan : 
-                $enter $enter %2A1. $d1->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
-                $enter Quantity ( @ ) : $d1->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d1_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_1
+                $message = "Halo kak kami dari Borneos ingin memesan : $enter $enter %2A1. $d1->product_name%2A 
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d1->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d1_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_1    
                 $enter $enter %2A2. $d2->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
-                $enter Quantity ( @ ) : $d2->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d2_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_2
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d2->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d2_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_2           
                 $enter $enter %2A3. $d3->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
-                $enter Quantity ( @ ) : $d3->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d3_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_3
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d3->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d3_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_3
                 $enter $enter %2A4. $d4->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
-                $enter Quantity ( @ ) : $d4->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d4_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_4
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d4->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d4_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_4
                 $enter$enter Total Harga Pesanan : Rp. $grand_total";
                 return response()->json(['message' => $message, 'total' => 4]);
             } elseif ($orderDetail->count() == 5) {
@@ -173,32 +235,31 @@ trait Orders
                 $d5_product_total_price = number_format($d5->product_total_price, 0, ',', '.');
                 $notes_5 = $d5->notes ? $d5->notes : '-';
                 $grand_total = number_format($d1->product_total_price + $d2->product_total_price + $d3->product_total_price + $d4->product_total_price + $d5->product_total_price, 0, ',', '.');
-                $message = "Halo Kak kami dari Borneos ingin memesan orderan : 
-                $enter $enter %2A1. $d1->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
-                $enter Quantity ( @ ) : $d1->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d1_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_1
+                $message = "Halo kak kami dari Borneos ingin memesan : $enter $enter %2A1. $d1->product_name%2A 
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d1->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d1_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_1    
                 $enter $enter %2A2. $d2->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
-                $enter Quantity ( @ ) : $d2->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d2_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_2
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d2->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d2_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_2           
                 $enter $enter %2A3. $d3->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
-                $enter Quantity ( @ ) : $d3->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d3_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_3
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d3->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d3_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_3
                 $enter $enter %2A4. $d4->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
-                $enter Quantity ( @ ) : $d4->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d4_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_4
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d4->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d4_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_4
                 $enter $enter %2A5. $d5->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
-                $enter Quantity ( @ ) : $d5->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d5_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_5
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d5->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d5_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_5
                 $enter$enter Total Harga Pesanan : Rp. $grand_total";
                 return response()->json(['message' => $message, 'total' => 5]);
             } elseif ($orderDetail->count() == 6) {
@@ -227,37 +288,36 @@ trait Orders
                 $d6_product_total_price = number_format($d6->product_total_price, 0, ',', '.');
                 $notes_6 = $d6->notes ? $d6->notes : '-';
                 $grand_total = number_format($d1->product_total_price + $d2->product_total_price + $d3->product_total_price + $d4->product_total_price + $d5->product_total_price + $d6->product_total_price, 0, ',', '.');
-                $message = "Halo Kak kami dari Borneos ingin memesan orderan : 
-                $enter $enter %2A1. $d1->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
-                $enter Quantity ( @ ) : $d1->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d1_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_1
+                $message = "Halo kak kami dari Borneos ingin memesan : $enter $enter %2A1. $d1->product_name%2A 
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d1->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d1_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_1    
                 $enter $enter %2A2. $d2->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
-                $enter Quantity ( @ ) : $d2->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d2_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_2
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d2->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d2_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_2           
                 $enter $enter %2A3. $d3->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
-                $enter Quantity ( @ ) : $d3->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d3_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_3
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d3->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d3_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_3
                 $enter $enter %2A4. $d4->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
-                $enter Quantity ( @ ) : $d4->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d4_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_4
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d4->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d4_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_4
                 $enter $enter %2A5. $d5->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
-                $enter Quantity ( @ ) : $d5->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d5_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_5
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d5->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d5_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_5
                 $enter $enter %2A6. $d6->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
-                $enter Quantity ( @ ) : $d6->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d6_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_6
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d6->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d6_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_6
                 $enter$enter Total Harga Pesanan : Rp. $grand_total";
                 return response()->json(['message' => $message, 'total' => 6]);
             } elseif ($orderDetail->count() == 7) {
@@ -291,42 +351,41 @@ trait Orders
                 $notes_7 = $d7->notes ? $d7->notes : '-';
                 $grand_total = number_format($d1->product_total_price + $d2->product_total_price + $d3->product_total_price
                     + $d4->product_total_price + $d5->product_total_price + $d6->product_total_price + $d7->product_total_price, 0, ',', '.');
-                $message = "Halo Kak kami dari Borneos ingin memesan orderan : 
-                $enter $enter %2A1. $d1->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
-                $enter Quantity ( @ ) : $d1->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d1_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_1
+                $message = "Halo kak kami dari Borneos ingin memesan : $enter $enter %2A1. $d1->product_name%2A 
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d1->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d1_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_1    
                 $enter $enter %2A2. $d2->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
-                $enter Quantity ( @ ) : $d2->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d2_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_2
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d2->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d2_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_2           
                 $enter $enter %2A3. $d3->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
-                $enter Quantity ( @ ) : $d3->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d3_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_3
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d3->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d3_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_3
                 $enter $enter %2A4. $d4->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
-                $enter Quantity ( @ ) : $d4->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d4_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_4
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d4->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d4_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_4
                 $enter $enter %2A5. $d5->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
-                $enter Quantity ( @ ) : $d5->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d5_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_5
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d5->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d5_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_5
                 $enter $enter %2A6. $d6->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
-                $enter Quantity ( @ ) : $d6->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d6_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_6
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d6->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d6_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_6
                 $enter $enter %2A7. $d7->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d7_product_price
-                $enter Quantity ( @ ) : $d7->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d7_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_7
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d7_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d7->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d7_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_7
                 $enter$enter Total Harga Pesanan : Rp. $grand_total";
                 return response()->json(['message' => $message, 'total' => 7]);
             } elseif ($orderDetail->count() == 8) {
@@ -364,47 +423,46 @@ trait Orders
                 $notes_8 = $d8->notes ? $d8->notes : '-';
                 $grand_total = number_format($d1->product_total_price + $d2->product_total_price + $d3->product_total_price
                     + $d4->product_total_price + $d5->product_total_price + $d6->product_total_price + $d7->product_total_price + $d8->product_total_price, 0, ',', '.');
-                $message = "Halo Kak kami dari Borneos ingin memesan orderan : 
-                $enter $enter %2A1. $d1->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
-                $enter Quantity ( @ ) : $d1->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d1_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_1
+                $message = "Halo kak kami dari Borneos ingin memesan : $enter $enter %2A1. $d1->product_name%2A 
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d1->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d1_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_1    
                 $enter $enter %2A2. $d2->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
-                $enter Quantity ( @ ) : $d2->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d2_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_2
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d2->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d2_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_2           
                 $enter $enter %2A3. $d3->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
-                $enter Quantity ( @ ) : $d3->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d3_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_3
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d3->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d3_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_3
                 $enter $enter %2A4. $d4->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
-                $enter Quantity ( @ ) : $d4->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d4_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_4
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d4->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d4_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_4
                 $enter $enter %2A5. $d5->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
-                $enter Quantity ( @ ) : $d5->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d5_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_5
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d5->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d5_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_5
                 $enter $enter %2A6. $d6->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
-                $enter Quantity ( @ ) : $d6->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d6_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_6
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d6->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d6_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_6
                 $enter $enter %2A7. $d7->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d7_product_price
-                $enter Quantity ( @ ) : $d7->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d7_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_7
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d7_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d7->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d7_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_7
                 $enter $enter %2A8. $d8->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d8_product_price
-                $enter Quantity ( @ ) : $d8->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d8_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_8
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d8_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d8->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d8_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_8
                 $enter$enter Total Harga Pesanan : Rp. $grand_total";
                 return response()->json(['message' => $message, 'total' => 8]);
             } elseif ($orderDetail->count() == 9) {
@@ -447,52 +505,51 @@ trait Orders
                 $grand_total = number_format($d1->product_total_price + $d2->product_total_price + $d3->product_total_price
                     + $d4->product_total_price + $d5->product_total_price + $d6->product_total_price
                     + $d7->product_total_price + $d8->product_total_price + $d9->product_total_price, 0, ',', '.');
-                $message = "Halo Kak kami dari Borneos ingin memesan orderan : 
-                $enter $enter %2A1. $d1->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
-                $enter Quantity ( @ ) : $d1->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d1_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_1
+                $message = "Halo kak kami dari Borneos ingin memesan : $enter $enter %2A1. $d1->product_name%2A 
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d1->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d1_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_1    
                 $enter $enter %2A2. $d2->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
-                $enter Quantity ( @ ) : $d2->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d2_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_2
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d2->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d2_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_2           
                 $enter $enter %2A3. $d3->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
-                $enter Quantity ( @ ) : $d3->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d3_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_3
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d3->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d3_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_3
                 $enter $enter %2A4. $d4->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
-                $enter Quantity ( @ ) : $d4->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d4_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_4
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d4->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d4_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_4
                 $enter $enter %2A5. $d5->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
-                $enter Quantity ( @ ) : $d5->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d5_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_5
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d5->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d5_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_5
                 $enter $enter %2A6. $d6->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
-                $enter Quantity ( @ ) : $d6->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d6_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_6
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d6->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d6_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_6
                 $enter $enter %2A7. $d7->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d7_product_price
-                $enter Quantity ( @ ) : $d7->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d7_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_7
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d7_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d7->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d7_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_7
                 $enter $enter %2A8. $d8->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d8_product_price
-                $enter Quantity ( @ ) : $d8->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d8_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_8
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d8_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d8->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d8_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_8
                 $enter $enter %2A9. $d9->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d9_product_price
-                $enter Quantity ( @ ) : $d9->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d9_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_9
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d9_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d9->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d9_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_9
                 $enter$enter Total Harga Pesanan : Rp. $grand_total";
                 return response()->json(['message' => $message, 'total' => 9]);
             } elseif ($orderDetail->count() == 10) {
@@ -539,57 +596,56 @@ trait Orders
                 $grand_total = number_format($d1->product_total_price + $d2->product_total_price + $d3->product_total_price
                     + $d4->product_total_price + $d5->product_total_price + $d6->product_total_price
                     + $d7->product_total_price + $d8->product_total_price + $d9->product_total_price + $d10->product_total_price, 0, ',', '.');
-                $message = "Halo Kak kami dari Borneos ingin memesan orderan : 
-                $enter $enter %2A1. $d1->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
-                $enter Quantity ( @ ) : $d1->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d1_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_1
+                $message = "Halo kak kami dari Borneos ingin memesan : $enter $enter %2A1. $d1->product_name%2A 
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d1->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d1_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_1    
                 $enter $enter %2A2. $d2->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
-                $enter Quantity ( @ ) : $d2->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d2_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_2
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d2->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d2_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_2           
                 $enter $enter %2A3. $d3->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
-                $enter Quantity ( @ ) : $d3->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d3_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_3
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d3->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d3_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_3
                 $enter $enter %2A4. $d4->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
-                $enter Quantity ( @ ) : $d4->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d4_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_4
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d4->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d4_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_4
                 $enter $enter %2A5. $d5->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
-                $enter Quantity ( @ ) : $d5->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d5_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_5
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d5->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d5_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_5
                 $enter $enter %2A6. $d6->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
-                $enter Quantity ( @ ) : $d6->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d6_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_6
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d6->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d6_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_6
                 $enter $enter %2A7. $d7->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d7_product_price
-                $enter Quantity ( @ ) : $d7->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d7_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_7
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d7_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d7->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d7_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_7
                 $enter $enter %2A8. $d8->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d8_product_price
-                $enter Quantity ( @ ) : $d8->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d8_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_8
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d8_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d8->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d8_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_8
                 $enter $enter %2A9. $d9->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d9_product_price
-                $enter Quantity ( @ ) : $d9->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d9_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_9
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d9_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d9->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d9_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_9
                 $enter $enter %2A10. $d10->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d10_product_price
-                $enter Quantity ( @ ) : $d10->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d10_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_10
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d10_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d10->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d10_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_10
                 $enter$enter Total Harga Pesanan : Rp. $grand_total";
                 return response()->json(['message' => $message, 'total' => 10]);
             } elseif ($orderDetail->count() == 11) {
@@ -640,62 +696,61 @@ trait Orders
                 $grand_total = number_format($d1->product_total_price + $d2->product_total_price + $d3->product_total_price
                     + $d4->product_total_price + $d5->product_total_price + $d6->product_total_price
                     + $d7->product_total_price + $d8->product_total_price + $d9->product_total_price + $d10->product_total_price + $d11->product_total_price, 0, ',', '.');
-                $message = "Halo Kak kami dari Borneos ingin memesan orderan : 
-                $enter $enter %2A1. $d1->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
-                $enter Quantity ( @ ) : $d1->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d1_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_1
+                $message = "Halo kak kami dari Borneos ingin memesan : $enter $enter %2A1. $d1->product_name%2A 
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d1->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d1_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_1    
                 $enter $enter %2A2. $d2->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
-                $enter Quantity ( @ ) : $d2->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d2_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_2
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d2->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d2_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_2           
                 $enter $enter %2A3. $d3->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
-                $enter Quantity ( @ ) : $d3->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d3_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_3
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d3->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d3_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_3
                 $enter $enter %2A4. $d4->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
-                $enter Quantity ( @ ) : $d4->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d4_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_4
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d4->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d4_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_4
                 $enter $enter %2A5. $d5->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
-                $enter Quantity ( @ ) : $d5->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d5_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_5
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d5->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d5_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_5
                 $enter $enter %2A6. $d6->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
-                $enter Quantity ( @ ) : $d6->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d6_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_6
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d6->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d6_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_6
                 $enter $enter %2A7. $d7->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d7_product_price
-                $enter Quantity ( @ ) : $d7->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d7_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_7
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d7_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d7->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d7_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_7
                 $enter $enter %2A8. $d8->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d8_product_price
-                $enter Quantity ( @ ) : $d8->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d8_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_8
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d8_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d8->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d8_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_8
                 $enter $enter %2A9. $d9->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d9_product_price
-                $enter Quantity ( @ ) : $d9->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d9_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_9
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d9_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d9->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d9_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_9
                 $enter $enter %2A10. $d10->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d10_product_price
-                $enter Quantity ( @ ) : $d10->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d10_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_10
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d10_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d10->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d10_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_10
                 $enter $enter %2A11. $d11->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d11_product_price
-                $enter Quantity ( @ ) : $d11->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d11_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_11
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d11_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d11->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d11_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_11
                 $enter$enter Total Harga Pesanan : Rp. $grand_total";
                 return response()->json(['message' => $message, 'total' => 11]);
             } elseif ($orderDetail->count() == 12) {
@@ -751,67 +806,66 @@ trait Orders
                     + $d4->product_total_price + $d5->product_total_price + $d6->product_total_price
                     + $d7->product_total_price + $d8->product_total_price + $d9->product_total_price
                     + $d10->product_total_price + $d11->product_total_price + $d12->product_total_price, 0, ',', '.');
-                $message = "Halo Kak kami dari Borneos ingin memesan orderan : 
-                $enter $enter %2A1. $d1->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
-                $enter Quantity ( @ ) : $d1->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d1_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_1
+                $message = "Halo kak kami dari Borneos ingin memesan : $enter $enter %2A1. $d1->product_name%2A 
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d1->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d1_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_1    
                 $enter $enter %2A2. $d2->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
-                $enter Quantity ( @ ) : $d2->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d2_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_2
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d2->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d2_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_2           
                 $enter $enter %2A3. $d3->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
-                $enter Quantity ( @ ) : $d3->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d3_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_3
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d3->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d3_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_3
                 $enter $enter %2A4. $d4->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
-                $enter Quantity ( @ ) : $d4->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d4_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_4
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d4->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d4_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_4
                 $enter $enter %2A5. $d5->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
-                $enter Quantity ( @ ) : $d5->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d5_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_5
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d5->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d5_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_5
                 $enter $enter %2A6. $d6->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
-                $enter Quantity ( @ ) : $d6->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d6_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_6
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d6->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d6_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_6
                 $enter $enter %2A7. $d7->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d7_product_price
-                $enter Quantity ( @ ) : $d7->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d7_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_7
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d7_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d7->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d7_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_7
                 $enter $enter %2A8. $d8->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d8_product_price
-                $enter Quantity ( @ ) : $d8->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d8_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_8
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d8_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d8->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d8_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_8
                 $enter $enter %2A9. $d9->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d9_product_price
-                $enter Quantity ( @ ) : $d9->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d9_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_9
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d9_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d9->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d9_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_9
                 $enter $enter %2A10. $d10->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d10_product_price
-                $enter Quantity ( @ ) : $d10->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d10_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_10
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d10_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d10->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d10_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_10
                 $enter $enter %2A11. $d11->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d11_product_price
-                $enter Quantity ( @ ) : $d11->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d11_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_11
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d11_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d11->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d11_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_11
                 $enter $enter %2A12. $d12->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d12_product_price
-                $enter Quantity ( @ ) : $d12->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d12_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_12
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d12_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d12->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d12_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_12
                 $enter$enter Total Harga Pesanan : Rp. $grand_total";
                 return response()->json(['message' => $message, 'total' => 12]);
             } elseif ($orderDetail->count() == 13) {
@@ -871,72 +925,71 @@ trait Orders
                     + $d4->product_total_price + $d5->product_total_price + $d6->product_total_price
                     + $d7->product_total_price + $d8->product_total_price + $d9->product_total_price
                     + $d10->product_total_price + $d11->product_total_price + $d12->product_total_price + $d13->product_total_price, 0, ',', '.');
-                $message = "Halo Kak kami dari Borneos ingin memesan orderan : 
-                $enter $enter %2A1. $d1->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
-                $enter Quantity ( @ ) : $d1->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d1_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_1
+                $message = "Halo kak kami dari Borneos ingin memesan : $enter $enter %2A1. $d1->product_name%2A 
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d1->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d1_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_1    
                 $enter $enter %2A2. $d2->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
-                $enter Quantity ( @ ) : $d2->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d2_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_2
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d2->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d2_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_2           
                 $enter $enter %2A3. $d3->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
-                $enter Quantity ( @ ) : $d3->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d3_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_3
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d3->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d3_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_3
                 $enter $enter %2A4. $d4->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
-                $enter Quantity ( @ ) : $d4->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d4_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_4
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d4->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d4_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_4
                 $enter $enter %2A5. $d5->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
-                $enter Quantity ( @ ) : $d5->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d5_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_5
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d5->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d5_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_5
                 $enter $enter %2A6. $d6->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
-                $enter Quantity ( @ ) : $d6->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d6_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_6
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d6->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d6_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_6
                 $enter $enter %2A7. $d7->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d7_product_price
-                $enter Quantity ( @ ) : $d7->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d7_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_7
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d7_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d7->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d7_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_7
                 $enter $enter %2A8. $d8->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d8_product_price
-                $enter Quantity ( @ ) : $d8->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d8_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_8
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d8_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d8->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d8_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_8
                 $enter $enter %2A9. $d9->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d9_product_price
-                $enter Quantity ( @ ) : $d9->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d9_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_9
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d9_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d9->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d9_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_9
                 $enter $enter %2A10. $d10->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d10_product_price
-                $enter Quantity ( @ ) : $d10->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d10_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_10
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d10_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d10->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d10_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_10
                 $enter $enter %2A11. $d11->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d11_product_price
-                $enter Quantity ( @ ) : $d11->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d11_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_11
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d11_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d11->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d11_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_11
                 $enter $enter %2A12. $d12->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d12_product_price
-                $enter Quantity ( @ ) : $d12->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d12_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_12
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d12_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d12->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d12_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_12
                 $enter $enter %2A13. $d13->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d13_product_price
-                $enter Quantity ( @ ) : $d13->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d13_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_13
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d13_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d13->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d13_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_13
                 $enter$enter Total Harga Pesanan : Rp. $grand_total";
                 return response()->json(['message' => $message, 'total' => 13]);
             } elseif ($orderDetail->count() == 14) {
@@ -1001,77 +1054,76 @@ trait Orders
                     + $d7->product_total_price + $d8->product_total_price + $d9->product_total_price
                     + $d10->product_total_price + $d11->product_total_price + $d12->product_total_price
                     + $d13->product_total_price + $d14->product_total_price, 0, ',', '.');
-                $message = "Halo Kak kami dari Borneos ingin memesan orderan : 
-                $enter $enter %2A1. $d1->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
-                $enter Quantity ( @ ) : $d1->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d1_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_1
+                $message = "Halo kak kami dari Borneos ingin memesan : $enter $enter %2A1. $d1->product_name%2A 
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d1->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d1_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_1    
                 $enter $enter %2A2. $d2->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
-                $enter Quantity ( @ ) : $d2->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d2_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_2
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d2->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d2_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_2           
                 $enter $enter %2A3. $d3->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
-                $enter Quantity ( @ ) : $d3->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d3_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_3
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d3->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d3_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_3
                 $enter $enter %2A4. $d4->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
-                $enter Quantity ( @ ) : $d4->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d4_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_4
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d4->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d4_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_4
                 $enter $enter %2A5. $d5->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
-                $enter Quantity ( @ ) : $d5->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d5_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_5
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d5->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d5_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_5
                 $enter $enter %2A6. $d6->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
-                $enter Quantity ( @ ) : $d6->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d6_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_6
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d6->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d6_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_6
                 $enter $enter %2A7. $d7->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d7_product_price
-                $enter Quantity ( @ ) : $d7->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d7_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_7
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d7_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d7->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d7_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_7
                 $enter $enter %2A8. $d8->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d8_product_price
-                $enter Quantity ( @ ) : $d8->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d8_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_8
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d8_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d8->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d8_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_8
                 $enter $enter %2A9. $d9->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d9_product_price
-                $enter Quantity ( @ ) : $d9->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d9_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_9
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d9_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d9->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d9_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_9
                 $enter $enter %2A10. $d10->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d10_product_price
-                $enter Quantity ( @ ) : $d10->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d10_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_10
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d10_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d10->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d10_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_10
                 $enter $enter %2A11. $d11->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d11_product_price
-                $enter Quantity ( @ ) : $d11->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d11_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_11
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d11_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d11->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d11_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_11
                 $enter $enter %2A12. $d12->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d12_product_price
-                $enter Quantity ( @ ) : $d12->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d12_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_12
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d12_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d12->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d12_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_12
                 $enter $enter %2A13. $d13->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d13_product_price
-                $enter Quantity ( @ ) : $d13->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d13_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_13
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d13_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d13->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d13_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_13
                 $enter $enter %2A14. $d14->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d14_product_price
-                $enter Quantity ( @ ) : $d14->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d14_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_14
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d14_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d14->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d14_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_14
                 $enter$enter Total Harga Pesanan : Rp. $grand_total";
                 return response()->json(['message' => $message, 'total' => 14]);
             } elseif ($orderDetail->count() == 15) {
@@ -1140,82 +1192,81 @@ trait Orders
                     + $d7->product_total_price + $d8->product_total_price + $d9->product_total_price
                     + $d10->product_total_price + $d11->product_total_price + $d12->product_total_price
                     + $d13->product_total_price + $d14->product_total_price + $d15->product_total_price, 0, ',', '.');
-                $message = "Halo Kak kami dari Borneos ingin memesan orderan : 
-                $enter $enter %2A1. $d1->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
-                $enter Quantity ( @ ) : $d1->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d1_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_1
+                $message = "Halo kak kami dari Borneos ingin memesan : $enter $enter %2A1. $d1->product_name%2A 
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d1_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d1->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d1_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_1    
                 $enter $enter %2A2. $d2->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
-                $enter Quantity ( @ ) : $d2->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d2_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_2
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d2_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d2->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d2_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_2           
                 $enter $enter %2A3. $d3->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
-                $enter Quantity ( @ ) : $d3->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d3_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_3
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d3_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d3->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d3_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_3
                 $enter $enter %2A4. $d4->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
-                $enter Quantity ( @ ) : $d4->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d4_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_4
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d4_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d4->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d4_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_4
                 $enter $enter %2A5. $d5->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
-                $enter Quantity ( @ ) : $d5->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d5_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_5
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d5_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d5->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d5_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_5
                 $enter $enter %2A6. $d6->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
-                $enter Quantity ( @ ) : $d6->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d6_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_6
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d6_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d6->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d6_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_6
                 $enter $enter %2A7. $d7->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d7_product_price
-                $enter Quantity ( @ ) : $d7->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d7_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_7
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d7_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d7->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d7_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_7
                 $enter $enter %2A8. $d8->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d8_product_price
-                $enter Quantity ( @ ) : $d8->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d8_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_8
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d8_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d8->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d8_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_8
                 $enter $enter %2A9. $d9->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d9_product_price
-                $enter Quantity ( @ ) : $d9->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d9_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_9
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d9_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d9->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d9_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_9
                 $enter $enter %2A10. $d10->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d10_product_price
-                $enter Quantity ( @ ) : $d10->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d10_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_10
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d10_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d10->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d10_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_10
                 $enter $enter %2A11. $d11->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d11_product_price
-                $enter Quantity ( @ ) : $d11->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d11_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_11
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d11_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d11->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d11_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_11
                 $enter $enter %2A12. $d12->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d12_product_price
-                $enter Quantity ( @ ) : $d12->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d12_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_12
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d12_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d12->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d12_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_12
                 $enter $enter %2A13. $d13->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d13_product_price
-                $enter Quantity ( @ ) : $d13->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d13_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_13
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d13_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d13->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d13_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_13
                 $enter $enter %2A14. $d14->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d14_product_price
-                $enter Quantity ( @ ) : $d14->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d14_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_14
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d14_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d14->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d14_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_14
                 $enter $enter %2A15. $d15->product_name%2A 
-                $enter Harga $space$space$space$space$space$space$space$space$space$space$space$space : Rp. $d15_product_price
-                $enter Quantity ( @ ) : $d15->product_qty 
-                $enter Total Harga$space$space$space : Rp. $d15_product_total_price
-                $enter Notes$space$space$space$space$space$space$space$space$space$space$space$space$space : $notes_15
+                $enter Harga $space$space$space$space$space$space$space$space$space$space$space : Rp. $d15_product_price
+                $enter Jumlah $space$space$space$space$space$space$space$space$space : $d15->product_qty 
+                $enter Total Harga$space$space$space: Rp. $d15_product_total_price
+                $enter Catatan$space$space$space$space$space$space$space$space$space : $notes_15
                 $enter$enter Total Harga Pesanan : Rp. $grand_total";
                 return response()->json(['message' => $message, 'total' => 15]);
             }

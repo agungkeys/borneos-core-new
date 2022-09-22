@@ -33,10 +33,10 @@ class OrderRequest extends FormRequest
             'customerAddressLng' => 'required',
             'distance' => 'required',
             'totalItem' => 'required',
-            'paymentType' => 'required',
-            'paymentMethod' => 'required',
-            'paymentAccountName' => 'required',
-            'paymentAccountNumber' => 'required'
+            'paymentType' => 'sometimes',
+            'paymentMethod' => 'sometimes',
+            'paymentAccountName' => 'sometimes',
+            'paymentAccountNumber' => 'sometimes'
         ];
     }
 }
