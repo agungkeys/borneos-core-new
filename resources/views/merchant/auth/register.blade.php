@@ -12,7 +12,7 @@
                                     <div class="position-relative h-100 d-flex justify-content-center align-items-center bg-plum-plate"
                                         tabindex="-1">
                                         <div class="slide-img-bg"
-                                            style="background-image: url('{{ asset(env('PUBLIC_ASSETS') . 'images/originals/city.jpg') }}');">
+                                            style="background-image: url('{{ asset(env('PUBLIC_ASSETS') . 'images/originals/slide01.jpg') }}');">
                                         </div>
                                         <div class="slider-content">
                                             <h3>Semangat 100jt Pertama!</h3>
@@ -25,7 +25,7 @@
                                     <div class="position-relative h-100 d-flex justify-content-center align-items-center bg-premium-dark"
                                         tabindex="-1">
                                         <div class="slide-img-bg"
-                                            style="background-image: url('{{ asset(env('PUBLIC_ASSETS') . 'images/originals/citynights.jpg') }}');">
+                                            style="background-image: url('{{ asset(env('PUBLIC_ASSETS') . 'images/originals/slide02.jpg') }}');">
                                         </div>
                                         <div class="slider-content">
                                             <h3>Scalable, Modular, Consistent</h3>
@@ -38,10 +38,23 @@
                                     <div class="position-relative h-100 d-flex justify-content-center align-items-center bg-sunny-morning"
                                         tabindex="-1">
                                         <div class="slide-img-bg"
-                                            style="background-image: url('{{ asset(env('PUBLIC_ASSETS') . 'images/originals/citydark.jpg') }}');">
+                                            style="background-image: url('{{ asset(env('PUBLIC_ASSETS') . 'images/originals/slide03.jpg') }}');">
                                         </div>
                                         <div class="slider-content">
                                             <h3>Complex, but lightweight</h3>
+                                            <p>We've included a lot of components that cover almost all use cases for any
+                                                type of application.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="position-relative h-100 d-flex justify-content-center align-items-center bg-sunny-morning"
+                                        tabindex="-1">
+                                        <div class="slide-img-bg"
+                                            style="background-image: url('{{ asset(env('PUBLIC_ASSETS') . 'images/originals/slide04.jpg') }}');">
+                                        </div>
+                                        <div class="slider-content">
+                                            <h3>borneos.co</h3>
                                             <p>We've included a lot of components that cover almost all use cases for any
                                                 type of application.</p>
                                         </div>
