@@ -20,6 +20,9 @@ class OrderController extends Controller
             $orders = Order::sortable()
                 ->where('orders.customer_name', 'like', '%' . $filter . '%')
                 ->orWhere('orders.id', 'like', '%' . $filter . '%')
+                ->orWhereHas('merchant', function ($q) use ($filter) {
+                    return $q->where('name', 'like', "%{$filter}%");
+                })
                 ->orWhere('orders.order_type', 'like', '%' . $filter . '%')
                 ->orWhere('orders.customer_telp', 'like', '%' . $filter . '%')
                 ->orWhere('orders.customer_address', 'like', '%' . $filter . '%')
@@ -31,12 +34,12 @@ class OrderController extends Controller
                 ->orWhere('orders.payment_type', 'like', '%' . $filter . '%')
                 ->orWhere('orders.payment_status', 'like', '%' . $filter . '%')
                 ->orWhere('orders.status', 'like', '%' . $filter . '%')
-                ->paginate(10);
+                ->latest()->paginate(10);
         } else {
             if ($status == 'canceled') {
-                $orders = Order::sortable()->where(['orders.status' => 'cancel'])->orWhere(['orders.status' => 'refund'])->paginate(10);
+                $orders = Order::sortable()->where(['orders.status' => 'cancel'])->orWhere(['orders.status' => 'refund'])->latest()->paginate(10);
             } else {
-                $orders = Order::sortable()->where('orders.status', 'like', '%' . $status . '%')->paginate(10);
+                $orders = Order::sortable()->where('orders.status', 'like', '%' . $status . '%')->latest()->paginate(10);
             }
         }
         return view('admin.orders.index', compact('orders', 'filter', 'status'));
@@ -49,6 +52,9 @@ class OrderController extends Controller
             $orders = Order::sortable()
                 ->where('orders.customer_name', 'like', '%' . $filter . '%')
                 ->orWhere('orders.id', 'like', '%' . $filter . '%')
+                ->orWhereHas('merchant', function ($q) use ($filter) {
+                    return $q->where('name', 'like', "%{$filter}%");
+                })
                 ->orWhere('orders.order_type', 'like', '%' . $filter . '%')
                 ->orWhere('orders.customer_telp', 'like', '%' . $filter . '%')
                 ->orWhere('orders.customer_address', 'like', '%' . $filter . '%')
@@ -60,9 +66,10 @@ class OrderController extends Controller
                 ->orWhere('orders.payment_type', 'like', '%' . $filter . '%')
                 ->orWhere('orders.payment_status', 'like', '%' . $filter . '%')
                 ->orWhere('orders.status', 'like', '%' . $filter . '%')
+                ->latest()
                 ->paginate(10);
         } else {
-            $orders = Order::sortable()->paginate(10);
+            $orders = Order::sortable()->latest()->paginate(10);
         }
         return view('admin.orders.index', compact('orders', 'filter'));
     }
