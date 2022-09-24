@@ -69,9 +69,23 @@ trait Orders
                     'lat' => $this->getAttributeMerchant(['id'=> $order->merchant->id,'field'=> 'lat']),
                     'lng' => $this->getAttributeMerchant(['id'=> $order->merchant->id,'field'=> 'lang']),
                     'merchantSpecial' => $this->getAttributeMerchant(['id'=> $order->merchant->id,'field'=> 'merchantSpecial'])
-                ]
+                ],
+                'invoice' => $this->invoiceOrderDetail([
+                    'orderId' => $order->id,
+                    'prefixOrder'=> $order->prefix,
+                    'createdAtOrder'=> $order->created_at->format('d/m/Y')
+                ]),
+                'createdAt' => $order->created_at->format('d/m/Y'),
+                'updatedAt' => $order->updated_at->format('d/m/Y')
             ];
         }
+    }
+    public function invoiceOrderDetail($data)
+    {
+        $orderId          = $data['orderId'];
+        $prefixOrder      = $data['prefixOrder'];
+        $createdAtOrder   = $data['createdAtOrder'];
+        return "INV/$orderId/$createdAtOrder/$prefixOrder";
     }
     public function countPrefix($prefix)
     {
