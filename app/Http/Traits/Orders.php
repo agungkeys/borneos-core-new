@@ -76,10 +76,26 @@ trait Orders
                     'createdAtOrder'=> $order->created_at->format('d/m/Y')
                 ]),
                 'createdAt' => $order->created_at->format('d/m/Y'),
-                'updatedAt' => $order->updated_at->format('d/m/Y')
+                'updatedAt' => $order->updated_at->format('d/m/Y'),
+                'payment'   => $order->payment_id ? $this->paymentListOrderDetail($order) : (object)[]
             ];
         }
     }
+    public function paymentListOrderDetail($order)
+    {
+        return [
+            'id' => $order->payment->id,
+            'name' => $order->payment_id && $order->payment->name ? $order->payment->name : '',
+            'type' => $order->payment->type,
+            'accountType' => $order->payment_id && $order->payment->account_type ? $order->payment->account_type : '',
+            'accountName' => $order->payment_id && $order->payment->account_name ? $order->payment->account_name : '',
+            'accountNo' => $order->payment_id && $order->payment->account_no ? $order->payment->account_no : null,
+            'image' => $order->payment_id && $order->payment->image ? $order->payment->image : null,
+            'additionalImage' => $order->payment_id && $order->payment->additional_image ? json_decode($order->payment->additional_image):null,
+            'status' => $order->payment->status
+        ];
+    }
+
     public function invoiceOrderDetail($data)
     {
         $orderId          = $data['orderId'];
