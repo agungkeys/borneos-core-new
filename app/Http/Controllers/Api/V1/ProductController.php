@@ -128,6 +128,8 @@ class ProductController extends Controller
                     'id' => $merchant->id,
                     'name' => $merchant->name,
                     'slug' => $merchant->slug,
+                    'lat' => $merchant->latitude,
+                    'lng' => $merchant->longitude,
                     'status' => $merchant->status,
                     'logo' => $merchant->logo ? $merchant->logo : null,
                     'coverPhoto' => $merchant->cover_photo ? $merchant->cover_photo : null,
