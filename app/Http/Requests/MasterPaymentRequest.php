@@ -29,7 +29,8 @@ class MasterPaymentRequest extends FormRequest
             'account_type' => 'required',
             'account_name' => 'required',
             'account_no'   => 'required|numeric',
-            'image'        => 'image|mimes:jpeg,png,jpg,svg|max:8192'
+            'image'        => 'image|mimes:jpeg,png,jpg,svg|max:8192',
+            'instruction'  => 'nullable|sometimes'
         ];
     }
 }

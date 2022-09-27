@@ -10,7 +10,7 @@ class Payment extends Model
 {
     use HasFactory, Sortable;
 
-    protected $fillable = ['name', 'type', 'account_type', 'account_name', 'account_no', 'image', 'additional_image', 'status'];
+    protected $fillable = ['name', 'type', 'account_type', 'account_name', 'account_no', 'image', 'additional_image', 'status','instruction'];
 
     public $sortable = ['id', 'name', 'account_type', 'account_name', 'account_no'];
 

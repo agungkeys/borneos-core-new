@@ -60,7 +60,8 @@ class PaymentController extends Controller
             'account_no'       => $request->account_no,
             'image'            => $image_url,
             'additional_image' => $additional_image,
-            'status'           => 1
+            'status'           => 1,
+            'instruction'      => $request->instruction ?? ''
         ]);
         Alert::success("Success", "Created Successfully");
         return redirect()->route('admin.master-payment');
@@ -87,7 +88,8 @@ class PaymentController extends Controller
             'account_name'     => $request->account_name,
             'account_no'       => $request->account_no,
             'image'            => $image_url ?? $payment->image,
-            'additional_image' => $additional_image ?? $payment->additional_image
+            'additional_image' => $additional_image ?? $payment->additional_image,
+            'instruction'      => $request->instruction ?? $payment->instruction
         ]);
         Alert::success("Success", "Updated Successfully");
         return redirect()->route('admin.master-payment');
