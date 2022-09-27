@@ -79,6 +79,13 @@
                   <div class="form-group text-center" style="margin-bottom:0%;">
                      <img style="width: 25%;border: 0px solid; border-radius: 10px;" id="viewer" alt=""/>
                   </div>
+                  <div class="form-group">
+                    <label for="instruction">Instruction</label>
+                    <textarea name="instruction" id="instruction" class="form-control"></textarea>
+                    @error('instruction')
+                        <span class="text-danger mt-2">{{ $message }}</span>
+                    @enderror
+                  </div>
                   <div class="text-right mt-2">
                      <a href="{{ route('admin.master-payment') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
                      <button type="submit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Save</button>
@@ -102,6 +109,10 @@
         }
         $("#image").change(function () {
             readURL(this);
+        });
+         CKEDITOR.replace('instruction', {
+          height: 300,
+          removeButtons: 'PasteFromWord'
         });
     </script>
 @endsection
