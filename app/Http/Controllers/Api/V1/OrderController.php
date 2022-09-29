@@ -89,6 +89,7 @@ class OrderController extends Controller
             } else {
                 $order = Order::where('prefix','=',$request->prefix)->get()[0];
                 $order->update([
+                    'payment_id' => $request->paymentId ? $request->paymentId : $order->payment_id,
                     'payment_type' => $request->paymentType ? $request->paymentType : $order->payment_type,
                     'payment_bank_name' => $request->paymentBankName ? $request->paymentBankName : $order->payment_bank_name,
                     'payment_account_number' => $request->paymentAccountNumber ? $request->paymentAccountNumber : $order->payment_account_number,
