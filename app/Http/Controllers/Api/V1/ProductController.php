@@ -133,7 +133,8 @@ class ProductController extends Controller
                     'status' => $merchant->status,
                     'logo' => $merchant->logo ? $merchant->logo : null,
                     'coverPhoto' => $merchant->cover_photo ? $merchant->cover_photo : null,
-                    'additionalImage' => $merchant->additional_image ? json_decode($merchant->additional_image) : null
+                    'additionalImage' => $merchant->additional_image ? json_decode($merchant->additional_image) : null,
+                    'merchantSpecial' => $merchant->merchant_special ? $merchant->merchant_special : '',
                 ],
                 'products' => $this->cartValidation($requestProducts)
             ]);
