@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderAdminRequest;
 use App\Http\Traits\Orders;
-use App\Models\{Courier, Merchant, Order, OrderDetail, Payment};
+use App\Models\{Courier, Merchant, Order, OrderDetail, Payment, Product};
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -125,7 +125,8 @@ class OrderController extends Controller
         return view('admin.orders.edit', [
             'order'         => $order,
             'couriers'      => Courier::all(),
-            'order_details' => OrderDetail::where('order_id', $order->id)->get()
+            'order_details' => OrderDetail::where('order_id', $order->id)->get(),
+            'products'      => Product::where([['merchant_id','=',$order->merchant_id],['status','=',1]])->get()
         ]);
     }
     public function update(Order $order)
@@ -226,5 +227,33 @@ class OrderController extends Controller
         ]);
         Alert::toast('Updated', 'success');
         return redirect()->back();
+    }
+    public function addProductOrderDetail(Request $request)
+    {
+        $product = Product::findOrFail($request->product_id);
+    
+        OrderDetail::create([
+            'order_id' => $request->order_id,
+            'product_id' => $product->id,
+            'product_name' => $product->name,
+            'product_price' => substr($product->price,0,-3),
+            'product_discount' => 0,
+            'product_discount_type' => $product->discount_type, 
+            'product_image' => $product->image,
+            'product_image_additional' => $product->additional_image,
+            'product_qty' => 1,
+            'product_total_price'=> substr($product->price,0,-3),
+            'notes' => ''
+        ]);
+        $productQty = OrderDetail::where('order_id','=',$request->order_id)->get('product_qty')->sum('product_qty') ?? 0;
+        $productTotalPrice = OrderDetail::where('order_id','=',$request->order_id)->get('product_total_price')->sum('product_total_price') ?? 0;
+        $order = Order::find($request->order_id);
+        $order->update([
+            'total_item' => $productQty,
+            'total_item_price' => $productTotalPrice,
+            'total_price' => $productTotalPrice + $order->total_distance_price
+        ]);
+        Alert::success('Data Created', 'success');
+        return back();
     }
 }
