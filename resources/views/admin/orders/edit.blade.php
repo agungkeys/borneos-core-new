@@ -96,16 +96,14 @@
       <div class="card-body p-4">
           <div class="invoice">
               <div class="row">
-                  <div class="col-12 col-lg-6 col-md-6 col-sm-12">
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <button type="button" onclick="addProductOrderDetail()" class="btn btn-primary mr-1 mb-2" style="float:right">Add Product</button>
                     <h3 class="card-title">Products Info</h3>
-                      <!-- <h4>
-                      <i class="fas fa-cart-arrow-down"></i> {{ $order->customer_name }}
-                      <small class="float-right">Date: {{ date('d/m/Y', strtotime($order->created_at)); }}</small>
-                      </h4> -->
-                  </div>
-                  <div class="col-12 col-lg-6 col-md-6 col-sm-12">
-
-                  </div>
+                    <!-- <h4>
+                        <i class="fas fa-cart-arrow-down"></i> {{ $order->customer_name }}
+                        <small class="float-right">Date: {{ date('d/m/Y', strtotime($order->created_at)); }}</small>
+                    </h4> -->
+                </div>
               </div>
               <div class="row mt-2">
                   <div class="col-12 table-responsive">
@@ -305,6 +303,7 @@
  </div>
 @endsection
 @section('js')
+   
     <!-- Modal Edit Order Detail -->
     <div class="modal fade" id="ModalEditOrderDetail" tabindex="-1" aria-labelledby="ModalEditOrderDetail" aria-hidden="true">
         <div class="modal-dialog">
@@ -394,6 +393,64 @@
                             <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Add Order Detail -->
+    <div class="modal fade" id="ModalAddOrderDetail" tabindex="-1" aria-labelledby="ModalAddOrderDetail" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalAddOrderDetailLabel">Add Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-hover table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Sub Category</th>
+                                <th>Sub Sub Category</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($products as $product)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>
+                                    <img src="{{ URL::to($product->compressImage('w_32,h_32')) }}" alt="" width="32" height="32">
+                                </td>
+                                <td>{{ $product->name }}</td>
+                                <td>{{ $product->category_id && $product->category->name ? $product->category->name :'' }}</td>
+                                <td>{{ $product->sub_category_id && $product->SubCategory->name ? $product->SubCategory->name : '' }}</td>
+                                <td>{{ $product->sub_sub_category_id && $product->SubSubCategory->name ? $product->SubSubCategory->name :''  }}</td>
+                                <td>Rp. {{ number_format($product->price,2, ",", ".") }}</td>
+                                @if($product->status == 1)
+                                <td>Active</td>
+                                @else
+                                <td>Not Active</td>
+                                @endif
+                                <td>
+                                    <form action="{{ route('admin.order.detail.add-product',['order_id'=> $order->id,'product_id'=> $product->id]) }}" method="post">
+                                        @method('POST')
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-primary btn-sm" title="add product ?"><i class="fas fa-plus"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    <table>
                 </div>
             </div>
         </div>
@@ -500,6 +557,9 @@
                 $('#order_status').attr('class','alert alert-success');
                 $('#order_status').html('<b>Done</b>');
             }
+        }
+        function addProductOrderDetail(){
+            $('#ModalAddOrderDetail').modal('show');
         }
         function editProductOrderDetail(val){
             $('#ModalEditOrderDetail').modal('show');

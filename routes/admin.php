@@ -31,6 +31,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::put('/order-detail/update-product','OrderController@updateProductOrderDetail')->name('order.detail.update-product');
     Route::delete('/order-detail/delete-product/{orderDetail:id}','OrderController@deleteProductOrderDetail');
     Route::put('/order-detail/update-distance','OrderController@updateDistanceOrderDetail')->name('order.detail.update-distance');
+    Route::post('/order-detail/add-product/{order_id}/{product_id}','OrderController@addProductOrderDetail')->name('order.detail.add-product');
 
     //categories
     Route::get('/master-category', 'CategoryController@master_category_index')->name('master-category');
