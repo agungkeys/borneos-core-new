@@ -98,7 +98,11 @@
                         </div>
                         <div class="form-group">
                             <label for="merchant_special">Merchant Special</label>
-                            <textarea name="merchant_special" class="form-control">{{ $master_merchant->merchant_special }}</textarea>
+                            <select name="merchant_special" id="merchant_special" class="form-control">
+                                <option disabled selected>Choose One!</option>
+                                <option {{ $master_merchant->merchant_special == 'kmbu' ? 'selected':'' }} value="kmbu">KMBU</option>
+                                <option {{ $master_merchant->merchant_special == 'regular' ? 'selected':'' }} value="regular">Regular</option>
+                            </select>
                             @error('merchant_special')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
