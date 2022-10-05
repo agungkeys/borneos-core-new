@@ -135,8 +135,16 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="description">Short Description</label>
-                        <textarea type="text" name="description" class="form-control"></textarea>
+                        <label for="short_description">Short Description</label>
+                        <textarea type="text" name="short_description" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea name="description" id="description" class="form-control"></textarea>
                     </div>
                 </div>
             </div>
@@ -241,5 +249,9 @@
           }
           return result;
         }
+        CKEDITOR.replace('description', {
+          height: 250,
+          removeButtons: 'PasteFromWord'
+        });
     </script>
 @endsection

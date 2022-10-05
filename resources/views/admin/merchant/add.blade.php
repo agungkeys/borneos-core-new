@@ -91,7 +91,11 @@
                         </div>
                         <div class="form-group">
                             <label for="merchant_special">Merchant Special</label>
-                            <textarea name="merchant_special" class="form-control"></textarea>
+                            <select name="merchant_special" id="merchant_special" class="form-control">
+                                <option disabled selected>Choose One!</option>
+                                <option value="kmbu">KMBU</option>
+                                <option value="regular">Regular</option>
+                            </select>
                             @error('merchant_special')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
@@ -121,7 +125,7 @@
                         </div>
                         <div class="form-group">
                             <label for="logo">Merchant Logo</label><small style="color: red"> ( Ratio 1:1 )</small><br>
-                            <input type="file" id="customFileEg1" name="logo">
+                            <input type="file" id="customFileEg1" accept="image/*" name="logo">
                             <div class="form-group text-center" style="margin-bottom:0%;">
                                 <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="viewer" src="" alt="">
                             </div>
@@ -131,7 +135,7 @@
                         </div>
                         <div class="form-group">
                             <label for="cover_photo">Cover Photo</label><small style="color: red"> ( Ratio 2:1 )</small><br>
-                            <input type="file" id="coverImageUpload" name="cover_photo">
+                            <input type="file" id="coverImageUpload" accept="image/*" name="cover_photo">
                             <div class="form-group text-center" style="margin-bottom:0%;">
                                 <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="coverImageViewer" src="" alt="">
                             </div>
@@ -141,7 +145,7 @@
                         </div>
                         <div class="form-group">
                             <label for="seo_image">SEO Image</label><small style="color: red"> ( Ratio 1:1 )</small><br>
-                            <input type="file" id="seoImageUpload" name="seo_image">
+                            <input type="file" id="seoImageUpload" accept="image/*" name="seo_image">
                             <div class="form-group text-center" style="margin-bottom:0%;">
                                 <img style="height: 200px;border: 1px solid; border-radius: 10px;" id="seoImageViewer" src="" alt="">
                             </div>
