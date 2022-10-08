@@ -231,14 +231,14 @@ class OrderController extends Controller
     public function addProductOrderDetail(Request $request)
     {
         $product = Product::findOrFail($request->product_id);
-    
+
         OrderDetail::create([
             'order_id' => $request->order_id,
             'product_id' => $product->id,
             'product_name' => $product->name,
             'product_price' => substr($product->price,0,-3),
             'product_discount' => 0,
-            'product_discount_type' => $product->discount_type, 
+            'product_discount_type' => $product->discount_type ? $product->discount_type : '', 
             'product_image' => $product->image,
             'product_image_additional' => $product->additional_image,
             'product_qty' => 1,
