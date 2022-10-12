@@ -34,15 +34,16 @@ class LoginController extends Controller
         $vendor = Vendor::where('email', $request->email)->first();
         if($vendor)
         {
-            if($vendor->status == 0 && $vendor->email_verified_at== NULL)
+            // if($vendor->status == 0 && $vendor->email_verified_at== NULL)
+            if($vendor->status == 0 )
             {
                 Alert::toast('Akun anda belum di aktivasi, silahkan cek email atau hubungi admin', 'warning');
                 return redirect()->back();
             }
-            else{
-                Alert::toast('Akun anda di nonaktifkan, silahkan hubungi admin', 'warning');
-                return redirect()->back();
-            }
+            // else{
+            //     Alert::toast('Akun anda di nonaktifkan, silahkan hubungi admin', 'warning');
+            //     return redirect()->back();
+            // }
         }
         if (auth('merchant')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
             return redirect()->route('merchant.dashboard');
