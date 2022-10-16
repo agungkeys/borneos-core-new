@@ -73,8 +73,8 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
-                                            <div class="widget-chart widget-chart-hover">
-                                                <div class="col-sm-6" style="height: 100%">
+                                            <div class="widget-chart widget-chart-hover" style="height: 100%">
+                                                <div class="col-sm-6">
                                                 </div>
                                             </div>
                                         </div>
