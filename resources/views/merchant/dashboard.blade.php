@@ -32,19 +32,7 @@
                             <div class="main-card mb-3 card">
                                 <div class="grid-menu grid-menu-2col">
                                     <div class="no-gutters row">
-                                        <div class="col-sm-6">
-                                            <div class="widget-chart widget-chart-hover">
-                                                <div class="icon-wrapper rounded-circle">
-                                                    <div class="icon-wrapper-bg bg-primary"></div><i
-                                                        class="lnr-store text-primary"></i>
-                                                </div>
-                                                <div class="widget-numbers">{{ $merchantAll }}</div>
-                                                <div class="widget-subheading">Total Merchants</div>
-                                                <div class="widget-description text-success">
-                                                    <span class="pl-1"></span>
-                                                </div>
-                                            </div>
-                                        </div>
+
                                         <div class="col-sm-6">
                                             <div class="widget-chart widget-chart-hover">
                                                 <div class="icon-wrapper rounded-circle">
@@ -84,6 +72,12 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-sm-6">
+                                            <div class="widget-chart widget-chart-hover">
+                                                <div class="col-sm-6" style="height: 100%">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -92,5 +86,6 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection
