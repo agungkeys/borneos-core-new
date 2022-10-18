@@ -68,10 +68,10 @@
                                     <td>{{ $banner->id }}</td>
                                     <td><img src="{{ URL::to($banner->compressImage('w_60,h_60')) }}"  alt="" width="60"></td>
                                     <td>{{ $banner->type ? str_replace('_',' ',ucfirst($banner->type)) : "-" }}</td>
-                                    <td>{{ $banner->merchant_id && $banner->merchant->name ? $banner->merchant->name : '-' }}</td>
+                                    <td>{{ $banner->merchant_id && $banner->merchant ? $banner->merchant->name : '-' }}</td>
                                     <td>{{ $banner->title ? $banner->title : "-" }}</td>
                                     <td>{{ $banner->url ? $banner->url : "-" }}</td>
-                                    <td>{{ $banner->admin_id && $banner->admin->f_name ? $banner->admin->adminName() : "-" }}</td>
+                                    <td>{{ $banner->admin_id && $banner->admin ? $banner->admin->adminName() : "-" }}</td>
                                     <td>
                                         <label class="m-auto align-middle" for="statusCheckbox{{$banner->id}}">
                                             <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.banner.status',[$banner['id'],$banner->status ? 0 : 1])}}'" id="statusCheckbox{{$banner->id}}" {{$banner->status? 'checked' : ''}}>
