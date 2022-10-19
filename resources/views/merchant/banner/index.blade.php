@@ -45,13 +45,12 @@
                         <thead>
                             <tr>
                                 <th>@sortablelink('id', 'No')</th>
+                                <th>Image</th>
                                 <th>@sortablelink('title', 'Title')</th>
                                 <th>Type</th>
                                 <th>Merchant Name</th>
-                                <th>Image</th>
                                 <th>@sortablelink('url', 'URL')</th>
                                 <th>Status</th>
-                                <th>Admin ID</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -66,22 +65,20 @@
                             @foreach ($banners as $banner )
                                 <tr>
                                     <td>{{ $banner->id }}</td>
-                                    <td>{{ $banner->title ? $banner->title : "-" }}</td>
-                                    <td>{{ $banner->type ? $banner->type : "-" }}</td>
-                                    <td>{{ $banner->merchantName($banner->merchant_id) }}</td>
-
                                     @if ($banner->image)
-                                        <td> <img src="{{ $banner->image }}"  alt="" width="100"> </td>
+                                        <td><img src="{{ $banner->image }}"  alt="" width="100"></td>
                                     @else
-                                        <td> <img src="{{ asset('images/default-image.jpg') }}"  alt="" width="100"> </td>
+                                        <td><img src="{{ env('PUBLIC_IMAGE_EMPTY') }}"  alt="" width="100"></td>
                                     @endif
+                                    <td>{{ $banner->title ? $banner->title : "-" }}</td>
+                                    <td>{{ $banner->type == 'banner_merchant' ? 'Banner Merchant' : "-" }}</td>
+                                    <td>{{ $banner->merchant_id && $banner->merchant ? $banner->merchant->name : '-' }}</td>
                                     <td>{{ $banner->url ? $banner->url : "-" }}</td>
                                     <td>
                                         <label class="m-auto align-middle" for="statusCheckbox{{$banner->id}}">
                                             <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{ route('merchant.master-banner.status' , [$banner['id'] , $banner->status ? 0 : 1]) }}'" id="statusCheckbox{{$banner->id}}" {{$banner->status? 'checked' : ''}}>
                                         </label>
                                     </td>
-                                    <td>{{ $banner->admin_id ? $banner->admin_id : "-" }}</td>
                                     <td>
                                          <a href="{{ route('merchant.master-banner.edit',$banner->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
                                         <button type="button" onclick="delete_banner({{$banner->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
