@@ -61,7 +61,7 @@
 
                             @if ($couriers->count() == 0)
                                 <tr>
-                                    <td colspan="8">No products to display</td>
+                                    <td colspan="8">No couriers to display</td>
                                 </tr>
                             @endif
 
@@ -99,7 +99,7 @@
                             {!! $couriers->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter])->onEachSide(2)->links() !!}
                         </div>
                         <div class="col-12 col-md-6 w-100 d-flex justify-content-end align-middle">
-                            <p>Displaying {{$couriers->count()}} of {{ number_format($couriers->total(), 0, "", ".") }} product(s).</p>
+                            <p>Displaying {{$couriers->count()}} of {{ number_format($couriers->total(), 0, "", ".") }} courier(s).</p>
                         </div>
                     </div>
                 </div>
