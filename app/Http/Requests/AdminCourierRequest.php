@@ -24,17 +24,17 @@ class AdminCourierRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'sometimes',
+            'name' => 'required',
             'phone' => 'sometimes',
             'address' => 'sometimes',
-            'email' => 'email|sometimes',
+            'email' => 'sometimes',
             'password' => 'sometimes',
             'identity_type' => 'sometimes',
             'identity_no' => 'sometimes',
             'identity_image' => 'image|mimes:jpeg,png,jpg,svg|max:8192',
             'profile_image' => 'image|mimes:jpeg,png,jpg,svg|max:8192',
             'badge' => 'sometimes',
-            'join_date' => 'date|sometimes'
+            'join_date' => 'sometimes'
         ];
     }
 }
