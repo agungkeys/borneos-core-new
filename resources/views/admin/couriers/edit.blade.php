@@ -28,35 +28,56 @@
                             @method('PUT')
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" class="form-control" name="name" id="name" value="{{ $courier->name }}" required>
+                                <input type="text" class="form-control" name="name" id="name" value="{{ $courier->name }}">
+                                @error('name')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="phone">Phone</label>
-                                <input type="number" class="form-control" name="phone" id="phone" value="{{ $courier->phone }}" required>
+                                <input type="number" class="form-control" name="phone" id="phone" value="{{ $courier->phone }}">
+                                @error('phone')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="address">Address</label>
-                                <textarea name="address" id="address" class="form-control" cols="30" rows="10" required>{{ $courier->address }}</textarea>
+                                <textarea name="address" id="address" class="form-control" cols="30" rows="10">{{ $courier->address }}</textarea>
+                                @error('address')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" name="email" id="email" value="{{ $courier->email }}" required>
+                                <input type="email" class="form-control" name="email" id="email" value="{{ $courier->email }}">
+                                @error('email')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
                                 <input type="password" class="form-control" name="password" id="password">
+                                @error('password')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="address_lat">Address lat.</label>
                                 <input type="text" class="form-control" name="address_lat" id="address_lat" value="{{ $courier->address_lat }}">
+                                @error('address_lat')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="address_lang">Address lang.</label>
                                 <input type="text" class="form-control" name="address_lang" id="address_lang" value="{{ $courier->address_lang }}">
+                                @error('address_lang')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="identity_type">Identity Type</label>
-                                <select name="identity_type" id="identity_type" class="form-control" required>
+                                <select name="identity_type" id="identity_type" class="form-control">
                                     @php
                                         $identityTypes = array(
                                             'ktp' => array(
@@ -83,14 +104,23 @@
                                          <option value="{{ $identityType['value'] }}" @if (old('identityType') == $courier->identity_type || $courier->identity_type == $identityType['value'] )selected @endif>{{ $identityType['text'] }}</option>
                                     @endforeach
                                 </select>
+                                @error('identity_type')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="identity_no">Identity No</label>
-                                <input type="text" class="form-control" name="identity_no" id="identity_no" value="{{ $courier->identity_no }}" required>
+                                <input type="text" class="form-control" name="identity_no" id="identity_no" value="{{ $courier->identity_no }}">
+                                @error('identity_no')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="identity_expired">Identity Expired</label>
                                 <input type="date" class="form-control" name="identity_expired" id="identity_expired" value="{{ $courier->identity_expired }}">
+                                @error('identity_expired')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <label for="identity_image">Identity Image</label>
@@ -123,7 +153,7 @@
 
                             <div class="form-group">
                                 <label for="badge">Badge</label>
-                                <select name="badge" id="badge" class="form-control" required>
+                                <select name="badge" id="badge" class="form-control">
                                      @php
                                         $badges = array(
                                             'new' => array(
@@ -150,10 +180,16 @@
                                          <option value="{{ $badge['value'] }}" @if (old('identityType') == $courier->badge || $courier->badge == $badge['value'] )selected @endif>{{ $badge['text'] }}</option>
                                     @endforeach
                                 </select>
+                                @error('badge')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="join_date">Join Date</label>
-                                <input type="date" class="form-control" name="join_date" id="join_date" value="{{ $courier->join_date }}" required>
+                                <input type="date" class="form-control" name="join_date" id="join_date" value="{{ $courier->join_date }}">
+                                @error('join_date')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="text-right mt-2">
                                 <a href="{{ route('admin.courier.index') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>

@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdminCourierRequest;
 use App\Models\Courier;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class CourierController extends Controller
@@ -59,22 +59,8 @@ class CourierController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AdminCourierRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
-            'email' => 'email|required',
-            'password' => 'required',
-            'identity_type' => 'required',
-            'identity_no' => 'required',
-            'identity_image' => 'image|mimes:jpeg,png,jpg,svg|max:8192',
-            'profile_image' => 'image|mimes:jpeg,png,jpg,svg|max:8192',
-            'badge' => 'required',
-            'join_date' => 'date|required'
-        ]);
-
         if ($request->file('identity_image')) {
             $path_name = $request->file('identity_image')->getRealPath();
             $image = Cloudinary::upload($path_name, ["folder" => "images/couriers", "overwrite" => TRUE, "resource_type" => "image"]);
@@ -145,7 +131,7 @@ class CourierController extends Controller
         $courier->phone = $request->phone;
         $courier->address = $request->address;
         $courier->email = $request->email;
-        $courier->password = Hash::make($request->password);
+        $courier->password = $request->password ? Hash::make($request->password) : null;
         $courier->address_lat = $request->address_lat;
         $courier->address_lang = $request->address_lang;
         $courier->identity_type = $request->identity_type;
@@ -196,22 +182,8 @@ class CourierController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AdminCourierRequest $request, $id)
     {
-
-        $request->validate([
-            'name' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
-            'email' => 'email|required',
-            'identity_type' => 'required',
-            'identity_no' => 'required',
-            'identity_image' => 'image|mimes:jpeg,png,jpg,svg|max:8192',
-            'profile_image' => 'image|mimes:jpeg,png,jpg,svg|max:8192',
-            'badge' => 'required',
-            'join_date' => 'date|required'
-        ]);
-
         $courier = Courier::findOrFail($id);
 
         if ($request->file('identity_image')) {
