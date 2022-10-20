@@ -131,7 +131,7 @@ class CourierController extends Controller
         $courier->phone = $request->phone;
         $courier->address = $request->address;
         $courier->email = $request->email;
-        $courier->password = Hash::make($request->password);
+        $courier->password = $request->password ? Hash::make($request->password) : null;
         $courier->address_lat = $request->address_lat;
         $courier->address_lang = $request->address_lang;
         $courier->identity_type = $request->identity_type;
