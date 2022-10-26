@@ -11,7 +11,7 @@
                     <div>Category List Frequently Ask Question (FAQ) <span class="badge badge-pill badge-primary">{{ number_format($faq_categories->total(), 0, "", ".") }}</span></div>
                 </div>
                 <div class="page-title-actions">
-                    <a href="#" class="btn-shadow btn btn-info btn-lg">Add Category</a>
+                    <a href="{{ route('admin.faq-category.create') }}" class="btn-shadow btn btn-info btn-lg">Add Category</a>
                 </div>
             </div>
         </div>
@@ -63,10 +63,10 @@
                                 <tr>
                                     <td>{{ $faq->id }}</td>
                                     <td>
-                                        <img src="{{ $faq->image ? $faq->image : asset('images/default-image.jpg')  }}" alt="" width="32" height="32" style="object-fit: cover">
+                                        <img src="{{ $faq->image ? $faq->image : env('PUBLIC_IMAGE_EMPTY')  }}" alt="" width="32" height="32" style="object-fit: cover">
                                     </td>
                                     <td>{{ $faq->title }}</td>
-                                    <td>{!! Str::limit($faq->description, 20) !!}</td>
+                                    <td title="{{ $faq->description }}">{!! $faq->description ? Str::limit($faq->description, 20) : '-' !!}</td>
                                     <td>
                                         <a href="#" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
                                         <button type="button" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>

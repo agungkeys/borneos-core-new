@@ -141,6 +141,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
     //faq-categories
     Route::get('faq-categories','FaqCategoryController@index')->name('faq-category');
+    Route::get('faq-categories/create','FaqCategoryController@create')->name('faq-category.create');
+    Route::post('faq-categories/create','FaqCategoryController@store')->name('faq-category.store');
 
     //faq
     Route::get('faq', 'FaqController@faq_index')->name('faq');
