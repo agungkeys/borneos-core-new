@@ -139,6 +139,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::put('privacy-policy/update/{id}', 'PrivacyController@privacy_update')->name('privacy-policy.update');
     Route::delete('privacy-policy/delete/{id}', 'PrivacyController@privacy_delete')->name('privacy-policy.delete');
 
+    //faq-categories
+    Route::get('faq-categories','FaqCategoryController@index')->name('faq-category');
+
     //faq
     Route::get('faq', 'FaqController@faq_index')->name('faq');
     Route::get('faq/status/{id}/{status}', 'FaqController@faq_status')->name('faq.status');
