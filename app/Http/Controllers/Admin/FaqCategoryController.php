@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\CloudinaryImage;
 use App\Models\FaqCategory;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -85,5 +86,15 @@ class FaqCategoryController extends Controller
         ]);
         Alert::success('Success', 'Data updated successfully');
         return redirect()->route('admin.faq-category');
+    }
+    public function destroy($id)
+    {
+        $faqCategory = FaqCategory::findOrFail($id);
+        if (substr($faqCategory->image, 0, 4) == 'http' && $faqCategory->additional_image) {
+            $key = json_decode($faqCategory->additional_image);
+            Cloudinary::destroy($key->public_id);
+        }
+        $faqCategory->delete();
+        return response()->json(['status' => 200]);
     }
 }

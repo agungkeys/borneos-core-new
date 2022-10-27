@@ -143,8 +143,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('faq-categories','FaqCategoryController@index')->name('faq-category');
     Route::get('faq-categories/create','FaqCategoryController@create')->name('faq-category.create');
     Route::post('faq-categories/create','FaqCategoryController@store')->name('faq-category.store');
-    Route::get('fa-categories/{id}/edit','FaqCategoryController@edit')->name('faq-category.edit');
-    Route::put('fa-categories/{id}/edit','FaqCategoryController@update')->name('faq-category.update');
+    Route::get('faq-categories/{id}/edit','FaqCategoryController@edit')->name('faq-category.edit');
+    Route::put('faq-categories/{id}/edit','FaqCategoryController@update')->name('faq-category.update');
+    Route::delete('faq-categories/delete/{id}','FaqCategoryController@destroy')->name('faq-category.delete');
 
     //faq
     Route::get('faq', 'FaqController@faq_index')->name('faq');
