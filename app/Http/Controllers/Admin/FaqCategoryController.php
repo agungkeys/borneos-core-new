@@ -54,4 +54,36 @@ class FaqCategoryController extends Controller
         Alert::success('Success', 'Data saved successfully');
         return redirect()->route('admin.faq-category');
     }
+    public function edit($id)
+    {
+        return view('admin.faq-category.edit',[
+            'faq' => FaqCategory::findOrFail($id)
+        ]);
+    }
+    public function update(Request $request,$id)
+    {
+        $request->validate([
+            'title' => 'required',
+            'description' => 'sometimes',
+            'image' => 'image|mimes:jpeg,png,jpg,svg|max:8192'
+        ]);
+        $faqCategory = FaqCategory::findOrFail($id);
+        if ($request->file('image')) {
+            $image = $this->UpdateImageCloudinary([
+                'image'      => $request->file('image'),
+                'folder'     => 'images/faq_category',
+                'collection' => $faqCategory
+            ]);
+            $image_url = $image['url'];
+            $additional_image = $image['additional_image'];
+        }
+        $faqCategory->update([
+            'title' => $request->title,
+            'description' => $request->description ?? '',
+            'image' => $image_url,
+            'additional_image' => $additional_image
+        ]);
+        Alert::success('Success', 'Data updated successfully');
+        return redirect()->route('admin.faq-category');
+    }
 }
