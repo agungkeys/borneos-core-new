@@ -37,7 +37,7 @@ trait CloudinaryImage
     public function UpdateImageCloudinary($data)
     {
         if ($data['collection']['image']) {
-            if (substr($data['collection']['image'], 0, 4) == 'http') {
+            if (substr($data['collection']['image'], 0, 4) == 'http' && $data['collection']['additional_image']) {
                 $key = json_decode($data['collection']['additional_image']);
                 Cloudinary::destroy($key->public_id);
                 return $this->UploadImageCloudinary(['image' => $data['image'], 'folder' => $data['folder']]);
