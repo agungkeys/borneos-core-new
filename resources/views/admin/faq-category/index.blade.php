@@ -69,7 +69,7 @@
                                     <td title="{{ $faq->description }}">{!! $faq->description ? Str::limit($faq->description, 20) : '-' !!}</td>
                                     <td>
                                         <a href="{{ route('admin.faq-category.edit',$faq->id) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
-                                        <button type="button" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
+                                        <button type="button" onclick="deleteFaqCategory({{ $faq->id }})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -87,4 +87,40 @@
                 </div>
             </div>
         </div>
+@endsection
+@section('js')
+        <script>
+            function deleteFaqCategory(id)
+            {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to delete this file!?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                    let _token =  $('meta[name="csrf-token"]').attr('content');
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/admin/faq-categories/delete/"+id,
+                        data: {_token:_token,id:id},
+                        success:function(response){
+                            if(response.status == 200){
+                                Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                                )
+                                window.location = "{{ route('admin.faq-category') }}";
+                            }
+                        }
+                        });
+                    }
+                })
+            }
+        </script>
+    </div>
 @endsection
