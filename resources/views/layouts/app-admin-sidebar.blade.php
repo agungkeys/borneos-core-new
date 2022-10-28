@@ -84,6 +84,9 @@
               <a class="privacy-policy {{ count(request()->segments()) > 1 && request()->segments()[1] == 'privacy-policy' ? 'mm-active' : '' }}" href="{{ route('admin.privacy-policy') }}"><i class="metismenu-icon pe-7s-attention"></i>Privacy Policy</a>
             </li>
             <li>
+              <a class="faq-category {{ count(request()->segments()) > 1 && request()->segments()[1] == 'faq-category' ? 'mm-active' : '' }}" href="{{ route('admin.faq-category') }}"><i class="metismenu-icon pe-7s-bookmarks"></i>FAQ Category</a>
+            </li>
+            <li>
               <a class="faq {{ count(request()->segments()) > 1 && request()->segments()[1] == 'faq' ? 'mm-active' : '' }}" href="{{ route('admin.faq') }}"><i class="metismenu-icon pe-7s-help1"></i>FAQ</a>
             </li>
             <li>
