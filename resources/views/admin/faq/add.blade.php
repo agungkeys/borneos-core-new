@@ -42,6 +42,15 @@
                                 </select>
                             </div>
                             <div class="form-group">
+                                <label for="category">Category</label>
+                                <select name="category" id="category" class="form-control">
+                                    <option disabled selected>Choose One!</option>
+                                    @foreach ($faqCategories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="title">Title</label>
                                 <input type="text" class="form-control" name="title" id="title" required>
                             </div>
