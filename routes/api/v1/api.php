@@ -32,6 +32,9 @@ Route::group(['namespace' => 'Api\V1'], function () {
   Route::group(['prefix' => 'payments'], function () {
     Route::get('/', 'PaymentController@get_payments');
   });
+  Route::group(['prefix' => 'faq'],function(){
+    Route::get('/','FaqController@get_faqs');
+  });
   Route::get('distance', 'ConfigController@distance');
   Route::get('/generate-slug-product', 'ProductController@generate_slug_products');
   Route::get('/product-list-merchant-landing/{slug}', 'ProductController@get_product_list_merchant_landing');
