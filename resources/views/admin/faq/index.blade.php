@@ -47,6 +47,7 @@
                             <tr>
                                 <th>@sortablelink('id', 'No')</th>
                                 <th>@sortablelink('title', 'Title')</th>
+                                <th>Category</th>
                                 <th>Description</th>
                                 <th>Image</th>
                                 <th>Position</th>
@@ -67,6 +68,7 @@
                                 <tr>
                                     <td>{{ $faq->id }}</td>
                                     <td>{{ $faq->title }}</td>
+                                    <td>{{ $faq->category_faq_id && $faq->category ? $faq->category->title : '-' }}</td>
                                     <td>{!! Str::limit($faq->description, 20) !!}</td>
                                     <td>
                                         <img src="{{ $faq->image ? $faq->image : asset('images/default-image.jpg')  }}" alt="" width="100" height="100" style="object-fit: cover">
