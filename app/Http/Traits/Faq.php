@@ -13,33 +13,57 @@ trait Faq
         $perPage = $data['perPage'];
 
         if($type == 'all'){
-            $query = ModelsFAQ::where([['status','=',1]])->orderBy('id', $sort)->paginate($perPage);
+            $query = ModelsFAQ::select('category_faq_id')->where([['status','=',1]])->groupBy('category_faq_id')->orderBy('category_faq_id',$sort)->paginate($perPage);
+            foreach($query as $result){
+                $results[] = [
+                    'id' => $result->category_faq_id ? $result->category_faq_id : null,
+                    'faqCategoryId' => $result->category_faq_id ? $result->category_faq_id : null,
+                    'faqCategoryName' => $result->category_faq_id && $result->category ? $result->category->title : null,
+                    'faqs' => $this->resultListFAQ($result->category_faq_id ? $result->category_faq_id : null)
+                ];
+            }
+            return $results;
         }else{
-            $query = ModelsFAQ::where([['type','=',$type],['status','=',1]])->orderBy('id', $sort)->paginate($perPage);
+            $query = ModelsFAQ::where([['type','=',$type],['status','=',1]])->orderBy('id',$sort)->paginate($perPage);
+            foreach($query as $result){
+                $results[] = [
+                    'id' => $result->category_faq_id ? $result->category_faq_id : null,
+                    'faqCategoryId' => $result->category_faq_id ? $result->category_faq_id : null,
+                    'faqCategoryName' => $result->category_faq_id && $result->category ? $result->category->title : null,
+                    'faqs' => [
+                        'id' => $result->id,
+                        'categoryFaqId' => $result->category_faq_id ? $result->category_faq_id : null,
+                        'title' => $result->title,
+                        'description' => $result->description ? $result->description : '',
+                        'image' => $result->image ? $result->image : '',
+                        'position' => $result->position,
+                        'type' => $result->type,
+                        'status' => $result->status
+                    ]
+                ];
+            }
+            return $results;
         }
-        return $query;
     }
     public function resultListFAQ($data)
     {
-        foreach($data as $result)
-        {
-            $results[] = [
-                'id' => $result->id,
-                'categoryFAQ' => $result->category_faq_id && $result->category ? [
-                    'id' => $result->category_faq_id,
-                    'title' => $result->category->title,
-                    'description' => $result->category->description ? $result->category->description : '',
-                    'image' => $result->category->image ? $result->category->image : null,
-                    'additionalImage' => $result->category->additional_image ? json_decode($result->category->additional_image) : null
-                ] : null,
-                'title' => $result->title,
-                'description' => $result->description ? $result->description : '',
-                'image' => $result->image ? $result->image : '',
-                'position' => $result->position,
-                'type' => $result->type,
-                'status' => $result->status
-            ];
+        if($data == null){
+            return null;
+        }else{
+            $query = ModelsFAQ::where([['category_faq_id','=',$data],['status','=',1]])->get();
+            foreach($query as $result){
+                $results[] = [
+                    'id' => $result->id,
+                    'categoryFaqId' => $result->category_faq_id ? $result->category_faq_id : null,
+                    'title' => $result->title,
+                    'description' => $result->description ? $result->description : '',
+                    'image' => $result->image ? $result->image : '',
+                    'position' => $result->position,
+                    'type' => $result->type,
+                    'status' => $result->status
+                ];
+            }
+            return $results;
         }
-        return $results;
     }
 }

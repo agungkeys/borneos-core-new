@@ -18,15 +18,15 @@ class FaqController extends Controller
         
         $query = $this->queryListFAQ(compact('type','sort','perPage'));
     
-        if ($query->count() == 0) {
+        if (count($query) == 0) {
             return response()->json(['status' => 'error', 'meta' => null, 'data' => null]);
         } else {
             $meta = $this->MetaListFAQ([
                 'page'  => $request->page == null ? null : $request->page,
                 'perPage' => $perPage,
-                'faq_count' => $query->total()
+                'faq_count' => count($query)
             ]);
-            return response()->json(['status' => 'success', 'meta' => $meta, 'data' => $this->resultListFAQ($query)]);
+            return response()->json(['status' => 'success', 'meta' => $meta, 'data' => $query]);
         }
     }
 }
