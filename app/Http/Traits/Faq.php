@@ -24,22 +24,13 @@ trait Faq
             }
             return $results;
         }else{
-            $query = ModelsFAQ::where([['type','=',$type],['status','=',1]])->orderBy('id',$sort)->paginate($perPage);
+            $query = ModelsFAQ::select('category_faq_id')->where([['type','=',$type],['status','=',1]])->groupBy('category_faq_id')->orderBy('category_faq_id',$sort)->paginate($perPage);
             foreach($query as $result){
                 $results[] = [
                     'id' => $result->category_faq_id ? $result->category_faq_id : null,
                     'faqCategoryId' => $result->category_faq_id ? $result->category_faq_id : null,
                     'faqCategoryName' => $result->category_faq_id && $result->category ? $result->category->title : null,
-                    'faqs' => [
-                        'id' => $result->id,
-                        'categoryFaqId' => $result->category_faq_id ? $result->category_faq_id : null,
-                        'title' => $result->title,
-                        'description' => $result->description ? $result->description : '',
-                        'image' => $result->image ? $result->image : '',
-                        'position' => $result->position,
-                        'type' => $result->type,
-                        'status' => $result->status
-                    ]
+                    'faqs' => $this->resultListFaqByType(['category_faq_id'=>$result->category_faq_id ?? null,'type'=>$type,'sort'=>$sort,'perPage'=>$perPage])
                 ];
             }
             return $results;
@@ -51,6 +42,27 @@ trait Faq
             return null;
         }else{
             $query = ModelsFAQ::where([['category_faq_id','=',$data],['status','=',1]])->get();
+            foreach($query as $result){
+                $results[] = [
+                    'id' => $result->id,
+                    'categoryFaqId' => $result->category_faq_id ? $result->category_faq_id : null,
+                    'title' => $result->title,
+                    'description' => $result->description ? $result->description : '',
+                    'image' => $result->image ? $result->image : '',
+                    'position' => $result->position,
+                    'type' => $result->type,
+                    'status' => $result->status
+                ];
+            }
+            return $results;
+        }
+    }
+    public function resultListFaqByType($data)
+    {
+        if($data['category_faq_id'] == null){
+            return null;
+        }else{
+            $query = ModelsFAQ::where([['category_faq_id','=',$data['category_faq_id']],['type','=',$data['type']],['status','=',1]])->orderBy('id',$data['sort'])->paginate($data['perPage']);
             foreach($query as $result){
                 $results[] = [
                     'id' => $result->id,
