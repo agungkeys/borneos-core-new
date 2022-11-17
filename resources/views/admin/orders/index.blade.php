@@ -79,7 +79,10 @@
                      <tr>
                          <td>{{ $order->id }}</td>
                          @if($order->order_type == 'borneos')
-                         <td><span class="badge badge-pill badge-warning">{{ $order->order_type }}</span></td>
+                         <td>
+                          <span class="badge badge-pill badge-warning">{{ $order->order_type }}</span>
+                          <span style="font-size: 12px"><?php echo \Carbon\Carbon::createFromTimeStamp(strtotime($order->created_at))->diffForHumans() ?></span>
+                        </td>
                          @elseif($order->order_type == 'bonjek')
                          <td><span style="background-color: palevioletred" class="badge badge-pill badge-info">{{ $order->order_type }}</span></td>
                          @elseif($order->order_type == 'legenda')

@@ -34,11 +34,16 @@ class LoginController extends Controller
         $vendor = Vendor::where('email', $request->email)->first();
         if($vendor)
         {
-            if($vendor->status == 0)
+            // if($vendor->status == 0 && $vendor->email_verified_at== NULL)
+            if($vendor->status == 0 )
             {
                 Alert::toast('Akun anda belum di aktivasi, silahkan cek email atau hubungi admin', 'warning');
                 return redirect()->back();
             }
+            // else{
+            //     Alert::toast('Akun anda di nonaktifkan, silahkan hubungi admin', 'warning');
+            //     return redirect()->back();
+            // }
         }
         if (auth('merchant')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
             return redirect()->route('merchant.dashboard');
@@ -178,17 +183,34 @@ class LoginController extends Controller
 
     public function verify($id)
     {
-        $merchant=Vendor::where('auth_token',$id)->first();
+        $merchant=Vendor::where('auth_token', $id)->first();
 
-        $merchant->update([
+        if (!$merchant) {
+            Alert::warning('Error', 'Akun anda tidak berhasil di aktivasi');
+            return redirect()->route('merchant.auth.login');
+        }
+
+        function generateRandomString($length = 30) {
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < $length; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
+             return date('dm').$randomString.date('s');
+        }
+
+        Vendor::where('email', $merchant->email)->update([
             'status'                => 1,
-            'email_verified_at'     => date('Y-m-d H:i:s')
+            'email_verified_at'     => date('Y-m-d H:i:s'),
+            'auth_token'            => generateRandomString()
         ]);
-        Merchant::where('email',$merchant->email)->update([
+        Merchant::where('email', $merchant->email)->update([
             'status'    => 1,
             'active'    => 1
         ]);
-        Alert::success('Email Anda Telah Terverifikasi', 'Silahkan Login');
+
+        Alert::warning('Email Anda Telah Terverifikasi', 'Silahkan Login');
         return redirect()->route('merchant.auth.login');
     }
 

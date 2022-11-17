@@ -91,6 +91,7 @@ trait Orders
             'accountName' => $order->payment_id && $order->payment->account_name ? $order->payment->account_name : '',
             'accountNo' => $order->payment_id && $order->payment->account_no ? $order->payment->account_no : null,
             'image' => $order->payment_id && $order->payment->image ? $order->payment->image : null,
+            'instruction' => $order->payment_id && $order->payment->instruction ? $order->payment->instruction : '',
             'additionalImage' => $order->payment_id && $order->payment->additional_image ? json_decode($order->payment->additional_image):null,
             'status' => $order->payment->status
         ];
