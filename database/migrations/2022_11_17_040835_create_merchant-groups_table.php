@@ -17,6 +17,7 @@ class CreateMerchantGroupsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug');
+            $table->boolean('flat_delivery');
             $table->longText('image')->nullable();
             $table->longText('additional_image')->nullable();
             $table->timestamps();
