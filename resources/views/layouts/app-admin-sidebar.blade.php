@@ -43,6 +43,9 @@
               </ul>
             </li>
             <li>
+              <a class="master-merchant-group {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-merchant-group' ? 'mm-active' : '' }}" href="#"><i class="metismenu-icon pe-7s-home"></i>Merchant Group</a>
+            </li>
+            <li>
               <a class="merchant {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-merchant' ? 'mm-active' : '' }}" href="{{ route('admin.master-merchant') }}"><i class="metismenu-icon pe-7s-home"></i>Merchant</a>
             </li>
             <li>
