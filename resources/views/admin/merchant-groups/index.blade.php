@@ -11,7 +11,7 @@
             <div>Merchant Groups <span class="badge badge-pill badge-primary">{{ number_format($master_merchant_group->total(), 0, "", ".") }}</span><div class="page-title-subheading">List Merchant-Groups</div></div>
          </div>
          <div class="page-title-actions">
-             <a href="#" class="btn-shadow btn btn-info btn-lg">Add Merchant-Group</a>
+             <a href="{{ route('admin.master-merchant-group.add') }}" class="btn-shadow btn btn-info btn-lg">Add Merchant-Group</a>
          </div>
       </div>
    </div>
@@ -60,7 +60,7 @@
                     <tr>
                         <td>{{ $item->id }}</td>
                         <td>
-                            <img src="{{ $item->image ? URL::to($item->image) : env('PUBLIC_IMAGE_EMPTY') }}" alt="" width="32" height="32">
+                            <img src="{{ URL::to($item->compressImage('w_32,h_32')) }}" alt="" width="32" height="32">
                         </td>
                         <td>{{ $item->name ? $item->name : '-' }}</td>
                         <td>{{ $item->slug  }}</td>
