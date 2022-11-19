@@ -54,4 +54,40 @@ class MerchantGroupController extends Controller
         Alert::success("Success", "Created Successfully");
         return redirect()->route('admin.master-merchant-group.index');
     }
+    public function edit($id)
+    {
+        return view('admin.merchant-groups.edit',[
+            'merchant_group' => MerchantGroup::findOrFail($id)
+        ]);
+    }
+    public function update(Request $request,$id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'slug' => 'required',
+            'image'=> 'sometimes|image|mimes:jpeg,png,jpg,svg|max:8192'
+        ]);
+        $merchant_group = MerchantGroup::findOrFail($id);
+        if ($request->file('image')) {
+            $image = $this->UpdateImageCloudinary([
+                'image'      => $request->file('image'),
+                'folder'     => 'images/merchant-group',
+                'collection' => $merchant_group
+            ]);
+            $image_url = $image['url'];
+            $additional_image = $image['additional_image'];
+        } else {
+            $image_url = $merchant_group->image;
+            $additional_image = $merchant_group->additional_image;
+        }
+        $merchant_group->update([
+            'name' => $request->name,
+            'slug' => $request->slug,
+            'flat_delivery' => $request->flat_delivery == 'on' ? 1 : 0,
+            'image' => $image_url,
+            'additional_image' => $additional_image
+        ]);
+        Alert::success("Success", "Updated Successfully");
+        return redirect()->route('admin.master-merchant-group.index');
+    }
 }
