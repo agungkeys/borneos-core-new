@@ -110,6 +110,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
     //merchant-group
     Route::get('/master-merchant-group','MerchantGroupController@index')->name('master-merchant-group.index');
+    Route::get('/master-merchant-group/add','MerchantGroupController@add')->name('master-merchant-group.add');
+    Route::post('/master-merchant-group/add','MerchantGroupController@store')->name('master-merchant-group.store');
 
     Route::get('settings', 'SystemController@settings')->name('settings');
     Route::post('settings', 'SystemController@settings_update');
