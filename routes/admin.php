@@ -114,6 +114,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::post('/master-merchant-group/add','MerchantGroupController@store')->name('master-merchant-group.store');
     Route::get('/master-merchant-group/edit/{id}','MerchantGroupController@edit')->name('master-merchant-group.edit');
     Route::put('/master-merchant-group/edit/{id}','MerchantGroupController@update')->name('master-merchant-group.update');
+    Route::delete('/master-merchant-group/{id}','MerchantGroupController@destroy')->name('master-merchant-group.delete');
 
 
     Route::get('settings', 'SystemController@settings')->name('settings');
