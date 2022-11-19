@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\CloudinaryImage;
 use App\Models\MerchantGroup;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -89,5 +90,15 @@ class MerchantGroupController extends Controller
         ]);
         Alert::success("Success", "Updated Successfully");
         return redirect()->route('admin.master-merchant-group.index');
+    }
+    public function destroy($id)
+    {
+        $merchant_group = MerchantGroup::findOrFail($id);
+        if (substr($merchant_group->image, 0, 4) == 'http' && $merchant_group->additional_image) {
+            $key = json_decode($merchant_group->additional_image);
+            Cloudinary::destroy($key->public_id);
+        }
+        $merchant_group->delete();
+        return response()->json(['status' => 200]);
     }
 }
