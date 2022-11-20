@@ -221,4 +221,14 @@ trait FormatMeta
             ],
         ];
     }
+    public function MetaMerchantGroupList($data)
+    {
+        return [
+            'pagination' => [
+                'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                'perPage' => (int)$data['perPage'],
+                'total' => $data['merchantGroupCount']
+            ],
+        ];
+    }
 }
