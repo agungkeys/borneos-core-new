@@ -23,6 +23,10 @@ class Merchant extends Model
         'food_section', 'tax', 'review_section', 'active', 'off_day', 'gst', 'self_delivery_system', 'pos_system',
         'cash_on_delivery', 'seo_image', 'additional_seo_image','merchant_special'
     ];
+    public function merchantGroup()
+    {
+        return $this->belongsTo(MerchantGroup::class,'merchant_special');
+    }
 
     public function category()
     {
