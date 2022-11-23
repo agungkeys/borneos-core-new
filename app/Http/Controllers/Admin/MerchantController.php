@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Merchants;
-use App\Models\Category;
-use App\Models\Merchant;
-use App\Models\Vendor;
+use App\Models\{Category,Merchant,MerchantGroup,Vendor};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -34,7 +32,8 @@ class MerchantController extends Controller
     public function master_merchant_add()
     {
         $main_categories = Category::where(['position' => 0])->get();
-        return view('admin.merchant.add', compact('main_categories'));
+        $merchant_groups = MerchantGroup::get();
+        return view('admin.merchant.add', compact('main_categories','merchant_groups'));
     }
     public function master_merchant_store(Request $request)
     {
@@ -194,6 +193,7 @@ class MerchantController extends Controller
         $master_merchant = Merchant::find($id);
         return view('admin.merchant.edit', [
             'master_merchant' => Merchant::find($id),
+            'merchant_group' => MerchantGroup::get(),
             'master_merchant_vendor' => Vendor::where('id', $master_merchant->vendor_id)->first(),
             'categories_position_0' => Category::where('position', 0)->get(),
             'categories_position_1' => Category::where('position', 1)->where('parent_id', $master_merchant->category_id)->get()
