@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Traits\FormatMeta;
-use App\Http\Traits\Merchants;
-use App\Http\Traits\merchantGroups;
+use App\Http\Traits\{FormatMeta,Merchants,merchantGroups};
 use Illuminate\Http\Request;
 
 class MerchantGroupController extends Controller
@@ -17,7 +15,7 @@ class MerchantGroupController extends Controller
         $status = $request->status ?? 1;
         $sort = $request->sort ?? 'desc';
         $perPage = $request->perPage ?? 10;
-        $slug = $request->merchantGroups ?? 'all';
+        $slug = $request->slugMerchantGroups ?? 'all';
         
         $query = $this->queryListMerchantGroup(compact('status','sort','perPage','slug'));
 
