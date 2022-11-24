@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Traits\{FormatMeta,Merchants,merchantGroups};
+use App\Http\Traits\FormatMeta;
+use App\Http\Traits\Merchants;
+use App\Http\Traits\merchantGroups;
 use Illuminate\Http\Request;
 
 class MerchantGroupController extends Controller
 {
-    use merchantGroups,Merchants, FormatMeta;
+    use merchantGroups, Merchants, FormatMeta;
 
     public function get_merchant_groups(Request $request)
     {
