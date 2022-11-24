@@ -54,7 +54,7 @@ class LoginController extends Controller
 
     public function register()
     {
-        $main_categories = Category::where(['position' => 0 ])->get();
+        $main_categories = Category::where([['position','=',0 ],['status','=',1]])->get();
         return view('merchant.auth.register', compact('main_categories'));
     }
 

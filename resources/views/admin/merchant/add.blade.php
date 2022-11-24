@@ -90,12 +90,19 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="merchant_special">Merchant Special</label>
+                            <label for="merchant_special">Merchant Group</label>
+                            @if($merchant_groups->count() > 0)
                             <select name="merchant_special" id="merchant_special" class="form-control">
                                 <option disabled selected>Choose One!</option>
-                                <option value="kmbu">KMBU</option>
-                                <option value="regular">Regular</option>
+                                @foreach ($merchant_groups as $item)
+                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
                             </select>
+                            @else
+                            <select name="merchant_special" id="merchant_special" class="form-control">
+                                <option disabled selected>Choose One!</option>
+                            </select>
+                            @endif
                             @error('merchant_special')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
