@@ -15,7 +15,7 @@ class MerchantGroupController extends Controller
         $status = $request->status ?? 1;
         $sort = $request->sort ?? 'desc';
         $perPage = $request->perPage ?? 10;
-        $slug = $request->slugMerchantGroups ?? 'all';
+        $slug = $request->merchantGroups ?? 'all';
         
         $query = $this->queryListMerchantGroup(compact('status','sort','perPage','slug'));
 
