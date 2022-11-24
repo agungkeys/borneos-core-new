@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Merchant;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Merchant;
+use App\Models\MerchantGroup;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -20,6 +21,7 @@ class MerchantController extends Controller
         $master_merchant = Merchant::where(['vendor_id' => Auth()->id()])->first();
         return view('merchant.merchant.edit', [
             'master_merchant' => Merchant::find($master_merchant->id),
+            'merchant_groups' => MerchantGroup::get(),
             'master_merchant_vendor' => Vendor::where('id', $master_merchant->vendor_id)->first(),
             'categories_position_0' => Category::where('position', 0)->get(),
             'categories_position_1' => Category::where('position', 1)->where('parent_id',$master_merchant->category_id)->get()
