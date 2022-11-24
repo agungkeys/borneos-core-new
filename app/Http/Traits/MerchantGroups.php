@@ -5,7 +5,7 @@ namespace App\Http\Traits;
 use App\Models\Merchant;
 use App\Models\MerchantGroup;
 
-trait merchantGroups
+trait MerchantGroups
 {
     public function queryListMerchantGroup($data)
     {
