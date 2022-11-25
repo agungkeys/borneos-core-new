@@ -31,7 +31,7 @@ class MerchantController extends Controller
     }
     public function master_merchant_add()
     {
-        $main_categories = Category::where(['position' => 0])->get();
+        $main_categories = Category::where([['position','=',0],['status','=',1]])->get();
         $merchant_groups = MerchantGroup::get();
         return view('admin.merchant.add', compact('main_categories','merchant_groups'));
     }
@@ -195,8 +195,8 @@ class MerchantController extends Controller
             'master_merchant' => Merchant::find($id),
             'merchant_group' => MerchantGroup::get(),
             'master_merchant_vendor' => Vendor::where('id', $master_merchant->vendor_id)->first(),
-            'categories_position_0' => Category::where('position', 0)->get(),
-            'categories_position_1' => Category::where('position', 1)->where('parent_id', $master_merchant->category_id)->get()
+            'categories_position_0' => Category::where([['position','=',0],['status','=',1]])->get(),
+            'categories_position_1' => Category::where([['position','=',1],['parent_id','=',$master_merchant->category_id],['status','=',1]])->get()
         ]);
     }
     public function master_merchant_update(Request $request, $id)
