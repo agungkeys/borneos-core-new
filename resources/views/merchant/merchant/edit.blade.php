@@ -94,7 +94,7 @@
                             <select name="merchant_special" id="merchant_special" class="form-control">
                                 <option disabled selected>Choose One!</option>
                                 @foreach ($merchant_groups as $item)
-                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                     <option {{ $master_merchant->merchant_special == $item->id ? 'selected':'' }} value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
                             @else
