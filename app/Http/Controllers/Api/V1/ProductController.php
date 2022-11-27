@@ -137,7 +137,7 @@ class ProductController extends Controller
         $request_q = $request->q ?? null;
         $perPage = $request->perPage ?? 10;
         $sort = $request->sort ?? 'desc';
-        $slugMerchant = $request->slugMerchant ?? null;
+        $slugMerchant = $request->merchant ?? null;
         $query = $this->querySearchProduct(compact('request_q','perPage','sort','slugMerchant'));
 
         if(count($query['data']) == 0){
