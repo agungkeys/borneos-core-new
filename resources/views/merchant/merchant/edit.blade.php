@@ -88,7 +88,7 @@
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="merchant_special">Merchant Group</label>
                             @if($merchant_groups->count() > 0)
                             <select name="merchant_special" id="merchant_special" class="form-control">
@@ -105,7 +105,7 @@
                             @error('merchant_special')
                                 <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label for="coordinate">Titik Koordinat</label>
                             <div class="input-group">
