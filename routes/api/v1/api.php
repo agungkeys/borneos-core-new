@@ -41,4 +41,5 @@ Route::group(['namespace' => 'Api\V1'], function () {
   Route::get('/product-recomendations', 'ProductController@get_product_recomendation');
   Route::post('/cart-validation', 'ProductController@cart_validation');
   Route::get('/merchant-groups','MerchantGroupController@get_merchant_groups');
+  Route::get('/search','ProductController@search_product');
 });

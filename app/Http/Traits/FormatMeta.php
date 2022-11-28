@@ -231,4 +231,14 @@ trait FormatMeta
             ],
         ];
     }
+    public function MetaSearchProducts($data)
+    {
+        return [
+            'pagination' => [
+                'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                'perPage' => (int)$data['perPage'],
+                'total' => $data['productSearchCount']
+            ],
+        ];
+    }
 }

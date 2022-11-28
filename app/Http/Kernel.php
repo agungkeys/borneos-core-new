@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
         'courier' => \App\Http\Middleware\CourierMiddleware::class,
         'merchant' => \App\Http\Middleware\MerchantMiddleware::class,
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        'tokenb' => \App\Http\Middleware\TokenbMiddleware::class,
     ];
 }

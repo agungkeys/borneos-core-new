@@ -558,4 +558,41 @@ trait Products
         };
         return $result;
     }
+    public function querySearchProduct($data)
+    {
+       switch ($data) {
+           case $data['request_q'] && !$data['slugMerchant']:
+                $query = Product::where([['name', 'like', "%{$data['request_q']}%"],['status','=',1]])
+                    ->orderBy('id',$data['sort'])
+                    ->paginate($data['perPage']);
+                return ['data'=>$query,'payload'=>true];
+                break;
+            case $data['slugMerchant'] && !$data['request_q']:
+                $query = Product::whereHas('merchant',function($q) use ($data){
+                    $q->where('slug','=',$data['slugMerchant']);
+                })
+                    ->where([['status','=',1]])
+                    ->orderBy('id',$data['sort'])
+                    ->paginate($data['perPage']);
+                return ['data'=>$query,'payload'=>true];
+                break;
+            case $data['request_q'] && $data['slugMerchant']:
+                $query = Product::whereHas('merchant',function($q) use ($data){
+                    $q->where('slug','=',$data['slugMerchant']);
+                })
+                    ->where([['name','like',"%{$data['request_q']}%"],['status','=',1]])
+                    ->orderBy('id',$data['sort'])
+                    ->paginate($data['perPage']);
+                return ['data'=>$query,'payload'=>true];
+                break;
+            default:
+                //nothing payload
+                $data = [
+                    'merchants'=> $this->get_merchant_list(Merchant::where([['status','=',1]])->orderBy('id',$data['sort'])->paginate($data['perPage'])),
+                    'products' => $this->result_product_list(Product::where([['status','=',1]])->orderBy('id',$data['sort'])->paginate($data['perPage']))
+                ];
+                return ['data'=>$data,'payload'=>false];
+                break;
+       }
+    }
 }
