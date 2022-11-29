@@ -139,20 +139,16 @@ class ProductController extends Controller
         $sort = $request->sort ?? 'desc';
         $slugMerchant = $request->merchant ?? null;
         $query = $this->querySearchProduct(compact('request_q','perPage','sort','slugMerchant'));
-
+        
         if(count($query['data']) == 0){
             return response()->json(['status' => 'error','meta' => (object)[],'data' => null]);
         } else {
             $meta = $this->MetaSearchProducts([
                 'page' => $request->page ?? null,
                 'perPage' => $perPage,
-                'productSearchCount'=> $query['payload'] ? $query['data']->total() : count($query['data']['merchants'])
+                'productSearchCount'=> $query['totalData']
             ]);
-            if($query['payload']){
-                return response()->json(['status'=>'success','meta' => $meta,'data' => $this->result_product_list($query['data'])]);
-            } else {
-                return response()->json(['status'=>'success','meta' => $meta,'data'=> $query['data']]);
-            }
+            return response()->json(['status'=>'success','meta' => $meta,'data'=> $query['data']]);
         }
     }
 }
