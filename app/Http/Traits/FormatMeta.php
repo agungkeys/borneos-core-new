@@ -233,6 +233,61 @@ trait FormatMeta
     }
     public function MetaSearchProducts($data)
     {
+        switch ($data) {
+            case $data['req']['request_q'] && !$data['req']['slugMerchant']:
+                //double
+                return [
+                    'paginationMerchants' => [
+                        'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                        'perPage' => (int)$data['perPage'],
+                        'total' => $data['totalData']['merchants']
+                    ],
+                    'paginationProducts' => [
+                        'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                        'perPage' => (int)$data['perPage'],
+                        'total' => $data['totalData']['products']
+                    ]
+                ];
+                break;
+            case $data['req']['slugMerchant'] && !$data['req']['request_q']:
+                //one
+                return [
+                    'pagination' => [
+                        'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                        'perPage' => (int)$data['perPage'],
+                        'total' => $data['totalData']
+                    ]
+                ];
+                break;
+            case $data['req']['slugMerchant'] && $data['req']['request_q']:
+                 //one
+                return [
+                    'pagination' => [
+                        'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                        'perPage' => (int)$data['perPage'],
+                        'total' => $data['totalData']
+                    ]
+                ];
+                break;
+            default:
+                //double
+                return [
+                    'paginationMerchants' => [
+                        'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                        'perPage' => (int)$data['perPage'],
+                        'total' => $data['totalData']['merchants']
+                    ],
+                    'paginationProducts' => [
+                        'page' => $data['page'] == null ? 1 : (int)$data['page'],
+                        'perPage' => (int)$data['perPage'],
+                        'total' => $data['totalData']['products']
+                    ]
+                ];
+                break;
+        }
+    }
+    public function MultiplePaginateFromSearchProducts($data)
+    {
         return [
             'pagination' => [
                 'page' => $data['page'] == null ? 1 : (int)$data['page'],
