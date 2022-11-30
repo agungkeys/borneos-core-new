@@ -558,14 +558,53 @@ trait Products
         };
         return $result;
     }
+    public function sortirDuplicate($data)
+    {
+        $duplicate_keys = array();
+        $tmp = array();       
+
+        foreach ($data as $key => $val){
+            if (is_object($val)){
+                $val = (array)$val;
+            }
+            if (!in_array($val, $tmp)){
+                $tmp[] = $val;
+            } else {
+                $duplicate_keys[] = $key;
+            }
+        }
+
+        foreach ($duplicate_keys as $key){
+            unset($data[$key]);
+        }
+        return array_values($data);
+    }
     public function querySearchProduct($data)
     {
        switch ($data) {
            case $data['request_q'] && !$data['slugMerchant']:
-                $query = Product::where([['name', 'like', "%{$data['request_q']}%"],['status','=',1]])
+                $products = Product::where([['name', 'like', "%{$data['request_q']}%"],['status','=',1]])
                     ->orderBy('id',$data['sort'])
                     ->paginate($data['perPage']);
-                return ['data' => $this->resultFromSearchProduct($query),'totalData' => $query?$query->total():0];
+                if($products){
+                    foreach($products as $item){
+                        $items[] = ['merchant_id' => $item->merchant_id];
+                    }
+                    $sortMerchantId = $this->sortirDuplicate($items);
+                    $merchants = Merchant::whereIn('id',array_column($sortMerchantId,'merchant_id'))->paginate($data['perPage']);
+                } else {
+                    $merchants = (object)[];
+                }
+                return [
+                    'data' => [
+                        'merchants'=> $this->resultFromSearchMerchant($merchants),
+                        'products' => $this->resultFromSearchProduct($products),
+                    ],
+                    'totalData' => [
+                        'products' => $products?$products->total():0,
+                        'merchants'=> $merchants?$merchants->total():0
+                    ]
+                ];
                 break;
             case $data['slugMerchant'] && !$data['request_q']:
                 $query = Product::whereHas('merchant',function($q) use ($data){
@@ -594,7 +633,10 @@ trait Products
                         'merchants' => $this->resultFromSearchMerchant($merchants),
                         'products' => $this->resultFromSearchProduct($products)
                     ],
-                    'totalData' => $products?$products->total():0,
+                    'totalData' => [
+                        'products' => $products?$products->total():0,
+                        'merchants'=> $merchants?$merchants->total():0
+                    ]
                 ];
                 break;
        }
