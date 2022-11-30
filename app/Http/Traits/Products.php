@@ -558,4 +558,142 @@ trait Products
         };
         return $result;
     }
+    public function sortirDuplicate($data)
+    {
+        $duplicate_keys = array();
+        $tmp = array();       
+
+        foreach ($data as $key => $val){
+            if (is_object($val)){
+                $val = (array)$val;
+            }
+            if (!in_array($val, $tmp)){
+                $tmp[] = $val;
+            } else {
+                $duplicate_keys[] = $key;
+            }
+        }
+
+        foreach ($duplicate_keys as $key){
+            unset($data[$key]);
+        }
+        return array_values($data);
+    }
+    public function querySearchProduct($data)
+    {
+       switch ($data) {
+           case $data['request_q'] && !$data['slugMerchant']:
+                $products = Product::where([['name', 'like', "%{$data['request_q']}%"],['status','=',1]])
+                    ->orderBy('id',$data['sort'])
+                    ->paginate($data['perPage']);
+                if($products){
+                    foreach($products as $item){
+                        $items[] = ['merchant_id' => $item->merchant_id];
+                    }
+                    $sortMerchantId = $this->sortirDuplicate($items);
+                    $merchants = Merchant::whereIn('id',array_column($sortMerchantId,'merchant_id'))->paginate($data['perPage']);
+                } else {
+                    $merchants = (object)[];
+                }
+                return [
+                    'data' => [
+                        'merchants'=> $this->resultFromSearchMerchant($merchants),
+                        'products' => $this->resultFromSearchProduct($products),
+                    ],
+                    'totalData' => [
+                        'products' => $products?$products->total():0,
+                        'merchants'=> $merchants?$merchants->total():0
+                    ]
+                ];
+                break;
+            case $data['slugMerchant'] && !$data['request_q']:
+                $query = Product::whereHas('merchant',function($q) use ($data){
+                    $q->where('slug','=',$data['slugMerchant']);
+                })
+                    ->where([['status','=',1]])
+                    ->orderBy('id',$data['sort'])
+                    ->paginate($data['perPage']);
+                return ['data' => $this->resultFromSearchMerchant($query),'totalData' => $query?$query->total():0];
+                break;
+            case $data['request_q'] && $data['slugMerchant']:
+                $query = Product::whereHas('merchant',function($q) use ($data){
+                    $q->where('slug','=',$data['slugMerchant']);
+                })
+                    ->where([['name','like',"%{$data['request_q']}%"],['status','=',1]])
+                    ->orderBy('id',$data['sort'])
+                    ->paginate($data['perPage']);
+                return ['data' => $this->resultFromSearchProduct($query),'totalData' => $query?$query->total():0];
+                break;
+            default:
+                //nothing payload
+                $merchants = Merchant::where([['status','=',1]])->orderBy('id',$data['sort'])->paginate($data['perPage']);
+                $products  = Product::where([['status','=',1]])->orderBy('id',$data['sort'])->paginate($data['perPage']);
+                return [
+                    'data' => [
+                        'merchants' => $this->resultFromSearchMerchant($merchants),
+                        'products' => $this->resultFromSearchProduct($products)
+                    ],
+                    'totalData' => [
+                        'products' => $products?$products->total():0,
+                        'merchants'=> $merchants?$merchants->total():0
+                    ]
+                ];
+                break;
+       }
+    }
+    public function resultFromSearchProduct($data)
+    {
+        if(count($data) > 0){       
+            foreach ($data as $product) {
+                $result[] = [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'slug' => $product->slug,
+                    'description' => $product->description,
+                    'image' => $product->image,
+                    'additionalImage' => json_decode($product->additional_image),
+                    'price' => (int)number_format($product->price, 0, "", ""),
+                    'taxType' => $product->tax_type,
+                    'discount' => $product->discount,
+                    'discountType' => $product->discount_type,
+                    'discountPrice' => $this->discountPriceOnProduct([
+                        'discount' => $product->discount,
+                        'discount_type' => $product->discount_type,
+                        'price' => number_format($product->price, 0, ',', '')
+                    ]),
+                    'availableTimeStarts' => $product->available_time_starts,
+                    'availableTimeEnds' => $product->available_time_ends,
+                    'setMenu' => $product->set_menu,
+                    'status' => $product->status,
+                    'orderCount' => $product->order_count
+                ];
+            };
+            return $result;
+        } else {
+            return (array)[];
+        };
+    }
+    public function resultFromSearchMerchant($data)
+    {
+        if(count($data) > 0){
+            foreach ($data as $result) {
+                $results[] = [
+                    'id' => $result->id,
+                    'name' => $result->name,
+                    'slug' => $result->slug,
+                    'additionalImage' => json_decode($result->additional_image),
+                    'address' => $result->address,
+                    'district' => $result->district,
+                    'openingTime' => substr($result->opening_time, 0, 5),
+                    'closingTime' => substr($result->closeing_time, 0, 5),
+                    'lat'  => $result->latitude,
+                    'lng' => $result->longitude, 
+                    'merchantSpecial' => $result->merchant_special ? $result->merchant_special : null,
+                ];
+            }
+            return $results;
+        } else {
+            return (array)[];
+        }
+    }
 }
