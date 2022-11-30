@@ -292,7 +292,6 @@ class MerchantController extends Controller
             'tax'                   => $request->tax,
             'seo_image'             => $image_url_seo,
             'additional_seo_image'  => $additional_seo_image,
-            'merchant_special'      => $request->merchant_special ?? ''
         ]);
 
         Alert::success('Updated', 'Data Updated Successfully');
