@@ -89,24 +89,6 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="merchant_special">Merchant Group</label>
-                            @if($merchant_groups->count() > 0)
-                            <select name="merchant_special" id="merchant_special" class="form-control">
-                                <option disabled selected>Choose One!</option>
-                                @foreach ($merchant_groups as $item)
-                                     <option {{ $master_merchant->merchant_special == $item->id ? 'selected':'' }} value="{{ $item->id }}">{{ $item->name }}</option>
-                                @endforeach
-                            </select>
-                            @else
-                            <select name="merchant_special" id="merchant_special" class="form-control">
-                                <option disabled selected>Choose One!</option>
-                            </select>
-                            @endif
-                            @error('merchant_special')
-                                <span class="text-danger mt-2">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
                             <label for="coordinate">Titik Koordinat</label>
                             <div class="input-group">
                                 <input type="text" id="latitude" name="latitude" value="{{ $master_merchant->latitude }}" class="form-control" placeholder="Latitude" readonly>

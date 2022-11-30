@@ -99,7 +99,7 @@
                         <div class="form-group">
                             <label for="merchant_special">Merchant Group</label>
                             @if($merchant_group->count() > 0)
-                            <select name="merchant_special" id="merchant_special" class="form-control" required>
+                            <select name="merchant_special" id="merchant_special" class="form-control">
                                 <option disabled selected>Choose One!</option>
                                 @foreach ($merchant_group as $item)
                                      <option {{ $master_merchant->merchant_special == $item->id ? 'selected':'' }} value="{{ $item->id }}">{{ $item->name }}</option>
@@ -111,7 +111,7 @@
                             </select>
                             @endif
                             @error('merchant_special')
-                                <span class="text-danger mt-2">The merchant group field is required</span>
+                                <span class="text-danger mt-2">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group">
