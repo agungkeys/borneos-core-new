@@ -44,28 +44,28 @@
         </div>
 
         <div style="overflow-x:auto;">
-          <table class="table table-hover table-striped table-bordered">
+          <table class="table table-hover">
             <thead>
               <tr>
                   <th rowspan="2" style="min-width: 50px;">@sortablelink('id', 'ID')</th>
                   <th rowspan="2" style="min-width: 60px;">@sortablelink('order_type', 'Type')</th>
                   <th rowspan="2" style="min-width: 140px;">Merchant</th>
                   <th colspan="2" style="">Customer</th>
-                  <th colspan="4" style="width: 40%;">Total</th>
+                  <th colspan="3" style="width: 40%;">Total</th>
                   <th colspan="2" style="width: 20%;">Payment</th>
                   <th rowspan="2" style="min-width: 120px;">Courier</th>
                   <th rowspan="2" style="min-width: 100px;">@sortablelink('status', 'Status')</th>
                   <th rowspan="2" style="min-width: 120px;">Action</th>
               </tr>
               <tr>
-                  <th style="min-width: 120px;">@sortablelink('customer_name', 'Name/Telp')</th>
+                  <th style="min-width: 120px;">@sortablelink('customer_name', 'Customer')</th>
                   <th style="min-width: 160px;">@sortablelink('customer_address', 'Address')</th>
                   <!-- <th style="text-align: center">Notes</td> -->
-                  <th style="min-width: 60px;">@sortablelink('total_item', 'Pcs')</th>
-                  <th style="min-width: 120px;">@sortablelink('total_item_price', 'Item Price')</th>
+                  <!-- <th style="min-width: 60px;">@sortablelink('total_item', 'Pcs')</th> -->
+                  <th style="min-width: 150px;">@sortablelink('total_item_price', 'Item (Pcs) Price')</th>
                   <th style="min-width: 140px;">@sortablelink('total_distance_price', 'Distance Price')</th>
                   <th style="min-width: 120px;">@sortablelink('total_price', 'Total Price')</th>
-                  <th style="">@sortablelink('payment_type', 'Type')</th>
+                  <th style="min-width: 80px;">@sortablelink('payment_type', 'Type')</th>
                   <th style="">@sortablelink('payment_status', 'Status')</th>
               </tr>
             </thead>
@@ -98,8 +98,8 @@
 
                          <td title="{{ $order->customer_address }}"><span style="font-size: 12px;">{{ $order->customer_address ? \Str::limit($order->customer_address, 45, '..') : '-' }}</span></td>
                          <!-- <td title="{{ $order->customer_notes }}">{{ $order->customer_notes ? \Str::limit($order->customer_notes, 15, '..'): '-' }}</td> -->
-                         <td>{{ $order->total_item }}</td>
-                         <td>{{ number_format($order->total_item_price,0, ",",".") }}</td>
+                         <!-- <td>{{ $order->total_item }}</td> -->
+                         <td>(<b>{{ $order->total_item }}</b>) {{ number_format($order->total_item_price,0, ",",".") }}</td>
                          <td>{{ number_format($order->total_distance_price,0, ",",".") }}</td>
                          <td>{{ number_format($order->total_price,0, ",",".") }}</td>
                          @if($order->payment_type == 'cash')
@@ -123,17 +123,37 @@
                          <td><span class="badge badge-pill badge-success">{{ $order->status }}</span></td>
                          @endif
                          <td>
-                          <a href="{{ route('admin.orders.detail',$order) }}" class="btn btn-primary btn-sm ion-android-clipboard" title="Details ?"></a>
-                          <a href="{{ route('admin.orders.edit',$order) }}" class="btn btn-warning btn-sm ion-android-create" title="Edit ?"></a>
-                          <button type="button" class="btn btn-danger btn-sm icon ion-android-close" title="Cancel ?"></button>
-                          @if($order->status == 'new')
-                          <button type="button" onclick="followUpMerchant({{ $order }})" class="btn btn-outline-secondary btn-sm icon ion-android-home mt-1" title="Follow up Merchant"></button>
-                          <button type="button" onclick="followUpCustomer({{ $order }})" class="btn btn-outline-warning btn-sm icon ion-android-contact mt-1" title="Follow up Customer"></button>
-                          <button type="button" onclick="followUpOrderConfirmation({{ $order }})" class="btn btn-outline-success btn-sm icon ion-android-checkbox mt-1" title="Konfirmasi Pesanan"></button>
-                          @endif
-                          @if($order->status == 'done')
-                          <button type="button" onclick="followUpCustomerWhenDone({{ $order }})" class="btn btn-secondary btn-sm icon ion-android-call mt-1" title="follow up Customer"></button>
-                          @endif
+                         <div class="dropdown d-inline-block">
+                            <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-dark">Actions</button>
+                            <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 33px, 0px);">
+                              @if($order->status == 'new')
+                              <h6 tabindex="-1" class="dropdown-header">Follow Up</h6>
+                              <button type="button" onclick="followUpMerchant({{ $order }})" class="dropdown-item">
+                                <i class="dropdown-icon icon ion-android-home text-primary"> </i><span>Mitra / Merchant</span>
+                              </button>
+                              <button type="button" onclick="followUpCustomer({{ $order }})" class="dropdown-item">
+                                <i class="dropdown-icon icon ion-android-contact text-warning"> </i><span>Customer</span>
+                              </button>
+                              <button type="button" onclick="followUpOrderConfirmation({{ $order }})" class="dropdown-item">
+                                <i class="dropdown-icon fa fa-check text-success"> </i><span>Confirm</span>
+                              </button>
+                              <div tabindex="-1" class="dropdown-divider"></div>
+                              @endif
+                              @if($order->status == 'done')
+                              <h6 tabindex="-1" class="dropdown-header">Follow Up</h6>
+                              <button type="button" onclick="followUpCustomerWhenDone({{ $order }})" class="dropdown-item">
+                                <i class="dropdown-icon fa fa-check text-success"> </i><span>Confirm Done</span>
+                              </button>
+                              <div tabindex="-1" class="dropdown-divider"></div>
+                              @endif
+                              <a href="{{ route('admin.orders.edit',$order) }}" class="dropdown-item">
+                                <i class="dropdown-icon ion-android-create text-primary"> </i><span>Edit</span>
+                              </a>
+                              <a href="{{ route('admin.orders.detail',$order) }}" class="dropdown-item">
+                                <i class="dropdown-icon lnr-list"> </i><span>Detail</span>
+                              </a>
+                            </div>
+                          </div>
                         </td>
                      </tr>
                  @endforeach
