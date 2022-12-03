@@ -44,27 +44,26 @@
         </div>
 
         <div style="overflow-x:auto;">
-          <table class="table table-hover">
+          <table class="table table-bordered table-striped table-hover">
             <thead>
               <tr>
                   <th rowspan="2" style="min-width: 50px;">@sortablelink('id', 'ID')</th>
                   <th rowspan="2" style="min-width: 60px;">@sortablelink('order_type', 'Type')</th>
                   <th rowspan="2" style="min-width: 140px;">Merchant</th>
                   <th colspan="2" style="">Customer</th>
-                  <th colspan="3" style="width: 40%;">Total</th>
+                  <th colspan="3" style="width: 40%;">Price</th>
                   <th colspan="2" style="width: 20%;">Payment</th>
                   <th rowspan="2" style="min-width: 120px;">Courier</th>
                   <th rowspan="2" style="min-width: 100px;">@sortablelink('status', 'Status')</th>
                   <th rowspan="2" style="min-width: 120px;">Action</th>
               </tr>
               <tr>
-                  <th style="min-width: 120px;">@sortablelink('customer_name', 'Customer')</th>
+                  <th style="min-width: 120px;">@sortablelink('customer_name', 'Name')</th>
                   <th style="min-width: 160px;">@sortablelink('customer_address', 'Address')</th>
                   <!-- <th style="text-align: center">Notes</td> -->
-                  <!-- <th style="min-width: 60px;">@sortablelink('total_item', 'Pcs')</th> -->
-                  <th style="min-width: 150px;">@sortablelink('total_item_price', 'Item (Pcs) Price')</th>
-                  <th style="min-width: 140px;">@sortablelink('total_distance_price', 'Distance Price')</th>
-                  <th style="min-width: 120px;">@sortablelink('total_price', 'Total Price')</th>
+                  <th style="min-width: 100px;">@sortablelink('total_item_price', 'Item (Pcs)')</th>
+                  <th style="min-width: 100px;">@sortablelink('total_distance_price', 'Distance')</th>
+                  <th style="min-width: 110px;">@sortablelink('total_price', 'Total')</th>
                   <th style="min-width: 80px;">@sortablelink('payment_type', 'Type')</th>
                   <th style="">@sortablelink('payment_status', 'Status')</th>
               </tr>
@@ -76,6 +75,7 @@
                </tr>
                @endif
                  @foreach ($orders as $order)
+                 <div class="row-card">
                      <tr>
                          <td>{{ $order->id }}</td>
                          @if($order->order_type == 'borneos')
@@ -98,7 +98,6 @@
 
                          <td title="{{ $order->customer_address }}"><span style="font-size: 12px;">{{ $order->customer_address ? \Str::limit($order->customer_address, 45, '..') : '-' }}</span></td>
                          <!-- <td title="{{ $order->customer_notes }}">{{ $order->customer_notes ? \Str::limit($order->customer_notes, 15, '..'): '-' }}</td> -->
-                         <!-- <td>{{ $order->total_item }}</td> -->
                          <td>(<b>{{ $order->total_item }}</b>) {{ number_format($order->total_item_price,0, ",",".") }}</td>
                          <td>{{ number_format($order->total_distance_price,0, ",",".") }}</td>
                          <td>{{ number_format($order->total_price,0, ",",".") }}</td>
@@ -155,7 +154,8 @@
                             </div>
                           </div>
                         </td>
-                     </tr>
+                    </tr>
+                  </div>
                  @endforeach
              </tbody>
           </table>
