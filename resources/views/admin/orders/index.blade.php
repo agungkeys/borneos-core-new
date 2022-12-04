@@ -77,7 +77,7 @@
                  @foreach ($orders as $order)
                  <div class="row-card">
                      <tr>
-                         <td>{{ $order->id }}</td>
+                         <td><a href="{{ route('admin.orders.edit',$order) }}">{{ $order->id }}</a></td>
                          @if($order->order_type == 'borneos')
                          <td>
                           <span class="badge badge-pill badge-warning">{{ $order->order_type }}</span>
@@ -152,7 +152,8 @@
                                 <i class="dropdown-icon lnr-list"> </i><span>Detail</span>
                               </a>
                             </div>
-                          </div>
+                         </div>
+
                         </td>
                     </tr>
                   </div>
