@@ -650,6 +650,7 @@ trait Products
                     'name' => $product->name,
                     'slug' => $product->slug,
                     'description' => $product->description,
+                    'merchantName' => $product->merchant_id && $product->merchant ? $product->merchant->name : '',
                     'image' => $product->image,
                     'additionalImage' => json_decode($product->additional_image),
                     'price' => (int)number_format($product->price, 0, "", ""),
