@@ -251,7 +251,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="status">Update Order Status:</label>
-                            <select name="status" id="status" class="js-data-example-ajax multiselect-dropdown form-control">
+                            <select name="status" id="status" class="js-data-example-ajax multiselect-dropdown form-control" required>
                                 {{-- <option {{ $order->status == 'new' ? 'selected':'' }} value="new">New</option>
                                 <option {{ $order->status == 'otw' ? 'selected':'' }} value="otw">Otw</option>
                                 <option {{ $order->status == 'canceled' ? 'selected':'' }} value="canceled">Cancel</option> --}}
@@ -303,7 +303,7 @@
  </div>
 @endsection
 @section('js')
-   
+
     <!-- Modal Edit Order Detail -->
     <div class="modal fade" id="ModalEditOrderDetail" tabindex="-1" aria-labelledby="ModalEditOrderDetail" aria-hidden="true">
         <div class="modal-dialog">

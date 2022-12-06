@@ -93,7 +93,7 @@
                             <label for="merchant_special">Merchant Group</label>
                             @if($merchant_groups->count() > 0)
                             <select name="merchant_special" id="merchant_special" class="form-control">
-                                <option disabled selected>Choose One!</option>
+                                <option value="">Choose One!</option>
                                 @foreach ($merchant_groups as $item)
                                      <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
