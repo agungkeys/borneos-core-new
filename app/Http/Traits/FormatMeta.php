@@ -296,4 +296,12 @@ trait FormatMeta
             ],
         ];
     }
+    public function MetaProductFromSearch($data)
+    {
+        return [
+            'page' => $data['page'] == null ? 1 : (int)$data['page'],
+            'perPage' => (int)$data['perPage'],
+            'total' => $data['total_products']
+        ];
+    }
 }
