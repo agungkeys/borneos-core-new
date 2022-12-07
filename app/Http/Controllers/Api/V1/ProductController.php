@@ -152,5 +152,22 @@ class ProductController extends Controller
             return response()->json(['status'=>'success','meta' => $meta,'data'=> $query['data']]);
         }
     }
+    public function get_products_from_search(Request $request)
+    {
+        $request_q = $request->q ?? null; //product name
+        $perPage = $request->perPage ?? 10;
+        $query = $this->SearchProducts(compact('request_q','perPage'));
+
+        if($query->count() == 0){
+            return response()->json(['status' => 'error','metaData'=>(object)[],'data'=>null],404);
+        } else {
+            $meta = $this->MetaProductFromSearch([
+                'page' => $request->page ?? null,
+                'perPage' => $perPage,
+                'total_products'=> $query->total()
+            ]);
+            return response()->json(['status' => 'success','metaData' => $meta,'data'=>$this->resultProductFromSearch($query)]);
+        }
+    }
     
 }
