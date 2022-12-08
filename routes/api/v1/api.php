@@ -43,4 +43,5 @@ Route::group(['namespace' => 'Api\V1'], function () {
   Route::get('/merchant-groups','MerchantGroupController@get_merchant_groups');
   Route::get('/search','ProductController@search_product');
   Route::get('/search/products','ProductController@get_products_from_search');
+  Route::get('/search/merchants','MerchantController@get_merchants_from_search');
 });

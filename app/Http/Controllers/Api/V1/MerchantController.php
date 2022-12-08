@@ -161,4 +161,21 @@ class MerchantController extends Controller
             return response()->json(['status' => 'error', 'data' => null]);
         };
     }
+    public function get_merchants_from_search(Request $request)
+    {
+        $request_q = $request->q ?? null;
+        $perPage = $request->perPage ?? 10;
+        $query = $this->SearchMerchants(compact('request_q','perPage'));
+
+        if($query->count() == 0){
+            return response()->json(['status' => 'error','metaData' => (object)[],'data'=>null],404);
+        } else {
+            $meta = $this->MetaMerchantFromSearch([
+                'page' => $request->page ?? null,
+                'perPage' => $perPage,
+                'total_merchants'=> $query->total()
+            ]);
+           return response()->json(['status' => 'success','metaData' => $meta,'data'=> $this->resultMerchantFromSearch($query)]);
+        }
+    }
 }
