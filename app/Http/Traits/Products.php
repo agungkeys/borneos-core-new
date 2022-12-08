@@ -650,6 +650,7 @@ trait Products
                     'name' => $product->name,
                     'slug' => $product->slug,
                     'description' => $product->description,
+                    'merchantName' => $product->merchant_id && $product->merchant ? $product->merchant->name : '',
                     'image' => $product->image,
                     'additionalImage' => json_decode($product->additional_image),
                     'price' => (int)number_format($product->price, 0, "", ""),
@@ -695,5 +696,36 @@ trait Products
         } else {
             return (array)[];
         }
+    }
+    public function SearchProducts($data)
+    {
+        $request_q = $data['request_q'];
+        $perPage = $data['perPage'];
+        if($request_q){
+            $products = Product::where([['name', 'like', "%{$request_q}%"],['status','=',1]])
+                ->paginate($perPage);
+            return $products;
+        } else {
+            $products = Product::where([['status','=',1]])->paginate($perPage);
+            return $products;
+        }
+    }
+    public function resultProductFromSearch($data)
+    {
+        foreach($data as $product){
+            $results[] = [
+                'id' => $product->id,
+                'name' => $product->name,
+                'slug' => $product->slug ?? '',
+                'price' => (int)$product->price,
+                'image' => $product->image ?? '',
+                'additionalImage' => $product->additional_image ? json_decode($product->additional_image) : '',
+                'merchant' => [
+                    'name' => $product->merchant_id && $product->merchant ? $product->merchant->name : '',
+                    'slug' => $product->merchant_id && $product->merchant ? $product->merchant->slug : ''
+                ]
+            ];
+        }
+        return $results;
     }
 }
