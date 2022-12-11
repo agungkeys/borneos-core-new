@@ -247,4 +247,31 @@ trait Merchants
         ];
         return $data;
     }
+    public function SearchMerchants($data)
+    {
+        $request_q = $data['request_q'];
+        $perPage = $data['perPage'];
+
+        if($request_q){
+            $merchants = Merchant::where([['name', 'like', "%{$request_q}%"],['status','=',1]])
+                ->paginate($perPage);
+            return $merchants;
+        } else {
+            $merchants = Merchant::where([['status','=',1]])->paginate($perPage);
+            return $merchants;
+        }
+    }
+    public function resultMerchantFromSearch($data)
+    {
+        foreach($data as $merchant){
+            $results[] = [
+                'id' => $merchant->id,
+                'name' => $merchant->name,
+                'slug' => $merchant->slug ?? '',
+                'image' => $merchant->image ?? '',
+                'additionalImage' => $merchant->additional_image ? json_decode($merchant->additional_image) : ''
+            ];
+        }
+        return $results;
+    }
 }
