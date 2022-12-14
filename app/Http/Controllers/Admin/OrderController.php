@@ -145,6 +145,9 @@ class OrderController extends Controller
                 'status_notes'   => request('status_notes') ?? $order->status_notes
             ]);
         }
+        if($order->status == 'processing'){
+            (new \App\Notifications\OrderProcessingNotification())->toTelegram($order);
+        }
         Alert::success('Updated', 'Data Order Updated');
         return redirect('/admin/orders');
     }
