@@ -169,6 +169,7 @@ return [
          * Package Service Providers...
          */
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+        Telegram\Bot\Laravel\TelegramServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -238,6 +239,7 @@ return [
         'Cloudinary' => CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
         'Carbon' => \Illuminate\Support\Carbon::class,
+        'Telegram' => Telegram\Bot\Laravel\Facades\Telegram::class,
     ],
 
 ];
