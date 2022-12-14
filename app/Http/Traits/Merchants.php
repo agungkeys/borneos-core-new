@@ -269,9 +269,28 @@ trait Merchants
                 'name' => $merchant->name,
                 'slug' => $merchant->slug ?? '',
                 'image' => $merchant->image ?? '',
-                'additionalImage' => $merchant->additional_image ? json_decode($merchant->additional_image) : ''
+                'additionalImage' => $merchant->additional_image ? json_decode($merchant->additional_image) : '',
+                'productFavorite' => $this->productFavoriteFromResultSearchMerchant($merchant),
             ];
         }
         return $results;
+    }
+    public function productFavoriteFromResultSearchMerchant($data)
+    {
+        $products = Product::where([['merchant_id','=', $data->id],['favorite','=',1],['status','=',1]])->get();
+        if($products->count() == 0){
+            return [];
+        } else {
+            foreach($products as $product){
+                $results[] = [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'slug' => $product->slug ?? '',
+                    'image' => $product->image ?? '',
+                    'additionalImage' => $product->additional_image ? json_decode($product->additional_image) : '',
+                ];
+            }
+            return $results;
+        }
     }
 }
