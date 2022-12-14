@@ -155,8 +155,9 @@ class ProductController extends Controller
     public function get_products_from_search(Request $request)
     {
         $request_q = $request->q ?? null; //product name
+        $merchant = $request->merchant ?? null; //merchant slug
         $perPage = $request->perPage ?? 10;
-        $query = $this->SearchProducts(compact('request_q','perPage'));
+        $query = $this->SearchProducts(compact('request_q','merchant','perPage'));
 
         if($query->count() == 0){
             return response()->json(['status' => 'error','metaData'=>(object)[],'data'=>null],404);

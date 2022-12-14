@@ -699,15 +699,36 @@ trait Products
     }
     public function SearchProducts($data)
     {
-        $request_q = $data['request_q'];
+        $request_q = $data['request_q']; //product name
+        $merchant = $data['merchant']; //merchant slug
         $perPage = $data['perPage'];
-        if($request_q){
-            $products = Product::where([['name', 'like', "%{$request_q}%"],['status','=',1]])
-                ->paginate($perPage);
-            return $products;
-        } else {
-            $products = Product::where([['status','=',1]])->paginate($perPage);
-            return $products;
+
+        switch ($data) {
+            case $data['request_q'] && $data['merchant']:
+                $products = Product::whereHas('merchant',function($q) use ($merchant){
+                    $q->where('slug','=',$merchant);
+                })
+                    ->where([['name', 'like', "%{$request_q}%"],['status','=',1]])
+                    ->paginate($perPage);
+                return $products;
+                break;
+            case $data['request_q'] && !$data['merchant']:
+                $products = Product::where([['name', 'like', "%{$request_q}%"],['status','=',1]])
+                    ->paginate($perPage);
+                return $products;
+                break;
+            case !$data['request_q'] && $data['merchant']:
+                $products = Product::whereHas('merchant',function($q) use ($merchant){
+                    $q->where('slug','=',$merchant);
+                })
+                    ->where([['status','=',1]])
+                    ->paginate($perPage);
+                return $products;
+                break;
+            default:
+                $products = Product::where([['status','=',1]])->paginate($perPage);
+                return $products;
+                break;
         }
     }
     public function resultProductFromSearch($data)
