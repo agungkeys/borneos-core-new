@@ -163,7 +163,7 @@ class MerchantController extends Controller
     }
     public function get_merchants_from_search(Request $request)
     {
-        $request_q = $request->q ?? null;
+        $request_q = $request->q ?? null; //merchant name
         $perPage = $request->perPage ?? 10;
         $query = $this->SearchMerchants(compact('request_q','perPage'));
 
