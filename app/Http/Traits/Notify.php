@@ -4,6 +4,15 @@ namespace App\Http\Traits;
 
 trait Notify
 {
+    public function textNotificationOrderNewTelegram($data)
+    {
+        $order = $data;
+        $orderStatus = strtoupper("order status : ".$order->status ." (id-$order->id)");
+        $urlEditOrder = "https://app.borneos.co/admin/orders/edit/$order->prefix";
+        $textIntro = "\n\n<b>$orderStatus</b>\n\nHalo min ada orderan <b>BARU</b> dari $order->customer_name\n$urlEditOrder";
+        return $textIntro;
+
+    }
     public function textNotificationOrderProcessingTelegram($data)
     {
         $order = $data;

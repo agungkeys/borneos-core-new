@@ -93,29 +93,30 @@ class OrderController extends Controller
     }
     public function store(OrderAdminRequest $request)
     {
-        $order = new Order();
-        $order->prefix = $this->GeneratePrefix();
-        $order->order_type = $request->order_type;
-        $order->merchant_id = $request->merchant;
-        $order->courier_id = $request->courier == null ? null : $request->courier;
-        $order->customer_name = $request->customer_name;
-        $order->customer_telp = $request->customer_telp;
-        $order->customer_address = $request->customer_address;
-        $order->customer_address_lat = $request->latitude;
-        $order->customer_address_lang = $request->longitude;
-        $order->customer_notes = $request->customer_notes ?? '';
-        $order->distance = $request->distance;
-        $order->total_item = $request->total_item;
-        $order->total_item_price = $request->total_item_price;
-        $order->total_distance_price = $request->total_distance_price;
-        $order->total_price = $request->total_price;
-        $order->payment_type = $request->payment_type ?? '';
-        $order->payment_total = $request->payment_total;
-        $order->payment_bank_name = $request->payment_type == 'cash' ? '' : $request->payment_bank_name ?? '';
-        $order->payment_account_number = $request->payment_type == 'cash' ? '' : $request->payment_account_number ?? '';
-        $order->payment_status = $request->payment_status;
-        $order->status = $request->payment_status == 'paid' ? 'processing' : 'new';
-        $order->save();
+        $order = Order::create([
+            'prefix' => $this->GeneratePrefix(),
+            'order_type' => $request->order_type,
+            'merchant_id' => $request->merchant,
+            'courier_id' => $request->courier == null ? null : $request->courier,
+            'customer_name' => $request->customer_name,
+            'customer_telp' => $request->customer_telp,
+            'customer_address' => $request->customer_address,
+            'customer_address_lat' => $request->latitude,
+            'customer_address_lang' => $request->longitude,
+            'customer_notes' => $request->customer_notes ?? '',
+            'distance' => $request->distance,
+            'total_item' => $request->total_item,
+            'total_item_price' => $request->total_item_price,
+            'total_distance_price' => $request->total_distance_price,
+            'total_price' => $request->total_price,
+            'payment_type' => $request->payment_type ?? '',
+            'payment_total' => $request->payment_total,
+            'payment_bank_name' => $request->payment_type == 'cash' ? '' : $request->payment_bank_name ?? '',
+            'payment_account_number' => $request->payment_type == 'cash' ? '' : $request->payment_account_number ?? '',
+            'payment_status' => $request->payment_status,
+            'status' => $request->payment_status == 'paid' ? 'processing' : 'new',
+        ]);
+        (new \App\Notifications\OrderNotification())->toTelegram($order);
         Alert::success('Created', 'Data Created Successfully');
         return redirect('/admin/orders');
     }
@@ -145,9 +146,7 @@ class OrderController extends Controller
                 'status_notes'   => request('status_notes') ?? $order->status_notes
             ]);
         }
-        if($order->status == 'processing'){
-            (new \App\Notifications\OrderProcessingNotification())->toTelegram($order);
-        }
+        (new \App\Notifications\OrderNotification())->toTelegram($order);
         Alert::success('Updated', 'Data Order Updated');
         return redirect('/admin/orders');
     }
