@@ -78,6 +78,14 @@ class OrderNotification extends Notification
                     'text' => $text
                 ]);
                 break;
+            case $notifiable->status == 'done':
+                $text = $this->textNotifyOrderDoneToTelegram($notifiable);
+                Telegram::sendMessage([
+                    'chat_id' => Config::get('telegram.bots.mybot.chat_id'),
+                    'parse_mode' => 'HTML',
+                    'text' => $text
+                ]);
+                break;
             default:
                 return;
                 break;
