@@ -37,6 +37,7 @@ return [
             'token'               => env('TELEGRAM_BOT_TOKEN', '5723539819:AAEfFuf-u-pO8hOlENguVQ58syNTTZ7Ok3I'),
             'certificate_path'    => env('TELEGRAM_CERTIFICATE_PATH', 'YOUR-CERTIFICATE-PATH'),
             'webhook_url'         => env('TELEGRAM_WEBHOOK_URL', 'YOUR-BOT-WEBHOOK-URL'),
+            'chat_id'             => env('TELEGRAM_CHAT_ID','-1001887941936'),
             'commands'            => [
                 //Acme\Project\Commands\MyTelegramBot\BotCommand::class
             ],
