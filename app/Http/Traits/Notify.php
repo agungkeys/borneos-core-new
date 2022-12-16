@@ -113,6 +113,18 @@ trait Notify
         $textFooter = "Terimakasih telah mengunjungi borneos.co";
         return "".$textIntro .$detailCustomer .$textFooter;
     }
+
+    public function textNotifyUpdatePaymentStatusOrder($data)
+    {
+        $order = $data;
+        $textHeader = strtoupper("order status : confirm payment (id-$order->id)");
+        $mergeTextHeaders = "\n\n<b>$textHeader</b>\n\n";
+
+        $customerName = $order->customer_name ? ucfirst($order->customer_name) : '-';
+        $textIntro = "Halo Min, orderan <b>DIKONFIRMASI</b> dari $customerName\n";
+        $textIntro .= "https://app.borneos.co/admin/orders/edit/$order->prefix";
+        return "".$mergeTextHeaders .$textIntro;
+    }
     
     public function replacePhoneFormatWA($phone)
     {
