@@ -82,6 +82,19 @@ trait Notify
         $textFooter = "Terimakasih telah berbelanja melalui borneos.co,\nanda dapat mengunduh invoice melalui :\n$urlInvoiceOrder";
         return "".$textIntro .$detailCustomer .$detailCourier .$textFooter;
     }
+    public function textNotifyOrderCanceledToTelegram($data)
+    {
+        $order = $data;
+        $orderStatus = strtoupper("order status : canceled");
+        $textIntro = "\n\n<b>$orderStatus</b>\n\nHalo Kak, orderan TELAH DIBATALKAN\n\n";
+
+        $customerName = $order->customer_name ? ucfirst($order->customer_name) : '-';
+        $customerTelp = $order->customer_telp ? $this->replacePhoneFormatWA($order->customer_telp) : '-';
+        $detailCustomer = "Pelanggan :\n$customerName\n$customerTelp\n\n";
+
+        $textFooter = "Terimakasih telah mengunjungi borneos.co";
+        return "".$textIntro .$detailCustomer .$textFooter;
+    }
     
     public function replacePhoneFormatWA($phone)
     {
