@@ -54,6 +54,14 @@ class OrderNotification extends Notification
                     'text' => $text
                 ]);
                 break;
+            case $notifiable->status == 'otw' && $notifiable->orders->count() > 0:
+                $text = $this->textNotificationOrderOnTheWaytoTelegram($notifiable);
+                Telegram::sendMessage([
+                    'chat_id' => Config::get('telegram.bots.mybot.chat_id'),
+                    'parse_mode' => 'HTML',
+                    'text' => $text
+                ]);
+                break;
             default:
                 return;
                 break;
