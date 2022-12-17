@@ -63,6 +63,25 @@ trait Notify
 
         return "".$textIntro .$joinAndFilterCartList .$totalPriceTotalDistancePrice .$detailCustomer .$detailCourier;
     }
+
+    public function textNotifyOrderDeliveredToTelegram($data)
+    {
+        $order = $data;
+        $orderStatus = strtoupper("order status : $order->status");
+        $textIntro = "\n\n<b>$orderStatus</b>\n\nHalo Kak, orderan TELAH DIKIRIM\n\n";
+
+        $customerName = $order->customer_name ? ucfirst($order->customer_name) : '-';
+        $customerTelp = $order->customer_telp ? $this->replacePhoneFormatWA($order->customer_telp) : '-';
+        $detailCustomer = "Pelanggan :\n$customerName\n$customerTelp\n\n";
+
+        $courierName = $order->courier_id && $order->courier && $order->courier->name ? "".$order->courier->name : "-";
+        $courierPhone = $order->courier_id && $order->courier && $order->courier->phone ? $this->replacePhoneFormatWA($order->courier->phone) : "-";
+        $detailCourier = "Kurir : \n$courierName\n$courierPhone\n\n";
+
+        $urlInvoiceOrder = "https://borneos.co/invoice/".$order->prefix;
+        $textFooter = "Terimakasih telah berbelanja melalui borneos.co,\nanda dapat mengunduh invoice melalui :\n$urlInvoiceOrder";
+        return "".$textIntro .$detailCustomer .$detailCourier .$textFooter;
+    }
     
     public function replacePhoneFormatWA($phone)
     {
