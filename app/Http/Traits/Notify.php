@@ -68,7 +68,7 @@ trait Notify
     {
         $order = $data;
         $orderStatus = strtoupper("order status : $order->status");
-        $textIntro = "\n\n<b>$orderStatus</b>\n\nHalo Kak, orderan TELAH DIKIRIM\n\n";
+        $textIntro = "\n\n<b>$orderStatus</b>\n\nHalo Kak, orderan <b>TELAH DIKIRIM</b>\n\n";
 
         $customerName = $order->customer_name ? ucfirst($order->customer_name) : '-';
         $customerTelp = $order->customer_telp ? $this->replacePhoneFormatWA($order->customer_telp) : '-';
@@ -82,11 +82,29 @@ trait Notify
         $textFooter = "Terimakasih telah berbelanja melalui borneos.co,\nanda dapat mengunduh invoice melalui :\n$urlInvoiceOrder";
         return "".$textIntro .$detailCustomer .$detailCourier .$textFooter;
     }
+
+    public function textNotifyOrderDoneToTelegram($data)
+    {
+        $order = $data;
+        $orderStatus = strtoupper("order status : $order->status (id-$order->id)");
+        $textIntro = "\n\n<b>$orderStatus</b>\n\nHalo Kak, orderan <b>TELAH SELESAI</b>\n\n";
+
+        $customerName = $order->customer_name ? ucfirst($order->customer_name) : '-';
+        $customerTelp = $order->customer_telp ? $this->replacePhoneFormatWA($order->customer_telp) : '-';
+        $detailCustomer = "Pelanggan :\n$customerName\n$customerTelp\n\n";
+
+        $textFooter = "Alhamdulillah terimakasih kak. Minos tunggu orderan selanjutnya.\n\n";
+        $textFooter .= "Oh iya kak. Mohon diisi link penilaian untuk borneos.co ya kak. Agar Borneos.co semakin lebih baik lagi kedepannya\n";
+        $textFooter .= "https://borneos.link/surveypelanggan\n\n";
+        $textFooter .= "Terimakasih telah mengunjungi borneos.co";
+        return "".$textIntro .$detailCustomer .$textFooter;
+    }
+
     public function textNotifyOrderCanceledToTelegram($data)
     {
         $order = $data;
-        $orderStatus = strtoupper("order status : canceled");
-        $textIntro = "\n\n<b>$orderStatus</b>\n\nHalo Kak, orderan TELAH DIBATALKAN\n\n";
+        $orderStatus = strtoupper("order status : canceled (id-$order->id)");
+        $textIntro = "\n\n<b>$orderStatus</b>\n\nHalo Kak, orderan <b>TELAH DIBATALKAN</b>\n\n";
 
         $customerName = $order->customer_name ? ucfirst($order->customer_name) : '-';
         $customerTelp = $order->customer_telp ? $this->replacePhoneFormatWA($order->customer_telp) : '-';
