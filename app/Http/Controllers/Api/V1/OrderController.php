@@ -87,6 +87,9 @@ class OrderController extends Controller
                 'payment_account_number' => $request->paymentAccountNumber ? $request->paymentAccountNumber : $order->payment_account_number,
                 'payment_status' => $request->paymentStatus ? $request->paymentStatus : $order->payment_status
             ]);
+            if($order->payment_status == 'paid'){
+                (new \App\Notifications\NotifyUpdatePaymentStatusOrder())->toTelegram($order);
+            }
             return response()->json(['status' => 'success','data' => $this->resultOrderDetail($order)]);
         }
     }

@@ -147,6 +147,9 @@ class OrderController extends Controller
             ]);
         }
         (new \App\Notifications\OrderNotification())->toTelegram($order);
+        if($order->payment_status == 'paid'){
+           (new \App\Notifications\NotifyUpdatePaymentStatusOrder())->toTelegram($order);
+        }
         Alert::success('Updated', 'Data Order Updated');
         return redirect('/admin/orders');
     }
@@ -164,6 +167,9 @@ class OrderController extends Controller
                     'payment_account_number' => request('payment_account_number')
                 ]);
             }
+        }
+        if($order->payment_status == 'paid'){
+           (new \App\Notifications\NotifyUpdatePaymentStatusOrder())->toTelegram($order);
         }
         Alert::success('Data Updated', 'success');
         return back();
