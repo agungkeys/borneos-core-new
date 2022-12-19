@@ -135,33 +135,33 @@ trait FormatMeta
         ];
     }
     public function MetaOrderStore($data)
-    {
+    { 
         return [
             'message' => 'success',
-            'orderId' => $data['order_id'],
-            'prefix'  => $data['prefix'],
-            'orderType' => $data['request']['orderType'],
-            'merchantId' => $data['request']['merchantId'],
-            'customerName' => $data['request']['customerName'],
-            'customerTelp' => $data['request']['customerTelp'],
-            'customerAddress' => $data['request']['customerAddress'],
-            'customerAddressLat' => $data['request']['customerAddressLat'],
-            'customerAddressLng' => $data['request']['customerAddressLng'],
-            'customerNotes' => $data['request']['customerNotes'] ?? null,
-            'distance' => $data['request']['distance'],
-            'totalItem' => $data['request']['totalItem'],
-            'totalItemPrice' => $data['request']['totalItemPrice'],
-            'totalDistancePrice' => $data['request']['totalDistancePrice'],
-            'totalPrice'    => $data['request']['totalPrice'],
-            'paymentType'   => $data['request']['paymentType'],
-            'paymentTotal'  => $data['request']['paymentTotal'],
-            'paymentBankName' => $data['request']['paymentBankName'],
-            'paymentAccountNumber' => $data['request']['paymentAccountNumber'],
-            'paymentStatus' => $data['request']['paymentStatus'],
-            'status'        => 'new',
-            'statusNotes'   => $data['request']['statusNotes'] ?? null,
-            'createdAt'     => date('d/m/Y'),
-            'updatedAt'     => date('d/m/Y')
+            'orderId' => $data->id,
+            'prefix'  => $data->prefix,
+            'orderType' => $data->order_type,
+            'merchantId' => $data->merchant_id,
+            'customerName' => $data->customer_name,
+            'customerTelp' => $data->customer_telp,
+            'customerAddress' => $data->customer_address,
+            'customerAddressLat' => $data->customer_address_lat,
+            'customerAddressLng' => $data->customer_address_lang,
+            'customerNotes' => $data->customer_notes,
+            'distance' => $data->distance,
+            'totalItem' => $data->total_item,
+            'totalItemPrice' => $data->total_item_price,
+            'totalDistancePrice' => $data->total_distance_price,
+            'totalPrice'    => $data->total_price,
+            'paymentType'   => $data->payment_type,
+            'paymentTotal'  => $data->payment_total,
+            'paymentBankName' => $data->payment_bank_name,
+            'paymentAccountNumber' => $data->payment_account_number,
+            'paymentStatus' => $data->payment_status,
+            'status'        => $data->status,
+            'statusNotes'   => $data->status_notes,
+            'createdAt'     => $data->created_at->format('d/m/Y'),
+            'updatedAt'     => $data->updated_at->format('d/m/Y'),
         ];
     }
     public function metaGetProductRecomendation($data)

@@ -7,11 +7,12 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Config;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
-class OrderProcessingNotification extends Notification
+class NotifyUpdatePaymentStatusOrder extends Notification
 {
-    use Queueable, Notify;
+    use Queueable,Notify;
 
     /**
      * Create a new notification instance.
@@ -33,18 +34,15 @@ class OrderProcessingNotification extends Notification
     {
         return ['telegram'];
     }
+
     public function toTelegram($notifiable)
     {
-        if($notifiable->orders){
-        
-            $text = $this->textNotificationOrderProcessingTelegram($notifiable);
-          
-            Telegram::sendMessage([
-                'chat_id' => '-1001887941936',
-                'parse_mode' => 'HTML',
-                'text' => $text
-            ]);
-        }
+        $text = $this->textNotifyUpdatePaymentStatusOrder($notifiable);
+        Telegram::sendMessage([
+            'chat_id' => Config::get('telegram.bots.mybot.chat_id'),
+            'parse_mode' => 'HTML',
+            'text' => $text
+        ]);
     }
 
     /**
