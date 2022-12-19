@@ -586,7 +586,7 @@ trait Products
                 $products = Product::where([['name', 'like', "%{$data['request_q']}%"],['status','=',1]])
                     ->orderBy('id',$data['sort'])
                     ->paginate($data['perPage']);
-                if($products){
+                if($products->count() > 0){
                     foreach($products as $item){
                         $items[] = ['merchant_id' => $item->merchant_id];
                     }
@@ -602,7 +602,7 @@ trait Products
                     ],
                     'totalData' => [
                         'products' => $products?$products->total():0,
-                        'merchants'=> $merchants?$merchants->total():0
+                        'merchants'=> $merchants==(object)[]?0:$merchants->total()
                     ]
                 ];
                 break;
@@ -613,7 +613,10 @@ trait Products
                     ->where([['status','=',1]])
                     ->orderBy('id',$data['sort'])
                     ->paginate($data['perPage']);
-                return ['data' => $this->resultFromSearchMerchant($query),'totalData' => $query?$query->total():0];
+                return [
+                    'data' => $this->resultFromSearchMerchant($query->count()>0?$query:(object)[]),
+                    'totalData' => $query?$query->total():0
+                ];
                 break;
             case $data['request_q'] && $data['slugMerchant']:
                 $query = Product::whereHas('merchant',function($q) use ($data){
@@ -676,7 +679,9 @@ trait Products
     }
     public function resultFromSearchMerchant($data)
     {
-        if(count($data) > 0){
+        if($data == (object)[]){
+            return [];
+        } else {
             foreach ($data as $result) {
                 $results[] = [
                     'id' => $result->id,
@@ -693,8 +698,6 @@ trait Products
                 ];
             }
             return $results;
-        } else {
-            return (array)[];
         }
     }
     public function SearchProducts($data)
