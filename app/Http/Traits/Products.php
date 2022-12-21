@@ -583,7 +583,11 @@ trait Products
     {
        switch ($data) {
            case $data['request_q'] && !$data['slugMerchant']:
-                $products = Product::where([['name', 'like', "%{$data['request_q']}%"],['status','=',1]])
+                $products = Product::where([['name', 'like', "%{$data['request_q']}%"]])
+                    ->orWhereHas('merchant',function($q) use ($data){
+                        $q->where([['name', 'like', "%{$data['request_q']}%"],['status','=',1]]);
+                    })
+                    ->where([['status','=',1]])
                     ->orderBy('id',$data['sort'])
                     ->paginate($data['perPage']);
                 if($products->count() > 0){
