@@ -115,6 +115,7 @@ class ProductController extends Controller
             'merchant' => (object)[
                 'id' => $merchant->id,
                 'name' => $merchant->name,
+                'phone' => $merchant->phone,
                 'slug' => $merchant->slug,
                 'lat' => $merchant->latitude,
                 'lng' => $merchant->longitude,
@@ -165,5 +166,5 @@ class ProductController extends Controller
             return response()->json(['status' => 'success','metaData' => $meta,'data'=>$this->resultProductFromSearch($query)]);
         }
     }
-    
+
 }
