@@ -350,6 +350,7 @@ trait Products
                 'merchant' => [
                     'id' => $product->merchant->id,
                     'name' => $product->merchant->name,
+                    'phone' => $product->merchant->phone,
                     'slug' => $product->merchant->slug,
                     'additionalImage' => $product->merchant->additional_image ? json_decode($product->merchant->additional_image) : null,
                     'address' => $product->merchant->address ? $product->merchant->address : null,
@@ -561,7 +562,7 @@ trait Products
     public function sortirDuplicate($data)
     {
         $duplicate_keys = array();
-        $tmp = array();       
+        $tmp = array();
 
         foreach ($data as $key => $val){
             if (is_object($val)){
@@ -650,7 +651,7 @@ trait Products
     }
     public function resultFromSearchProduct($data)
     {
-        if(count($data) > 0){       
+        if(count($data) > 0){
             foreach ($data as $product) {
                 $result[] = [
                     'id' => $product->id,
@@ -697,7 +698,7 @@ trait Products
                     'openingTime' => substr($result->opening_time, 0, 5),
                     'closingTime' => substr($result->closeing_time, 0, 5),
                     'lat'  => $result->latitude,
-                    'lng' => $result->longitude, 
+                    'lng' => $result->longitude,
                     'merchantSpecial' => $result->merchant_special ? $result->merchant_special : null,
                 ];
             }
