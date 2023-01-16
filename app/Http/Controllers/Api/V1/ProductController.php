@@ -116,6 +116,7 @@ class ProductController extends Controller
                 'id' => $merchant->id,
                 'name' => $merchant->name,
                 'phone' => $merchant->phone,
+                'email' => $merchant->email,
                 'slug' => $merchant->slug,
                 'lat' => $merchant->latitude,
                 'lng' => $merchant->longitude,
