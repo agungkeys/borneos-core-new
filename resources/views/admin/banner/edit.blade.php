@@ -35,6 +35,7 @@
                             <div class="form-group">
                                 <label for="type">Type</label>
                                 <select name="type" id="type" class="multiselect-dropdown form-control form-control" required>
+                                    <option {{ $banner->type == 'banner_landing' ? 'selected':'' }} value="banner_landing">Banner Landing</option>
                                     <option {{ $banner->type == 'banner_merchant' ? 'selected':'' }} value="banner_merchant">Banner Merchant</option>
                                     <option {{ $banner->type == 'banner' ? 'selected':'' }} value="banner">Banner</option>
                                 </select>

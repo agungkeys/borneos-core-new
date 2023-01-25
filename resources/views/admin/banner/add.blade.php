@@ -34,6 +34,7 @@
                                 <select name="type" id="type" class="form-control" required>
                                     <option value="banner">Banner</option>
                                     <option value="banner_merchant">Banner Merchant</option>
+                                    <option value="banner_landing">Banner Landing</option>
                                 </select>
                             </div>
                              <div class="form-group">
