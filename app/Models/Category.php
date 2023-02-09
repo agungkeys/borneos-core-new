@@ -15,7 +15,7 @@ class Category extends Model
         'id', 'name', 'slug', 'priority'
     ];
     protected $fillable = [
-        'name', 'slug', 'image', 'additional_image', 'parent_id', 'position', 'priority', 'status'
+        'name', 'slug', 'image', 'additional_image', 'parent_id', 'position', 'priority', 'status', 'image_banner', 'additional_image_banner'
     ];
 
     public function CategoryNameFromSubCategory()

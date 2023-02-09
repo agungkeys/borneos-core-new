@@ -22,11 +22,13 @@ trait Categories
                     'name'  => $c->name,
                     'slug'  => $c->slug,
                     'image' => $c->image,
+                    'image_banner' => $c->image_banner,
                     'parent_id' => $c->parent_id,
                     'position'  => $c->position,
                     'status'    => $c->status,
                     'priority'  => $c->priority,
                     'additional_image' => json_decode($c->additional_image),
+                    'additional_image_banner' => json_decode($c->additional_image_banner),
                     'totalMerchant' => Merchant::where([['category_id', '=', $c->id], ['status', '=', 1]])->count()
                 ];
             }
