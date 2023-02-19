@@ -229,7 +229,7 @@ class CategoryController extends Controller
                 ];
                 $additional_image_banner = json_encode($detail_image_banner);
             } else {
-                $path_name = $request->file('image')->getRealPath();
+                $path_name = $request->file('image_banner')->getRealPath();
                 $image_banner = Cloudinary::upload($path_name, ["folder" => "images/categories", "overwrite" => TRUE, "resource_type" => "image"]);
                 $image_url_banner = $image_banner->getSecurePath();
                 $ext = substr($image_url_banner, -3);
