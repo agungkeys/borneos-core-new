@@ -35,6 +35,7 @@
                                     <option value="banner">Banner</option>
                                     <option value="banner_merchant">Banner Merchant</option>
                                     <option value="banner_landing">Banner Landing</option>
+                                    <option value="banner_potrait">Banner Potrait</option>
                                 </select>
                             </div>
                              <div class="form-group">
