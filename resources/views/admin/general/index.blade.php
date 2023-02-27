@@ -230,7 +230,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="min_charge_per_km">Min Charge Per KM</label>
-                                    <input type="number" class="form-control" name="min_charge_per_km" id="min_charge_per_km" value="{{ $general->min_charge_per_km }}">
+                                    <input type="text" class="form-control" name="min_charge_per_km" id="min_charge_per_km" value="{{ $general->min_charge_per_km }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="delivery_charge_per_km">Delivery Charge Per KM</label>
