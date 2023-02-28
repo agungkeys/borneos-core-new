@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Merchants;
-use App\Models\{Category,Merchant,MerchantGroup,Vendor};
+use App\Models\{Category, Merchant, MerchantGroup, Vendor};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -31,9 +31,9 @@ class MerchantController extends Controller
     }
     public function master_merchant_add()
     {
-        $main_categories = Category::where([['position','=',0],['status','=',1]])->get();
+        $main_categories = Category::where([['position', '=', 0], ['status', '=', 1]])->get();
         $merchant_groups = MerchantGroup::get();
-        return view('admin.merchant.add', compact('main_categories','merchant_groups'));
+        return view('admin.merchant.add', compact('main_categories', 'merchant_groups'));
     }
     public function master_merchant_store(Request $request)
     {
@@ -49,7 +49,7 @@ class MerchantController extends Controller
             'latitude' => 'required',
             'longitude' => 'required',
             'email' => 'required|unique:vendors',
-            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:vendors',
+            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'password' => 'required|min:6',
             'confirmPassword' => 'required|min:6',
             'logo' => 'required|image|mimes:jpeg,png,jpg,svg|max:8192',
@@ -195,8 +195,8 @@ class MerchantController extends Controller
             'master_merchant' => Merchant::find($id),
             'merchant_group' => MerchantGroup::get(),
             'master_merchant_vendor' => Vendor::where('id', $master_merchant->vendor_id)->first(),
-            'categories_position_0' => Category::where([['position','=',0],['status','=',1]])->get(),
-            'categories_position_1' => Category::where([['position','=',1],['parent_id','=',$master_merchant->category_id],['status','=',1]])->get()
+            'categories_position_0' => Category::where([['position', '=', 0], ['status', '=', 1]])->get(),
+            'categories_position_1' => Category::where([['position', '=', 1], ['parent_id', '=', $master_merchant->category_id], ['status', '=', 1]])->get()
         ]);
     }
     public function master_merchant_update(Request $request, $id)
@@ -214,7 +214,7 @@ class MerchantController extends Controller
             'latitude' => 'required',
             'longitude' => 'required',
             'email' => 'required|unique:vendors,email,' . $master_merchant->vendor_id,
-            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:vendors,phone,' . $master_merchant->vendor_id,
+            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'password' => 'nullable|min:6',
             'confirmPassword' => 'nullable|min:6',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:8192',
