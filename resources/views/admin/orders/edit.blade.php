@@ -159,6 +159,10 @@
                               <td>Total Distance Price</td>
                               <td>{{ number_format($order->total_distance_price,0,',','.') }}</td>
                           </tr>
+                          <tr>
+                              <td>Coupon Code</td>
+                              <td> {{ $order->coupon_code }} </td>
+                          </tr>
                       </table>
                   </div>
                   <div class="col-12 col-lg-4 col-md-4 col-sm-12 mt-2">

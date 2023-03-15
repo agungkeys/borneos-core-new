@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    use FormatMeta,Orders;
+    use FormatMeta, Orders;
 
     public function __construct()
     {
@@ -21,10 +21,10 @@ class OrderController extends Controller
     public function get_order_detail(Request $request)
     {
         if (Order::where('prefix', '=', $request->prefix ?? '')->doesntExist()) {
-            return response()->json(['status' => 'error','data' => null]);
+            return response()->json(['status' => 'error', 'data' => null]);
         } else {
-            $order = Order::where('prefix','=',$request->prefix)->get()[0];
-            return response()->json(['status' => 'success','data' => $this->resultOrderDetail($order)]);
+            $order = Order::where('prefix', '=', $request->prefix)->get()[0];
+            return response()->json(['status' => 'success', 'data' => $this->resultOrderDetail($order)]);
         }
     }
 
@@ -52,6 +52,7 @@ class OrderController extends Controller
             'payment_status' => $request->paymentStatus,
             'status' => $request->status ?? 'new',
             'status_notes' => $request->statusNotes ?? '',
+            'coupon_code' => $request->couponCode ?? '',
         ]);
         if ($request->data) {
             foreach ($request->data as $data) {
@@ -63,7 +64,7 @@ class OrderController extends Controller
                     'product_discount'         => $data['productDiscount'] == null ? 0 : $data['productDiscount'],
                     'product_discount_type'    => $data['productDiscountType'] == null ? '' : $data['productDiscountType'],
                     'product_image'            => $data['productImage'] ? $data['productImage'] : '',
-                    'product_image_additional' => $data['productImageAdditional'] ? json_encode($data['productImageAdditional']): '',
+                    'product_image_additional' => $data['productImageAdditional'] ? json_encode($data['productImageAdditional']) : '',
                     'product_qty'              => $data['productQty'],
                     'product_total_price'      => $data['productTotalPrice'],
                     'notes'                    => $data['notes'] == null ? '' : $data['notes']
@@ -77,9 +78,9 @@ class OrderController extends Controller
     public function update_order(Request $request)
     {
         if (Order::where('prefix', '=', $request->prefix ?? '')->doesntExist()) {
-            return response()->json(['status' => 'error','data' => null]);
+            return response()->json(['status' => 'error', 'data' => null]);
         } else {
-            $order = Order::where('prefix','=',$request->prefix)->get()[0];
+            $order = Order::where('prefix', '=', $request->prefix)->get()[0];
             $order->update([
                 'payment_id' => $request->paymentId ? $request->paymentId : $order->payment_id,
                 'payment_type' => $request->paymentType ? $request->paymentType : $order->payment_type,
@@ -87,10 +88,10 @@ class OrderController extends Controller
                 'payment_account_number' => $request->paymentAccountNumber ? $request->paymentAccountNumber : $order->payment_account_number,
                 'payment_status' => $request->paymentStatus ? $request->paymentStatus : $order->payment_status
             ]);
-            if($order->payment_status == 'paid'){
+            if ($order->payment_status == 'paid') {
                 (new \App\Notifications\NotifyUpdatePaymentStatusOrder())->toTelegram($order);
             }
-            return response()->json(['status' => 'success','data' => $this->resultOrderDetail($order)]);
+            return response()->json(['status' => 'success', 'data' => $this->resultOrderDetail($order)]);
         }
     }
 }
