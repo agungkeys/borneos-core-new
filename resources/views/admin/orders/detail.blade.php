@@ -155,6 +155,10 @@
                               <td>Total Distance Price</td>
                               <td>{{ number_format($order->total_distance_price,0,',','.') }}</td>
                           </tr>
+                          <tr>
+                              <td>Coupon Code</td>
+                              <td> {{ $order->coupon_code }} </td>
+                          </tr>
                       </table>
                   </div>
                   <div class="col-12 col-lg-4 col-md-4 col-sm-12 mt-2">
@@ -277,7 +281,7 @@
                             <input type="text" name="payment_account_number" id="payment_account_number" class="form-control" readonly>
                         </div>
                     </div>
-                   
+
                </div>
                 <div class="text-right mt-2">
                     <a href="/admin/orders" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
