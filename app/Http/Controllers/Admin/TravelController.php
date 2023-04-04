@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Travel;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class TravelController extends Controller
 {
@@ -60,6 +61,17 @@ class TravelController extends Controller
     public function travel_show($id)
     {
         //
+        $travel = Travel::findOrFail($id);
+        return view('admin.travel.detail', compact('travel'));
+    }
+
+    public function travel_approved(Request $request, $id)
+    {
+        $travel = Travel::findOrFail($id);
+        $travel->approved_at = date('Y-m-d H:i:s');
+        $travel->save();
+        Alert::success('Success', 'Approved Success');
+        return redirect()->route('admin.travel.index');
     }
 
     /**
@@ -71,6 +83,8 @@ class TravelController extends Controller
     public function travel_edit($id)
     {
         //
+        $travel = Travel::findOrFail($id);
+        return view('admin.travel.edit', compact('travel'));
     }
 
     /**

@@ -41,20 +41,18 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table" id="bannerTable">
+                    <table class="table table-striped table-bordered table-hover" id="bannerTable">
                         <thead>
                             <tr>
                                 <th>@sortablelink('id', 'ID')</th>
                                 <th>Prefix</th>
                                 <th>Fullname</th>
-                                <th>Telp</th>
-                                <th>Full Address</th>
                                 <th>@sortablelink('sub_district', 'Sub District')</th>
                                 <th>@sortablelink('district', 'District')</th>
                                 <th>Route</th>
                                 <th>@sortablelink('seat_no', 'Seat Number')</th>
-                                <th>URL ID Card</th>
-                                <th>URL ID Vaccine</th>
+                                {{-- <th>URL ID Card</th>
+                                <th>URL ID Vaccine </th> --}}
                                 <th>Approved at</th>
                                 <th>Action</th>
                             </tr>
@@ -69,21 +67,26 @@
 
                             @foreach ($travels as $travel )
                                 <tr>
-                                    <td>{{ $travel->id }}</td>
+                                    <td>  <a href="{{ route('admin.travel.show',$travel->id) }}"> {{ $travel->id }} </a></td>
                                     <td>{{ $travel->prefix ? $travel->prefix : '-' }}</td>
                                     <td>{{ $travel->fullname ? $travel->fullname : "-" }}</td>
-                                    <td>{{ $travel->telp ? $travel->telp : "-" }}</td>
-                                    <td>{{ $travel->full_address ? $travel->full_address : "-" }}</td>
                                     <td>{{ $travel->sub_district ? $travel->sub_district : "-" }}</td>
                                     <td>{{ $travel->district ? $travel->district : "-" }}</td>
                                     <td>{{ $travel->route ? $travel->route : "-" }}</td>
                                     <td>{{ $travel->seat_no ? $travel->seat_no : "-" }}</td>
-                                    <td>{{ $travel->url_idcard ? $travel->url_idcard : "-" }}</td>
-                                    <td>{{ $travel->url_idvaccine ? $travel->url_idvaccine : "-" }}</td>
-                                    <td>{{ $travel->approved_at ? $travel->approved_at : "-" }}</td>
+                                    <td>{!! $travel->approved_at ? \Carbon\Carbon::parse($travel->approved_at)->toDayDateTimeString() : '<p class="text-danger font-weight-bold">Not Approved</p>' !!} </td>
                                     <td>
-                                         <a href="{{ route('admin.banner.edit',$travel) }}" class="btn btn-warning btn-sm"><i style="font-size: 14px" class="text-white pe-7s-note"></i></a>
-                                        <button type="button" onclick="delete_banner({{$travel->id}})" class="btn btn-danger btn-sm"><i style="font-size: 14px" class="pe-7s-trash"></i></button>
+                                        <div class="dropdown d-inline-block">
+                                            <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-dark">Actions</button>
+                                            <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 33px, 0px);">
+                                                @if ($travel->seat_no && $travel->approved_at)
+                                                    <a href="{{ route('admin.travel.show',$travel) }}" class="dropdown-item"><i style="font-size: 14px" class="dropdown-icon fa fa-check text-success"></i>Send Ticket to Customer</a>
+                                                @endif
+                                                <a href="{{ route('admin.travel.show',$travel->id) }}" class="dropdown-item"><i style="font-size: 14px" class="dropdown-icon text-primary pe-7s-note2"></i>Detail</a>
+                                                <a href="{{ route('admin.travel.edit',$travel->id) }}" class="dropdown-item"><i style="font-size: 14px" class="dropdown-icon text-warning pe-7s-note"></i>Edit</a>
+                                               <button type="button" onclick="delete_banner({{$travel->id}})" class="dropdown-item"><i style="font-size: 14px" class="pe-7s-trash text-danger mr-2"></i>Delete</button>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

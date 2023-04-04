@@ -192,11 +192,13 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::delete('/blog-category/{category:id}', 'BlogCategoryController@master_categoryBlog_delete')->name('blog-category.delete');
 
         // travels
-        Route::get('/travels', 'TravelController@travel_index')->name('travel.index');
-        Route::get('/travels/create', 'TravelController@travel_create')->name('travel.create');
-        Route::post('/travels/store', 'TravelController@travel_store')->name('travel.store');
-        Route::get('/travels/edit/{id}', 'TravelController@travel_edit')->name('travel.edit');
-        Route::put('/travels/update/{id}', 'TravelController@travel_update')->name('travel.update');
-        Route::delete('/travels/delete/{id}', 'TravelController@travel_destroy')->name('travel.delete');
+        Route::get('/travel', 'TravelController@travel_index')->name('travel.index');
+        Route::get('/travel/create', 'TravelController@travel_create')->name('travel.create');
+        Route::post('/travel/store', 'TravelController@travel_store')->name('travel.store');
+        Route::get('/travel/{id}', 'TravelController@travel_show')->name('travel.show');
+        Route::post('/travel/{id}', 'TravelController@travel_approved')->name('travel.approved');
+        Route::get('/travel/edit/{id}', 'TravelController@travel_edit')->name('travel.edit');
+        Route::put('/travel/update/{id}', 'TravelController@travel_update')->name('travel.update');
+        Route::delete('/travel/delete/{id}', 'TravelController@travel_destroy')->name('travel.delete');
     });
 });

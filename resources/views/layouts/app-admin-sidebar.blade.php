@@ -61,7 +61,7 @@
               <a class="master-admin {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-admin' ? 'mm-active' : '' }}" href="{{ route('admin.master-user') }}" ><i class="metismenu-icon pe-7s-users"></i>User Admin</a>
             </li>
             <li>
-              <a class="master-admin {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-admin' ? 'mm-active' : '' }}" href="{{ route('admin.travel.index') }}" ><i class="metismenu-icon pe-7s-plane"></i>Travels</a>
+              <a class="master-admin {{ count(request()->segments()) > 1 && request()->segments()[1] == 'travel' ? 'mm-active' : '' }}" href="{{ route('admin.travel.index') }}" ><i class="metismenu-icon pe-7s-plane"></i>Travels</a>
             </li>
             <li class="app-sidebar__heading">Blog</li>
             <li>
