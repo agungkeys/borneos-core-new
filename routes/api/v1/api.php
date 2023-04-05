@@ -47,6 +47,7 @@ Route::group(['namespace' => 'Api\V1'], function () {
 
     Route::group(['prefix' => 'travel'], function () {
         Route::get('/{slug}', 'TravelController@get_travel_detail');
+        Route::get('/count', 'TravelController@get_travel_route');
         Route::post('/', 'TravelController@travel_store');
     });
 });
