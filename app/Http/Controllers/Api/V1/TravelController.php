@@ -53,4 +53,41 @@ class TravelController extends Controller
             }
         }
     }
+
+    public function get_travel_route(Request $request)
+    {
+
+        if ($request->header('tokenb') === env('tokenb')) {
+
+            // $btgBpnMorning = Travel::where('route', 'BTG-BPN-PAGI')->count();
+            // // $btgBpnNight = Travel::where('route', 'BTG-BPN-MALAM')->count();
+            // // $btgSmd = Travel::where('route', 'BTG-SMD-PAGI')->count();
+            // // $smdBjm = Travel::where('route', 'SMD-BJM-SIANG')->count();
+
+            // // dd($btgBpnMorning);
+
+            $travelsCount = (object)[
+                'btgBpnPagi'  => Travel::where(['route' => 'BTG-BPN-PAGI'])->count(),
+                'btnBpnMalam' => Travel::where(['route' => 'BTG-BPN-MALAM'])->count(),
+                'btgSmdPagi'  => Travel::where(['route' => 'BTG-SMD-PAGI'])->count(),
+                'smdBjmSiang' => Travel::where(['route' => 'SMD-BJM-SIANG'])->count(),
+            ];
+
+            return response()->json(['status' => 'success', 'data' => $travelsCount]);
+
+            // return response()->json([
+            //     'status' => 'success', 'data' => [
+            //         // 'btgBpnPagi' => 0,
+            //         // 'btgBpnMalam' => 0,
+            //         // 'btgSmdPagi' => 0,
+            //         // 'smdBjmSiang' => 0,
+
+            //         'btgBpnPagi' => $btgBpnMorning,
+            //         // 'btgBpnMalam' => $btgBpnNight,
+            //         // 'btgSmdPagi' => $btgSmd,
+            //         // 'smdBjmSiang' => $smdBjm,
+            //     ]
+            // ]);
+        }
+    }
 }
