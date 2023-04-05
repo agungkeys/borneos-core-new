@@ -26,7 +26,7 @@ class TravelController extends Controller
     {
         if ($request->header('tokenb') === env('tokenb')) {
             $travel = Travel::create([
-                'prefix' => Str::random(10),
+                'prefix' => Str::random(5),
                 'fullname' => $request->fullname ?? '',
                 'telp' => $request->telp ?? '',
                 'full_address' => $request->fullAddress ?? '',

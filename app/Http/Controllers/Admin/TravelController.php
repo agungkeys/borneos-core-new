@@ -97,6 +97,32 @@ class TravelController extends Controller
     public function travel_update(Request $request, $id)
     {
         //
+
+    }
+
+    public function travel_update_ktp(Request $request)
+    {
+        $travel = Travel::withoutGlobalScopes()->find($request->id);
+        $travel->ktp = $request->ktp;
+        $travel->save();
+        Alert::success('Success', 'Data Created Successfully');
+        return redirect()->route('admin.travel.index');
+    }
+    public function travel_update_kk(Request $request)
+    {
+        $travel = Travel::withoutGlobalScopes()->find($request->id);
+        $travel->kk = $request->kk;
+        $travel->save();
+        Alert::success('Success', 'Data Created Successfully');
+        return redirect()->route('admin.travel.index');
+    }
+    public function travel_update_vaccine(Request $request)
+    {
+        $travel = Travel::withoutGlobalScopes()->find($request->id);
+        $travel->vaccine = $request->vaccine;
+        $travel->save();
+        Alert::success('Success', 'Data Created Successfully');
+        return redirect()->route('admin.travel.index');
     }
 
     /**

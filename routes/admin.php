@@ -196,9 +196,12 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('/travel/create', 'TravelController@travel_create')->name('travel.create');
         Route::post('/travel/store', 'TravelController@travel_store')->name('travel.store');
         Route::get('/travel/{id}', 'TravelController@travel_show')->name('travel.show');
-        Route::post('/travel/{id}', 'TravelController@travel_approved')->name('travel.approved');
+        Route::get('/travel/approve/{id}', 'TravelController@travel_approved')->name('travel.approve');
         Route::get('/travel/edit/{id}', 'TravelController@travel_edit')->name('travel.edit');
         Route::put('/travel/update/{id}', 'TravelController@travel_update')->name('travel.update');
         Route::delete('/travel/delete/{id}', 'TravelController@travel_destroy')->name('travel.delete');
+        Route::get('/travel/ktp/{id}/{ktp}', 'TravelController@travel_update_ktp')->name('travel.update.ktp');
+        Route::get('/travel/kk/{id}/{kk}', 'TravelController@travel_update_kk')->name('travel.update.kk');
+        Route::get('/travel/vaccine/{id}/{vaccine}', 'TravelController@travel_update_vaccine')->name('travel.update.vaccine');
     });
 });

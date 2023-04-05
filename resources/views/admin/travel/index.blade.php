@@ -53,6 +53,9 @@
                                 <th>@sortablelink('seat_no', 'Seat Number')</th>
                                 {{-- <th>URL ID Card</th>
                                 <th>URL ID Vaccine </th> --}}
+                                <th>KTP</th>
+                                <th>KK</th>
+                                <th>Vaccine</th>
                                 <th>Approved at</th>
                                 <th>Action</th>
                             </tr>
@@ -74,6 +77,21 @@
                                     <td>{{ $travel->district ? $travel->district : "-" }}</td>
                                     <td>{{ $travel->route ? $travel->route : "-" }}</td>
                                     <td>{{ $travel->seat_no ? $travel->seat_no : "-" }}</td>
+                                    <td>
+                                        <label class="m-auto align-middle" for="favoriteCheckboxKTP{{$travel->id}}">
+                                            <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.travel.update.ktp',[$travel['id'],$travel->ktp ? 0 : 1])}}'" id="favoriteCheckboxKTP{{$travel->id}}" {{$travel->ktp?'checked':''}}>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="m-auto align-middle" for="favoriteCheckboxKK{{$travel->id}}">
+                                            <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.travel.update.kk',[$travel['id'],$travel->kk?0:1])}}'" id="favoriteCheckboxKK{{$travel->id}}" {{$travel->kk?'checked':''}}>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="m-auto align-middle" for="favoriteCheckboxVaccine{{$travel->id}}">
+                                            <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.travel.update.vaccine',[$travel['id'],$travel->vaccine?0:1])}}'" id="favoriteCheckboxVaccine{{$travel->id}}" {{$travel->vaccine?'checked':''}}>
+                                        </label>
+                                    </td>
                                     <td>{!! $travel->approved_at ? \Carbon\Carbon::parse($travel->approved_at)->toDayDateTimeString() : '<p class="text-danger font-weight-bold">Not Approved</p>' !!} </td>
                                     <td>
                                         <div class="dropdown d-inline-block">
