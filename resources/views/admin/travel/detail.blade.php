@@ -32,8 +32,8 @@
                             <th>District</th>
                             <th>Route</th>
                             <th>Seat No.</th>
-                            <th>URL ID Card</th>
-                            <th>URL ID Vaccine </th>
+                            {{-- <th>URL ID Card</th>
+                            <th>URL ID Vaccine </th> --}}
                             <th>Approved at</th>
                         </thead>
                         <tbody>
@@ -47,8 +47,8 @@
                                 <td>{{ $travel->district ? $travel->district : "-" }}</td>
                                 <td>{{ $travel->route ? $travel->route : "-" }}</td>
                                 <td>{{ $travel->seat_no ? $travel->seat_no : "-" }}</td>
-                                <td>{{ $travel->url_idcard ? $travel->url_idcard : "-" }}</td>
-                                <td>{{ $travel->url_idvaccine ? $travel->url_idvaccine : "-" }}</td>
+                                {{-- <td>{{ $travel->url_idcard ? $travel->url_idcard : "-" }}</td>
+                                <td>{{ $travel->url_idvaccine ? $travel->url_idvaccine : "-" }}</td> --}}
                                 <td>{!! $travel->approved_at ? $travel->approved_at : '<p class="text-danger font-weight-bold">Not Approved</p>' !!} </td>
                             </tr>
                         </tbody>

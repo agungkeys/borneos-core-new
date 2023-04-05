@@ -25,6 +25,7 @@
                         <form action="{{ route('admin.travel.update', $travel->id) }}" method="POST" enctype="multipart/form-data">
                             @method('PUT')
                             @csrf
+
                             <div class="form-group">
                                 <label for="prefix">Prefix</label>
                                 <input type="text" class="form-control" name="prefix" id="prefix" value="{{ $travel->prefix }}" readonly>
@@ -64,21 +65,13 @@
                                     <span class="text-danger mt-2">{{ $message }}</span>
                                 @enderror
                             </div>
-
-                            @if ($travel->approved_at == !null)
-                                <div class="form-group">
-                                    <label for="approved">Approved</label>
-                                    <label class="m-auto align-middle" for="statusCheckbox{{$travel->id}}">
-                                        <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.travel.approved', $travel->id)}}'" id="statusCheckbox{{$travel->id}}" {{$travel->approved ? 'checked' : ''}}>
-                                    </label>
-                                </div>
-                            @endif
                             <div class="form-group">
                                 <label for="route">Route</label>
                                 <select name="route" id="route" class="multiselect-dropdown form-control form-control" required>
-                                    <option {{ $travel->route === 'BTG-SMD' ? 'selected':'' }} value="BTG-SMD"> Bontang - Samarinda </option>
-                                    <option {{ $travel->route === 'BTG-BPN' ? 'selected':'' }} value="BTG-BPN"> Bontang - Balikpapan </option>
-                                    <option {{ $travel->route === 'SMD-BJM' ? 'selected':'' }} value="SMD-BJM"> Samarinda - Banjarmasin </option>
+                                    <option {{ $travel->route === 'BTG-BPN-PAGI' ? 'selected':'' }} value="BTG-BPN-PAGI"> Bontang - Balikpapan 06:00 Pagi </option>
+                                    <option {{ $travel->route === 'BTG-SMD-PAGI' ? 'selected':'' }} value="BTG-SMD-PAGI"> Bontang - Samarinda 06:00 Pagi </option>
+                                    <option {{ $travel->route === 'BTG-BPN-MALAM' ? 'selected':'' }} value="BTG-BPN-MALAM"> Bontang - Balikpapan 22:00 Malam </option>
+                                    <option {{ $travel->route === 'SMD-BJM-SIANG' ? 'selected':'' }} value="SMD-BJM-SIANG"> Samarinda - Banjarmasin 12:00 Siang </option>
                                 </select>
                                 @error('seat_no')
                                 <span class="text-danger mt-2">{{ $message }}</span>
@@ -93,7 +86,7 @@
                                     <span class="text-danger mt-2">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="url_idcard">URL ID Card</label>
                                 <input type="text" class="form-control" name="url_idcard" id="url_idcard" value="{{ $travel->url_idcard }}">
                                  @error('url_idcard')
@@ -106,7 +99,20 @@
                                  @error('url_idvaccine')
                                     <span class="text-danger mt-2">{{ $message }}</span>
                                 @enderror
-                            </div>
+                            </div> --}}
+                                {{-- <div class="form-group">
+                                    <label for="approved" class="font-weight-bold">Approve Ticket</label>
+                                    <label class="m-auto align-middle" for="statusCheckbox{{$travel->id}}">
+                                        <input type="checkbox" data-toggle="toggle" data-size="small" onChange="location.href='{{route('admin.travel.approved', $travel->id)}}'" id="statusCheckbox{{$travel->id}}" {{$travel->approved ? 'checked' : ''}}>
+                                    </label>
+                                </div> --}}
+                                <div class="form-group">
+                                    <label>Approved Ticket</label><br>
+                                    <label class="m-auto align-middle" for="favorite">
+                                        <input type="checkbox" data-toggle="toggle" data-size="normal" name="favorite" id="favorite" {{ $travel->approved_at ? 'checked':'' }}>
+                                    </label>
+                                </div>
+
                             <div class="text-right mt-2">
                                 <a href="{{ route('admin.travel.index') }}" class="mb-2 mr-2 btn btn-icon btn-light btn-lg"><i class="pe-7s-back btn-icon-wrapper"></i>Back</a>
                                 <button type="submit" class="mb-2 mr-2 btn btn-icon btn-primary btn-lg"><i class="pe-7s-diskette btn-icon-wrapper"></i>Update</button>
