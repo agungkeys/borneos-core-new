@@ -17,6 +17,15 @@ class TravelController extends Controller
     public function travel_index(Request $request)
     {
         //
+
+        $travelsCount = (object)[
+            'btgBpnPagi'  => Travel::where(['route' => 'BTG-BPN-PAGI'])->count(),
+            'btnBpnMalam' => Travel::where(['route' => 'BTG-BPN-MALAM'])->count(),
+            'btgSmdPagi'  => Travel::where(['route' => 'BTG-SMD-PAGI'])->count(),
+            'smdBjmSiang' => Travel::where(['route' => 'SMD-BJM-SIANG'])->count(),
+            'all'        => Travel::count()
+        ];
+
         $filter = $request->query('filter');
         if (!empty($filter)) {
             $travels = Travel::sortable()
@@ -28,7 +37,7 @@ class TravelController extends Controller
         } else {
             $travels = Travel::sortable()->paginate(10);
         }
-        return view('admin.travel.index', compact('travels', 'filter'));
+        return view('admin.travel.index', compact('travels', 'filter', 'travelsCount'));
     }
 
     /**

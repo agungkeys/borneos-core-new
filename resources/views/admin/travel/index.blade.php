@@ -10,8 +10,78 @@
                     </div>
                     <div>List Travels <span class="badge badge-pill badge-primary">{{ number_format($travels->total(), 0, "", ".") }}</span></div>
                 </div>
-                <div class="page-title-actions">
-                    <a href="{{ route('admin.banner.create') }}" class="btn-shadow btn btn-info btn-lg">Add Travel</a>
+                <div class="mx-4 mt-4 main-card mb-3 card">
+                <div class="no-gutters row">
+                    <div class="col-md-2 col-xl-2">
+                    <div class="widget-content">
+                        <div class="widget-content-wrapper">
+                        <div class="widget-content-right ml-0 mr-3">
+                            <div class="widget-numbers text-primary">{{ $travelsCount->btgBpnPagi }}</div>
+                        </div>
+                        <div class="widget-content-left">
+                            <div class="widget-heading"> Rute Bontang Balikpapan (Pagi) </div>
+
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="col-md-2 col-xl-2">
+                    <div class="widget-content">
+                        <div class="widget-content-wrapper">
+                        <div class="widget-content-right ml-0 mr-3">
+                            <div class="widget-numbers text-info">{{ $travelsCount->btnBpnMalam }}</div>
+                        </div>
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Rute Bontang Balikpapan (Malam)</div>
+
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="col-md-2 col-xl-2">
+                    <div class="widget-content">
+                        <div class="widget-content-wrapper">
+                        <div class="widget-content-right ml-0 mr-3">
+                            <div class="widget-numbers text-dark">{{ $travelsCount->btgSmdPagi }}</div>
+                        </div>
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Rute Bontang Samarinda (Pagi)</div>
+
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="col-md-2 col-xl-2">
+                    <div class="widget-content">
+                        <div class="widget-content-wrapper">
+                        <div class="widget-content-right ml-0 mr-3">
+                            <div class="widget-numbers text-success">{{ $travelsCount->smdBjmSiang }}</div>
+                        </div>
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Rute Samarinda Banjarmasin (Siang)</div>
+
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="col-md-2 col-xl-2">
+                    <div class="widget-content">
+                        <div class="widget-content-wrapper">
+                        <div class="widget-content-right ml-0 mr-3">
+                            <div class="widget-numbers text-alternate">{{ $travelsCount->all }}</div>
+                        </div>
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Semua Rute</div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+
+                </div>
                 </div>
             </div>
         </div>
