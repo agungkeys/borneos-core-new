@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\Travels;
 use App\Models\Travel;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class TravelController extends Controller
 {
+    use Travels;
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +19,6 @@ class TravelController extends Controller
     public function travel_index(Request $request)
     {
         //
-
         $travelsCount = (object)[
             'btgBpnPagi'  => Travel::where(['route' => 'BTG-BPN-PAGI'])->count(),
             'btnBpnMalam' => Travel::where(['route' => 'BTG-BPN-MALAM'])->count(),
@@ -27,17 +28,31 @@ class TravelController extends Controller
         ];
 
         $filter = $request->query('filter');
+        $route = $request->query('route');
+
         if (!empty($filter)) {
-            $travels = Travel::sortable()
-                ->where('travel.id', 'like', '%' . $filter . '%')
-                ->orWhere('travel.seat_no', 'like', '%' . $filter . '%')
-                ->orWhere('travel.district', 'like', '%' . $filter . '%')
-                ->orWhere('travel.sub_district', 'like', '%' . $filter . '%')
-                ->paginate(10);
+            if (!empty($route)) {
+                $travels = Travel::sortable()
+                    ->orWhere('fullname', 'like', '%' . $filter . '%')
+                    ->where('route', '=', $route)
+                    ->paginate(10);
+            } else {
+                $travels = Travel::sortable()
+                    ->where('id', 'like', '%' . $filter . '%')
+                    ->orWhere('fullname', 'like', '%' . $filter . '%')
+                    // ->orWhere('route', '=', $route)
+                    ->paginate(10);
+            }
         } else {
-            $travels = Travel::sortable()->paginate(10);
+            if (!empty($route)) {
+                $travels = Travel::sortable()
+                    ->where('route', '=', $route)
+                    ->paginate(10);
+            } else {
+                $travels = Travel::sortable()->paginate(10);
+            }
         }
-        return view('admin.travel.index', compact('travels', 'filter', 'travelsCount'));
+        return view('admin.travel.index', compact('travels', 'filter', 'travelsCount', 'route'));
     }
 
     /**
@@ -106,7 +121,23 @@ class TravelController extends Controller
     public function travel_update(Request $request, $id)
     {
         //
+        // dd($request);
 
+        $travel = Travel::find($id);
+
+        $travel->update([
+            'fullname' => $request->fullname,
+            'telp' => $request->telp,
+            'full_address' => $request->full_address,
+            'sub_district' => $request->sub_district,
+            'district' => $request->district,
+            'route' => $request->routes,
+            'seat_no' => $request->seat_no,
+            'approved_at' => $request->approve ?  date('Y-m-d H:i:s') : null,
+        ]);
+
+        Alert::success('Updated', 'Updated Successfully');
+        return redirect()->route('admin.travel.index');
     }
 
     public function travel_update_ktp(Request $request)

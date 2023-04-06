@@ -68,4 +68,18 @@ trait Travels
         }
         return $results;
     }
+
+    public function FilterRoute($data)
+    {
+        $route = $data['route'];
+
+        if ($route == null) {
+            $travel = Travel::sortable()->paginate(10);
+            return $travel;
+        } else {
+            $travel = Travel::sortable()->where('route', '=',  $route)->paginate(10);
+            // dd($travel);
+            return $travel;
+        }
+    }
 }
