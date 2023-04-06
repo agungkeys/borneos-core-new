@@ -67,7 +67,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="route">Route</label>
-                                <select name="route" id="route" class="multiselect-dropdown form-control form-control" required>
+                                <select name="routes" id="routes" class="multiselect-dropdown form-control form-control" required>
                                     <option {{ $travel->route === 'BTG-BPN-PAGI' ? 'selected':'' }} value="BTG-BPN-PAGI"> Bontang - Balikpapan 06:00 Pagi </option>
                                     <option {{ $travel->route === 'BTG-SMD-PAGI' ? 'selected':'' }} value="BTG-SMD-PAGI"> Bontang - Samarinda 06:00 Pagi </option>
                                     <option {{ $travel->route === 'BTG-BPN-MALAM' ? 'selected':'' }} value="BTG-BPN-MALAM"> Bontang - Balikpapan 22:00 Malam </option>
@@ -79,8 +79,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="seat_no">Seat No.</label>
-                                <select name="seat_no" id="seat_no" class="multiselect-dropdown form-control form-control" required>
-                                    <option {{ $travel->seat_no ? 'selected':'' }} value="{{ $travel->seat_no }}"> {{ $travel->seat_no }} </option>
+                                <select name="seat_no" id="seat_no" class=" form-control form-control">
+                                    <option value="">Select Seat</option>
+                                        @for ($i = 1; $i <= 40; $i++)
+                                        <option {{ $travel->seat_no == $i ? 'selected':'' }} value="{{ $i}}"> {{ $i }} </option>
+                                        @endfor
                                 </select>
                                 @error('seat_no')
                                     <span class="text-danger mt-2">{{ $message }}</span>
@@ -109,7 +112,7 @@
                                 <div class="form-group">
                                     <label>Approved Ticket</label><br>
                                     <label class="m-auto align-middle" for="favorite">
-                                        <input type="checkbox" data-toggle="toggle" data-size="normal" name="favorite" id="favorite" {{ $travel->approved_at ? 'checked':'' }}>
+                                        <input type="checkbox" data-toggle="toggle" data-size="normal" name="approve" id="approve" {{ $travel->approved_at ? 'checked':'' }}>
                                     </label>
                                 </div>
 

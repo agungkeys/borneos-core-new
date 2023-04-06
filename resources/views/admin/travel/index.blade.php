@@ -88,28 +88,43 @@
 
         <div class="main-card mb-3 card">
             <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-12 col-md-5">
-                        <div class="d-flex">
-                            <form class="form-inline" method="GET">
-                                <div class="input-group">
+                <form method="GET">
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
                                         <i class="fa fa-search fa-w-16 "></i>
                                         </div>
                                     </div>
-                                    <input id="filter" name="filter" value="{{ $filter }}" placeholder="Search" type="text" class="form-control" style="color: gray;" autocomplete="off">
-                                    <div class="input-group-prepend">
+                                    <input id="filter" name="filter" value="{{ $filter }}" placeholder="Cari Nama" type="text" class="form-control" style="color: gray;" autocomplete="off">
+                                    {{-- <div class="input-group-prepend">
                                         <button type="submit" class="btn btn-primary btn-md">Search</button>
-                                    </div>
+                                    </div> --}}
                                 </div>
-                            </form>
-                            <form class="form-inline" method="GET">
-                                <button class="btn btn-light btn-lg ml-2">Clear</button>
-                            </form>
                         </div>
+                        <div class="col-12 col-md-2">
+                            <div class="d-flex">
+                                <div class="input-group w-100">
+                                    <select name="route" id="route" class="form-control">
+                                        <option disabled selected>Pilih Rute</option>
+                                        <option {{ $route == 'BTG-BPN-MALAM' ? 'selected':'' }}  value="BTG-BPN-MALAM">Bontang Balikpapan MALAM</>
+                                        <option {{ $route == 'BTG-BPN-PAGI' ? 'selected':'' }}   value="BTG-BPN-PAGI">Bontang Balikpapan PAGI</option>
+                                        <option {{ $route == 'BTG-SMD-PAGI' ? 'selected':'' }}  value="BTG-SMD-PAGI">Bontang Samarinda PAGI</option>
+                                        <option {{ $route == 'SMD-BJM-SIANG' ? 'selected':'' }}  value="SMD-BJM-SIANG">Samarinda Banjarmasin SIANG</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
+                        <div class="d-flex">
+                            <a href="/admin/travel" class="btn btn-light btn-lg mr-2">Clear</a>
+                            <button type="submit" class="btn btn-primary btn-md">Search</button>
+                        </div>
+                        </div>
+
                     </div>
-                </div>
+                </form>
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover" id="bannerTable">
                         <thead>
@@ -117,6 +132,7 @@
                                 <th>@sortablelink('id', 'ID')</th>
                                 <th>Prefix</th>
                                 <th>Fullname</th>
+                                <th>Telp</th>
                                 <th>@sortablelink('sub_district', 'Sub District')</th>
                                 <th>@sortablelink('district', 'District')</th>
                                 <th>Route</th>
@@ -143,6 +159,7 @@
                                     <td>  <a href="{{ route('admin.travel.show',$travel->id) }}"> {{ $travel->id }} </a></td>
                                     <td>{{ $travel->prefix ? $travel->prefix : '-' }}</td>
                                     <td>{{ $travel->fullname ? $travel->fullname : "-" }}</td>
+                                    <td>{{ $travel->telp ? $travel->telp : "-" }}</td>
                                     <td>{{ $travel->sub_district ? $travel->sub_district : "-" }}</td>
                                     <td>{{ $travel->district ? $travel->district : "-" }}</td>
                                     <td>{{ $travel->route ? $travel->route : "-" }}</td>
@@ -172,7 +189,7 @@
                                                 @endif
                                                 <a href="{{ route('admin.travel.show',$travel->id) }}" class="dropdown-item"><i style="font-size: 14px" class="dropdown-icon text-primary pe-7s-note2"></i>Detail</a>
                                                 <a href="{{ route('admin.travel.edit',$travel->id) }}" class="dropdown-item"><i style="font-size: 14px" class="dropdown-icon text-warning pe-7s-note"></i>Edit</a>
-                                               <button type="button" onclick="delete_banner({{$travel->id}})" class="dropdown-item"><i style="font-size: 14px" class="pe-7s-trash text-danger mr-2"></i>Delete</button>
+                                               {{-- <button type="button" onclick="delete_banner({{$travel->id}})" class="dropdown-item"><i style="font-size: 14px" class="pe-7s-trash text-danger mr-2"></i>Delete</button> --}}
                                             </div>
                                         </div>
                                     </td>
