@@ -117,6 +117,17 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-2">
+                            <div class="d-flex">
+                                <div class="input-group w-100">
+                                    <select name="approval" id="approval" class="form-control">
+                                        <option disabled selected>Pilih Approval</option>
+                                        <option {{ $approval === 'approved' ? 'selected':'' }}  value="approved">Sudah Approved</>
+                                        <option {{ $approval === 'not-approved' ? 'selected':'' }}   value="not-approved">Belum Approved</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
                         <div class="d-flex">
                             <a href="/admin/travel" class="btn btn-light btn-lg mr-2">Clear</a>
                             <button type="submit" class="btn btn-primary btn-md">Search</button>
@@ -185,8 +196,9 @@
                                             <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-dark">Actions</button>
                                             <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 33px, 0px);">
                                                 @if ($travel->seat_no && $travel->approved_at)
-                                                    <a href="{{ route('admin.travel.show',$travel) }}" class="dropdown-item"><i style="font-size: 14px" class="dropdown-icon fa fa-check text-success"></i>Send Ticket to Customer</a>
+                                                    <a href="{{ route('admin.travel.send-ticket',$travel->id) }}" target="__blank" class="dropdown-item"><i style="font-size: 14px" class="dropdown-icon fa fa-check text-success"></i>Send Ticket to Customer</a>
                                                 @endif
+                                                <a href="{{ route('admin.travel.send-confirmation',$travel->id) }}" target="__blank" class="dropdown-item"><i style="font-size: 14px" class="dropdown-icon text-primary pe-7s-chat"></i>Confirm</a>
                                                 <a href="{{ route('admin.travel.show',$travel->id) }}" class="dropdown-item"><i style="font-size: 14px" class="dropdown-icon text-primary pe-7s-note2"></i>Detail</a>
                                                 <a href="{{ route('admin.travel.edit',$travel->id) }}" class="dropdown-item"><i style="font-size: 14px" class="dropdown-icon text-warning pe-7s-note"></i>Edit</a>
                                                {{-- <button type="button" onclick="delete_banner({{$travel->id}})" class="dropdown-item"><i style="font-size: 14px" class="pe-7s-trash text-danger mr-2"></i>Delete</button> --}}
@@ -200,7 +212,7 @@
                     </table>
                     <div class="row">
                         <div class="col-12 col-md-6 flex-1">
-                            {!! $travels->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter])->onEachSide(2)->links() !!}
+                            {!! $travels->appends(['sort' => request()->sort, 'direction' => request()->direction, 'filter' => request()->filter, 'route' => request()->route, 'approval' => request()->approval ])->onEachSide(2)->links() !!}
                         </div>
                         <div class="col-12 col-md-6 w-100 d-flex justify-content-end align-middle">
                             <p>Displaying {{$travels->count()}} of {{ number_format($travels->total(), 0, "", ".") }} data(s).</p>

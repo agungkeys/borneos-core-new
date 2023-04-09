@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Traits\Travels;
 use App\Models\Travel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class TravelController extends Controller
@@ -29,30 +30,62 @@ class TravelController extends Controller
 
         $filter = $request->query('filter');
         $route = $request->query('route');
+        $approval = $request->query('approval');
 
         if (!empty($filter)) {
             if (!empty($route)) {
-                $travels = Travel::sortable()
-                    ->orWhere('fullname', 'like', '%' . $filter . '%')
-                    ->where('route', '=', $route)
-                    ->paginate(10);
+                if ($approval === 'approved') {
+                    $travels = Travel::sortable()
+                        ->where('fullname', 'like', '%' . $filter . '%')
+                        ->where('route', '=', $route)
+                        ->whereNotNull('approved_at')
+                        ->paginate(10);
+                } else if ($approval === 'not-approved') {
+                    $travels = Travel::sortable()
+                        ->where('fullname', 'like', '%' . $filter . '%')
+                        ->where('route', '=', $route)
+                        ->whereNull('approved_at')
+                        ->paginate(10);
+                } else {
+                    $travels = Travel::sortable()
+                        ->where('fullname', 'like', '%' . $filter . '%')
+                        ->where('route', '=', $route)
+                        ->paginate(10);
+                }
             } else {
                 $travels = Travel::sortable()
                     ->where('id', 'like', '%' . $filter . '%')
                     ->orWhere('fullname', 'like', '%' . $filter . '%')
-                    // ->orWhere('route', '=', $route)
                     ->paginate(10);
             }
-        } else {
-            if (!empty($route)) {
+        } else if (!empty($route)) {
+            if ($approval === 'approved') {
+                $travels = Travel::sortable()
+                    ->where('route', '=', $route)
+                    ->whereNotNull('approved_at')
+                    ->paginate(10);
+            } else if ($approval === 'not-approved') {
+                $travels = Travel::sortable()
+                    ->where('route', '=', $route)
+                    ->whereNull('approved_at')
+                    ->paginate(10);
+            } else {
                 $travels = Travel::sortable()
                     ->where('route', '=', $route)
                     ->paginate(10);
-            } else {
-                $travels = Travel::sortable()->paginate(10);
             }
+        } else if ($approval === 'approved') {
+            $travels = Travel::sortable()
+                ->whereNotNull('approved_at')
+                ->paginate(10);
+        } else if ($approval === 'not-approved') {
+            $travels = Travel::sortable()
+                ->whereNull('approved_at')
+                ->paginate(10);
+        } else {
+            $travels = Travel::sortable()->paginate(10);
         }
-        return view('admin.travel.index', compact('travels', 'filter', 'travelsCount', 'route'));
+        return view('admin.travel.index', compact('travels', 'filter', 'travelsCount', 'route', 'approval'));
     }
 
     /**
@@ -163,6 +196,47 @@ class TravelController extends Controller
         $travel->save();
         Alert::success('Success', 'Data Created Successfully');
         return redirect()->route('admin.travel.index');
+    }
+
+    public function convertRoute($route)
+    {
+        switch ($route) {
+            case 'BTG-BPN-MALAM':
+                return 'Bontang - Balikpapan (Malam)';
+                break;
+            case 'BTG-BPN-PAGI':
+                return 'Bontang - Balikpapan (Pagi)';
+                break;
+            case 'BTG-SMD-PAGI':
+                return 'Bontang - Samarinda (Pagi)';
+                break;
+            case 'SMD-BJM-SIANG':
+                return 'Samarinda - Banjarmasin (Siang)';
+                break;
+            default:
+                return 'None';
+                break;
+        }
+    }
+
+    public function sendConfirmation(Request $request, $id)
+    {
+        $travel = Travel::findOrFail($id);
+        $route = $this->convertRoute($travel->route);
+        $telp = substr_replace($travel->telp, '62', 0, 1);
+        $whatsAppUrl = 'https://wa.me/' . $telp . '/?text=Selamat%20' . $travel->fullname . '%2C%20Anda%20terpilih%20sebagai%20peserta%20Mudik%20Gratis%20Bersama%20PT.%20Pupuk%20Kaltim%20Tahun%202023%20Rute%20' . $route . '%2C%20untuk%20selanjutnya%20Anda%20diminta%20untuk%20mengirim%20foto%20KTP%20atau%20SIM.';
+
+        return Redirect::to($whatsAppUrl);
+    }
+
+    public function sendTicket($id)
+    {
+        $travel = Travel::findOrFail($id);
+        $route = $this->convertRoute($travel->route);
+        $telp = substr_replace($travel->telp, '62', 0, 1);
+        $whatsAppUrl = 'https://wa.me/' . $telp . '/?text=Halo%20' . $travel->fullname . '%2C%20berikut%20adalah%20link%20tiket%20untuk%20Mudik%20Gratis%20bersama%20PT.%20Pupuk%20Kaltim%20Tahun%202023%20Rute%20' . $route . '%0A%0Ahttps%3A%2F%2Fborneos.co%2Fmudik%2F' . $travel->prefix . '';
+
+        return Redirect::to($whatsAppUrl);
     }
 
     /**
