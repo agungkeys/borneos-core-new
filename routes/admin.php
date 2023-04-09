@@ -203,5 +203,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('/travel/ktp/{id}/{ktp}', 'TravelController@travel_update_ktp')->name('travel.update.ktp');
         Route::get('/travel/kk/{id}/{kk}', 'TravelController@travel_update_kk')->name('travel.update.kk');
         Route::get('/travel/vaccine/{id}/{vaccine}', 'TravelController@travel_update_vaccine')->name('travel.update.vaccine');
+        Route::get('/travel/send-confirmation/{id}', 'TravelController@sendConfirmation')->name('travel.send-confirmation');
+        Route::get('/travel/send-ticket/{id}', 'TravelController@sendTicket')->name('travel.send-ticket');
     });
 });
