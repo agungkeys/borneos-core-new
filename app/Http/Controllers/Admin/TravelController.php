@@ -224,7 +224,7 @@ class TravelController extends Controller
         $travel = Travel::findOrFail($id);
         $route = $this->convertRoute($travel->route);
         $telp = substr_replace($travel->telp, '62', 0, 1);
-        $whatsAppUrl = 'https://wa.me/' . $telp . '/?text=Selamat%20' . $travel->fullname . '%2C%20Anda%20terpilih%20sebagai%20peserta%20Mudik%20Gratis%20Bersama%20PT.%20Pupuk%20Kaltim%20Tahun%202023%20Rute%20' . $route . '%2C%20untuk%20selanjutnya%20Anda%20diminta%20untuk%20mengirim%20foto%20KTP%20atau%20SIM.';
+        $whatsAppUrl = 'https://wa.me/' . $telp . '/?text=Selamat%20*' . $travel->fullname . '*%20%2C%20%0A%0AAnda%20sudah%20terdaftar%20sebagai%20Calon%20Peserta%20Mudik%20Gratis%20bersama%20PKT%20dengan%20rute%20*' . $route . '*%20.%0A%0ASelanjutnya%20untuk%20Proses%20Verifikasi%2C%20silakan%20kirim%20*KTP%20dan%20KK*%20dalam%20bentuk%20Foto%20%2F%20PDF%20ke%20kami%20maksimal%20*10%20April%202023%20pukul%2016.00%20WITA*%20.%0A%0A*Jika%20nanti%20' . $travel->fullname . '%20Lolos%20verifikasi%2C%20maka%20akan%20kembali%20di%20hubungi%20dalam%20waktu%202x24%20Jam*%20.%0A%0AJika%20tidak%20mendapat%20pesan%20lanjutan%20artinya%20Anda%20belum%20lolos%20%26%20silakan%20mencoba%20lagi%20di%20tahun%20berikutnya%0A%0ASelamat%20Berpuasa%20%E2%98%BA%0A%0A*-%20Tim%20Mudik%20Gratis%20PKT%202023%20-*';
 
         return Redirect::to($whatsAppUrl);
     }
