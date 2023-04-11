@@ -33,6 +33,7 @@ class TravelController extends Controller
                 'sub_district' => $request->subDistrict ?? '',
                 'district' => $request->district ?? '',
                 'route' => $request->route ?? '',
+                'id_card_no' => $request->idCardNo ?? '',
                 'url_idcard' => $request->urlIdCard ?? '',
                 'url_idvaccine' => $request->urlIdVaccine ?? '',
             ]);
