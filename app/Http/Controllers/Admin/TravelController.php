@@ -166,6 +166,7 @@ class TravelController extends Controller
             'district' => $request->district,
             'route' => $request->routes,
             'seat_no' => $request->seat_no,
+            'id_card_no' => $request->id_card_no,
             'approved_at' => $request->approve ?  date('Y-m-d H:i:s') : null,
         ]);
 
