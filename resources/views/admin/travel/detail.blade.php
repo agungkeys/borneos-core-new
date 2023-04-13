@@ -27,6 +27,7 @@
                             <th>Prefix</th>
                             <th>Fullname</th>
                             <th>Telp</th>
+                            <th>ID Card No</th>
                             <th>Full Address</th>
                             <th>Sub District</th>
                             <th>District</th>
@@ -42,6 +43,7 @@
                                 <td>{{ $travel->prefix ? $travel->prefix : '-' }}</td>
                                 <td>{{ $travel->fullname ? $travel->fullname : "-" }}</td>
                                 <td>{{ $travel->telp ? $travel->telp : "-" }}</td>
+                                <td>{{ $travel->id_card_no ? $travel->id_card_no : "-" }}</td>
                                 <td>{{ $travel->full_address ? $travel->full_address : "-" }}</td>
                                 <td>{{ $travel->sub_district ? $travel->sub_district : "-" }}</td>
                                 <td>{{ $travel->district ? $travel->district : "-" }}</td>

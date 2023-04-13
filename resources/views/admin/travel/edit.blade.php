@@ -45,6 +45,13 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label for="id_card_no">ID Card No</label>
+                                <input type="text" class="form-control" name="id_card_no" id="id_card_no" value="{{ $travel->id_card_no }}">
+                                 @error('id_card_no')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="full_address">Full Address</label>
                                 <textarea class="form-control" name="full_address" id="full_address"> {{ $travel->full_address }} </textarea>
                                  @error('address')
@@ -82,7 +89,10 @@
                                 <select name="seat_no" id="seat_no" class=" form-control form-control">
                                     <option value="">Select Seat</option>
                                         @for ($i = 1; $i <= 40; $i++)
-                                        <option {{ $travel->seat_no == $i ? 'selected':'' }} value="{{ $i}}"> {{ $i }} </option>
+                                        <option {{ $travel->seat_no == $i ? 'selected':'' }} value="B1 - {{ $i}}"> B1 - {{ $i}} </option>
+                                        @endfor
+                                        @for ($i = 1; $i <= 40; $i++)
+                                        <option {{ $travel->seat_no == $i ? 'selected':'' }} value="B2 - {{ $i}}"> B2 - {{ $i}} </option>
                                         @endfor
                                 </select>
                                 @error('seat_no')
