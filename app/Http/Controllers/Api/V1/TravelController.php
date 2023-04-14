@@ -50,7 +50,7 @@ class TravelController extends Controller
                 return response()->json(['status' => 'error', 'data' => null]);
             } else {
                 $travel = Travel::where('prefix', '=', $slug)->get()[0];
-                return response()->json(['status' => 'success', 'data' => $this->resultTravelDetail($travel)]);
+                return response()->json(['status' => 'success', 'data' => $travel]);
             }
         }
     }
