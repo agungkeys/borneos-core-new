@@ -12,7 +12,7 @@ trait Travels
 
     public function resultTravelDetail($travel)
     {
-        $results[] = [
+        return [
             'id' => $travel->id,
             'prefix' => $travel->prefix,
             'fullname' => $travel->fullname,
@@ -33,7 +33,6 @@ trait Travels
             'updatedAt' => $travel->updated_at->format('d/m/Y'),
             'deletedAt' => $travel->deleted_at ?  $travel->deleted_at->format('d/m/Y') : null,
         ];
-        return $results;
     }
 
     public function resultTravel($travel)
