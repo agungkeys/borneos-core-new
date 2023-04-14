@@ -14,7 +14,7 @@ trait Travels
     {
         $travelDetail = Travel::where('id', '=', $travel->id)->get();
         if ($travelDetail->count() == 0) {
-            $resultTravelDetail = null;
+            return null;
         } else {
             foreach ($travelDetail as $travel) {
                 $results[] = [
@@ -38,9 +38,9 @@ trait Travels
                     'updatedAt' => $travel->updated_at->format('d/m/Y'),
                     'deletedAt' => $travel->deleted_at ?  $travel->deleted_at->format('d/m/Y') : null,
                 ];
+                return $results;
             };
         }
-        return $results;
     }
 
     public function resultTravel($travel)

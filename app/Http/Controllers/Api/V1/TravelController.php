@@ -49,7 +49,7 @@ class TravelController extends Controller
             if (Travel::where('prefix', '=', $slug ?? '')->doesntExist()) {
                 return response()->json(['status' => 'error', 'data' => null]);
             } else {
-                $travel = Travel::where('prefix', '=', $slug)->get()[0];
+                $travel = Travel::where('prefix', '=', $slug)->get();
                 return response()->json(['status' => 'success', 'data' => $this->resultTravelDetail($travel)]);
             }
         }
