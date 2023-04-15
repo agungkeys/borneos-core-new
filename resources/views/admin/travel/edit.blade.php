@@ -89,10 +89,10 @@
                                 <select name="seat_no" id="seat_no" class=" form-control form-control">
                                     <option value="">Select Seat</option>
                                         @for ($i = 1; $i <= 40; $i++)
-                                        <option {{ $travel->seat_no == $i ? 'selected':'' }} value="B1 - {{ $i}}"> B1 - {{ $i}} </option>
+                                        <option {{ $travel->seat_no == "B1 - " .$i ? 'selected':'' }} value="B1 - {{ $i}}"> B1 - {{ $i}} </option>
                                         @endfor
                                         @for ($i = 1; $i <= 40; $i++)
-                                        <option {{ $travel->seat_no == $i ? 'selected':'' }} value="B2 - {{ $i}}"> B2 - {{ $i}} </option>
+                                        <option {{ $travel->seat_no == "B2 - " .$i ? 'selected':'' }} value="B2 - {{ $i}}"> B2 - {{ $i}} </option>
                                         @endfor
                                 </select>
                                 @error('seat_no')
