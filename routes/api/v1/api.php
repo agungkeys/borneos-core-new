@@ -50,4 +50,8 @@ Route::group(['namespace' => 'Api\V1'], function () {
         Route::get('/count', 'TravelController@get_travel_route');
         Route::post('/', 'TravelController@travel_store');
     });
+
+    Route::group(['prefix' => 'coupon'], function () {
+        Route::get('/{slug}', 'CouponController@getCoupon');
+    });
 });
