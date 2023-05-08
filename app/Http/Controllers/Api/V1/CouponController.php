@@ -14,7 +14,7 @@ class CouponController extends Controller
     {
         if ($request->header('tokenb') === env('tokenb')) {
             if ($currentCoupon = Coupons::where('code', $request->slug)->doesntExist()) {
-                return response()->json(['status' => 'error! coupon not available', 'data' => null], 404);
+                return response()->json(['status' => 'error', 'data' => 'Coupon not available!'], 404);
             } else {
                 $currentCoupon = Coupons::where('code', $request->slug)->first();
                 $totalOrderWithCoupon = Order::where('coupon_code', $request->slug)->count();
@@ -22,7 +22,7 @@ class CouponController extends Controller
                 if ($totalOrderWithCoupon <= $currentCoupon->limit_same_user) {
                     return response()->json(['status' => 'success', 'data' => $currentCoupon], 200);
                 } else {
-                    return response()->json(['status' => 'error! coupon out of stock', 'data' => null], 404);
+                    return response()->json(['status' => 'error', 'data' => 'Coupon out of stock!'], 404);
                 }
             }
         }
