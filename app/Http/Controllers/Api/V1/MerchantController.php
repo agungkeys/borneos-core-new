@@ -41,13 +41,24 @@ class MerchantController extends Controller
         if ($category_id == 0) {
             if ($categories_id == 0) {
                 if ($merchant_favorite == null) {
-                    $query = Merchant::where([
-                        ['status', '=', $status],
-                        ['name', 'like', '%' . $request_q . '%'],
-                        ['paid_partnership', 'like', "%{$paid_partnership}%"],
-                    ])
-                        ->orderBy('id', $sort)
-                        ->paginate($perPage);
+                    if($random){
+                        $query = Merchant::where([
+                            ['status', '=', $status],
+                            ['name', 'like', '%' . $request_q . '%'],
+                            ['paid_partnership', 'like', "%{$paid_partnership}%"],
+                        ])
+                            ->inRandomOrder()
+                            ->orderBy('id', $sort)
+                            ->paginate($perPage);
+                    }else{
+                        $query = Merchant::where([
+                            ['status', '=', $status],
+                            ['name', 'like', '%' . $request_q . '%'],
+                            ['paid_partnership', 'like', "%{$paid_partnership}%"],
+                        ])
+                            ->orderBy('id', $sort)
+                            ->paginate($perPage);
+                    }
                 } else {
                     if($random){
                         $query = Merchant::where([
@@ -72,14 +83,26 @@ class MerchantController extends Controller
                 }
             } elseif ($categories_id !== 0) {
                 if ($merchant_favorite == null) {
-                    $query = Merchant::where([
-                        ['categories_id', 'like', "%{$categories_id['id']}%"],
-                        ['status', '=', $status],
-                        ['name', 'like', "%{$request_q}%"],
-                        ['paid_partnership', 'like', "%{$paid_partnership}%"],
-                    ])
-                        ->orderBy('id', $sort)
-                        ->paginate($perPage);
+                    if($random){
+                        $query = Merchant::where([
+                            ['categories_id', 'like', "%{$categories_id['id']}%"],
+                            ['status', '=', $status],
+                            ['name', 'like', "%{$request_q}%"],
+                            ['paid_partnership', 'like', "%{$paid_partnership}%"],
+                        ])
+                            ->inRandomOrder()
+                            ->orderBy('id', $sort)
+                            ->paginate($perPage);
+                    }else{
+                        $query = Merchant::where([
+                            ['categories_id', 'like', "%{$categories_id['id']}%"],
+                            ['status', '=', $status],
+                            ['name', 'like', "%{$request_q}%"],
+                            ['paid_partnership', 'like', "%{$paid_partnership}%"],
+                        ])
+                            ->orderBy('id', $sort)
+                            ->paginate($perPage);
+                    }
                 } else {
                     if($random){
                         $query = Merchant::where([
