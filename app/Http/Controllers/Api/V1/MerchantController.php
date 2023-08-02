@@ -36,6 +36,7 @@ class MerchantController extends Controller
         $sort = $request->sort ?? 'desc';
         $request_q = $request->q ?? '';
         $paid_partnership = $request->paidPartnership ?? '';
+        $random = $request->isRandom ? true : false;
 
         if ($category_id == 0) {
             if ($categories_id == 0) {
@@ -48,14 +49,26 @@ class MerchantController extends Controller
                         ->orderBy('id', $sort)
                         ->paginate($perPage);
                 } else {
-                    $query = Merchant::where([
-                        ['status', '=', $status],
-                        ['merchant_favorite', '=', $merchant_favorite],
-                        ['name', 'like', '%' . $request_q . '%'],
-                        ['paid_partnership', 'like', "%{$paid_partnership}%"],
-                    ])
-                        ->orderBy('id', $sort)
-                        ->paginate($perPage);
+                    if($random){
+                        $query = Merchant::where([
+                            ['status', '=', $status],
+                            ['merchant_favorite', '=', $merchant_favorite],
+                            ['name', 'like', '%' . $request_q . '%'],
+                            ['paid_partnership', 'like', "%{$paid_partnership}%"],
+                        ])
+                            ->inRandomOrder()
+                            ->orderBy('id', $sort)
+                            ->paginate($perPage);
+                    }else{
+                        $query = Merchant::where([
+                            ['status', '=', $status],
+                            ['merchant_favorite', '=', $merchant_favorite],
+                            ['name', 'like', '%' . $request_q . '%'],
+                            ['paid_partnership', 'like', "%{$paid_partnership}%"],
+                        ])
+                            ->orderBy('id', $sort)
+                            ->paginate($perPage);
+                    }
                 }
             } elseif ($categories_id !== 0) {
                 if ($merchant_favorite == null) {
@@ -68,15 +81,28 @@ class MerchantController extends Controller
                         ->orderBy('id', $sort)
                         ->paginate($perPage);
                 } else {
-                    $query = Merchant::where([
-                        ['categories_id', 'like', "%{$categories_id['id']}%"],
-                        ['merchant_favorite', '=', $merchant_favorite],
-                        ['status', '=', $status],
-                        ['name', 'like', "%{$request_q}%"],
-                        ['paid_partnership', 'like', "%{$paid_partnership}%"],
-                    ])
-                        ->orderBy('id', $sort)
-                        ->paginate($perPage);
+                    if($random){
+                        $query = Merchant::where([
+                            ['categories_id', 'like', "%{$categories_id['id']}%"],
+                            ['merchant_favorite', '=', $merchant_favorite],
+                            ['status', '=', $status],
+                            ['name', 'like', "%{$request_q}%"],
+                            ['paid_partnership', 'like', "%{$paid_partnership}%"],
+                        ])
+                            ->inRandomOrder()
+                            ->orderBy('id', $sort)
+                            ->paginate($perPage);
+                    }else{
+                        $query = Merchant::where([
+                            ['categories_id', 'like', "%{$categories_id['id']}%"],
+                            ['merchant_favorite', '=', $merchant_favorite],
+                            ['status', '=', $status],
+                            ['name', 'like', "%{$request_q}%"],
+                            ['paid_partnership', 'like', "%{$paid_partnership}%"],
+                        ])
+                            ->orderBy('id', $sort)
+                            ->paginate($perPage); 
+                    }
                 }
             }
         } elseif ($category_id > 0) {
