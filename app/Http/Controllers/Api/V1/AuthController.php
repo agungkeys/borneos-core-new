@@ -75,7 +75,7 @@ class AuthController extends Controller
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => bcrypt($request->name),
+                'password' => bcrypt($request->telp),
                 'telp' => $request->telp,
                 'birth_date' => $request->birthDate,
                 'pin_token' => $this->generateTokenPIN()
@@ -102,6 +102,22 @@ class AuthController extends Controller
         return response()->json([
             'meta' => ['status' => 'success','statusCode' => 200,'message' => 'Berhasil melakukan logout'],
             'data' => (object)[]
+        ]);
+    }
+    public function profile(Request $request)
+    {   
+        
+        $user = $request->user();
+        return response()->json([
+            'meta' => ['status' => 'success','statusCode' => 200,'message' => 'Berhasil melakukan get data profile'],
+            'data' => [
+                'name' => $user->name,
+                'telp' => $user->telp,
+                'email' => $user->email,
+                'birthDate' => $user->birth_date ? $user->birth_date : '',
+                'origin' => $request->origin ? $request->origin : '',
+                'createdAt' => $request->created_at ? $request->created_at : '',
+            ]
         ]);
     }
 }

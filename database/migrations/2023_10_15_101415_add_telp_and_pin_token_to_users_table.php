@@ -14,8 +14,9 @@ class AddTelpAndPinTokenToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('telp')->after('password')->nullable();
-            $table->integer('pin_token')->after('telp')->nullable();
+            $table->string('telp')->length(15)->after('password')->nullable();
+            $table->integer('pin_token')->length(6)->unsigned()->after('telp')->nullable();
+            $table->date('birth_date')->after('pin_token')->nullable();
         });
     }
 
