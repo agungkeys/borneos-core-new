@@ -18,7 +18,16 @@ class Authenticate extends Middleware
         //     return route('login');
         // }
           if($request->is('api/*')) {
-              return route('authentication-failed');
+            //   return route('authentication-failed');
+            return response()->json([
+                'meta' => [
+                    'status' => 'error',
+                    'statusCode' => 500,
+                    'statusMessage'=> "Gagal melakukan autentikasi, server mengalami gangguan"
+                ],
+                'data' => (object)[]
+            ]);
+
           }
           else if ($request->is('admin/*') || $request->is('admin'))
           {

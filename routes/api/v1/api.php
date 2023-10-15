@@ -54,4 +54,9 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::group(['prefix' => 'coupon'], function () {
         Route::get('/{slug}', 'CouponController@getCoupon');
     });
+    Route::post('register','AuthController@register');
+    Route::post('login','AuthController@login');
+    Route::middleware('auth:sanctum')->group(function(){
+        Route::post('logout','AuthController@logout');
+    });
 });
