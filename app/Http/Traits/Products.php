@@ -32,13 +32,13 @@ trait Products
                 } else { /* filter null merchant null favorite not null */
                     if ($status == null) {
                         /* filter null merchant null favorite not null status null */
-                        $products = Product::sortable()->where('products.favorite', '=', $favorite)->paginate(10);
+                        $products = Product::sortable()->where('products.favorite', $favorite)->paginate(10);
                         return compact('filter', 'merchant', 'favorite', 'status', 'products');
                     } else {
                         /* filter null merchant null favorite not null status not null */
                         $products = Product::sortable()
-                            ->where('products.favorite', '=', $favorite)
-                            ->where('products.status', '=', $status)
+                            ->where('products.favorite', $favorite)
+                            ->where('products.status', $status)
                             ->paginate(10);
                         return compact('filter', 'merchant', 'favorite', 'status', 'products');
                     }
@@ -52,7 +52,7 @@ trait Products
                     } else {
                         /* filter null merchant not null favorite null status not null */
                         $products = Product::sortable()->where('products.merchant_id', '=', $merchant)
-                            ->where('products.status', '=', $status)
+                            ->where('products.status', $status)
                             ->paginate(10);
                         return compact('filter', 'merchant', 'favorite', 'status', 'products');
                     }
@@ -61,15 +61,15 @@ trait Products
                         /* filter null merchant not null favorite not null status null */
                         $products = Product::sortable()
                             ->where('products.merchant_id', '=', $merchant)
-                            ->where('products.favorite', '=', $favorite)
+                            ->where('products.favorite', $favorite)
                             ->paginate(10);
                         return compact('filter', 'merchant', 'favorite', 'status', 'products');
                     } else {
                         /* filter null merchant not null favorite not null status not null */
                         $products = Product::sortable()
                             ->where('products.merchant_id', '=', $merchant)
-                            ->where('products.favorite', '=', $favorite)
-                            ->where('products.status', '=', $status)
+                            ->where('products.favorite', $favorite)
+                            ->where('products.status', $status)
                             ->paginate(10);
                         return compact('filter', 'merchant', 'favorite', 'status', 'products');
                     }
@@ -88,9 +88,9 @@ trait Products
                     } else {
                         /* filter not null merchant null favorite null status not null */
                         $products = Product::sortable()
-                            ->where('products.status', '=', $status)
-                            ->orWhere('products.name', 'like', '%' . $filter . '%')
+                            ->where('products.name', 'like', '%' . $filter . '%')
                             ->orWhere('products.price', 'like', '%' . $filter . '%')
+                            ->where('products.status', $status)
                             ->paginate(10);
                         return compact('filter', 'merchant', 'favorite', 'status', 'products');
                     }
@@ -98,17 +98,17 @@ trait Products
                     if ($status == null) {
                         /* filter not null merchant null favorite not null status null */
                         $products = Product::sortable()
-                            ->where('products.favorite', '=', $favorite)
-                            ->orWhere('products.name', 'like', '%' . $filter . '%')
+                            ->where('products.name', 'like', '%' . $filter . '%')
                             ->orWhere('products.price', 'like', '%' . $filter . '%')
+                            ->where('products.favorite', $favorite)
                             ->paginate(10);
                         return compact('filter', 'merchant', 'favorite', 'status', 'products');
                     } else {
                         /* filter not null merchant null favorite not null status not null */
                         $products = Product::sortable()
-                            ->where('products.favorite', '=', $favorite)
-                            ->where('products.status', '=', $status)
-                            ->orWhere('products.name', 'like', '%' . $filter . '%')
+                            ->where('products.status', $status)
+                            ->where('products.favorite', $favorite)
+                            ->where('products.name', 'like', '%' . $filter . '%')
                             ->orWhere('products.price', 'like', '%' . $filter . '%')
                             ->paginate(10);
                         return compact('filter', 'merchant', 'favorite', 'status', 'products');
@@ -120,7 +120,7 @@ trait Products
                         /* filter not null merchant not null favorite null status null */
                         $products = Product::sortable()
                             ->where('products.merchant_id', '=', $merchant)
-                            ->orWhere('products.name', 'like', '%' . $filter . '%')
+                            ->where('products.name', 'like', '%' . $filter . '%')
                             ->orWhere('products.price', 'like', '%' . $filter . '%')
                             ->paginate(10);
                         return compact('filter', 'merchant', 'favorite', 'status', 'products');
@@ -128,9 +128,9 @@ trait Products
                         /* filter not null merchant not null favorite null status not null */
                         $products = Product::sortable()
                             ->where('products.merchant_id', '=', $merchant)
-                            ->where('products.status', '=', $status)
                             ->orWhere('products.name', 'like', '%' . $filter . '%')
                             ->orWhere('products.price', 'like', '%' . $filter . '%')
+                            ->where('products.status', 'like', '%' . $status . '%')
                             ->paginate(10);
                         return compact('filter', 'merchant', 'favorite', 'status', 'products');
                     }
@@ -139,7 +139,7 @@ trait Products
                         /* filter not null merchant not null favorite not null status null */
                         $products = Product::sortable()
                             ->where('products.merchant_id', '=', $merchant)
-                            ->where('products.favorite', '=', $favorite)
+                            ->where('products.favorite', $favorite)
                             ->orWhere('products.name', 'like', '%' . $filter . '%')
                             ->orWhere('products.price', 'like', '%' . $filter . '%')
                             ->paginate(10);
@@ -147,11 +147,11 @@ trait Products
                     } else {
                         /* filter not null merchant not null favorite not null status not null */
                         $products = Product::sortable()
-                            ->where('products.merchant_id', '=', $merchant)
-                            ->where('products.favorite', '=', $favorite)
-                            ->where('products.status', '=', $status)
-                            ->orWhere('products.name', 'like', '%' . $filter . '%')
+                            ->where('products.name', 'like', '%' . $filter . '%')
                             ->orWhere('products.price', 'like', '%' . $filter . '%')
+                            ->where('products.status', $status)
+                            ->where('products.favorite', $favorite)
+                            ->where('products.merchant_id', $merchant)
                             ->paginate(10);
                         return compact('filter', 'merchant', 'favorite', 'status', 'products');
                     }
