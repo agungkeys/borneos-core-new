@@ -37,18 +37,18 @@
               <div class="d-flex">
                   <div class="input-group">
                     <select name="favorite" id="favorite" class="form-control" style="font-size: 12px">
-                      <option disabled selected>Filter Favorite</option>
-                      <option {{ $favorite == 1 ? 'selected':'' }} value="1">Favorite Active</option>
-                      <option {{ $favorite == 0 ? 'selected':'' }} value="0">Favorite Not Active</option>
+                      <option {{ $favorite == '1' ? 'selected':'' }} value="1">Favorite Active</option>
+                      <option {{ $favorite == '0' ? 'selected':'' }} value="0">Favorite Not Active</option>
+                      <option {{ $favorite == '' ? 'selected':'' }}  value="">Pilih Favorite</option>
                     </select>
                     <div class="input-group-prepend">
                     </div>
                   </div>
                   <div class="input-group ml-2">
                     <select name="status" id="status" class="form-control" style="font-size: 12px">
-                      <option disabled selected>Filter Status</option>
-                      <option {{ $status == 1 ? 'selected':'' }} value="1">Status Active</option>
-                      <option {{ $status == 0 ? 'selected':'' }} value="0">Status Not Active</option>
+                      <option {{ $status == '1' ? 'selected':'' }} value="1">Status Active</option>
+                      <option {{ $status == '0' ? 'selected':'' }} value="0">Status Not Active</option>
+                      <option {{ $status == "" ? 'selected':'' }}  value="">Pilih Status</option>
                     </select>
                     <div class="input-group-prepend">
                     </div>

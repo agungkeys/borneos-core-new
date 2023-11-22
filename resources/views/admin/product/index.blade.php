@@ -49,9 +49,9 @@
               <div class="d-flex">
                   <div class="input-group w-100">
                     <select name="favorite" id="favorite" class="form-control">
-                      <option disabled selected>Select Favorite</option>
-                      <option {{ $favorite == 1 ? 'selected':'' }} value="1">Favorite Active</option>
-                      <option {{ $favorite == 0 ? 'selected':'' }} value="0">Favorite Not Active</option>
+                      <option {{ $favorite == '1' ? 'selected':'' }} value="1">Favorite Active</option>
+                      <option {{ $favorite == '0' ? 'selected':'' }} value="0">Favorite Not Active</option>
+                      <option {{ $favorite == '' ? 'selected':'' }} value="" selected>Pilih Favorite</option>
                     </select>
                   </div>
               </div>
@@ -60,9 +60,9 @@
               <div class="d-flex">
                   <div class="input-group w-100">
                     <select name="status" id="status" class="form-control">
-                      <option disabled selected>Select Status</option>
-                      <option {{ $status == 1 ?'selected':'' }} value="1">Status Active</option>
-                      <option {{ $status == 0 ? 'selected':'' }} value="0">Status Not Active</option>
+                      <option {{ $status == '1' ?'selected':'' }} value="1">Status Active</option>
+                      <option {{ $status == '0' ? 'selected':'' }} value="0">Status Not Active</option>
+                      <option {{ $status == '' ? 'selected':'' }} value="" selected>Pilih Status</option>
                     </select>
                   </div>
               </div>
