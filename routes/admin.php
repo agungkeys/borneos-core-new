@@ -93,6 +93,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::put('/master-user/{id}', 'UserController@master_user_update')->name('master-user.update');
         Route::delete('/master-user/{id}', 'UserController@master_user_delete')->name('master-user.delete');
 
+        //user customer
+        Route::get('/master-customer', 'CustomerController@master_customer_index')->name('master-customer');
+
         //user merchant
         Route::get('/master-merchant', 'MerchantController@master_merchant_index')->name('master-merchant');
         Route::get('/master-merchant/add', 'MerchantController@master_merchant_add')->name('master-merchant.add');
