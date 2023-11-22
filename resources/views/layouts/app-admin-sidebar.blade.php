@@ -46,10 +46,10 @@
               <a class="master-merchant-group {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-merchant-group' ? 'mm-active' : '' }}" href="{{ route('admin.master-merchant-group.index') }}"><i class="metismenu-icon pe-7s-home"></i>Merchant Group</a>
             </li>
             <li>
-              <a class="merchant {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-merchant' ? 'mm-active' : '' }}" href="{{ route('admin.master-merchant') }}"><i class="metismenu-icon pe-7s-home"></i>Merchant</a>
+              <a class="merchant {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-merchant' ? 'mm-active' : '' }}" href="{{ route('admin.master-merchant', ['sort' => 'id', 'direction' => 'desc']) }}"><i class="metismenu-icon pe-7s-home"></i>Merchant</a>
             </li>
             <li>
-              <a class="master-product {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-product' ? 'mm-active' : '' }}" href="{{ route('admin.master-product') }}"><i class="metismenu-icon pe-7s-box2"></i>Product</a>
+              <a class="master-product {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-product' ? 'mm-active' : '' }}" href="{{ route('admin.master-product', ['sort' => 'id', 'direction' => 'desc']) }}"><i class="metismenu-icon pe-7s-box2"></i>Product</a>
             </li>
             <li>
               <a class="master-payment {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-payment' ? 'mm-active' : '' }}" href="{{ route('admin.master-payment') }}"><i class="metismenu-icon pe-7s-credit"></i>Payment</a>
@@ -61,7 +61,7 @@
               <a class="master-admin {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-admin' ? 'mm-active' : '' }}" href="{{ route('admin.master-user') }}" ><i class="metismenu-icon pe-7s-users"></i>User Admin</a>
             </li>
             <li>
-              <a class="master-customer {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-customer' ? 'mm-active' : '' }}" href="{{ route('admin.master-customer') }}" ><i class="metismenu-icon pe-7s-users"></i>User Customer</a>
+              <a class="master-customer {{ count(request()->segments()) > 1 && request()->segments()[1] == 'master-customer' ? 'mm-active' : '' }}" href="{{ route('admin.master-customer', ['sort' => 'id', 'direction' => 'desc']) }}" ><i class="metismenu-icon pe-7s-users"></i>User Customer</a>
             </li>
             <li>
               <a class="master-admin {{ count(request()->segments()) > 1 && request()->segments()[1] == 'travel' ? 'mm-active' : '' }}" href="{{ route('admin.travel.index') }}" ><i class="metismenu-icon pe-7s-plane"></i>Travels</a>

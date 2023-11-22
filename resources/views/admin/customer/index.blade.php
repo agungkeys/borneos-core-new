@@ -45,6 +45,7 @@
                   <th>@sortablelink('id', 'ID')</th>
                   <th>@sortablelink('name', 'Name')</th>
                   <th>@sortablelink('email', 'Email')</th>
+                  <th>Token</th>
                   <th>@sortablelink('telp', 'Telp')</th>
                   <th>Birth Date</th>
                   <th>Action</th>
@@ -61,6 +62,7 @@
                         <td>{{ $customer->id }}</td>
                         <td>{{ $customer->name }}</td>
                         <td>{{ $customer->email  }}</td>
+                        <td>{{ $customer->pin_token  }}</td>
                         <td>{{ $customer->telp  }}</td>
                         <td>{{ $customer->birth_date }}</td>
                         <td>

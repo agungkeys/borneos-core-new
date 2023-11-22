@@ -66,7 +66,7 @@
         <table style="width: 100%;" class="table table-hover table-striped table-bordered">
             <thead>
                <tr>
-                  <th>No.</th>
+                  <th>@sortablelink('id','ID')</th>
                   <th>Logo</th>
                   <th>@sortablelink('name','Merchant')</th>
                   <th>Owner</th>
