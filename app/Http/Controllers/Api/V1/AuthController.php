@@ -36,7 +36,8 @@ class AuthController extends Controller
                 ]);
             } else {
                 $user->tokens()->delete();
-                $token = $user->createToken('web-token')->plainTextToken ;
+                $token = $user->createToken('web-token')->plainTextToken;
+                $user->update(['logined_at' => now()]);
                 return response()->json([
                     'meta' => [
                         'status' => 'success',
@@ -49,7 +50,10 @@ class AuthController extends Controller
                         'telp' => $user->telp,
                         'email' => $user->email,
                         'birthDate' => $user->birth_date ? $user->birth_date : '',
-                        'origin' => $request->origin ? $request->origin : ''
+                        'origin' => $request->origin ? $request->origin : '',
+                        'loginedAt' => $user->logined_at->format('d/m/Y'),
+                        'createdAt' => $user->created_at->format('d/m/Y'),
+                        'updatedAt' => $user->updated_at->format('d/m/Y'),
                     ]
                 ]);
             }
@@ -119,5 +123,34 @@ class AuthController extends Controller
                 'createdAt' => $request->created_at ? $request->created_at : '',
             ]
         ]);
+    }
+    public function bearerValidation(Request $request)
+    {
+        $user = auth()->user();
+        $first_date = strtotime($user->logined_at);
+        $second_date = strtotime(now());
+        $offset = $second_date - $first_date; 
+        $date_diff = floor($offset/60/60/24);
+        if($date_diff >= 0){
+           return response()->json([
+                'meta' => ['status' => 'success','statusCode' => 200,'message' => 'Berhasil melakukan validasi'],
+                'data' => [
+                    'name' => $user->name,
+                    'telp' => $user->telp,
+                    'email' => $user->email,
+                    'birthDate' => $user->birth_date ? $user->birth_date : '',
+                    'origin' => $request->origin ? $request->origin : '',
+                    'loginedAt' => date('d/m/Y', strtotime($user->logined_at)),
+                    'createdAt' => $user->created_at->format('d/m/Y'),
+                    'updatedAt' => $user->updated_at->format('d/m/Y'),
+                ]
+           ]);
+        } else {
+            $request->user()->tokens()->where('id', $request->user()->currentAccessToken()->id)->delete();
+            return response()->json([
+                'meta' => ['status' => 'error','statusCode' => 500,'message' => 'Gagal validasi data'],
+                'data' => (object)[]
+           ]);
+        }
     }
 }
