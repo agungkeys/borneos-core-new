@@ -24,6 +24,7 @@ class User extends Authenticatable
         'telp',
         'pin_token',
         'birth_date',
+        'logined_at',
         'password',
     ];
 

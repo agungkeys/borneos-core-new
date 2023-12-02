@@ -59,5 +59,6 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::middleware('auth:sanctum')->group(function(){
         Route::get('profile', 'AuthController@profile');
         Route::post('logout','AuthController@logout');
+        Route::get('validation','AuthController@bearerValidation');
     });
 });
