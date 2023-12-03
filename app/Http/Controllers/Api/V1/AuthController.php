@@ -65,7 +65,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(),[
             'name' => 'required',
             'email' => 'required|unique:users,email',
-            'telp' => 'required|unique:numeric',
+            'telp' => 'required|numeric',
             'birthDate' => 'sometimes',
             'origin' => 'sometimes'
         ]);
@@ -95,7 +95,8 @@ class AuthController extends Controller
                     'telp' => $user->telp,
                     'email' => $user->email,
                     'birhDate' => $user->birth_date,
-                    'origin' => $request->origin ? $request->origin : '' 
+                    'pinToken' => $user->pin_token,
+                    'origin' => $request->origin ? $request->origin : ''
                 ]
             ]);
         }
