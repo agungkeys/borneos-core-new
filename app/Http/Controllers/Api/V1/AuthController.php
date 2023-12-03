@@ -121,6 +121,7 @@ class AuthController extends Controller
                 'email' => $user->email,
                 'birthDate' => $user->birth_date ? $user->birth_date : '',
                 'origin' => $request->origin ? $request->origin : '',
+                'loginedAt' => date('d/m/Y', strtotime($user->logined_at)),
                 'createdAt' => $request->created_at ? $request->created_at : '',
             ]
         ]);
